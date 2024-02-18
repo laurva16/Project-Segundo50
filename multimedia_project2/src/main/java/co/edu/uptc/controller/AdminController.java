@@ -85,6 +85,7 @@ public class AdminController {
         Movie newMovie = new Movie(assignid(), name, author, description, duration);
         listMovies.add(newMovie);
         admin.setMovies(listMovies);
+        fm.writeFile("movies", newMovie);
     }
 
     public void deleteMovie(int id) {
@@ -245,7 +246,7 @@ public class AdminController {
         currentSerie = newSerie;
         listSeries.add(newSerie);
         admin.setSeries(listSeries);
-
+        fm.writeFile("series", newSerie);
     }
 
     public void addSeason(int idSerie, String nameSeason, ArrayList<MultimediaContent> listChapters) {
