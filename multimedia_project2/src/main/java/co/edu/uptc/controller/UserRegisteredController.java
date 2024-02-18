@@ -3,12 +3,15 @@ package co.edu.uptc.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonElement;
+
 import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
+import co.edu.uptc.utilities.FileManagement;
 
 public class UserRegisteredController {
 
@@ -17,6 +20,17 @@ public class UserRegisteredController {
     private Admin admin;
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Serie> series = new ArrayList<>();
+    private UserRegistered userCreated;
+    
+    public void readUserFile(){
+        FileManagement fm = new FileManagement();
+
+        for(JsonElement je: fm.readJsonFile("users")){
+            UserRegistered ur = fm.getGson().fromJson(je, UserRegistered.class);
+            allUsers.add(ur);     
+        }
+        allUsers.forEach(System.out::println);
+    }
 
     public ArrayList<UserRegistered> getAllUsers() {
         return allUsers;
@@ -49,8 +63,13 @@ public class UserRegisteredController {
 
     public boolean addUser(String firstName, String lastName, int id, String password) {
         UserRegistered r = new UserRegistered(firstName, lastName, id, firstName + id + "@uptc.edu.co", password);
+        userCreated = r;
         allUsers.add(r);
         return true;
+    }
+
+    public UserRegistered getUserCreated(){
+       return userCreated;
     }
 
     public UserRegistered getCurrentuser() {
@@ -91,12 +110,6 @@ public class UserRegisteredController {
     }
 
     public void playMovie(int duracionMilisegundos, String movieName) {
-        // Estefania//
-        // Reproducir película//
-        // String name = "";//
-        // MultimediaContent mc = new MultimediaContent(name);//
-
-        // controller classes dont use outputs. ¡To FIX!
         System.out.println("Reproduciendo la película " + movieName + "...");
         try {
             Thread.sleep(duracionMilisegundos);
@@ -108,10 +121,6 @@ public class UserRegisteredController {
     }
 
     public void playSerie(int duracionMilisegundos, String serieName) {
-        // Commentaried code from: Estefania//
-        // Reproducir Serie//
-        // int seasons = 0;//
-        // Serie sp = new Serie(name, null);//
         System.out.println("Reproduciendo la serie " + serieName + "...");
         try {
             Thread.sleep(duracionMilisegundos);

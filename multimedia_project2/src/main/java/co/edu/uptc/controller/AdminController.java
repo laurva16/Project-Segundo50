@@ -1,53 +1,18 @@
 package co.edu.uptc.controller;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonWriter;
-
 import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
-import co.edu.uptc.model.Person;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
-//import co.edu.uptc.persistence.managerClasses.SeriesManagement;
 
 public class AdminController {
 
     private Admin admin;
     private Serie currentSerie;
-
     private ArrayList<Movie> listMovies = new ArrayList<>();
-
     private ArrayList<Serie> listSeries = new ArrayList<>();
-
-    public void creararchivoJson(ArrayList<Movie> p, String aux) {
-        try {
-            FileWriter writer = new FileWriter(aux);
-            JsonWriter jsonWriter = new JsonWriter(writer);
-            jsonWriter.setIndent("  ");
-            jsonWriter.beginArray();
-            Iterator var6 = p.iterator();
-
-            while (var6.hasNext()) {
-                Movie producto = (Movie) var6.next();
-                Gson gson = new Gson();
-                String json = gson.toJson(producto);
-                jsonWriter.jsonValue(json);
-            }
-
-            jsonWriter.endArray();
-            jsonWriter.close();
-        } catch (IOException var9) {
-            var9.printStackTrace();
-        }
-
-    }
-
     public ArrayList<Movie> getMovies() {
         return listMovies;
     }
@@ -57,9 +22,7 @@ public class AdminController {
             if (listMovies.get(i).getId() == id) {
                 return i;
             }
-
         }
-
         return -1;
     }
 
@@ -68,9 +31,7 @@ public class AdminController {
             if (listSeries.get(i).getId() == idSerie) {
                 return i;
             }
-
         }
-
         return -1;
     }
 
@@ -79,10 +40,8 @@ public class AdminController {
             if (listSeries.get(serieFound(idSerie)).getSeasons().get(i).getSeasonName().equals(nameSeason)) {
                 return i;
             }
-
         }
-
-        return -1;
+       return -1;
     }
 
     public int chapterFound(String nameSeason, int idSerie, String nameChapter) {
@@ -100,7 +59,6 @@ public class AdminController {
         Movie newMovie = new Movie(assignid(), name, author, description, duration);
         listMovies.add(newMovie);
         admin.setMovies(listMovies);
-        creararchivoJson(listMovies, "src\\main\\java\\co\\edu\\uptc\\persistence\\autor");
     }
 
     public void deleteMovie(int id) {

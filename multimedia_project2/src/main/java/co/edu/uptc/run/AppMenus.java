@@ -23,6 +23,7 @@ import co.edu.uptc.model.Category;
 import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.Subscription;
 import co.edu.uptc.model.UserRegistered;
+import co.edu.uptc.utilities.FileManagement;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.PlayList;
@@ -40,15 +41,15 @@ public class AppMenus {
             "YOUR MONEY IS SAVE WITH PAYPAL" };
     private Icon[] addsPics = {
             new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\co\\edu\\uptc\\persistence\\files\\pics\\add1.png"),
+                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add1.png"),
             new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\co\\edu\\uptc\\persistence\\files\\pics\\add2.png"),
+                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add2.png"),
             new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\co\\edu\\uptc\\persistence\\files\\pics\\add3.png"),
+                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add3.png"),
             new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\co\\edu\\uptc\\persistence\\files\\pics\\add4.png"),
+                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add4.png"),
             new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\co\\edu\\uptc\\persistence\\files\\pics\\add5.png") };
+                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add5.png") };
 
     private Admin admin = new Admin("Elon", "Musk", 1, "Elon1@uptc.admin.co", "1");
     private AdminController ac = new AdminController();
@@ -56,8 +57,14 @@ public class AppMenus {
     private PlayListController playListC = new PlayListController();
     private CategoryController categoryC = new CategoryController();
     private SubscriptionController subsC = new SubscriptionController();
-
+    private FileManagement fm = new FileManagement();
+    
     public AppMenus() {
+        //prueba 
+        userRegisteredC.readUserFile();
+        //
+
+
         userRegisteredC.setAdmin(admin);
         ac.setAdmin(admin);
         userRegisteredC.setMovies(admin.getMovies());
@@ -77,7 +84,7 @@ public class AppMenus {
     // menu(0)------------------------------------------------------------------------//
     public int principalMenu(int op) {
         Icon principalMenuIcon = new ImageIcon(System.getProperty("user.dir")
-                + "\\MULTIMEDIA PROJECT\\src\\co\\edu\\uptc\\persistence\\files\\pics\\PrincipalMenu.png");
+                + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\PrincipalMenu.png");
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JLabel("Welcome to NextFlix"), BorderLayout.NORTH);
         panel.add(new JLabel(principalMenuIcon), BorderLayout.CENTER);
@@ -225,6 +232,9 @@ public class AppMenus {
             JOptionPane.showMessageDialog(null, "User registered successfully!" +
                     "\n User: " + firstName.getText() + id.getText() + "@uptc.edu.co" + "\nPassword: "
                     + password.getText());
+                    
+                    
+                    fm.writeFile("users", userRegisteredC.getUserCreated());
         }
 
         return 0;
@@ -355,7 +365,7 @@ public class AppMenus {
     // menu(4)------------------------------------------------------------------------//
     public int administratorMenu(int op) {
         Icon adminMenuIcon = new ImageIcon(System.getProperty("user.dir")
-                + "\\MULTIMEDIA PROJECT\\src\\co\\edu\\uptc\\persistence\\files\\pics\\AdminMenu.png");
+                + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\AdminMenu.png");
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JLabel("Welcome to Admin Menu"), BorderLayout.NORTH);
         panel.add(new JLabel(adminMenuIcon), BorderLayout.CENTER);
@@ -984,7 +994,7 @@ public class AppMenus {
 
     public int userRegisteredMenu(int op) {
         Icon userMenu = new ImageIcon(System.getProperty("user.dir")
-                + "\\MULTIMEDIA PROJECT\\src\\co\\edu\\uptc\\persistence\\files\\pics\\UserMenu.jpg");
+                + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\UserMenu.jpg");
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JLabel("Welcome to registered user"), BorderLayout.NORTH);
         panel.add(new JLabel(userMenu), BorderLayout.CENTER);
