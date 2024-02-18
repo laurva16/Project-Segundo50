@@ -1,18 +1,44 @@
 package co.edu.uptc.controller;
 
 import java.util.ArrayList;
+
+import com.google.gson.JsonElement;
+
 import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
+import co.edu.uptc.utilities.FileManagement;
 
 public class AdminController {
 
     private Admin admin;
     private Serie currentSerie;
-    private ArrayList<Movie> listMovies = new ArrayList<>();
-    private ArrayList<Serie> listSeries = new ArrayList<>();
+    private ArrayList<Movie> listMovies;
+    private ArrayList<Serie> listSeries;
+    FileManagement fm = new FileManagement();
+
+    public AdminController(){
+        loadMoviesFile();
+        loadSerieFile();
+    }
+    public void loadMoviesFile(){
+        listMovies = new ArrayList<>();
+        for(JsonElement je: fm.readJsonFile("movies")){
+            Movie movie = fm.getGson().fromJson(je, Movie.class);
+            listMovies.add(movie);     
+        }
+    }
+
+    public void loadSerieFile(){
+        listSeries = new ArrayList<>();
+        for(JsonElement je: fm.readJsonFile("series")){
+            Serie serie = fm.getGson().fromJson(je, Serie.class);
+            listSeries.add(serie);  
+        }
+    }    
+     
     public ArrayList<Movie> getMovies() {
         return listMovies;
     }

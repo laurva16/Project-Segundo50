@@ -669,7 +669,7 @@ public class AppMenus {
 
                 if (confirmResult == JOptionPane.YES_OPTION) {
                     ac.deleteMovie(Integer.parseInt(aux[1]));
-                    for (UserRegistered user : userRegisteredC.getAllUsers()) {
+                    for (UserRegistered user : userRegisteredC.getListUsers()) {
                         for (PlayList playL : user.getplayList()) {
                             for (Movie m : playL.getMovies()) {
                                 if (m.getId() == Integer.parseInt(aux[1])) {
@@ -1040,8 +1040,16 @@ public class AppMenus {
     // Menu(21)
 
     public int ShowMovies(int op) {
-        String[] movieNames = userRegisteredC.getMovieNames();
+        //String[] movieNames = userRegisteredC.getMovieNames(); anterior
+        String[] movieNames = new String[10];
+        int cont=0;
+        for(Movie movie: ac.getMovies()){
+           movieNames[cont] = movie.getName();
+            cont++;
+        }
 
+         
+        
         if (movieNames.length == 0) {
             JOptionPane.showMessageDialog(null, "There are not movies avaliable", "User Movies Menu",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -2148,7 +2156,7 @@ public class AppMenus {
 
                 if (confirmResult == JOptionPane.YES_OPTION) {
                     ac.deleteSerie(Integer.parseInt(aux[1]));
-                    for (UserRegistered user : userRegisteredC.getAllUsers()) {
+                    for (UserRegistered user : userRegisteredC.getListUsers()) {
                         for (PlayList playL : user.getplayList()) {
                             for (Serie m : playL.getSeries()) {
                                 if (m.getId() == Integer.parseInt(aux[1])) {
@@ -2421,7 +2429,7 @@ public class AppMenus {
                 if (confirmResult == JOptionPane.YES_OPTION) {
                     subsC.findCurrentSubscription(selectedSubscription);
                     subsC.removeSubscription();
-                    for (UserRegistered u : userRegisteredC.getAllUsers()) {
+                    for (UserRegistered u : userRegisteredC.getListUsers()) {
                         try {
                             if (u.getSub().getName().equals(selectedSubscription)) {
                                 u.setSub(null);

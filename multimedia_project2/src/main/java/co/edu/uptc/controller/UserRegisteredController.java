@@ -15,29 +15,32 @@ import co.edu.uptc.utilities.FileManagement;
 
 public class UserRegisteredController {
 
-    private ArrayList<UserRegistered> allUsers = new ArrayList<>();
+    private ArrayList<UserRegistered> listUsers = new ArrayList<>();
     private UserRegistered currentUser;
     private Admin admin;
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Serie> series = new ArrayList<>();
     private UserRegistered userCreated;
     
-    public void readUserFile(){
-        FileManagement fm = new FileManagement();
-
-        for(JsonElement je: fm.readJsonFile("users")){
-            UserRegistered ur = fm.getGson().fromJson(je, UserRegistered.class);
-            allUsers.add(ur);     
-        }
-        allUsers.forEach(System.out::println);
+    public UserRegisteredController(){
+        readUserFile();
     }
 
-    public ArrayList<UserRegistered> getAllUsers() {
-        return allUsers;
+    public void readUserFile(){
+        listUsers = new ArrayList<>();
+        FileManagement fm = new FileManagement();
+        for(JsonElement je: fm.readJsonFile("users")){
+            UserRegistered ur = fm.getGson().fromJson(je, UserRegistered.class);
+            listUsers.add(ur);     
+        }
+    }
+
+    public ArrayList<UserRegistered> getListUsers() {
+        return listUsers;
     }
 
     public boolean idFound(int id) {
-        for (UserRegistered i : allUsers) {
+        for (UserRegistered i : listUsers) {
             if (i.getId() == id) {
                 currentUser = i;
                 return true;
@@ -48,11 +51,11 @@ public class UserRegisteredController {
 
     @Override
     public String toString() {
-        return "UserRegisteredController [allUsers=" + allUsers + ", currentUser=" + currentUser + "]";
+        return "UserRegisteredController [listUsers=" + listUsers + ", currentUser=" + currentUser + "]";
     }
 
     public boolean userFound(String user) {
-        for (UserRegistered i : allUsers) {
+        for (UserRegistered i : listUsers) {
             if (i.getUser().equals(user)) {
                 currentUser = i;
                 return true;
@@ -64,7 +67,7 @@ public class UserRegisteredController {
     public boolean addUser(String firstName, String lastName, int id, String password) {
         UserRegistered r = new UserRegistered(firstName, lastName, id, firstName + id + "@uptc.edu.co", password);
         userCreated = r;
-        allUsers.add(r);
+        listUsers.add(r);
         return true;
     }
 
@@ -254,7 +257,7 @@ public class UserRegisteredController {
     }
 
     public UserRegistered currentUser(String currentUser) {
-        for (UserRegistered i : allUsers) {
+        for (UserRegistered i : listUsers) {
             if (i.getUser().equals(currentUser)) {
                 return i;
             }
@@ -263,7 +266,7 @@ public class UserRegisteredController {
     }
 
     public void setCurrentUser(int currentUser) {
-        for (UserRegistered i : allUsers) {
+        for (UserRegistered i : listUsers) {
             if (i.getId() == currentUser) {
                 this.currentUser = i;
             }
