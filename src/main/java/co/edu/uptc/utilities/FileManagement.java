@@ -17,7 +17,6 @@ public class FileManagement {
     private File file;
     private PrintWriter pw;
     private final String filePath = "src\\main\\java\\co\\edu\\uptc\\persistence\\";
-    private final String filePath = "src\\main\\java\\co\\edu\\uptc\\persistence\\";
     private final String fileExtension = ".json";
     private Gson gson;
     private JsonArray fileArray;
