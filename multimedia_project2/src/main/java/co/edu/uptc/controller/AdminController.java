@@ -14,31 +14,92 @@ import co.edu.uptc.utilities.FileManagement;
 public class AdminController {
 
     private Admin admin;
-    private Serie currentSerie;
+    private Serie currentSerie; // Creo que hay que eliminar esto
     private ArrayList<Movie> listMovies;
     private ArrayList<Serie> listSeries;
     FileManagement fm = new FileManagement();
 
-    public AdminController(){
+    public AdminController() {
+        admin = new Admin();
         loadMoviesFile();
         loadSerieFile();
     }
-    public void loadMoviesFile(){
+
+    public void loadMoviesFile() {
         listMovies = new ArrayList<>();
-        for(JsonElement je: fm.readJsonFile("movies")){
+        for (JsonElement je : fm.readJsonFile("movies")) {
             Movie movie = fm.getGson().fromJson(je, Movie.class);
-            listMovies.add(movie);     
+            listMovies.add(movie);
         }
     }
 
-    public void loadSerieFile(){
+    public void loadSerieFile() {
         listSeries = new ArrayList<>();
-        for(JsonElement je: fm.readJsonFile("series")){
+        for (JsonElement je : fm.readJsonFile("series")) {
             Serie serie = fm.getGson().fromJson(je, Serie.class);
-            listSeries.add(serie);  
+            listSeries.add(serie);
         }
-    }    
-     
+    }
+
+    public boolean deleteMovie(int idMovie) {
+        if (movieFound(idMovie) != -1) {
+            // admin.setMovies(listMovies);
+            listMovies.remove(listMovies.get(movieFound(idMovie)));
+            fm.reWriteFile("movies", listMovies);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteSerie(int idSerie) {
+        if (serieFound(idSerie) != -1) {
+            // admin.setSeries(listSeries);
+            listSeries.remove(listSeries.get(serieFound(idSerie)));
+            fm.reWriteFile("series", listSeries);
+            return true;
+        }
+        return false;
+    }
+
+    public void addMovie(String name, String author, String description, int duration) {
+        Movie newMovie = new Movie(assignid(), name, author, description, duration);
+        listMovies.add(newMovie);
+        // admin.setMovies(listMovies);
+        fm.writeFile("movies", newMovie);
+    }
+
+    public void addSerie(String name, String author, String description, ArrayList<Season> seasons) {
+        Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons);
+        listSeries.add(newSerie);
+        // admin.setSeries(listSeries);
+        fm.writeFile("series", newSerie);
+    }
+
+    public boolean addSeason(int idSerie, String nameSeason, ArrayList<MultimediaContent> listChapters) {
+        if (serieFound(idSerie) != -1) {
+            listSeries.get(serieFound(idSerie)).getSeasons().add(new Season(nameSeason, listChapters));
+            fm.reWriteFile("series", listSeries);
+            return true;
+        }
+        return false;
+    }
+
+    public void addChapter(String name, String description, int duration, int idSerie,
+            String nameSeason) {
+        int serieIndex = serieFound(idSerie);
+        int seasonIndex = seasonFound(nameSeason, idSerie);
+
+        if (serieIndex != -1 && seasonIndex != -1) {
+
+            listSeries.get(serieIndex).getSeasons().get(seasonIndex)
+                    .getSeasonMultimediaContent()
+                    .add(new MultimediaContent(
+                            duration, name,
+                            description));
+                            fm.reWriteFile("series", listSeries);
+        }
+    }
+
     public ArrayList<Movie> getMovies() {
         return listMovies;
     }
@@ -67,7 +128,7 @@ public class AdminController {
                 return i;
             }
         }
-       return -1;
+        return -1;
     }
 
     public int chapterFound(String nameSeason, int idSerie, String nameChapter) {
@@ -79,24 +140,6 @@ public class AdminController {
             }
         }
         return -1;
-    }
-
-    public void addMovie(String name, String author, String description, int duration) {
-        Movie newMovie = new Movie(assignid(), name, author, description, duration);
-        listMovies.add(newMovie);
-        admin.setMovies(listMovies);
-        fm.writeFile("movies", newMovie);
-    }
-
-    public void deleteMovie(int id) {
-        listMovies.remove(listMovies.get(movieFound(id)));
-        admin.setMovies(listMovies);
-    }
-
-    public void deleteSerie(int idSerie) {
-
-        listSeries.remove(listSeries.get(serieFound(idSerie)));
-        admin.setSeries(listSeries);
     }
 
     public ArrayList<String> ShowListMovieNames() {
@@ -201,20 +244,7 @@ public class AdminController {
 
     }
 
-    public void addChapter(String name, String description, int duration, int idSerie,
-            String nameSeason) {
-        int serieIndex = serieFound(idSerie);
-        int seasonIndex = seasonFound(nameSeason, idSerie);
-
-        if (serieIndex != -1 && seasonIndex != -1) {
-
-            listSeries.get(serieIndex).getSeasons().get(seasonIndex)
-                    .getSeasonMultimediaContent()
-                    .add(new MultimediaContent(
-                            duration, name,
-                            description));
-        }
-    }
+    
 
     public ArrayList<MultimediaContent> createChapter(String name, String description, int duration) {
         ArrayList<MultimediaContent> listchapters = new ArrayList<MultimediaContent>();
@@ -222,7 +252,6 @@ public class AdminController {
         listchapters.add(new MultimediaContent(duration, name, description));
 
         return listchapters;
-
     }
 
     public void deleteSeason(String nameSeason, int idSerie) {
@@ -232,27 +261,13 @@ public class AdminController {
 
     }
 
-    public void deleteChapters(String nameSeason, int idSerie, String nameChapter) {
+    public void deleteChapter(String nameSeason, int idSerie, String nameChapter) {
 
         listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(nameSeason, idSerie))
                 .getSeasonMultimediaContent()
                 .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(nameSeason, idSerie))
                         .getSeasonMultimediaContent().get(chapterFound(nameSeason, idSerie, nameChapter)));
-
-    }
-
-    public void addSerie(String name, String author, String description, ArrayList<Season> seasons) {
-        Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons);
-        currentSerie = newSerie;
-        listSeries.add(newSerie);
-        admin.setSeries(listSeries);
-        fm.writeFile("series", newSerie);
-    }
-
-    public void addSeason(int idSerie, String nameSeason, ArrayList<MultimediaContent> listChapters) {
-
-        listSeries.get(serieFound(idSerie)).getSeasons()
-                .add(new Season(nameSeason, listChapters));
+                   fm.reWriteFile("season", listSeries);     
 
     }
 

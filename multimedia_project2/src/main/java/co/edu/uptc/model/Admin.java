@@ -14,7 +14,9 @@ public class Admin extends Person{
         series = new ArrayList<>();
     }
 
-
+    public Admin(){
+        
+    }
     public ArrayList<Movie> getMovies() {
         return movies;
     }

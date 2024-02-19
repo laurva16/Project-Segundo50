@@ -21,7 +21,8 @@ public class UserRegisteredController {
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Serie> series = new ArrayList<>();
     private UserRegistered userCreated;
-    
+    public FileManagement fm = new FileManagement();
+
     public UserRegisteredController(){
         readUserFile();
     }
@@ -68,6 +69,7 @@ public class UserRegisteredController {
         UserRegistered r = new UserRegistered(firstName, lastName, id, firstName + id + "@uptc.edu.co", password);
         userCreated = r;
         listUsers.add(r);
+        fm.reWriteFile("users", listUsers);
         return true;
     }
 

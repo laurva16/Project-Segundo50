@@ -16,14 +16,14 @@ public class FileManagement {
 
     private File file;
     private PrintWriter pw;
-    private final String filePath = "multimedia_project2\\src\\main\\java\\co\\edu\\uptc\\persistence\\";
+    private final String filePath = "src\\main\\java\\co\\edu\\uptc\\persistence\\";
     private final String fileExtension = ".json";
     private Gson gson;
     private JsonArray fileArray;
 
     public FileManagement() {
         gson = new GsonBuilder().setPrettyPrinting().create();
-        fileArray= new JsonArray();
+        fileArray = new JsonArray();
     }
 
     public boolean createFile(String fileName) {
@@ -42,19 +42,21 @@ public class FileManagement {
         }
     }
 
-    //metodo usado para ingresar un nuevo objeto (movie-serie-usuario) a su correspondiente JsonArray -> .json
+    // metodo usado para ingresar un nuevo objeto (movie-serie-usuario) a su
+    // correspondiente JsonArray -> .json
     public boolean writeFile(String fileName, Object input) {
-        file = new File(fileName); 
-         // validacion archivo vacio
-        if(readJsonFile(fileName) != null){
+        file = new File(fileName);
+        // validacion archivo vacio
+        if (readJsonFile(fileName) != null) {
             fileArray = readJsonFile(fileName);
         }
         //
         JsonElement jElement = JsonParser.parseString(gson.toJson(input));
         fileArray.add(jElement);
-        try {  
+        try {
             pw = new PrintWriter(new FileWriter(filePath + fileName + fileExtension, false));
-            // pw.println(gson.toJson(fileArray)) es usado para utilizar el setPrettyPrinting()
+            // pw.println(gson.toJson(fileArray)) es usado para utilizar el
+            // setPrettyPrinting()
             // pw.println(fileArray) todo en una linea
             pw.println(gson.toJson(fileArray));
             pw.close();
@@ -84,8 +86,7 @@ public class FileManagement {
         return null;
     }
     
-    /*
-     * public boolean reWriteFile(String fileName, Object input) {
+    public boolean reWriteFile(String fileName, Object input) {
         file = new File(fileName);
         try {
             pw = new PrintWriter(new FileWriter(filePath + fileName + fileExtension, false));
@@ -97,7 +98,6 @@ public class FileManagement {
         }
         return false;
     }
-     */
 
     public boolean deleteFile(String fileName) {
         file = new File(filePath + fileName + fileExtension);
