@@ -125,9 +125,8 @@ public class AppMenus {
                     new Object[] { "LogIn", "Return" }, null);
 
             if (op == 0) {
-                System.out.println(admin.couldLogIn(user.getText(), password.getText()));
-                if (admin.couldLogIn(user.getText(), password.getText())) {
-                    if (admin.getPassword().equals(password.getText())) {
+                if (userRegisteredC.userFound(user.getText())) {
+                    if (userRegisteredC.getCurrentuser().getPassword().equals(password.getText())) {
                         op = 4;
                         break;
                     } else {
