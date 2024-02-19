@@ -2,6 +2,7 @@ package co.edu.uptc.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.google.gson.JsonElement;
 
@@ -21,17 +22,17 @@ public class UserRegisteredController {
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Serie> series = new ArrayList<>();
     private UserRegistered userCreated;
-    
-    public UserRegisteredController(){
+
+    public UserRegisteredController() {
         readUserFile();
     }
 
-    public void readUserFile(){
+    public void readUserFile() {
         listUsers = new ArrayList<>();
         FileManagement fm = new FileManagement();
-        for(JsonElement je: fm.readJsonFile("users")){
+        for (JsonElement je : fm.readJsonFile("users")) {
             UserRegistered ur = fm.getGson().fromJson(je, UserRegistered.class);
-            listUsers.add(ur);     
+            listUsers.add(ur);
         }
     }
 
@@ -71,8 +72,8 @@ public class UserRegisteredController {
         return true;
     }
 
-    public UserRegistered getUserCreated(){
-       return userCreated;
+    public UserRegistered getUserCreated() {
+        return userCreated;
     }
 
     public UserRegistered getCurrentuser() {
@@ -293,4 +294,42 @@ public class UserRegisteredController {
         return currentUser;
     }
 
+    public boolean userValidation(String user) {
+        String[] userArray = user.split("@");
+        if (userArray.length == 2) {
+            String domain = userArray[1];
+            if (domain.equals("uptc.edu.co") || domain.equals("gmail.com") || domain.equals("outlook.com")
+                    || domain.equals("yahoo.com")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int generateId() {
+        Random random = new Random();
+        int newId;
+        if (listUsers.isEmpty()) {
+            return random.nextInt(9999) + 1;
+        } else {
+            newId = random.nextInt(9999) + 1;
+            if (!idFound(newId)) {
+                return newId;
+            } else {
+                generateId();
+            }
+        }
+        return 0;
+    }
+
+    public boolean addUser(String firstName, String lastName, String user, String password) {
+        if (!userFound(user)) {
+            UserRegistered r = new UserRegistered(firstName, lastName, generateId(),
+                    user, password);
+            userCreated = r;
+            listUsers.add(r);
+            return true;
+        }
+        return false;
+    }
 }

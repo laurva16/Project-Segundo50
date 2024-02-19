@@ -58,12 +58,11 @@ public class AppMenus {
     private CategoryController categoryC = new CategoryController();
     private SubscriptionController subsC = new SubscriptionController();
     private FileManagement fm = new FileManagement();
-    
+
     public AppMenus() {
-        //prueba 
+        // prueba
         userRegisteredC.readUserFile();
         //
-
 
         userRegisteredC.setAdmin(admin);
         ac.setAdmin(admin);
@@ -126,6 +125,7 @@ public class AppMenus {
                     new Object[] { "LogIn", "Return" }, null);
 
             if (op == 0) {
+                System.out.println(admin.couldLogIn(user.getText(), password.getText()));
                 if (admin.couldLogIn(user.getText(), password.getText())) {
                     if (admin.getPassword().equals(password.getText())) {
                         op = 4;
@@ -161,15 +161,15 @@ public class AppMenus {
         JPanel panelRegister = new JPanel(new GridLayout(5, 2));
         JTextField firstName = new JTextField();
         JTextField lastName = new JTextField();
-        JTextField id = new JTextField();
+        JTextField user = new JTextField();
         JTextField password = new JTextField();
         JTextField passwordValidate = new JTextField();
         panelRegister.add(new JLabel("FirstName: "));
         panelRegister.add(firstName);
         panelRegister.add(new JLabel("LastName: "));
         panelRegister.add(lastName);
-        panelRegister.add(new JLabel("ID: "));
-        panelRegister.add(id);
+        panelRegister.add(new JLabel("Email: "));
+        panelRegister.add(user);
         panelRegister.add(
                 new JLabel("Create a password \n(minimum 8 characters, 1 uppercase, 1 special character, 1 number)"));
         panelRegister.add(password);
@@ -185,35 +185,27 @@ public class AppMenus {
 
                 if (firstName.getText().matches("[a-zA-Z]+") && !(firstName.getText().isEmpty())) {
                     if (lastName.getText().matches("[a-zA-Z]+") && !(lastName.getText().isEmpty())) {
-                        try {
-                            if (id.getText().matches("\\d+") && Integer.parseInt(id.getText()) < 2147483647
-                                    && Integer.parseInt(id.getText()) > 0) {
-                                if (!userRegisteredC.idFound(Integer.parseInt(id.getText()))
-                                        && !id.getText().equals(String.valueOf(admin.getId()))) {
-                                    if (userRegisteredC.validatePassword(password.getText())) {
-                                        if (password.getText().equals(passwordValidate.getText())) {
-                                            break;
-                                        } else {
-                                            JOptionPane.showMessageDialog(null, "Passwords do not match");
-                                        }
+                        if (!user.getText().isEmpty() && userRegisteredC.userValidation(user.getText())) {
+                            if (!userRegisteredC.userFound(user.getText())) {
+                                if (userRegisteredC.validatePassword(password.getText())) {
+                                    if (password.getText().equals(passwordValidate.getText())) {
+                                        break;
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "Password invalid!" +
-                                                "\n*minimum 8 characters" + "\n*minimun 1 uppercase"
-                                                + "\n*minimun 1 special character" + "\n*minimun 1 number");
+                                        JOptionPane.showMessageDialog(null, "Passwords do not match");
                                     }
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "ID invalid!" +
-                                            "\n*ID already registered");
+                                    JOptionPane.showMessageDialog(null, "Password invalid!" +
+                                            "\n*minimum 8 characters" + "\n*minimun 1 uppercase"
+                                            + "\n*minimun 1 special character" + "\n*minimun 1 number");
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null, "ID invalid!" +
-                                        "\n*ID should contains only digits" + "\n*ID should be less than 2147483647");
+                                JOptionPane.showMessageDialog(null,
+                                        "Mail already exists");
                             }
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(null, "ID invalid!" +
-                                    "\n*ID should contains only digits" + "\n*ID should be less than 2147483647");
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "Enter a suitable email address: \n@gmail, @outlook, @uptc.edu.co, @yahoo");
                         }
-
                     } else {
                         JOptionPane.showMessageDialog(null, "Last Name invalid!" +
                                 "\n*Last Name shoud contains only characters" + "\n*Last Name should not be empty");
@@ -227,14 +219,13 @@ public class AppMenus {
             }
         }
 
-        if (userRegisteredC.addUser(firstName.getText(), lastName.getText(), Integer.parseInt(id.getText()),
+        if (userRegisteredC.addUser(firstName.getText(), lastName.getText(), user.getText(),
                 password.getText())) {
             JOptionPane.showMessageDialog(null, "User registered successfully!" +
-                    "\n User: " + firstName.getText() + id.getText() + "@uptc.edu.co" + "\nPassword: "
+                    "\n User: " + user.getText() + "\nPassword: "
                     + password.getText());
-                    
-                    
-                    fm.writeFile("users", userRegisteredC.getUserCreated());
+
+            fm.writeFile("users", userRegisteredC.getUserCreated());
         }
 
         return 0;
@@ -1040,16 +1031,8 @@ public class AppMenus {
     // Menu(21)
 
     public int ShowMovies(int op) {
-        //String[] movieNames = userRegisteredC.getMovieNames(); anterior
-        String[] movieNames = new String[10];
-        int cont=0;
-        for(Movie movie: ac.getMovies()){
-           movieNames[cont] = movie.getName();
-            cont++;
-        }
+        String[] movieNames = userRegisteredC.getMovieNames();
 
-         
-        
         if (movieNames.length == 0) {
             JOptionPane.showMessageDialog(null, "There are not movies avaliable", "User Movies Menu",
                     JOptionPane.INFORMATION_MESSAGE);
