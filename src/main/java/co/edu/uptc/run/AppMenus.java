@@ -1848,9 +1848,9 @@ public class AppMenus {
                                                                             "Confirmation",
                                                                             JOptionPane.YES_NO_OPTION);
                                                                     if (confirmResult == JOptionPane.YES_OPTION) {
-                                                                        ac.deleteChapters(selectedSeasonName,
-                                                                                Integer.parseInt(names[1]),
-                                                                                selectedChaptername);
+                                                                        // ac.deleteChapters(selectedSeasonName,
+                                                                        // Integer.parseInt(names[1]),
+                                                                        // selectedChaptername);
 
                                                                         JOptionPane.showMessageDialog(null,
                                                                                 "The chapter was deleted successfully!");
@@ -1883,9 +1883,9 @@ public class AppMenus {
                                                                             "Confirmation",
                                                                             JOptionPane.YES_NO_OPTION);
                                                                     if (confirmResult == JOptionPane.YES_OPTION) {
-                                                                        ac.deleteChapters(selectedSeasonName,
-                                                                                Integer.parseInt(names[1]),
-                                                                                selectedChaptername);
+                                                                        // ac.deleteChapters(selectedSeasonName,
+                                                                        // Integer.parseInt(names[1]),
+                                                                        // selectedChaptername);
 
                                                                         JOptionPane.showMessageDialog(null,
                                                                                 "The chapter was deleted successfully!");

@@ -17,6 +17,7 @@ public class FileManagement {
     private File file;
     private PrintWriter pw;
     private final String filePath = "src\\main\\java\\co\\edu\\uptc\\persistence\\";
+    private final String filePath = "src\\main\\java\\co\\edu\\uptc\\persistence\\";
     private final String fileExtension = ".json";
     private Gson gson;
     private JsonArray fileArray;
@@ -85,22 +86,19 @@ public class FileManagement {
         }
         return null;
     }
-
-    /*
-     * public boolean reWriteFile(String fileName, Object input) {
-     * file = new File(fileName);
-     * try {
-     * pw = new PrintWriter(new FileWriter(filePath + fileName + fileExtension,
-     * false));
-     * pw.println(gson.toJson(input));
-     * pw.close();
-     * return true;
-     * } catch (IOException e) {
-     * e.printStackTrace();
-     * }
-     * return false;
-     * }
-     */
+    
+    public boolean reWriteFile(String fileName, Object input) {
+        file = new File(fileName);
+        try {
+            pw = new PrintWriter(new FileWriter(filePath + fileName + fileExtension, false));
+            pw.println(gson.toJson(input));
+            pw.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public boolean deleteFile(String fileName) {
         file = new File(filePath + fileName + fileExtension);

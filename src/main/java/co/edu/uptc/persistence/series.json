@@ -1,9 +1,54 @@
 [
   {
-    "id": 44324,
-    "name": "Juego de tronos",
-    "duration": 60,
-    "author": "Juanito Perez",
-    "description": "zzzZ"
+    "seasons": [
+      {
+        "seasonName": "temp1",
+        "seasonMultimediaContent": [
+          {
+            "id": 2131,
+            "name": "cap1",
+            "duration": 60,
+            "description": "des"
+          },
+          {
+            "id": 0,
+            "name": "cap2",
+            "duration": 60,
+            "description": "des"
+          },
+          {
+            "id": 0,
+            "name": "cap2",
+            "duration": 60,
+            "description": "des"
+          },
+          {
+            "id": 0,
+            "name": "cap2",
+            "duration": 60,
+            "description": "des"
+          },
+          {
+            "id": 0,
+            "name": "cap2",
+            "duration": 60,
+            "description": "des"
+          }
+        ]
+      }
+    ],
+    "id": 784,
+    "name": "prueba",
+    "duration": 0,
+    "author": "prueba",
+    "description": "prueba"
+  },
+  {
+    "seasons": [],
+    "id": 30,
+    "name": "prueba2",
+    "duration": 0,
+    "author": "prueba",
+    "description": "prueba"
   }
 ]
