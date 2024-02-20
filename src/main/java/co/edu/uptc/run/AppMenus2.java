@@ -33,7 +33,7 @@ import co.edu.uptc.controller.PlayListController;
 import co.edu.uptc.controller.SubscriptionController;
 import co.edu.uptc.controller.UserRegisteredController;
 
-public class AppMenus {
+public class AppMenus2 {
     private String[] adds = { "IF U ARE RICH AF, BUY THE NEW CIBERTRUK A$AP",
             "BUY THE NEW TESLA!!!! SAVE THE WORLD AGAISN POLLUTION",
             "IF U HAVE OPP BURN 'EM!!! SPECIAL OFFERTS",
@@ -59,7 +59,7 @@ public class AppMenus {
     private SubscriptionController subsC = new SubscriptionController();
     private FileManagement fm = new FileManagement();
 
-    public AppMenus() {
+    public AppMenus2() {
         // prueba
         userRegisteredC.readUserFile();
         //
@@ -125,7 +125,6 @@ public class AppMenus {
                     new Object[] { "LogIn", "Return" }, null);
 
             if (op == 0) {
-                System.out.println(admin.couldLogIn(user.getText(), password.getText()));
                 if (admin.couldLogIn(user.getText(), password.getText())) {
                     if (admin.getPassword().equals(password.getText())) {
                         op = 4;
@@ -161,15 +160,15 @@ public class AppMenus {
         JPanel panelRegister = new JPanel(new GridLayout(5, 2));
         JTextField firstName = new JTextField();
         JTextField lastName = new JTextField();
-        JTextField user = new JTextField();
+        JTextField id = new JTextField();
         JTextField password = new JTextField();
         JTextField passwordValidate = new JTextField();
         panelRegister.add(new JLabel("FirstName: "));
         panelRegister.add(firstName);
         panelRegister.add(new JLabel("LastName: "));
         panelRegister.add(lastName);
-        panelRegister.add(new JLabel("Email: "));
-        panelRegister.add(user);
+        panelRegister.add(new JLabel("ID: "));
+        panelRegister.add(id);
         panelRegister.add(
                 new JLabel("Create a password \n(minimum 8 characters, 1 uppercase, 1 special character, 1 number)"));
         panelRegister.add(password);
@@ -185,27 +184,35 @@ public class AppMenus {
 
                 if (firstName.getText().matches("[a-zA-Z]+") && !(firstName.getText().isEmpty())) {
                     if (lastName.getText().matches("[a-zA-Z]+") && !(lastName.getText().isEmpty())) {
-                        if (!user.getText().isEmpty() && userRegisteredC.userValidation(user.getText())) {
-                            if (!userRegisteredC.userFound(user.getText())) {
-                                if (userRegisteredC.validatePassword(password.getText())) {
-                                    if (password.getText().equals(passwordValidate.getText())) {
-                                        break;
+                        try {
+                            if (id.getText().matches("\\d+") && Integer.parseInt(id.getText()) < 2147483647
+                                    && Integer.parseInt(id.getText()) > 0) {
+                                if (!userRegisteredC.idFound(Integer.parseInt(id.getText()))
+                                        && !id.getText().equals(String.valueOf(admin.getId()))) {
+                                    if (userRegisteredC.validatePassword(password.getText())) {
+                                        if (password.getText().equals(passwordValidate.getText())) {
+                                            break;
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Passwords do not match");
+                                        }
                                     } else {
-                                        JOptionPane.showMessageDialog(null, "Passwords do not match");
+                                        JOptionPane.showMessageDialog(null, "Password invalid!" +
+                                                "\n*minimum 8 characters" + "\n*minimun 1 uppercase"
+                                                + "\n*minimun 1 special character" + "\n*minimun 1 number");
                                     }
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Password invalid!" +
-                                            "\n*minimum 8 characters" + "\n*minimun 1 uppercase"
-                                            + "\n*minimun 1 special character" + "\n*minimun 1 number");
+                                    JOptionPane.showMessageDialog(null, "ID invalid!" +
+                                            "\n*ID already registered");
                                 }
                             } else {
-                                JOptionPane.showMessageDialog(null,
-                                        "Mail already exists");
+                                JOptionPane.showMessageDialog(null, "ID invalid!" +
+                                        "\n*ID should contains only digits" + "\n*ID should be less than 2147483647");
                             }
-                        } else {
-                            JOptionPane.showMessageDialog(null,
-                                    "Enter a suitable email address: \n@gmail, @outlook, @uptc.edu.co, @yahoo");
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(null, "ID invalid!" +
+                                    "\n*ID should contains only digits" + "\n*ID should be less than 2147483647");
                         }
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Last Name invalid!" +
                                 "\n*Last Name shoud contains only characters" + "\n*Last Name should not be empty");
@@ -219,10 +226,10 @@ public class AppMenus {
             }
         }
 
-        if (userRegisteredC.addUser(firstName.getText(), lastName.getText(), user.getText(),
+        if (userRegisteredC.addUser(firstName.getText(), lastName.getText(), Integer.parseInt(id.getText()),
                 password.getText())) {
             JOptionPane.showMessageDialog(null, "User registered successfully!" +
-                    "\n User: " + user.getText() + "\nPassword: "
+                    "\n User: " + firstName.getText() + id.getText() + "@uptc.edu.co" + "\nPassword: "
                     + password.getText());
 
             fm.writeFile("users", userRegisteredC.getUserCreated());
@@ -434,7 +441,6 @@ public class AppMenus {
     // ----------------------------------------Create Movies //
     // menu(7)------------------------------------------------------------------------//
     public int createMoviesMenu(int op) {
-
         JPanel panel = new JPanel(new GridLayout(4, 4, 2, 2));
 
         JTextField nameField = new JTextField();
@@ -450,8 +456,8 @@ public class AppMenus {
         panel.add(descriptionField);
         panel.add(new JLabel("Duration:"));
         panel.add(durationField);
-        while (true) {
 
+        while (true) {
             int result = JOptionPane.showConfirmDialog(
                     null,
                     panel,
@@ -460,56 +466,68 @@ public class AppMenus {
                     JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                String name = nameField.getText().trim();
-                String author = authorField.getText().trim();
-                String description = descriptionField.getText().trim();
-                String duration1 = durationField.getText().trim();
+                // Obteniendo el nombre de la categoría seleccionada
+                String selectedCategoryName = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Choose a category",
+                        "Categories",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        categoryC.categoriesNames(),
+                        null);
 
-                if (!name.isBlank() && !author.isBlank() && !description.isBlank()
-                        && !duration1.isBlank()) {
-                    if (ac.containCharacterSpecial(author) && ac.validateName(name) && ac.validateNumbers(duration1)
-                            && ac.validateName(author) && ac.validateDescription(description)
-                            && ac.validarSinCharacterSpecial(name)) {
-                        int duration = Integer.parseInt(duration1);
-                        int confirmResult = JOptionPane.showConfirmDialog(
-                                null,
-                                "Are you sure all the data you entered is correct?\n" +
+                if (selectedCategoryName != null) {
+                    ;
 
-                                        "Name movie: " + name + "\nAuthor of movie: " + author
-                                        + "\nDescription of movie: "
-                                        + description +
-                                        "\nDuration of movie: " + duration,
-                                "Confirmation",
-                                JOptionPane.YES_NO_OPTION);
+                    // Obteniendo los datos de la película
+                    String name = nameField.getText().trim();
+                    String author = authorField.getText().trim();
+                    String description = descriptionField.getText().trim();
+                    String duration1 = durationField.getText().trim();
 
-                        if (confirmResult == JOptionPane.YES_OPTION) {
-                            ac.addMovie(name, author, description, duration, null);
+                    if (!name.isBlank() && !author.isBlank() && !description.isBlank() && !duration1.isBlank()) {
+                        if (ac.containCharacterSpecial(author) && ac.validateName(name) && ac.validateNumbers(duration1)
+                                && ac.validateName(author) && ac.validateDescription(description)
+                                && ac.validarSinCharacterSpecial(name)) {
+                            int duration = Integer.parseInt(duration1);
+                            int confirmResult = JOptionPane.showConfirmDialog(
+                                    null,
+                                    "Are you sure all the data you entered is correct?\n" +
+                                            "Name movie: " + name + "\nAuthor of movie: " + author
+                                            + "\nDescription of movie: " + description +
+                                            "\nDuration of movie: " + duration,
+                                    "Confirmation",
+                                    JOptionPane.YES_NO_OPTION);
 
-                            JOptionPane.showMessageDialog(null, "The movie was added successfully!");
-                            break;
+                            if (confirmResult == JOptionPane.YES_OPTION) {
+                                // Agregar la película
+                                ac.addMovie(name, author, description, duration, selectedCategoryName);
+                                JOptionPane.showMessageDialog(null, "The movie was added successfully!");
+                                break;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Unsaved data");
+                            }
                         } else {
-                            JOptionPane.showMessageDialog(null, "unsaved data");
+                            if (!ac.validateNumbers(duration1)) {
+                                JOptionPane.showMessageDialog(null, "Duration invalid");
+                            } else if (!ac.validateName(author)) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Invalid name of author. It must have at least three letters");
+                            } else if (!ac.validateDescription(description)) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Invalid description. It must have a minimum of five letters");
+                            } else if (!ac.validateName(name) || !ac.validarSinCharacterSpecial(name)) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Invalid movie name. It must have at least three letters and cannot have special characters");
+                            } else if (!ac.containCharacterSpecial(author)) {
+                                JOptionPane.showMessageDialog(null, "The author's name cannot have special characters");
+                            }
                         }
                     } else {
-
-                        if (!ac.validateNumbers(duration1)) {
-                            JOptionPane.showMessageDialog(null, "Duration invalid");
-                        } else if (!ac.validateName(author)) {
-                            JOptionPane.showMessageDialog(null,
-                                    "invalid name of author must have at least three letters");
-                        } else if (!ac.validateDescription(description)) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Invalid description must have a minimum of five letters");
-                        } else if (!ac.validateName(name) || !ac.validarSinCharacterSpecial(name)) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Invalid movie name  must have at least three letters and cannot have special characters ");
-                        } else if (!ac.containCharacterSpecial(author)) {
-                            JOptionPane.showMessageDialog(null, "The author's name cannot have special characters");
-                        }
-
+                        JOptionPane.showMessageDialog(null, "You must enter all the data");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "You must enter all the data");
+                    JOptionPane.showMessageDialog(null, "You must select a category");
                 }
             } else {
                 break;
@@ -673,7 +691,7 @@ public class AppMenus {
                     for (Category c : categoryC.getCategories()) {
                         for (Movie m : c.getMovies()) {
                             if (m.getId() == Integer.parseInt(aux[1])) {
-                                c.removeMovie(m);
+                                // c.removeMovie(m);
                                 break;
                             }
                         }
@@ -794,79 +812,96 @@ public class AppMenus {
                                         JOptionPane.YES_NO_OPTION);
 
                                 if (confirmResult == JOptionPane.YES_OPTION) {
-                                    ac.addSerie(name, author, description,
-                                            ac.createSeasons(seasonName,
-                                                    ac.createChapter(nameChapter, descriptionChapter,
-                                                            durationChapter)),
+                                    // Obteniendo el nombre de la categoría seleccionada
+                                    String selectedCategoryName = (String) JOptionPane.showInputDialog(
+                                            null,
+                                            "Choose a category",
+                                            "Categories",
+                                            JOptionPane.PLAIN_MESSAGE,
+                                            null,
+                                            categoryC.categoriesNames(),
                                             null);
 
-                                    while (true) {
+                                    if (selectedCategoryName != null) {
 
-                                        int confirmResult1 = JOptionPane.showConfirmDialog(
-                                                null,
-                                                "Do you want to add another chapter?",
-                                                "Confirmation",
-                                                JOptionPane.YES_NO_OPTION);
+                                        ac.addSerie(name, author, description,
+                                                ac.createSeasons(seasonName,
+                                                        ac.createChapter(nameChapter, descriptionChapter,
+                                                                durationChapter)),
+                                                selectedCategoryName);
 
-                                        if (confirmResult1 == JOptionPane.NO_OPTION) {
-                                            JOptionPane.showMessageDialog(null,
-                                                    "The  serie was added successfully!");
-                                            break;
-                                        }
-
-                                        JPanel panel3 = new JPanel(new GridLayout(4, 4, 2, 2));
-                                        JTextField nameChapterField2 = new JTextField();
-                                        JTextField descriptionChapterField2 = new JTextField();
-                                        JTextField durationChapterField2 = new JTextField();
-
-                                        panel3.add(new JLabel("Name of the chapter:"));
-                                        panel3.add(nameChapterField2);
-                                        panel3.add(new JLabel("Description of the chapter:"));
-                                        panel3.add(descriptionChapterField2);
-                                        panel3.add(new JLabel("Duration of the chapter:"));
-                                        panel3.add(durationChapterField2);
                                         while (true) {
 
-                                            int result3 = JOptionPane.showConfirmDialog(
+                                            int confirmResult1 = JOptionPane.showConfirmDialog(
                                                     null,
-                                                    panel3,
-                                                    "Create Chapter Menu",
-                                                    JOptionPane.OK_CANCEL_OPTION,
-                                                    JOptionPane.PLAIN_MESSAGE);
+                                                    "Do you want to add another chapter?",
+                                                    "Confirmation",
+                                                    JOptionPane.YES_NO_OPTION);
 
-                                            if (result3 == JOptionPane.OK_OPTION) {
-                                                String nameChapter2 = nameChapterField2.getText().trim();
-                                                String descriptionChapter2 = descriptionChapterField2.getText().trim();
-                                                String durationChapter3 = durationChapterField2.getText().trim();
-
-                                                if (!nameChapter2.isBlank() && !descriptionChapter2.isBlank()
-                                                        && !durationChapter3.isBlank()
-                                                        && ac.validateName(nameChapter2)
-                                                        && ac.validarSinCharacterSpecial(nameChapter2)
-                                                        && ac.validateDescription(descriptionChapter2)
-                                                        && ac.validateNumbers(durationChapter3)) {
-                                                    int durationChapter2 = Integer.parseInt(durationChapter3);
-                                                    ac.addChapter(nameChapter2, descriptionChapter2, durationChapter2,
-                                                            ac.getCurrentSerie().getId(), seasonName);
-                                                    JOptionPane.showMessageDialog(null,
-                                                            "The chapter was added successfully!");
-                                                    break;
-                                                } else if (nameChapter2.isBlank() && descriptionChapter2.isBlank()
-                                                        && durationChapter3.isBlank()) {
-                                                    JOptionPane.showMessageDialog(null, "You must enter all the data");
-                                                } else if (!ac.validateName(nameChapter2)
-                                                        || !ac.validarSinCharacterSpecial(nameChapter2)) {
-                                                    JOptionPane.showMessageDialog(null,
-                                                            "invalid chapter name, must have at least three letters and cannot have special characters");
-                                                } else if (!ac.validateDescription(descriptionChapter2)) {
-                                                    JOptionPane.showMessageDialog(null,
-                                                            "Invalid description must have a minimum of five letters");
-                                                } else if (!ac.validateNumbers(durationChapter3)) {
-                                                    JOptionPane.showMessageDialog(null, "Duration invalid");
-                                                }
-                                            } else {
+                                            if (confirmResult1 == JOptionPane.NO_OPTION) {
+                                                JOptionPane.showMessageDialog(null,
+                                                        "The  serie was added successfully!");
                                                 break;
                                             }
+
+                                            JPanel panel3 = new JPanel(new GridLayout(4, 4, 2, 2));
+                                            JTextField nameChapterField2 = new JTextField();
+                                            JTextField descriptionChapterField2 = new JTextField();
+                                            JTextField durationChapterField2 = new JTextField();
+
+                                            panel3.add(new JLabel("Name of the chapter:"));
+                                            panel3.add(nameChapterField2);
+                                            panel3.add(new JLabel("Description of the chapter:"));
+                                            panel3.add(descriptionChapterField2);
+                                            panel3.add(new JLabel("Duration of the chapter:"));
+                                            panel3.add(durationChapterField2);
+                                            while (true) {
+
+                                                int result3 = JOptionPane.showConfirmDialog(
+                                                        null,
+                                                        panel3,
+                                                        "Create Chapter Menu",
+                                                        JOptionPane.OK_CANCEL_OPTION,
+                                                        JOptionPane.PLAIN_MESSAGE);
+
+                                                if (result3 == JOptionPane.OK_OPTION) {
+                                                    String nameChapter2 = nameChapterField2.getText().trim();
+                                                    String descriptionChapter2 = descriptionChapterField2.getText()
+                                                            .trim();
+                                                    String durationChapter3 = durationChapterField2.getText().trim();
+
+                                                    if (!nameChapter2.isBlank() && !descriptionChapter2.isBlank()
+                                                            && !durationChapter3.isBlank()
+                                                            && ac.validateName(nameChapter2)
+                                                            && ac.validarSinCharacterSpecial(nameChapter2)
+                                                            && ac.validateDescription(descriptionChapter2)
+                                                            && ac.validateNumbers(durationChapter3)) {
+                                                        int durationChapter2 = Integer.parseInt(durationChapter3);
+                                                        ac.addChapter(nameChapter2, descriptionChapter2,
+                                                                durationChapter2,
+                                                                ac.getCurrentSerie().getId(), seasonName);
+                                                        JOptionPane.showMessageDialog(null,
+                                                                "The chapter was added successfully!");
+                                                        break;
+                                                    } else if (nameChapter2.isBlank() && descriptionChapter2.isBlank()
+                                                            && durationChapter3.isBlank()) {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                "You must enter all the data");
+                                                    } else if (!ac.validateName(nameChapter2)
+                                                            || !ac.validarSinCharacterSpecial(nameChapter2)) {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                "invalid chapter name, must have at least three letters and cannot have special characters");
+                                                    } else if (!ac.validateDescription(descriptionChapter2)) {
+                                                        JOptionPane.showMessageDialog(null,
+                                                                "Invalid description must have a minimum of five letters");
+                                                    } else if (!ac.validateNumbers(durationChapter3)) {
+                                                        JOptionPane.showMessageDialog(null, "Duration invalid");
+                                                    }
+                                                } else {
+                                                    break;
+                                                }
+                                            }
+                                            ;
 
                                         }
 
@@ -1032,7 +1067,13 @@ public class AppMenus {
     // Menu(21)
 
     public int ShowMovies(int op) {
-        String[] movieNames = userRegisteredC.getMovieNames();
+        // String[] movieNames = userRegisteredC.getMovieNames(); anterior
+        String[] movieNames = new String[10];
+        int cont = 0;
+        for (Movie movie : ac.getMovies()) {
+            movieNames[cont] = movie.getName();
+            cont++;
+        }
 
         if (movieNames.length == 0) {
             JOptionPane.showMessageDialog(null, "There are not movies avaliable", "User Movies Menu",
@@ -1849,9 +1890,7 @@ public class AppMenus {
                                                                             "Confirmation",
                                                                             JOptionPane.YES_NO_OPTION);
                                                                     if (confirmResult == JOptionPane.YES_OPTION) {
-                                                                        // ac.deleteChapters(selectedSeasonName,
-                                                                        // Integer.parseInt(names[1]),
-                                                                        // selectedChaptername);
+                                                                        // ac.deleteChapters(selectedSeasonName,Integer.parseInt(names[1]),selectedChaptername);
 
                                                                         JOptionPane.showMessageDialog(null,
                                                                                 "The chapter was deleted successfully!");
@@ -1885,8 +1924,7 @@ public class AppMenus {
                                                                             JOptionPane.YES_NO_OPTION);
                                                                     if (confirmResult == JOptionPane.YES_OPTION) {
                                                                         // ac.deleteChapters(selectedSeasonName,
-                                                                        // Integer.parseInt(names[1]),
-                                                                        // selectedChaptername);
+                                                                        // Integer.parseInt(names[1]),selectedChaptername);
 
                                                                         JOptionPane.showMessageDialog(null,
                                                                                 "The chapter was deleted successfully!");
@@ -2152,12 +2190,7 @@ public class AppMenus {
                     }
 
                     for (Category c : categoryC.getCategories()) {
-                        for (Serie s : c.getSeries()) {
-                            if (s.getId() == Integer.parseInt(aux[1])) {
-                                c.removeSerie(s);
-                                break;
-                            }
-                        }
+
                     }
                     JOptionPane.showMessageDialog(null, "The serie was deleted successfully!");
                 } else {
@@ -3127,23 +3160,12 @@ public class AppMenus {
         String[] moviesCategory = categoryC.categoryMovieNames();
         JComboBox<String> categoryMovies = new JComboBox<>(moviesCategory);
 
-        String[] seriesCategory = categoryC.categorySerieNames();
-        JComboBox<String> categorySeries = new JComboBox<>(seriesCategory);
-
         if (moviesCategory.length > 0) {
             panel.add(new JLabel("Movies:"));
             panel.add(categoryMovies);
         } else {
             panel.add(new JLabel("Movies:"));
             panel.add(new JLabel("There are not movies added yet"));
-        }
-
-        if (seriesCategory.length > 0) {
-            panel.add(new JLabel("Series:"));
-            panel.add(categorySeries);
-        } else {
-            panel.add(new JLabel("Series:"));
-            panel.add(new JLabel("There are not series added yet"));
         }
 
         while (true) {
@@ -3167,15 +3189,7 @@ public class AppMenus {
                                     "\nDuration: " + userRegisteredC.getMovie(Integer.parseInt(aux[1])).getDuration());
                 }
             } else if (op == 1) {
-                if (seriesCategory.length > 0) {
-                    String[] aux = String.valueOf(categorySeries.getSelectedItem()).split("-");
-                    JOptionPane.showMessageDialog(null,
-                            "Name: " + userRegisteredC.getSerie(Integer.parseInt(aux[1])).getName() +
-                                    "\nDescription: "
-                                    + userRegisteredC.getSerie(Integer.parseInt(aux[1])).getDescription() +
-                                    "\nauthor: " + userRegisteredC.getSerie(Integer.parseInt(aux[1])).getAuthor());
 
-                }
             } else if (op == 2) {
                 break;
             }
@@ -3234,8 +3248,6 @@ public class AppMenus {
                         }
                         String[] aux = selectedMovieName.split("-");
 
-                        categoryC.addMovieToCategory(categoryName, Integer.parseInt(aux[1]));
-
                         if (movies.length == 1) {
                             JOptionPane.showMessageDialog(null, "There is not more movies to add");
                             break;
@@ -3273,7 +3285,6 @@ public class AppMenus {
                         }
 
                         String[] aux = selectedSerieName.split("-");
-                        categoryC.addSerieToCategory(categoryName, Integer.parseInt(aux[1]));
 
                         if (series.length == 1) {
                             JOptionPane.showMessageDialog(null, "There is not more movies to add");
@@ -3305,188 +3316,7 @@ public class AppMenus {
     // ----------------------------Update Category
     // Menu(32)-------------------------------//
     public int updateCategoryMenu(int op) {
-        if (categoryC.getCategories().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "There are not categories created yet");
-            return 35;
-        }
 
-        String categoryName = (String) JOptionPane.showInputDialog(null, "Choose a Category", "Update Category Menu",
-                JOptionPane.PLAIN_MESSAGE,
-                null, categoryC.categoriesNames(), null);
-        if (categoryName == null) {
-            return 30;
-        }
-
-        categoryC.categoryFound(categoryName);
-
-        String[] moviesPlayList = categoryC.categoryMovieNames();
-        String[] moviesToAdd = categoryC.moviesToAdd();
-        JComboBox<String> playlistMovies = new JComboBox<>(moviesPlayList);
-        playlistMovies.setBackground(new Color(255, 114, 114));
-        JComboBox<String> allMovies = new JComboBox<>(moviesToAdd);
-        allMovies.setBackground(new Color(64, 203, 255));
-
-        String[] seriesPlayList = categoryC.categorySerieNames();
-        String[] seriesToAdd = categoryC.seriesToAdd();
-        JComboBox<String> playlistSeries = new JComboBox<>(seriesPlayList);
-        playlistSeries.setBackground(new Color(255, 165, 65));
-        JComboBox<String> allSeries = new JComboBox<>(seriesToAdd);
-        allSeries.setBackground(new Color(219, 136, 255));
-
-        // Labels
-        JLabel l1 = new JLabel("New name of the category:");
-        l1.setBackground(new Color(233, 255, 71));
-        JLabel l2 = new JLabel("Current movies in " + categoryName);
-        l2.setBackground(new Color(255, 114, 114));
-        JLabel l3 = new JLabel("The category does not have movies added yet");
-        l3.setBackground(new Color(255, 114, 114));
-        JLabel l4 = new JLabel("Choose a movie to add:");
-        l4.setBackground(new Color(64, 203, 255));
-        JLabel l5 = new JLabel("There are not movies to add");
-        l5.setBackground(new Color(64, 203, 255));
-        JLabel l6 = new JLabel("Current series in " + categoryName);
-        l6.setBackground(new Color(255, 165, 65));
-        JLabel l7 = new JLabel("Choose a serie to add:");
-        l7.setBackground(new Color(219, 136, 255));
-        JLabel l8 = new JLabel("The category does not have movies added yet");
-        l8.setBackground(new Color(255, 165, 65));
-        JLabel l9 = new JLabel("There are not series to add");
-        l9.setBackground(new Color(219, 136, 255));
-        l1.setOpaque(true);
-        l2.setOpaque(true);
-        l3.setOpaque(true);
-        l4.setOpaque(true);
-        l5.setOpaque(true);
-        l6.setOpaque(true);
-        l7.setOpaque(true);
-        l8.setOpaque(true);
-        l9.setOpaque(true);
-
-        JTextField nameField = new JTextField();
-        nameField.setBackground(new Color(233, 255, 71));
-
-        while (true) {
-
-            JPanel panel1 = new JPanel(new GridLayout(5, 2, 5, 5));
-
-            // Box of movies in playList
-            if (moviesPlayList.length > 0) {
-                nameField.setText(categoryC.getCurrentCategory().getName());
-                panel1.add(l1);
-                panel1.add(nameField);
-                panel1.add(l2);
-                panel1.add(playlistMovies);
-            } else {
-                nameField.setText(categoryC.getCurrentCategory().getName());
-                panel1.add(l1);
-                panel1.add(nameField);
-                panel1.add(l3);
-                panel1.add(new JLabel());
-            }
-
-            // Box of all movies avalilable
-            if (moviesToAdd.length > 0) {
-                panel1.add(l4);
-                panel1.add(allMovies);
-
-            } else {
-                panel1.add(l5);
-                panel1.add(new JLabel());
-            }
-
-            // Box of series in playList
-            if (seriesPlayList.length > 0) {
-                panel1.add(l6);
-                panel1.add(playlistSeries);
-
-            } else {
-                panel1.add(l8);
-                panel1.add(new JLabel());
-            }
-
-            // Box of all series available
-            if (seriesToAdd.length > 0) {
-                panel1.add(l7);
-                panel1.add(allSeries);
-            } else {
-                panel1.add(l9);
-                panel1.add(new JLabel());
-            }
-
-            op = JOptionPane.showOptionDialog(
-                    null,
-                    panel1,
-                    "Choose a movie",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    new Object[] {
-                            "<html><font color='#A29F00'>Change name</font></html>",
-                            "<html><font color='#FF0000'>Remove Movie Selected</font></html>",
-                            "<html><font color='#0070FF'>Add Movie to PlayList</font></html>",
-                            "<html><font color='#FF8F00'>Remove Serie Selected</font></html>",
-                            "<html><font color='#E800FF'>Add Serie to PlayList</font></html>",
-                            "Return"
-                    },
-                    null);
-
-            if (op == 5) {
-                break;
-            }
-            switch (op) {
-                // Modifies the name of the play list
-                case 0:
-                    if (categoryC.nameRepeated(nameField.getText())) {
-                        JOptionPane.showMessageDialog(null, "Name already exists, try again.");
-                        break;
-                    } else {
-                        categoryC.updateNameCategory(categoryName, nameField.getText());
-                        JOptionPane.showMessageDialog(null, "Name Changed Successfully!");
-                        categoryName = nameField.getText();
-                    }
-                    break;
-                // Removes a movie from current playlist
-                case 1:
-                    if ((String) playlistMovies.getSelectedItem() != null) {
-                        categoryC.removeMovie((String) playlistMovies.getSelectedItem());
-                    }
-                    break;
-                // Add movie at PlayList
-                case 2:
-                    if ((String) allMovies.getSelectedItem() != null) {
-                        String[] aux = String.valueOf(allMovies.getSelectedItem()).split("-");
-                        categoryC.addMovieToCategory(categoryName, Integer.parseInt(aux[1]));
-                    }
-                    break;
-                case 3:
-                    if ((String) playlistSeries.getSelectedItem() != null) {
-                        categoryC.removeSerie((String) playlistSeries.getSelectedItem());
-                    }
-                    break;
-                case 4:
-                    if ((String) allSeries.getSelectedItem() != null) {
-                        String[] auxx = String.valueOf(allSeries.getSelectedItem()).split("-");
-                        categoryC.addSerieToCategory(categoryName, Integer.parseInt(auxx[1]));
-                    }
-                    break;
-
-            }
-
-            moviesPlayList = categoryC.categoryMovieNames();
-            moviesToAdd = categoryC.moviesToAdd();
-            playlistMovies = new JComboBox<>(moviesPlayList);
-            playlistMovies.setBackground(new Color(255, 114, 114));
-            allMovies = new JComboBox<>(moviesToAdd);
-            allMovies.setBackground(new Color(64, 203, 255));
-
-            seriesPlayList = categoryC.categorySerieNames();
-            seriesToAdd = categoryC.seriesToAdd();
-            playlistSeries = new JComboBox<>(seriesPlayList);
-            playlistSeries.setBackground(new Color(255, 165, 65));
-            allSeries = new JComboBox<>(seriesToAdd);
-            allSeries.setBackground(new Color(219, 136, 255));
-
-        }
         return 35;
     }
 
@@ -3565,276 +3395,7 @@ public class AppMenus {
     // ----------------------------User Category
     // Menu(41)-------------------------------//
     public int userCategorytMenu(int op) {
-        if (categoryC.getCategories().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "There are not categories created yet");
-            return 20;
-        }
 
-        String categoryName = (String) JOptionPane.showInputDialog(null, "Choose a category", "User Category Menu",
-                JOptionPane.PLAIN_MESSAGE,
-                null, categoryC.categoriesNames(), null);
-
-        if (categoryName == null) {
-            return 20;
-        }
-        categoryC.categoryFound(categoryName);
-
-        JPanel panel = new JPanel(new GridLayout(2, 2));
-
-        String[] moviesCategory = categoryC.categoryMovieNames();
-        JComboBox<String> categoryMovies = new JComboBox<>(moviesCategory);
-
-        String[] seriesCategory = categoryC.categorySerieNames();
-        JComboBox<String> categorySeries = new JComboBox<>(seriesCategory);
-
-        if (moviesCategory.length > 0) {
-            panel.add(new JLabel("Movies:"));
-            panel.add(categoryMovies);
-        } else {
-            panel.add(new JLabel("Movies:"));
-            panel.add(new JLabel("There are not movies added yet"));
-        }
-
-        if (seriesCategory.length > 0) {
-            panel.add(new JLabel("Series:"));
-            panel.add(categorySeries);
-        } else {
-            panel.add(new JLabel("Series:"));
-            panel.add(new JLabel("There are not series added yet"));
-        }
-
-        while (true) {
-            op = JOptionPane.showOptionDialog(
-                    null,
-                    panel,
-                    "Choose a movie",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    new Object[] { "See movie", "See serie", "return" },
-                    null);
-            if (op == 0) {
-                if (moviesCategory.length > 0) {
-                    LocalTime currentLocalTime = LocalTime.now(ZoneId.of("America/Bogota"));
-                    if (userRegisteredC.getCurrentUser().getSub() != null) {
-                        if (currentLocalTime.toNanoOfDay() / 1_000_000 >= userRegisteredC.getCurrentUser().getSub()
-                                .getEndTime()) {
-                            userRegisteredC.getCurrentUser().setSub(null);
-                        }
-                    }
-                    String[] aux = ((String) (categoryMovies.getSelectedItem())).split("-");
-
-                    if (userRegisteredC.getCurrentUser().getSub() == null) {
-                        int add = (int) (Math.random() * 5);
-                        ImageIcon addPic = (ImageIcon) addsPics[add];
-                        JFrame addFrame = new JFrame("Publicity Space");
-                        addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        addFrame.setSize(addPic.getIconWidth(), addPic.getIconHeight());
-                        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                        int x = (screenSize.width - addFrame.getWidth()) / 2;
-                        int y = (screenSize.height - addFrame.getHeight()) / 2;
-                        addFrame.setLocation(x, y);
-
-                        JPanel addPanel = new JPanel(new BorderLayout());
-                        JProgressBar progressBar = new JProgressBar(0, 100);
-                        progressBar.setStringPainted(true);
-                        addPanel.add(new JLabel(adds[add]), BorderLayout.NORTH);
-                        addPanel.add(new JLabel(addPic), BorderLayout.CENTER);
-                        addPanel.add(progressBar, BorderLayout.SOUTH);
-                        addFrame.add(addPanel);
-
-                        addFrame.setVisible(true);
-
-                        for (int i = 0; i <= 100; i++) {
-                            progressBar.setValue(i);
-                            try {
-                                Thread.sleep((long) (3000 * 0.01));
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        addFrame.dispose();
-                    }
-                    long duration = userRegisteredC.getMovie(Integer.parseInt(aux[1])).getDuration();
-
-                    JFrame frame = new JFrame("Playing Movie");
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setSize(300, 150);
-                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                    int x = (screenSize.width - frame.getWidth()) / 2;
-                    int y = (screenSize.height - frame.getHeight()) / 2;
-                    frame.setLocation(x, y);
-
-                    JPanel moviePanel = new JPanel(new BorderLayout());
-                    JProgressBar progressBar = new JProgressBar(0, 100);
-                    progressBar.setStringPainted(true);
-
-                    moviePanel.add(progressBar, BorderLayout.CENTER);
-
-                    frame.add(moviePanel);
-
-                    frame.setVisible(true);
-
-                    for (int i = 0; i <= 100; i++) {
-                        progressBar.setValue(i);
-                        try {
-                            Thread.sleep((long) (duration * 0.01));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    frame.dispose();
-
-                    op = JOptionPane.showOptionDialog(null, "Movie played!", null, JOptionPane.PLAIN_MESSAGE,
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            new Object[] { "Choose other movie", "Return" },
-                            null);
-                    if (op == 1) {
-                        return 20;
-                    }
-                }
-            } else if (op == 1) {
-                if (seriesCategory.length > 0) {
-
-                    String[] aux = String.valueOf(categorySeries.getSelectedItem()).split("-");
-                    op = JOptionPane.showOptionDialog(null,
-                            "Serie name: " + userRegisteredC.getSerie(Integer.parseInt(aux[1])).getName() +
-                                    "\nDescription: "
-                                    + userRegisteredC.getSerie(Integer.parseInt(aux[1])).getDescription() +
-                                    "\nAuthor: " + userRegisteredC.getSerie(Integer.parseInt(aux[1])).getAuthor(),
-                            "See Movie ", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE,
-                            null, new Object[] { "See Seasons", "choose other serie" },
-                            null);
-
-                    if (op == 0) {
-                        while (true) {
-
-                            String seasonName = (String) JOptionPane.showInputDialog(null, "Choose a season",
-                                    "Season Menu", JOptionPane.PLAIN_MESSAGE,
-                                    null, userRegisteredC.serieSeasonsNames(Integer.parseInt(aux[1])), null);
-                            if (seasonName == null) {
-                                break;
-                            }
-                            while (true) {
-                                LocalTime currentLocalTime = LocalTime.now(ZoneId.of("America/Bogota"));
-                                if (userRegisteredC.getCurrentUser().getSub() != null) {
-                                    if (currentLocalTime.toNanoOfDay() / 1_000_000 >= userRegisteredC.getCurrentUser()
-                                            .getSub().getEndTime()) {
-                                        userRegisteredC.getCurrentUser().setSub(null);
-                                    }
-                                }
-                                String chapterName = (String) JOptionPane.showInputDialog(null, "Chose a chapter",
-                                        "Chapter Menu", JOptionPane.PLAIN_MESSAGE,
-                                        null, userRegisteredC.serieChapterNames(Integer.parseInt(aux[1]), seasonName),
-                                        null);
-                                if (chapterName == null) {
-                                    break;
-                                }
-                                op = JOptionPane.showOptionDialog(null, "Chapter name: " + chapterName +
-                                        "\nDuration: "
-                                        + userRegisteredC
-                                                .getSerieChapter(Integer.parseInt(aux[1]), seasonName, chapterName)
-                                                .getDuration()
-                                        + "\nDescription: "
-                                        + userRegisteredC
-                                                .getSerieChapter(Integer.parseInt(aux[1]), seasonName, chapterName)
-                                                .getDescription(),
-                                        "See Movie ", JOptionPane.PLAIN_MESSAGE,
-                                        JOptionPane.PLAIN_MESSAGE,
-                                        null,
-                                        new Object[] { "Play Chapter", "choose other chapter", "choose other season",
-                                                "choose other serie" },
-                                        null);
-
-                                if (op == 0) {
-                                    if (userRegisteredC.getCurrentUser().getSub() == null) {
-                                        int add = (int) (Math.random() * 5);
-                                        ImageIcon addPic = (ImageIcon) addsPics[add];
-                                        JFrame addFrame = new JFrame("Publicity Space");
-                                        addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                        addFrame.setSize(addPic.getIconWidth(), addPic.getIconHeight());
-                                        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                                        int x = (screenSize.width - addFrame.getWidth()) / 2;
-                                        int y = (screenSize.height - addFrame.getHeight()) / 2;
-                                        addFrame.setLocation(x, y);
-
-                                        JPanel addPanel = new JPanel(new BorderLayout());
-                                        JProgressBar progressBar = new JProgressBar(0, 100);
-                                        progressBar.setStringPainted(true);
-                                        addPanel.add(new JLabel(adds[add]), BorderLayout.NORTH);
-                                        addPanel.add(new JLabel(addPic), BorderLayout.CENTER);
-                                        addPanel.add(progressBar, BorderLayout.SOUTH);
-                                        addFrame.add(addPanel);
-
-                                        addFrame.setVisible(true);
-
-                                        for (int i = 0; i <= 100; i++) {
-                                            progressBar.setValue(i);
-                                            try {
-                                                Thread.sleep((long) (3000 * 0.01));
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                        addFrame.dispose();
-                                    }
-
-                                    JFrame frame = new JFrame("Playing Chap");
-                                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                    frame.setSize(300, 150);
-                                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                                    int x = (screenSize.width - frame.getWidth()) / 2;
-                                    int y = (screenSize.height - frame.getHeight()) / 2;
-                                    frame.setLocation(x, y);
-
-                                    JPanel chapterPanel = new JPanel(new BorderLayout());
-                                    JProgressBar progressBar = new JProgressBar(0, 100);
-                                    progressBar.setStringPainted(true);
-
-                                    chapterPanel.add(progressBar, BorderLayout.CENTER);
-                                    frame.add(chapterPanel);
-
-                                    frame.setVisible(true);
-                                    int duration = userRegisteredC
-                                            .getSerieChapter(Integer.parseInt(aux[1]), seasonName, chapterName)
-                                            .getDuration();
-
-                                    for (int i = 0; i < 100; i++) {
-
-                                        progressBar.setValue(i);
-                                        try {
-                                            Thread.sleep((int) (duration * 0.01));
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    frame.dispose();
-                                    op = JOptionPane.showOptionDialog(null, "chapter played!", null,
-                                            JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE,
-                                            null,
-                                            new Object[] { "Play other chapter", "choose other serie",
-                                                    "Choose other season" },
-                                            null);
-
-                                    if (op == 1) {
-                                        return 41;
-                                    } else if (op == 2) {
-                                        break;
-                                    }
-                                } else if (op == 2) {
-                                    break;
-                                } else if (op == 3) {
-                                    return 41;
-                                }
-                            }
-                        }
-                    }
-                }
-            } else if (op == 2) {
-                break;
-            }
-        }
         return 20;
     }
 

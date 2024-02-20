@@ -13,12 +13,24 @@ public class CategoryController {
     private ArrayList<Serie> series = new ArrayList<>();
     private Category currentCategory;
 
+    public CategoryController() {
+        loadCategories();
+    }
+
     public String[] categoriesNames() {
         String categoriesNames[] = new String[categories.size()];
         for (int i = 0; i < categories.size(); i++) {
             categoriesNames[i] = categories.get(i).getName();
         }
         return categoriesNames;
+    }
+
+    public ArrayList<Category> loadCategories() {
+        categories.add(new Category("Accion"));
+        categories.add(new Category("terror"));
+        categories.add(new Category("Drama"));
+
+        return categories;
     }
 
     public void categoryFound(String name) {

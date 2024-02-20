@@ -61,15 +61,16 @@ public class AdminController {
         return false;
     }
 
-    public void addMovie(String name, String author, String description, int duration) {
-        Movie newMovie = new Movie(assignid(), name, author, description, duration);
+    public void addMovie(String name, String author, String description, int duration, String nameCategorytegory) {
+        Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategorytegory);
         listMovies.add(newMovie);
         // admin.setMovies(listMovies);
         fm.writeFile("movies", newMovie);
     }
 
-    public void addSerie(String name, String author, String description, ArrayList<Season> seasons) {
-        Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons);
+    public void addSerie(String name, String author, String description, ArrayList<Season> seasons,
+            String nameCategory) {
+        Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons, nameCategory);
         listSeries.add(newSerie);
         // admin.setSeries(listSeries);
         fm.writeFile("series", newSerie);
