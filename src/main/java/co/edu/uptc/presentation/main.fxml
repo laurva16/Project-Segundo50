@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11" fx:controller="MainController">
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="Archivo">
+                    <items>
+                        <MenuItem text="Abrir" />
+                        <MenuItem text="Guardar" />
+                    </items>
+                </Menu>
+                <Menu text="Ayuda">
+                    <items>
+                        <MenuItem text="Acerca de" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+</BorderPane>
