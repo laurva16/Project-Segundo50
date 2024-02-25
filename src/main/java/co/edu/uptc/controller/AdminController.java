@@ -94,7 +94,7 @@ public class AdminController {
 
             listSeries.get(serieIndex).getSeasons().get(seasonIndex)
                     .getSeasonMultimediaContent()
-                    .add(new MultimediaContent(
+                    .add(new MultimediaContent(assignidChapter(serieIndex, seasonIndex),
                             duration, name,
                             description));
             fm.reWriteFile("series", listSeries);
@@ -248,7 +248,7 @@ public class AdminController {
     public ArrayList<MultimediaContent> createChapter(String name, String description, int duration) {
         ArrayList<MultimediaContent> listchapters = new ArrayList<MultimediaContent>();
 
-        listchapters.add(new MultimediaContent(duration, name, description));
+        listchapters.add(new MultimediaContent(assignidCreateChapter(listchapters), duration, name, description));
 
         return listchapters;
     }
@@ -352,33 +352,21 @@ public class AdminController {
     }
 
     public int assignid() {
-        int aux = 0;
-        ArrayList<Integer> ids = new ArrayList<>();
-        for (Movie m : listMovies) {
-            ids.add(m.getId());
-        }
-        while (true) {
-            aux = (int) (Math.random() * 1000);
-            if (!ids.contains(aux)) {
-                break;
-            }
-        }
-        return aux;
+        return listMovies.isEmpty() ? 1 : listMovies.size() + 1;
     }
 
     public int assignidSerie() {
-        int aux = 0;
-        ArrayList<Integer> ids = new ArrayList<>();
-        for (Serie s : listSeries) {
-            ids.add(s.getId());
-        }
-        while (true) {
-            aux = (int) (Math.random() * 1000);
-            if (!ids.contains(aux)) {
-                break;
-            }
-        }
-        return aux;
+        return listSeries.isEmpty() ? 1 : listSeries.size() + 1;
+    }
+
+    public int assignidChapter(int serieIndex, int seasonIndex) {
+        ArrayList<MultimediaContent> chapters = listSeries.get(serieIndex).getSeasons().get(seasonIndex)
+                .getSeasonMultimediaContent();
+        return chapters.isEmpty() ? 1 : chapters.size() + 1;
+    }
+
+    public int assignidCreateChapter(ArrayList<MultimediaContent> chapters) {
+        return chapters.isEmpty() ? 1 : chapters.size() + 1;
     }
 
     public Admin getAdmin() {

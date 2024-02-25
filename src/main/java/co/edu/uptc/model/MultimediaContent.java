@@ -12,7 +12,6 @@ public class MultimediaContent {
         this.name = name;
         this.author = author;
         this.description = description;
-
     }
 
     // Movie
@@ -23,15 +22,13 @@ public class MultimediaContent {
         this.duration = duration;
         this.author = author;
         this.description = description;
-
     }
 
     // Chapters
-    public MultimediaContent(int duration, String name, String description) {
+    public MultimediaContent(int id, int duration, String name, String description) {
         this.name = name;
         this.duration = duration;
         this.description = description;
-
     }
 
     public String getName() {
@@ -78,5 +75,4 @@ public class MultimediaContent {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-
 }
