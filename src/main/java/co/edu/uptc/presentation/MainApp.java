@@ -10,10 +10,15 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader
-                .load(getClass().getResource("main.fxml"));
-        primaryStage.setScene(new Scene(root, 600, 400));
-        primaryStage.setTitle("Menú Bar con FXML");
+        // Cargar el archivo FXML
+        Parent root = FXMLLoader.load(getClass().getResource("/co/edu/uptc/persistence/fxmlFiles/main.fxml"));
+
+        // Crear la escena
+        Scene scene = new Scene(root, 300, 200);
+
+        // Configurar la escena y mostrarla
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Ejemplo FXML");
         primaryStage.show();
     }
 
