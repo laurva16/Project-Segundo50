@@ -116,7 +116,6 @@ public class pruebafx extends Application {
     }
 
     public class BotonCelda extends TableCell<Movie, Void> {
-        // private final Button btnVer = new Button();
         private final Button btnEliminar = new Button();
         private final Button btnModificar = new Button();
         private final Button btnVer = new Button();
