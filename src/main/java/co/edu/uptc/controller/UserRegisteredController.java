@@ -206,7 +206,7 @@ public class UserRegisteredController {
             }
 
             if (targetSeason != null) {
-                List<MultimediaContent> chapters = targetSeason.getSeasonMultimediaContent();
+                List<MultimediaContent> chapters = targetSeason.getchapters();
                 String[] names = new String[chapters.size()];
 
                 for (int i = 0; i < chapters.size(); i++) {
@@ -238,7 +238,7 @@ public class UserRegisteredController {
 
             if (targetSeason != null) {
                 // Buscar el capítulo específico
-                for (MultimediaContent chapter : targetSeason.getSeasonMultimediaContent()) {
+                for (MultimediaContent chapter : targetSeason.getchapters()) {
                     if (chapter.getName().equals(chapterName)) {
                         return chapter;
                     }

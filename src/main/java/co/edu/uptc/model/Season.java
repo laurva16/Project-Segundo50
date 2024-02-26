@@ -5,24 +5,24 @@ import java.util.ArrayList;
 public class Season {
 
     private String seasonName;
-    private ArrayList<MultimediaContent> seasonMultimediaContent;
+    private ArrayList<MultimediaContent> chapters;
 
-    public Season(String seasonName, ArrayList<MultimediaContent> seasonMultimediaContent) {
+    public Season(String seasonName, ArrayList<MultimediaContent> chapters) {
 
         this.seasonName = seasonName;
-        this.seasonMultimediaContent = seasonMultimediaContent;
+        this.chapters = chapters;
     }
 
-    public ArrayList<MultimediaContent> getSeasonMultimediaContent() {
-        return seasonMultimediaContent;
+    public ArrayList<MultimediaContent> getchapters() {
+        return chapters;
     }
 
-    public void setSeasonMultimediaContent(ArrayList<MultimediaContent> seasonMultimediaContent) {
-        this.seasonMultimediaContent = seasonMultimediaContent;
+    public void setchapters(ArrayList<MultimediaContent> chapters) {
+        this.chapters = chapters;
     }
 
-    public void addSeasonMultimediaContent(MultimediaContent seasonMultimediaContent) {
-        this.seasonMultimediaContent.add(seasonMultimediaContent);
+    public void addchapters(MultimediaContent chapters) {
+        this.chapters.add(chapters);
     }
 
     public String getSeasonName() {

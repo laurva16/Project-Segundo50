@@ -37,6 +37,7 @@ public class AppTest {
         // ac.deleteChapter("temp1", 783, "cap2");
         // ac.addSerie("prueba2", "prueba", "prueba", new ArrayList<Season>());
         // ac.getMovies().forEach(System.out::println);
+        ac.addSerie("Serie1", "Su papa", "asdfasdf", new ArrayList<Season>(), "Jum");
     }
 
     @Test

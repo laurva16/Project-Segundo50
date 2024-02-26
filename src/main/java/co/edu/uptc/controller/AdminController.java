@@ -93,7 +93,7 @@ public class AdminController {
         if (serieIndex != -1 && seasonIndex != -1) {
 
             listSeries.get(serieIndex).getSeasons().get(seasonIndex)
-                    .getSeasonMultimediaContent()
+                    .getchapters()
                     .add(new MultimediaContent(assignidChapter(serieIndex, seasonIndex),
                             duration, name,
                             description));
@@ -134,9 +134,9 @@ public class AdminController {
 
     public int chapterFound(String nameSeason, int idSerie, String nameChapter) {
         for (int i = 0; i < listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(nameSeason, idSerie))
-                .getSeasonMultimediaContent().size(); i++) {
+                .getchapters().size(); i++) {
             if (listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(nameSeason, idSerie))
-                    .getSeasonMultimediaContent().get(i).getName().equals(nameChapter)) {
+                    .getchapters().get(i).getName().equals(nameChapter)) {
                 return i;
             }
         }
@@ -181,7 +181,7 @@ public class AdminController {
             if (s.getId() == idSerie) {
                 for (Season se : s.getSeasons()) {
                     if (se.getSeasonName().equals(seasonName)) {
-                        for (MultimediaContent chap : se.getSeasonMultimediaContent()) {
+                        for (MultimediaContent chap : se.getchapters()) {
                             aux.add(chap.getName());
                         }
                     }
@@ -200,7 +200,7 @@ public class AdminController {
             if (s.getId() == idSerie) {
                 for (Season se : s.getSeasons()) {
                     if (se.getSeasonName().equals(seasonName)) {
-                        for (MultimediaContent chap : se.getSeasonMultimediaContent()) {
+                        for (MultimediaContent chap : se.getchapters()) {
                             if (chap.getName().equals(chapName)) {
                                 return chap;
                             }
@@ -263,9 +263,9 @@ public class AdminController {
     public void deleteChapter(String nameSeason, int idSerie, String nameChapter) {
 
         listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(nameSeason, idSerie))
-                .getSeasonMultimediaContent()
+                .getchapters()
                 .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(nameSeason, idSerie))
-                        .getSeasonMultimediaContent().get(chapterFound(nameSeason, idSerie, nameChapter)));
+                        .getchapters().get(chapterFound(nameSeason, idSerie, nameChapter)));
         fm.reWriteFile("season", listSeries);
 
     }
@@ -281,7 +281,7 @@ public class AdminController {
     public ArrayList<String> showListChapterNames(int idSerie, String nameSeason) {
         ArrayList<String> chaptersNames = new ArrayList<>();
         for (MultimediaContent multimediaContent : listSeries.get(serieFound(idSerie)).getSeasons()
-                .get(seasonFound(nameSeason, idSerie)).getSeasonMultimediaContent()) {
+                .get(seasonFound(nameSeason, idSerie)).getchapters()) {
             chaptersNames.add(multimediaContent.getName());
         }
         return chaptersNames;
@@ -295,7 +295,7 @@ public class AdminController {
 
     public String showChapters(String nameSeason, int nameSerie, String nameChapter) {
         return listSeries.get(serieFound(nameSerie)).getSeasons().get(seasonFound(nameSeason, nameSerie))
-                .getSeasonMultimediaContent().get(chapterFound(nameSeason, nameSerie, nameChapter)).toString();
+                .getchapters().get(chapterFound(nameSeason, nameSerie, nameChapter)).toString();
     }
 
     public boolean modifySeries(String description, String name, String author, int Selected) {
@@ -321,13 +321,13 @@ public class AdminController {
         int auxChapter = chapterFound(SelectedSeason, Selected, SelectedChapter);
 
         if (aux != -1) {
-            listSeries.get(aux).getSeasons().get(auxSeason).getSeasonMultimediaContent().get(auxChapter)
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
                     .setDescription(description);
 
-            listSeries.get(aux).getSeasons().get(auxSeason).getSeasonMultimediaContent().get(auxChapter)
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
                     .setName(name);
 
-            listSeries.get(aux).getSeasons().get(auxSeason).getSeasonMultimediaContent().get(auxChapter)
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
                     .setDuration(duration);
 
             return true;
@@ -361,7 +361,7 @@ public class AdminController {
 
     public int assignidChapter(int serieIndex, int seasonIndex) {
         ArrayList<MultimediaContent> chapters = listSeries.get(serieIndex).getSeasons().get(seasonIndex)
-                .getSeasonMultimediaContent();
+                .getchapters();
         return chapters.isEmpty() ? 1 : chapters.size() + 1;
     }
 
@@ -411,7 +411,7 @@ public class AdminController {
             if (serie.getId() == idSerie) {
                 for (Season season : serie.getSeasons()) {
                     if (season.getSeasonName().equals(nameSeason)) {
-                        for (MultimediaContent chapter : season.getSeasonMultimediaContent())
+                        for (MultimediaContent chapter : season.getchapters())
                             if (chapter.getName().equalsIgnoreCase(nameChapter)) {
                                 return false;
                             }
@@ -497,7 +497,7 @@ public class AdminController {
 
     public boolean deletefirstchapter(String nameSeason, int idSerie) {
         if (listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(nameSeason, idSerie))
-                .getSeasonMultimediaContent().size() == 1) {
+                .getchapters().size() == 1) {
             return true;
         }
         return false;

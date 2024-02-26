@@ -80,11 +80,11 @@ public class PlayListController {
         int seasonPosition = getSeasonIndex(currentPlayList.getSeries().get(seriePosition).getSeasons(), seasonName);
 
         String names[] = new String[currentPlayList.getSeries().get(seriePosition).getSeasons().get(seasonPosition)
-                .getSeasonMultimediaContent().size()];
+                .getchapters().size()];
         for (int i = 0; i < currentPlayList.getSeries().get(seriePosition).getSeasons().get(seasonPosition)
-                .getSeasonMultimediaContent().size(); i++) {
+                .getchapters().size(); i++) {
             names[i] = currentPlayList.getSeries().get(seriePosition).getSeasons().get(seasonPosition)
-                    .getSeasonMultimediaContent().get(i).getName();
+                    .getchapters().get(i).getName();
         }
         return names;
     }
@@ -94,11 +94,11 @@ public class PlayListController {
         int seasonPosition = getSeasonIndex(currentPlayList.getSeries().get(seriePosition).getSeasons(), seasonName);
 
         for (int i = 0; i < currentPlayList.getSeries().get(seriePosition).getSeasons().get(seasonPosition)
-                .getSeasonMultimediaContent().size(); i++) {
+                .getchapters().size(); i++) {
             if (currentPlayList.getSeries().get(seriePosition).getSeasons().get(seasonPosition)
-                    .getSeasonMultimediaContent().get(i).getName().equals(chapterName)) {
+                    .getchapters().get(i).getName().equals(chapterName)) {
                 return currentPlayList.getSeries().get(seriePosition).getSeasons().get(seasonPosition)
-                        .getSeasonMultimediaContent().get(i);
+                        .getchapters().get(i);
             }
         }
         return null;

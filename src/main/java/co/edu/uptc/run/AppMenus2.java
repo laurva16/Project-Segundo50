@@ -1748,7 +1748,7 @@ public class AppMenus2 {
                                                                         .getSeasons()
                                                                         .get(ac.seasonFound(selectedSeasonName,
                                                                                 Integer.parseInt(names[1])))
-                                                                        .getSeasonMultimediaContent()
+                                                                        .getchapters()
                                                                         .get(ac.chapterFound(selectedSeasonName,
                                                                                 Integer.parseInt(names[1]),
                                                                                 selectedChaptername));
