@@ -26,6 +26,7 @@ public class MultimediaContent {
 
     // Chapters
     public MultimediaContent(int id, int duration, String name, String description) {
+        this.id = id;
         this.name = name;
         this.duration = duration;
         this.description = description;

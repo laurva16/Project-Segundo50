@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Season {
 
+    private int id;
     private String seasonName;
     private ArrayList<MultimediaContent> chapters;
 
-    public Season(String seasonName, ArrayList<MultimediaContent> chapters) {
-
+    public Season(int id, String seasonName, ArrayList<MultimediaContent> chapters) {
+        this.id = id;
         this.seasonName = seasonName;
         this.chapters = chapters;
     }
@@ -21,8 +22,8 @@ public class Season {
         this.chapters = chapters;
     }
 
-    public void addchapters(MultimediaContent chapters) {
-        this.chapters.add(chapters);
+    public void addchapters(MultimediaContent chapter) {
+        this.chapters.add(chapter);
     }
 
     public String getSeasonName() {
@@ -33,9 +34,16 @@ public class Season {
         this.seasonName = seasonName;
     }
 
-    @Override
-    public String toString() {
-        return "Season Name: " + seasonName;
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Season [id=" + id + ", seasonName=" + seasonName + "]";
+    }
 }

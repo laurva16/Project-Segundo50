@@ -795,7 +795,7 @@ public class AppMenus {
 
                                 if (confirmResult == JOptionPane.YES_OPTION) {
                                     ac.addSerie(name, author, description,
-                                            ac.createSeasons(seasonName,
+                                            ac.createSeasons(name, author, seasonName,
                                                     ac.createChapter(nameChapter, descriptionChapter,
                                                             durationChapter)),
                                             null);
@@ -847,7 +847,7 @@ public class AppMenus {
                                                         && ac.validateNumbers(durationChapter3)) {
                                                     int durationChapter2 = Integer.parseInt(durationChapter3);
                                                     ac.addChapter(nameChapter2, descriptionChapter2, durationChapter2,
-                                                            ac.getCurrentSerie().getId(), seasonName);
+                                                            name, author, seasonName);
                                                     JOptionPane.showMessageDialog(null,
                                                             "The chapter was added successfully!");
                                                     break;
@@ -1419,7 +1419,8 @@ public class AppMenus {
                                                     && ac.validarSinCharacterSpecial(seasonName)) {
                                                 // Agregar el primer capítulo a la temporada
                                                 int durationChapter = Integer.parseInt(durationChapter1);
-                                                ac.addSeason(Integer.parseInt(names[1]), seasonName,
+                                                // solución provicional del autor (luego se llama al autor también)
+                                                ac.addSeason(names[1], "Author", seasonName,
                                                         ac.createChapter(nameChapter,
                                                                 descriptionChapter, durationChapter));
                                                 JOptionPane.showMessageDialog(null, "Was created correctly");
@@ -1469,11 +1470,12 @@ public class AppMenus {
                                                                         && ac.validateDescription(descriptionChapter2)
                                                                         && ac.validarSinCharacterSpecial(
                                                                                 nameChapter2)) {
+                                                                    // Solución provicional con el autor de la serie
                                                                     int durationChapter2 = Integer
                                                                             .parseInt(durationChapter3);
                                                                     ac.addChapter(nameChapter2, descriptionChapter2,
                                                                             durationChapter2,
-                                                                            Integer.parseInt(names[1]), seasonName);
+                                                                            names[1], "Author", seasonName);
                                                                     JOptionPane.showMessageDialog(null,
                                                                             "Was created correctly");
                                                                     break;
@@ -1637,11 +1639,12 @@ public class AppMenus {
                                                                                     selectedSeasonName,
                                                                                     Integer.parseInt(names[1]),
                                                                                     nameChapter2)) {
+                                                                        // Solución provicional al autor de la serie
                                                                         int durationChapter2 = Integer
                                                                                 .parseInt(durationChapter3);
                                                                         ac.addChapter(nameChapter2, descriptionChapter2,
                                                                                 durationChapter2,
-                                                                                Integer.parseInt(names[1]),
+                                                                                names[1], "Author",
                                                                                 selectedSeasonName);
                                                                         JOptionPane.showMessageDialog(null,
                                                                                 "was created correctly");
