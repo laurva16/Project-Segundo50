@@ -825,7 +825,7 @@ public class AppMenus2 {
                                     if (selectedCategoryName != null) {
 
                                         ac.addSerie(name, author, description,
-                                                ac.createSeasons(name, author, seasonName,
+                                                ac.createSeasons(100, name,
                                                         ac.createChapter(nameChapter, descriptionChapter,
                                                                 durationChapter)),
                                                 selectedCategoryName);
@@ -878,7 +878,7 @@ public class AppMenus2 {
                                                             && ac.validateNumbers(durationChapter3)) {
                                                         int durationChapter2 = Integer.parseInt(durationChapter3);
                                                         ac.addChapter(nameChapter2, descriptionChapter2,
-                                                                durationChapter2, name, author, seasonName);
+                                                                durationChapter2, 100, 100);
                                                         JOptionPane.showMessageDialog(null,
                                                                 "The chapter was added successfully!");
                                                         break;
@@ -985,18 +985,18 @@ public class AppMenus2 {
                             while (true) {
                                 String selectedChaptername = (String) JOptionPane.showInputDialog(
                                         null,
-                                        ac.showSeason(selectedSeasonName, Integer.parseInt(names[1]))
+                                        ac.showSeason(100, Integer.parseInt(names[1]))
                                                 + "\nChoose a chapter",
                                         selectedSerieName + " seasons",
                                         JOptionPane.PLAIN_MESSAGE,
                                         null,
-                                        ac.showListChapterNames(Integer.parseInt(names[1]), selectedSeasonName)
+                                        ac.showListChapterNames(Integer.parseInt(names[1]), 100)
                                                 .toArray(),
                                         null);
 
                                 if (selectedChaptername != null) {
-                                    JOptionPane.showMessageDialog(null, ac.showChapters(selectedSeasonName,
-                                            Integer.parseInt(names[1]), selectedChaptername));
+                                    JOptionPane.showMessageDialog(null, ac.showChapters(100,
+                                            Integer.parseInt(names[1]), 100));
                                 } else {
                                     break;
                                 }
@@ -1395,19 +1395,19 @@ public class AppMenus2 {
                                         while (true) {
                                             String selectedChaptername = (String) JOptionPane.showInputDialog(
                                                     null,
-                                                    ac.showSeason(selectedSeasonName, Integer.parseInt(names[1]))
+                                                    ac.showSeason(100, Integer.parseInt(names[1]))
                                                             + "\nChoose a chapter",
                                                     selectedSerieName + " seasons",
                                                     JOptionPane.PLAIN_MESSAGE,
                                                     null,
                                                     ac.showListChapterNames(Integer.parseInt(names[1]),
-                                                            selectedSeasonName)
+                                                            100)
                                                             .toArray(),
                                                     null);
 
                                             if (selectedChaptername != null) {
-                                                JOptionPane.showMessageDialog(null, ac.showChapters(selectedSeasonName,
-                                                        Integer.parseInt(names[1]), selectedChaptername));
+                                                JOptionPane.showMessageDialog(null, ac.showChapters(100,
+                                                        Integer.parseInt(names[1]), 100));
                                             } else {
                                                 break;
                                             }
@@ -1460,7 +1460,7 @@ public class AppMenus2 {
                                                 // Agregar el primer capítulo a la temporada
                                                 // Solución provicional para agregar el autor
                                                 int durationChapter = Integer.parseInt(durationChapter1);
-                                                ac.addSeason(names[1], "Author", seasonName,
+                                                ac.addSeason(100, seasonName,
                                                         ac.createChapter(nameChapter,
                                                                 descriptionChapter, durationChapter));
                                                 JOptionPane.showMessageDialog(null, "Was created correctly");
@@ -1515,7 +1515,7 @@ public class AppMenus2 {
                                                                             .parseInt(durationChapter3);
                                                                     ac.addChapter(nameChapter2, descriptionChapter2,
                                                                             durationChapter2,
-                                                                            names[1], "Author", seasonName);
+                                                                            100, 100);
                                                                     JOptionPane.showMessageDialog(null,
                                                                             "Was created correctly");
                                                                     break;
@@ -1625,13 +1625,13 @@ public class AppMenus2 {
                                                                     JOptionPane.PLAIN_MESSAGE,
                                                                     null,
                                                                     ac.showListChapterNames(Integer.parseInt(names[1]),
-                                                                            selectedSeasonName).toArray(),
+                                                                            100).toArray(),
                                                                     null);
 
                                                             if (selectedChaptername != null) {
                                                                 JOptionPane.showMessageDialog(null, ac.showChapters(
-                                                                        selectedSeasonName, Integer.parseInt(names[1]),
-                                                                        selectedChaptername));
+                                                                        100, Integer.parseInt(names[1]),
+                                                                        100));
 
                                                             }
 
@@ -1684,8 +1684,8 @@ public class AppMenus2 {
                                                                                 .parseInt(durationChapter3);
                                                                         ac.addChapter(nameChapter2, descriptionChapter2,
                                                                                 durationChapter2,
-                                                                                names[1], "Author",
-                                                                                selectedSeasonName);
+                                                                                100,
+                                                                                100);
                                                                         JOptionPane.showMessageDialog(null,
                                                                                 "was created correctly");
                                                                         int confirmResult1 = JOptionPane
@@ -1739,7 +1739,7 @@ public class AppMenus2 {
                                                                             null,
                                                                             ac.showListChapterNames(
                                                                                     Integer.parseInt(names[1]),
-                                                                                    selectedSeasonName).toArray(),
+                                                                                    100).toArray(),
                                                                             null);
 
                                                             if (selectedChaptername != null) {
@@ -1748,12 +1748,12 @@ public class AppMenus2 {
                                                                 MultimediaContent selectedChapter = ac.getListSeries()
                                                                         .get(ac.serieFound(Integer.parseInt(names[1])))
                                                                         .getSeasons()
-                                                                        .get(ac.seasonFound(selectedSeasonName,
+                                                                        .get(ac.seasonFound(200,
                                                                                 Integer.parseInt(names[1])))
                                                                         .getchapters()
-                                                                        .get(ac.chapterFound(selectedSeasonName,
+                                                                        .get(ac.chapterFound(200,
                                                                                 Integer.parseInt(names[1]),
-                                                                                selectedChaptername));
+                                                                                100));
 
                                                                 JTextField nameChapterField2 = new JTextField(
                                                                         selectedChapter.getName());
@@ -1829,8 +1829,8 @@ public class AppMenus2 {
                                                                                 ac.modifyChapters(newDescription,
                                                                                         newName, durationChapter2,
                                                                                         Integer.parseInt(names[1]),
-                                                                                        selectedSeasonName,
-                                                                                        selectedChaptername);
+                                                                                        100,
+                                                                                        100);
 
                                                                                 JOptionPane.showMessageDialog(null,
                                                                                         "The chapter was modified successfully!");
@@ -1876,12 +1876,12 @@ public class AppMenus2 {
                                                                     JOptionPane.PLAIN_MESSAGE,
                                                                     null,
                                                                     ac.showListChapterNames(Integer.parseInt(names[1]),
-                                                                            selectedSeasonName).toArray(),
+                                                                            100).toArray(),
                                                                     null);
 
                                                             if (selectedChaptername != null) {
                                                                 int confirmResult = 0;
-                                                                if (ac.deletefirstchapter(selectedSeasonName,
+                                                                if (ac.deletefirstchapter(100,
                                                                         Integer.parseInt(names[1]))) {
 
                                                                     confirmResult = JOptionPane.showConfirmDialog(
@@ -1906,7 +1906,7 @@ public class AppMenus2 {
 
                                                                             return 10;
                                                                         }
-                                                                        ac.deleteSeason(selectedSeasonName,
+                                                                        ac.deleteSeason(100,
                                                                                 Integer.parseInt(names[1]));
                                                                         JOptionPane.showMessageDialog(null,
                                                                                 "The season was deleted successfully!");
@@ -1950,7 +1950,7 @@ public class AppMenus2 {
                                             case 1:
                                                 int seriesId = Integer.parseInt(names[1]);
                                                 int serieIndex = ac.serieFound(seriesId);
-                                                int seasonIndex = ac.seasonFound(selectedSeasonName, seriesId);
+                                                int seasonIndex = ac.seasonFound(100, seriesId);
 
                                                 if (serieIndex != -1 && seasonIndex != -1) {
                                                     JPanel panel4 = new JPanel(new GridLayout(1, 1, 2, 2));
@@ -1986,7 +1986,7 @@ public class AppMenus2 {
                                                                     && ac.validateName(newSeasonName)
                                                                     && ac.validarSinCharacterSpecial(newSeasonName)) {
                                                                 if (ac.modifySeason(newSeasonName, seriesId,
-                                                                        selectedSeasonName)) {
+                                                                        100)) {
                                                                     JOptionPane.showMessageDialog(null,
                                                                             "The season was modified successfully!");
                                                                     break;
@@ -2039,7 +2039,7 @@ public class AppMenus2 {
                                                         "Confirmation",
                                                         JOptionPane.YES_NO_OPTION);
                                                 if (confirmResult1 == JOptionPane.YES_OPTION) {
-                                                    ac.deleteSeason(selectedSeasonName, Integer.parseInt(names[1]));
+                                                    ac.deleteSeason(100, Integer.parseInt(names[1]));
                                                     JOptionPane.showMessageDialog(null,
                                                             "The season was deleted successfully!");
 
@@ -2053,7 +2053,7 @@ public class AppMenus2 {
                                                 }
 
                                             } else {
-                                                ac.deleteSeason(selectedSeasonName, Integer.parseInt(names[1]));
+                                                ac.deleteSeason(100, Integer.parseInt(names[1]));
                                                 JOptionPane.showMessageDialog(null,
                                                         "The season was deleted successfully!");
                                             }

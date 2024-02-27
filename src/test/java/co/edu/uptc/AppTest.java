@@ -1,5 +1,7 @@
 package co.edu.uptc;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import org.junit.Test;
 import co.edu.uptc.controller.AdminController;
@@ -33,22 +35,37 @@ public class AppTest {
         // ac.addSerie("prueba2", "prueba", "prueba", new ArrayList<Season>());
         // ac.getMovies().forEach(System.out::println);
         ac.addSerie("Serie1", "Su papa", "asdfasdf", new ArrayList<Season>(), "Jum");
-        ac.addSeason("Serie1", "Su papa", "Season1", null);
-        ac.addSeason("Serie1", "Su papa", "Season2", null);
-        ac.addChapter("Chapter1", "Holquehace", 23, "Serie1", "Su papa", "Season1");
-        ac.addChapter("Chapter2", "Holquehace", 23, "Serie1", "Su papa", "Season1");
+        ac.addSeason(459, "Season1", null);
+        ac.addSeason(459, "Season2", null);
+        ac.addChapter("Chapter1", "Holquehace", 23, 459, 1);
+        ac.addChapter("Chapter2", "Holquehace", 23, 459, 1);
 
-        ac.addSerie("Serie1", "Su mama", "asdfasdf", new ArrayList<Season>(), "Jum");
-        ac.addSeason("Serie1", "Su mama", "Season1", null);
-        ac.addSeason("Serie1", "Su mama", "Season2", null);
-        ac.addChapter("Chapter1", "Holquehace", 23, "Serie1", "Su mama", "Season1");
-        ac.addChapter("Chapter2", "Holquehace", 23, "Serie1", "Su mama", "Season1");
+        ac.addSerie("Serie2", "sumama", "asdfasdf", new ArrayList<Season>(), "Jum");
+        ac.addSeason(460, "Season1", null);
+        ac.addSeason(460, "Season2", null);
+        ac.addChapter("Chapter1", "Holquehace", 23, 460, 1);
+        ac.addChapter("Chapter2", "Holquehace", 23, 460, 1);
 
-        ac.addSerie("Serie3", "Su papa", "asdfasdf", new ArrayList<Season>(), "Jum");
-        ac.addSeason("Serie3", "Su papa", "Season1", null);
-        ac.addSeason("Serie3", "Su papa", "Season2", null);
-        ac.addChapter("Chapter1", "Holquehace", 23, "Serie3", "Su papa", "Season1");
-        ac.addChapter("Chapter1", "Holquehace", 23, "Serie3", "Su papa", "Season2");
+        ac.addSerie("Serie3", "Sutio", "asdfasdf", new ArrayList<Season>(), "Jum");
+        ac.addSeason(461, "Season1", null);
+        ac.addSeason(461, "Season2", null);
+        ac.addChapter("Chapter1", "Holquehace", 23, 461, 1);
+        ac.addChapter("Chapter1", "Holquehace", 23, 461, 2);
+    }
+
+    @Test
+    public void addMultimediaValidation() {
+        AdminController ac = new AdminController();
+
+        ac.addMovie("Name1", "Author1", null, 0, null);
+        ac.addMovie("Name2", "Author1", null, 0, null);
+        ac.addMovie("Name1", "Author2", null, 0, null);
+        ac.addMovie("Name1", "Author1", null, 0, null);
+
+        ac.addSerie("Name1", "Author1", null, new ArrayList<Season>(), null);
+        ac.addSerie("Name2", "Author1", null, new ArrayList<Season>(), null);
+        ac.addSerie("Name1", "Author2", null, new ArrayList<Season>(), null);
+        ac.addSerie("Name1", "Author1", null, new ArrayList<Season>(), null);
     }
 
     @Test

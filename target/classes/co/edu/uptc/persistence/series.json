@@ -2,39 +2,8 @@
   {
     "seasons": [
       {
-        "seasonName": "temp1",
-        "seasonMultimediaContent": [
-          {
-            "id": 2131,
-            "name": "cap1",
-            "duration": 60,
-            "description": "des"
-          },
-          {
-            "id": 0,
-            "name": "cap2",
-            "duration": 60,
-            "description": "des"
-          },
-          {
-            "id": 0,
-            "name": "cap2",
-            "duration": 60,
-            "description": "des"
-          },
-          {
-            "id": 0,
-            "name": "cap2",
-            "duration": 60,
-            "description": "des"
-          },
-          {
-            "id": 0,
-            "name": "cap2",
-            "duration": 60,
-            "description": "des"
-          }
-        ]
+        "id": 0,
+        "seasonName": "temp1"
       }
     ],
     "id": 784,
@@ -54,15 +23,8 @@
   {
     "seasons": [
       {
-        "seasonName": "asasasasa",
-        "seasonMultimediaContent": [
-          {
-            "id": 0,
-            "name": "asasasasa",
-            "duration": 12121212,
-            "description": "asasasasas"
-          }
-        ]
+        "id": 0,
+        "seasonName": "asasasasa"
       }
     ],
     "category": "terror",
@@ -71,5 +33,26 @@
     "duration": 0,
     "author": "aaaaaaaa",
     "description": "FINALLLLLL"
+  },
+  {
+    "seasons": [],
+    "id": 459,
+    "name": "Name1",
+    "duration": 0,
+    "author": "Author1"
+  },
+  {
+    "seasons": [],
+    "id": 460,
+    "name": "Name2",
+    "duration": 0,
+    "author": "Author1"
+  },
+  {
+    "seasons": [],
+    "id": 461,
+    "name": "Name1",
+    "duration": 0,
+    "author": "Author2"
   }
 ]

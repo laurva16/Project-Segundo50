@@ -151,7 +151,7 @@ public class EntryWindow extends Application {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Confirm deletion");
                 alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to delete this group?");
+                alert.setContentText("Are you sure you want to delete this movie?");
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
