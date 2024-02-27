@@ -6,6 +6,22 @@
   "configurations": [
     {
       "type": "java",
+      "name": "EntryWindow",
+      "request": "launch",
+      "mainClass": "co.edu.uptc.run.EntryWindow",
+      "projectName": "multimedia_project2",
+      "vmArgs": "--module-path 'C:\\Program Files\\Java\\javafx-sdk-21.0.2\\lib\\' --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media"
+
+    },
+    {
+      "type": "java",
+      "name": "PruebaFX",
+      "request": "launch",
+      "mainClass": "co.edu.uptc.run.PruebaFX",
+      "projectName": "multimedia_project2"
+    },
+    {
+      "type": "java",
       "name": "AppRun2",
       "request": "launch",
       "mainClass": "co.edu.uptc.run.AppRun2",
@@ -19,7 +35,10 @@
       "jdkPath": "${env:JAVA_HOME}/bin",
       "cwd": "${fileDirname}",
       "startupClass": "${fileBasenameNoExtension}",
-      "classpath": [".", "${fileDirname}"]
+      "classpath": [
+        ".",
+        "${fileDirname}"
+      ]
     },
     {
       "name": "Java Console App",
@@ -29,7 +48,10 @@
       "jdkPath": "${env:JAVA_HOME}/bin",
       "cwd": "${fileDirname}",
       "startupClass": "${fileBasenameNoExtension}",
-      "classpath": [".", "${fileDirname}"],
+      "classpath": [
+        ".",
+        "${fileDirname}"
+      ],
       "externalConsole": true
     },
     {
@@ -50,7 +72,8 @@
       "name": "pruebafx",
       "request": "launch",
       "mainClass": "co.edu.uptc.run.pruebafx",
-      "projectName": "multimedia_project2"
+      "projectName": "multimedia_project2",
+      "vmArgs": "--module-path 'C:\\Program Files\\Java\\javafx-sdk-21.0.2\\lib\\' --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media"
     }
   ]
 }
