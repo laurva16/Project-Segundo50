@@ -1,10 +1,11 @@
 co\edu\uptc\model\PlayList.class
+co\edu\uptc\run\EntryMovie.class
 co\edu\uptc\model\Movie.class
 co\edu\uptc\model\Serie.class
-co\edu\uptc\run\pruebafx.class
 co\edu\uptc\model\MultimediaContent.class
 co\edu\uptc\utilities\FileManagement.class
 co\edu\uptc\run\AppRun.class
+co\edu\uptc\run\EntryMovie$BotonCelda.class
 co\edu\uptc\controller\SubscriptionController.class
 co\edu\uptc\run\AppMenus.class
 co\edu\uptc\controller\CategoryController.class
@@ -12,10 +13,8 @@ co\edu\uptc\controller\UserRegisteredController.class
 co\edu\uptc\model\UserSubscription.class
 co\edu\uptc\model\Season.class
 co\edu\uptc\controller\AdminController.class
-co\edu\uptc\presentation\MainApp.class
 co\edu\uptc\model\Category.class
 co\edu\uptc\run\AppMenus2.class
-co\edu\uptc\presentation\MainController.class
 co\edu\uptc\controller\PlayListController.class
 co\edu\uptc\run\AppRun2.class
 co\edu\uptc\model\Person.class
