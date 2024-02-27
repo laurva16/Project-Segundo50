@@ -6,23 +6,18 @@
   "configurations": [
     {
       "type": "java",
-      "name": "EntryMovie",
+      "name": "EntryWindow",
       "request": "launch",
-      "mainClass": "co.edu.uptc.run.EntryMovie",
-      "projectName": "multimedia_project2"
+      "mainClass": "co.edu.uptc.run.EntryWindow",
+      "projectName": "multimedia_project2",
+      "vmArgs": "--module-path 'C:\\Program Files\\Java\\javafx-sdk-21.0.2\\lib\\' --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media"
+
     },
     {
       "type": "java",
       "name": "PruebaFX",
       "request": "launch",
       "mainClass": "co.edu.uptc.run.PruebaFX",
-      "projectName": "multimedia_project2"
-    },
-    {
-      "type": "java",
-      "name": "MainApp",
-      "request": "launch",
-      "mainClass": "co.edu.uptc.presentation.MainApp",
       "projectName": "multimedia_project2"
     },
     {

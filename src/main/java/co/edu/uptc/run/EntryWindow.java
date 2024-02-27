@@ -1,5 +1,6 @@
 package co.edu.uptc.run;
 
+import java.io.File;
 import java.util.Optional;
 
 import co.edu.uptc.controller.AdminController;
@@ -32,11 +33,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class pruebafx extends Application {
+public class EntryWindow extends Application {
     private TableView<Movie> tabla = new TableView<>();
     AdminController gc;
 
-    public pruebafx() {
+    public EntryWindow() {
         gc = new AdminController();
     }
 
@@ -104,7 +105,7 @@ public class pruebafx extends Application {
         Scene scene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
 
         // Configurar la escena y mostrarla
-        scene.getStylesheets().add(getClass().getResource("/co/styles/principal.css").toExternalForm());
+        scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         primaryStage.setScene(scene);
         primaryStage.setTitle("JavaFX MenuBar with CSS");
         primaryStage.setMaximized(true);
