@@ -1,6 +1,9 @@
 /* principal.css */
 .root {
-    -fx-background-color: black;
+    -fx-background-color: #191919;
+}
+.root2 {
+    -fx-background-color: #191919;
 }
 .menubar {
     -fx-background-color: #9C1428; /* Azul */

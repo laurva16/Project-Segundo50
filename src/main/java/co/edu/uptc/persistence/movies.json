@@ -23,5 +23,37 @@
     "name": "Name1",
     "duration": 0,
     "author": "Author2"
+  },
+  {
+    "category": "Horror",
+    "id": 7817,
+    "name": "pruebafx",
+    "duration": 300,
+    "author": "pruebafx",
+    "description": "pruebafx"
+  },
+  {
+    "category": "Drama",
+    "id": 7818,
+    "name": "asdf",
+    "duration": 123,
+    "author": "asdf",
+    "description": "asdf"
+  },
+  {
+    "category": "Romance",
+    "id": 7819,
+    "name": "asd",
+    "duration": 21,
+    "author": "asdf",
+    "description": "asffff"
+  },
+  {
+    "category": "Romance",
+    "id": 7820,
+    "name": "fff",
+    "duration": 2,
+    "author": "fff",
+    "description": "ff"
   }
 ]

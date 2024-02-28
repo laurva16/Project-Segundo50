@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Optional;
 
 import co.edu.uptc.controller.AdminController;
+import co.edu.uptc.controller.CategoryController;
+import co.edu.uptc.model.Category;
 import co.edu.uptc.model.Movie;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -16,37 +18,56 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class EntryWindow extends Application {
     private TableView<Movie> tabla = new TableView<>();
-    AdminController gc;
+    private Stage primaryStage;
+    private Scene newMovieScene;
+    private Scene movieScene;
+    Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+    TextField text1 = new TextField();
+    TextField text2 = new TextField();
+    TextField text3 = new TextField();
+    TextField text4 = new TextField();
+    ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    // controllers
+    AdminController adminC;
+    CategoryController categoryC;
 
     public EntryWindow() {
-        gc = new AdminController();
+        adminC = new AdminController();
+        categoryC = new CategoryController();
     }
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+
         BorderPane root = new BorderPane();
 
         MenuBar menuBar = new MenuBar();
-
         Menu MovieMenu = new Menu("Movie");
         Menu SerieMenu = new Menu("Serie");
 
@@ -58,7 +79,7 @@ public class EntryWindow extends Application {
         root.setTop(menuBar);
 
         // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-        ObservableList<Movie> grupos = FXCollections.observableArrayList(gc.getMovies());
+        ObservableList<Movie> grupos = FXCollections.observableArrayList(adminC.getMovies());
 
         TableColumn<Movie, String> IdColumn = new TableColumn<>("Id");
         TableColumn<Movie, String> facultyColumn = new TableColumn<>("Name");
@@ -87,14 +108,14 @@ public class EntryWindow extends Application {
         ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
         iconoAgregar.setFitWidth(22);
         iconoAgregar.setFitHeight(22);
-        Button botonFlotante = new Button();
-        botonFlotante.getStyleClass().add("boton-flotante");
-        botonFlotante.setGraphic(iconoAgregar);
+        Button addNewButton = new Button();
+        addNewButton.getStyleClass().add("boton-flotante");
+        addNewButton.setGraphic(iconoAgregar);
 
         // Agregar el botón flotante en la esquina inferior derecha
-        BorderPane.setAlignment(botonFlotante, Pos.BOTTOM_RIGHT);
-        BorderPane.setMargin(botonFlotante, new Insets(15));
-        root.setBottom(botonFlotante);
+        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+        BorderPane.setMargin(addNewButton, new Insets(15));
+        root.setBottom(addNewButton);
 
         // Agregar el StackPane que contiene la tabla al centro del BorderPane
         root.setCenter(stackPane);
@@ -102,18 +123,124 @@ public class EntryWindow extends Application {
         // Obtener dimensiones de la pantalla
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
-        Scene scene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
+        movieScene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
 
         // Configurar la escena y mostrarla
-        scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        primaryStage.setScene(scene);
+        movieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        primaryStage.setScene(movieScene);
         primaryStage.setTitle("JavaFX MenuBar with CSS");
         primaryStage.setMaximized(true);
         primaryStage.show();
+
+        // Add new Movie scene
+        addNewButton.setOnAction(event -> SwitchNewMovieScene());
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void SwitchNewMovieScene() {
+        BorderPane root2 = new BorderPane();
+        GridPane gridPane = new GridPane();
+
+        text1.setPrefWidth(300);
+        text2.setPrefWidth(300);
+        text3.setPrefWidth(300);
+        text4.setPrefWidth(300);
+
+        Label labelName = new Label("Movie name:");
+        Label labelDirector = new Label("Director name:");
+        Label labelDescription = new Label("Description:");
+        Label labelDuration = new Label("Duration:");
+        Label labelCategory = new Label("Category:");
+
+        choiceBox.setMaxSize(300, 20);
+        categoryC.getCategories().forEach(
+                category -> choiceBox.getItems().add(category.getName()));
+
+        gridPane.setMaxWidth(600);
+        gridPane.setMaxHeight(600);
+        gridPane.setAlignment(Pos.CENTER);
+
+        GridPane.setConstraints(labelName, 0, 0);
+        GridPane.setConstraints(labelDirector, 0, 1);
+        GridPane.setConstraints(labelDescription, 0, 2);
+        GridPane.setConstraints(labelDuration, 0, 3);
+        GridPane.setConstraints(labelCategory, 0, 4);
+
+        GridPane.setConstraints(text1, 1, 0);
+        GridPane.setConstraints(text2, 1, 1);
+        GridPane.setConstraints(text3, 1, 2);
+        GridPane.setConstraints(text4, 1, 3);
+        GridPane.setConstraints(choiceBox, 1, 4);
+
+        gridPane.setVgap(20);
+        gridPane.setHgap(0);
+
+        gridPane.getChildren().setAll(labelName, text1, labelDirector, text2, labelDescription, text3, labelDuration,
+                text4, labelCategory, choiceBox);
+        root2.setCenter(gridPane);
+
+        root2.setStyle("-fx-background-color: #191919;");
+        gridPane.setStyle("-fx-background-color: white;");
+
+        // Save buttton
+        Button acceptButton = new Button();
+
+        GridPane.setConstraints(acceptButton, 0, 5);
+        acceptButton.setTranslateY(100);
+        acceptButton.setText("Save");
+        acceptButton.setPrefWidth(150);
+        acceptButton.setOnAction(event -> addNewMovie());
+        GridPane.setHalignment(acceptButton, javafx.geometry.HPos.LEFT);
+
+        // Cancel buttton
+        Button cancelButton = new Button();
+        GridPane.setConstraints(cancelButton, 1, 5);
+        cancelButton.setTranslateY(100);
+        cancelButton.setText("Cancel");
+        cancelButton.setPrefWidth(150);
+        GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
+
+        cancelButton.setOnAction(event -> cancelNewMovie());
+
+        gridPane.getChildren().addAll(acceptButton, cancelButton);
+
+        // Crear la escena
+        newMovieScene = new Scene(root2, screenBounds.getWidth(), screenBounds.getHeight());
+        
+        // Establecer la escena en la ventana
+        primaryStage.setScene(newMovieScene);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle("New Movie Scene");
+        primaryStage.show();
+    }
+
+    void cancelNewMovie(){
+       // primaryStage.setMaximized(true);
+        primaryStage.setScene(movieScene);
+    }
+    public boolean addNewMovie() {
+
+        Boolean saved = false;
+        // ventana de confirmacion
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar");
+        alert.setHeaderText(null);
+        alert.setContentText("You want to save to changes?");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+
+                adminC.addMovie(text1.getText(), text2.getText(), text3.getText(), Integer.parseInt(text4.getText()),
+                        choiceBox.getValue());
+                primaryStage.setScene(movieScene);
+            } else {
+            }
+        });
+        return saved;
+
     }
 
     public class BotonCelda extends TableCell<Movie, Void> {
@@ -155,7 +282,7 @@ public class EntryWindow extends Application {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    gc.deleteMovie(grupo.getId());
+                    adminC.deleteMovie(grupo.getId());
 
                     tabla.getItems().remove(grupo);
                     // gc.creararchivoJson(gc.getGroupList(),

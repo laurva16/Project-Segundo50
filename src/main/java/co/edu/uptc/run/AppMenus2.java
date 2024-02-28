@@ -68,8 +68,8 @@ public class AppMenus2 {
         ac.setAdmin(admin);
         userRegisteredC.setMovies(admin.getMovies());
         userRegisteredC.setSeries(admin.getSeries());
-        ac.setListMovies(admin.getMovies());
-        ac.setListSeries(admin.getSeries());
+        //ac.setListMovies(admin.getMovies());
+        //ac.setListSeries(admin.getSeries());
         playListC.setMovies(admin.getMovies());
         playListC.setSeries(admin.getSeries());
         categoryC.setMovies(admin.getMovies());
