@@ -5,18 +5,17 @@
 .menubar {
     -fx-background-color: #9C1428; /* Azul */
     -fx-font-family: sans-serif;
+    -fx-pref-height: 60px;
 }
 
 .menu {
-    -fx-pref-height: 80px;
+    -fx-pref-height: 60px;
     -fx-pref-width: 90px;
     -fx-background-color: #9C1428; /* Azul */
-}
-
-.menu .label {
     -fx-alignment: center; /* Centrar texto */
     -fx-font-size: 16px; /* Tamaño de letra */
 }
+
 
 .boton-flotante {
     -fx-background-color: #5c5c5c;

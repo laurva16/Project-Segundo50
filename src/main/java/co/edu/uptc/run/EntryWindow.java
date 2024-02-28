@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.model.Movie;
+import co.edu.uptc.model.Serie;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,29 +14,30 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToolBar;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class EntryWindow extends Application {
-    private TableView<Movie> tabla = new TableView<>();
-    AdminController gc;
+    private TableView<Movie> tablaMovie = new TableView<>();
+    private TableView<Serie> tablaSerie = new TableView<>();
+    private Stage primaryStage;
+    private AdminController gc;
+    private Scene scene1, scene2;
+    private Button botonFlotante = new Button();
 
     public EntryWindow() {
         gc = new AdminController();
@@ -43,18 +45,9 @@ public class EntryWindow extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         BorderPane root = new BorderPane();
-
-        MenuBar menuBar = new MenuBar();
-
-        Menu MovieMenu = new Menu("Movie");
-        Menu SerieMenu = new Menu("Serie");
-
-        menuBar.getMenus().add(MovieMenu);
-        menuBar.getMenus().add(SerieMenu);
-
-        menuBar.getStyleClass().add("menubar");
-
+        ToolBar menuBar = createMenuBar();
         root.setTop(menuBar);
 
         // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
@@ -68,45 +61,45 @@ public class EntryWindow extends Application {
         facultyColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nombreGrupoColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
-        tabla.getColumns().addAll(IdColumn, facultyColumn, nombreGrupoColumn);
+        tablaMovie.getColumns().addAll(IdColumn, facultyColumn, nombreGrupoColumn);
 
         // Establecer ancho máximo para la tabla
-        tabla.setMaxWidth(600);
+        tablaMovie.setMaxWidth(600);
 
         // Agregar columna de botones
         TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Actions");
         accionesColumna.setCellFactory(param -> new BotonCelda());
-        tabla.getColumns().add(accionesColumna);
+        tablaMovie.getColumns().add(accionesColumna);
 
-        tabla.setItems(grupos);
+        tablaMovie.setItems(grupos);
 
-        StackPane stackPane = new StackPane(tabla);
+        StackPane stackPane = new StackPane(tablaMovie, botonFlotante);
         stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
+        StackPane.setMargin(tablaMovie, new Insets(20)); // Agregar margen a la tabla
 
         // Crear un botón flotante
         ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
         iconoAgregar.setFitWidth(22);
         iconoAgregar.setFitHeight(22);
-        Button botonFlotante = new Button();
         botonFlotante.getStyleClass().add("boton-flotante");
         botonFlotante.setGraphic(iconoAgregar);
 
         // Agregar el botón flotante en la esquina inferior derecha
         BorderPane.setAlignment(botonFlotante, Pos.BOTTOM_RIGHT);
-        BorderPane.setMargin(botonFlotante, new Insets(15));
-        root.setBottom(botonFlotante);
+        BorderPane.setMargin(botonFlotante, new Insets(20));
 
         // Agregar el StackPane que contiene la tabla al centro del BorderPane
         root.setCenter(stackPane);
+        root.setBottom(botonFlotante);
 
         // Obtener dimensiones de la pantalla
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
-        Scene scene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
+        scene1 = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
 
         // Configurar la escena y mostrarla
-        scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        primaryStage.setScene(scene);
+        scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        primaryStage.setScene(scene1);
         primaryStage.setTitle("JavaFX MenuBar with CSS");
         primaryStage.setMaximized(true);
         primaryStage.show();
@@ -157,41 +150,19 @@ public class EntryWindow extends Application {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     gc.deleteMovie(grupo.getId());
 
-                    tabla.getItems().remove(grupo);
-                    // gc.creararchivoJson(gc.getGroupList(),
-                    // "src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json");
-
+                    tablaMovie.getItems().remove(grupo);
                 }
             });
 
             btnVer.setOnAction(event -> {
                 // Group group = getTableView().getItems().get(getIndex());
                 // modifyGroup modifyGroupWindow = new modifyGroup(gc, group, group.getId());
-
-                // Obtiene el Stage actual
-                Stage currentStage = (Stage) tabla.getScene().getWindow();
-
-                // Cierra la ventana actual (TestTabla)
-                currentStage.close();
-
-                // Abre la ventana modifyGroup
-                Stage modifyGroupStage = new Stage();
-                // modifyGroupWindow.start(modifyGroupStage);
             });
 
             btnModificar.setOnAction(event -> {
                 // Group group = getTableView().getItems().get(getIndex());
                 // modifyGroup modifyGroupWindow = new modifyGroup(gc, group, group.getId());
 
-                // Obtiene el Stage actual
-                Stage currentStage = (Stage) tabla.getScene().getWindow();
-
-                // Cierra la ventana actual (TestTabla)
-                currentStage.close();
-
-                // Abre la ventana modifyGroup
-                Stage modifyGroupStage = new Stage();
-                // modifyGroupWindow.start(modifyGroupStage);
             });
 
             // Configura el contenido de las celdas para mostrar los botones
@@ -211,4 +182,150 @@ public class EntryWindow extends Application {
         }
     }
 
+    private ToolBar createMenuBar() {
+        Button movieButton = new Button("Movie");
+        Button serieButton = new Button("Serie");
+
+        // Asignar acciones a los botones
+        movieButton.setOnAction(event -> {
+            // Aquí va la lógica para mostrar la ventana de películas
+            cambiarAEscena1();
+        });
+
+        serieButton.setOnAction(event -> {
+            entryWindowSerie();
+        });
+
+        // Crear la barra de herramientas y agregar los botones
+        ToolBar toolBar = new ToolBar(movieButton, serieButton);
+        toolBar.getStyleClass().add("menubar");
+        movieButton.getStyleClass().add("menu");
+        serieButton.getStyleClass().add("menu");
+
+        return toolBar;
+    }
+
+    private void entryWindowSerie() {
+        if (scene2 == null) {
+            BorderPane root2 = new BorderPane();
+            ToolBar menuBar = createMenuBar();
+            root2.setTop(menuBar);
+
+            // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
+            ObservableList<Serie> series = FXCollections.observableArrayList(gc.getListSeries());
+
+            TableColumn<Serie, String> IdColumn = new TableColumn<>("Id");
+            TableColumn<Serie, String> facultyColumn = new TableColumn<>("Name");
+            TableColumn<Serie, String> nombreGrupoColumn = new TableColumn<>("Director");
+
+            IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+            facultyColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            nombreGrupoColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+
+            tablaSerie.getColumns().addAll(IdColumn, facultyColumn, nombreGrupoColumn);
+
+            // Establecer ancho máximo para la tabla
+            tablaSerie.setMaxWidth(600);
+
+            // Agregar columna de botones
+            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Actions");
+            accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
+            tablaSerie.getColumns().add(accionesColumna);
+
+            tablaSerie.setItems(series);
+
+            StackPane stackPane = new StackPane(tablaSerie);
+            stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
+            StackPane.setMargin(tablaSerie, new Insets(20)); // Agregar margen a la tabla
+
+            // Agregar el StackPane que contiene la tabla al centro del BorderPane
+            root2.setCenter(stackPane);
+
+            // Obtener dimensiones de la pantalla
+            Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+
+            scene2 = new Scene(root2, screenBounds.getWidth(), screenBounds.getHeight());
+
+            // Configurar la escena y mostrarla
+            scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        }
+        primaryStage.setScene(scene2);
+        primaryStage.setTitle("JavaFX series with CSS");
+        primaryStage.setMaximized(true);
+    }
+
+    public class BotonCeldaSerie extends TableCell<Serie, Void> {
+        private final Button btnEliminar = new Button();
+        private final Button btnModificar = new Button();
+        private final Button btnVer = new Button();
+
+        public BotonCeldaSerie() {
+            // Configura los íconos para los botones
+
+            ImageView iconoEliminar = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
+            ImageView iconoModificar = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
+            ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
+
+            iconoEliminar.setFitWidth(16);
+            iconoEliminar.setFitHeight(16);
+
+            iconoModificar.setFitWidth(16);
+            iconoModificar.setFitHeight(16);
+
+            iconover.setFitWidth(16);
+            iconover.setFitHeight(16);
+
+            btnEliminar.setGraphic(iconoEliminar);
+            btnModificar.setGraphic(iconoModificar);
+            btnVer.setGraphic(iconover);
+
+            btnEliminar.getStyleClass().add("boton-eliminar");
+            btnModificar.getStyleClass().add("boton-modificar");
+            btnVer.getStyleClass().add("boton-ver");
+
+            btnEliminar.setOnAction(event -> {
+                Serie serie = getTableView().getItems().get(getIndex());
+                // Mostrar una ventana emergente de confirmación
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirm deletion");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to delete this serie?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    gc.deleteSerie(serie.getId());
+                    tablaSerie.getItems().remove(serie);
+                }
+            });
+
+            btnVer.setOnAction(event -> {
+                // Serie serie = getTableView().getItems().get(getIndex());
+                // modifySerie modifySerieWindow = new modifySerie(gc, serie, serie.getId());
+            });
+
+            btnModificar.setOnAction(event -> {
+                // Serie serie = getTableView().getItems().get(getIndex());
+                // modifySerie modifySerieWindow = new modifySerie(gc, serie, serie.getId());
+            });
+
+            // Configura el contenido de las celdas para mostrar los botones
+            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                HBox botonesContainer = new HBox(btnVer, btnEliminar, btnModificar);
+                botonesContainer.setSpacing(5);
+                setGraphic(botonesContainer);
+            }
+        }
+    }
+
+    private void cambiarAEscena1() {
+        primaryStage.setScene(scene1);
+    }
 }
