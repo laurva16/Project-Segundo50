@@ -68,8 +68,8 @@ public class AppMenus2 {
         ac.setAdmin(admin);
         userRegisteredC.setMovies(admin.getMovies());
         userRegisteredC.setSeries(admin.getSeries());
-        ac.setListMovies(admin.getMovies());
-        ac.setListSeries(admin.getSeries());
+        //ac.setListMovies(admin.getMovies());
+        //ac.setListSeries(admin.getSeries());
         playListC.setMovies(admin.getMovies());
         playListC.setSeries(admin.getSeries());
         categoryC.setMovies(admin.getMovies());
@@ -682,7 +682,7 @@ public class AppMenus2 {
                         for (PlayList playL : user.getplayList()) {
                             for (Movie m : playL.getMovies()) {
                                 if (m.getId() == Integer.parseInt(aux[1])) {
-                                    playL.removeMovie(m);
+                                    //playL.removeMovie(m);
                                     break;
                                 }
                             }
@@ -955,6 +955,8 @@ public class AppMenus2 {
     // menu(12)------------------------------------------------------------------------//
 
     public int ShowSeriesMenu(int op) {
+        
+        
         if (ac.getListSeries().isEmpty()) {
             JOptionPane.showMessageDialog(null, "There are no series created yet");
         } else {
@@ -1186,6 +1188,8 @@ public class AppMenus2 {
 
     // Menu(22)
     public int ShowSeries(int op) {
+
+        ac.getListSeries().forEach(System.out::println);
         String[] serieNames = userRegisteredC.getSerieNames();
         if (serieNames.length == 0) {
             JOptionPane.showMessageDialog(null, "There are not series available", "User Series Menu",
@@ -2184,7 +2188,7 @@ public class AppMenus2 {
                         for (PlayList playL : user.getplayList()) {
                             for (Serie m : playL.getSeries()) {
                                 if (m.getId() == Integer.parseInt(aux[1])) {
-                                    playL.removeSerie(m);
+                                    //playL.removeSerie(m);
                                     break;
                                 }
                             }

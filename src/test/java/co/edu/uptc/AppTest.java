@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
+import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.Season;
 
 /**
@@ -58,4 +59,21 @@ public class AppTest {
         uc.addUser("yovani ", "basquez", 1234, "jusad");
         uc.getListUsers();
     }
+
+    @Test
+    public void MultimediaListInUsersLogin() {
+        UserRegisteredController uc = new UserRegisteredController();
+        AdminController ac = new AdminController();
+        System.out.println("entro");
+        // if(uc.couldLogIn("yovani1234@uptc.edu.co", "jusad")){
+        System.out.println(uc.getCurrentUser().getFirstName());
+
+        ac.getListSeries().forEach(System.out::println);
+        // ac.getListMovies().forEach(System.out::println);
+        uc.getCurrentUser();
+        //uc.addMovieToPlayList(new Movie(2134, "neuvo", "asd", "sadf",200, null, );
+        uc.updateUserInformation();
+
+    }
+
 }

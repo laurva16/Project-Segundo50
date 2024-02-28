@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
+import co.edu.uptc.model.PlayList;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
@@ -17,7 +18,7 @@ import co.edu.uptc.utilities.FileManagement;
 public class UserRegisteredController {
 
     private ArrayList<UserRegistered> listUsers = new ArrayList<>();
-    private UserRegistered currentUser;
+    private UserRegistered currentUser = new UserRegistered();
     private Admin admin;
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Serie> series = new ArrayList<>();
@@ -40,6 +41,39 @@ public class UserRegisteredController {
     public ArrayList<UserRegistered> getListUsers() {
         return listUsers;
     }
+
+    public boolean couldLogIn(String userName, String password) {
+        for (UserRegistered user : listUsers) {
+            if (user.getUser().equals(userName) && user.getPassword().equals(password)) {
+                currentUser = user;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // encargado de la actualización de alguna de las variables de currentUser
+    public boolean updateUserInformation( ){
+        for(UserRegistered user : listUsers){
+            if(user.getId() == currentUser.getId()){
+                return fm.reWriteFile("users", listUsers);
+            }
+        }
+        return false;
+    }
+
+    /*
+     *  public boolean addMovieToPlayList(Movie object, String playlistName){
+        for(PlayList list: currentUser.getplayList()){
+            if(list.getName().equals(playlistName)){
+                list.getMovies().add(object);
+                return true;
+            }
+        }
+        return true;
+    }
+     */
+   
 
     public boolean idFound(int id) {
         for (UserRegistered i : listUsers) {
