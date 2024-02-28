@@ -52,6 +52,9 @@ public class EntryWindow extends Application {
     TextField text3 = new TextField();
     TextField text4 = new TextField();
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+    double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+    
     // controllers
     AdminController adminC;
     CategoryController categoryC;
@@ -59,6 +62,8 @@ public class EntryWindow extends Application {
     public EntryWindow() {
         adminC = new AdminController();
         categoryC = new CategoryController();
+        categoryC.getCategories().forEach(
+                category -> choiceBox.getItems().add(category.getName()));
     }
 
     @Override
@@ -109,6 +114,7 @@ public class EntryWindow extends Application {
         iconoAgregar.setFitWidth(22);
         iconoAgregar.setFitHeight(22);
         Button addNewButton = new Button();
+        addNewButton.setTranslateY(-20);
         addNewButton.getStyleClass().add("boton-flotante");
         addNewButton.setGraphic(iconoAgregar);
 
@@ -123,7 +129,7 @@ public class EntryWindow extends Application {
         // Obtener dimensiones de la pantalla
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
-        movieScene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
+        movieScene = new Scene(root, screenWidth, screenHeight);
 
         // Configurar la escena y mostrarla
         movieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
@@ -142,6 +148,8 @@ public class EntryWindow extends Application {
 
     public void SwitchNewMovieScene() {
         BorderPane root2 = new BorderPane();
+        root2.setId("root2");
+        
         GridPane gridPane = new GridPane();
 
         text1.setPrefWidth(300);
@@ -149,15 +157,15 @@ public class EntryWindow extends Application {
         text3.setPrefWidth(300);
         text4.setPrefWidth(300);
 
+        
         Label labelName = new Label("Movie name:");
         Label labelDirector = new Label("Director name:");
         Label labelDescription = new Label("Description:");
         Label labelDuration = new Label("Duration:");
         Label labelCategory = new Label("Category:");
 
+        
         choiceBox.setMaxSize(300, 20);
-        categoryC.getCategories().forEach(
-                category -> choiceBox.getItems().add(category.getName()));
 
         gridPane.setMaxWidth(600);
         gridPane.setMaxHeight(600);
@@ -204,12 +212,15 @@ public class EntryWindow extends Application {
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
 
         cancelButton.setOnAction(event -> cancelNewMovie());
-
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
-        newMovieScene = new Scene(root2, screenBounds.getWidth(), screenBounds.getHeight());
-        
+        newMovieScene = new Scene(root2, screenWidth, screenHeight);
+        //aplicar CSS
+        newMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        cancelButton.setId("button");
+        acceptButton.setId("button");
+
         // Establecer la escena en la ventana
         primaryStage.setScene(newMovieScene);
         primaryStage.setMaximized(true);
@@ -218,9 +229,9 @@ public class EntryWindow extends Application {
     }
 
     void cancelNewMovie(){
-       // primaryStage.setMaximized(true);
         primaryStage.setScene(movieScene);
     }
+
     public boolean addNewMovie() {
 
         Boolean saved = false;

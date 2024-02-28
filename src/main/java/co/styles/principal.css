@@ -2,12 +2,14 @@
 .root {
     -fx-background-color: #191919;
 }
-.root2 {
-    -fx-background-color: #191919;
+#root2 {
+    -fx-font-size: 16px;
+    -fx-font-family: sans-serif;
 }
 .menubar {
     -fx-background-color: #9C1428; /* Azul */
     -fx-font-family: sans-serif;
+    
 }
 
 .menu {
@@ -56,5 +58,12 @@
 .boton-flotante {
     -fx-background-color: green;
 }
-
+#button {
+    -fx-background-color: #9C1428;
+    -fx-text-fill: white;
+}
+#button:hover {
+    -fx-background-color: #c8c8c8; /* Color de fondo */
+    -fx-text-fill: black; /* Color del texto */
+}
 
