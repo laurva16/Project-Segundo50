@@ -1,4 +1,5 @@
 co\edu\uptc\model\Movie.class
+co\edu\uptc\run\pruebafx.class
 co\edu\uptc\utilities\FileManagement.class
 co\edu\uptc\run\AppMenus.class
 co\edu\uptc\model\UserSubscription.class
@@ -19,5 +20,6 @@ co\edu\uptc\controller\CategoryController.class
 co\edu\uptc\controller\UserRegisteredController.class
 co\edu\uptc\model\Season.class
 co\edu\uptc\model\Person.class
+co\edu\uptc\run\CreateSerie.class
 co\edu\uptc\model\Admin.class
 co\edu\uptc\run\EntryWindow$BotonCelda.class
