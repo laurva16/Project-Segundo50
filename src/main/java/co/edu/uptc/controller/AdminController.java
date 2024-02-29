@@ -53,30 +53,29 @@ public class AdminController {
         if (serieFound(idSerie) != -1) {
             // admin.setSeries(listSeries);
             listSeries.remove(listSeries.get(serieFound(idSerie)));
-            return fm.reWriteFile("series", listSeries);
+            fm.reWriteFile("series", listSeries);
+            return true;
         }
         return false;
     }
 
-    public boolean addMovie(String name, String author, String description, int duration, String nameCategory) {
+    public void addMovie(String name, String author, String description, int duration, String nameCategorytegory) {
         if (addMultimediaValidation(name, author, 1)) {
-            Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategory);
+            Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategorytegory);
             listMovies.add(newMovie);
             // admin.setMovies(listMovies);
-            return fm.writeFile("movies", newMovie);
+            fm.writeFile("movies", newMovie);
         }
-        return false;
     }
 
-    public boolean addSerie(String name, String author, String description, ArrayList<Season> seasons,
+    public void addSerie(String name, String author, String description, ArrayList<Season> seasons,
             String nameCategory) {
         if (addMultimediaValidation(name, author, 2)) {
             Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons, nameCategory);
             listSeries.add(newSerie);
             // admin.setSeries(listSeries);
-            return fm.writeFile("series", newSerie);
+            fm.writeFile("series", newSerie);
         }
-        return false;
     }
 
     public boolean addSeason(int idSerie, String nameSeason,
