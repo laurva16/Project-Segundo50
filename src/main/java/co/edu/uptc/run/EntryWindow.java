@@ -38,6 +38,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -54,7 +55,13 @@ public class EntryWindow extends Application {
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-    
+    Label labelName = new Label("Movie name:");
+    Label labelDirector = new Label("Director name:");
+    Label labelDescription = new Label("Description:");
+    Label labelDuration = new Label("Duration:");
+    Label labelCategory = new Label("Category:");    
+    Label labelWarning;
+
     // controllers
     AdminController adminC;
     CategoryController categoryC;
@@ -157,14 +164,9 @@ public class EntryWindow extends Application {
         text3.setPrefWidth(300);
         text4.setPrefWidth(300);
 
-        
-        Label labelName = new Label("Movie name:");
-        Label labelDirector = new Label("Director name:");
-        Label labelDescription = new Label("Description:");
-        Label labelDuration = new Label("Duration:");
-        Label labelCategory = new Label("Category:");
+        labelWarning = new Label("* All fields must be filled!");
+        labelWarning.setVisible(false);
 
-        
         choiceBox.setMaxSize(300, 20);
 
         gridPane.setMaxWidth(600);
@@ -176,18 +178,21 @@ public class EntryWindow extends Application {
         GridPane.setConstraints(labelDescription, 0, 2);
         GridPane.setConstraints(labelDuration, 0, 3);
         GridPane.setConstraints(labelCategory, 0, 4);
+        
+        GridPane.setConstraints(labelWarning, 1, 5);
+        GridPane.setHalignment(labelWarning, javafx.geometry.HPos.RIGHT);
 
         GridPane.setConstraints(text1, 1, 0);
         GridPane.setConstraints(text2, 1, 1);
         GridPane.setConstraints(text3, 1, 2);
         GridPane.setConstraints(text4, 1, 3);
         GridPane.setConstraints(choiceBox, 1, 4);
-
+        
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
         gridPane.getChildren().setAll(labelName, text1, labelDirector, text2, labelDescription, text3, labelDuration,
-                text4, labelCategory, choiceBox);
+                text4, labelCategory, choiceBox, labelWarning);
         root2.setCenter(gridPane);
 
         root2.setStyle("-fx-background-color: #191919;");
@@ -220,6 +225,7 @@ public class EntryWindow extends Application {
         newMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
+        labelWarning.setId("warning");
 
         // Establecer la escena en la ventana
         primaryStage.setScene(newMovieScene);
@@ -232,32 +238,48 @@ public class EntryWindow extends Application {
         primaryStage.setScene(movieScene);
     }
 
-    public boolean addNewMovie() {
-
-        Boolean saved = false;
-        // ventana de confirmacion
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar");
-        alert.setHeaderText(null);
-        alert.setContentText("You want to save to changes?");
-
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-
-                adminC.addMovie(text1.getText(), text2.getText(), text3.getText(), Integer.parseInt(text4.getText()),
-                        choiceBox.getValue());
-                primaryStage.setScene(movieScene);
-            } else {
+    public void addNewMovie() {
+        Boolean numberValid;
+        try {
+            Integer.parseInt(text4.getText());
+            numberValid = true;
+        } catch (Exception e) {
+            numberValid = false;
+        }
+       
+        if(!numberValid && (!text4.getText().isEmpty())){
+            labelWarning.setText("* Duration format is invalid !");
+            labelWarning.setVisible(true);
+        } else{
+            labelWarning.setText("* All fields must be filled!");
+            if (text1.getText().isEmpty() || text2.getText().isEmpty() || text3.getText().isEmpty() || text4.getText().isEmpty() || (choiceBox.getValue() == null)) {
+                labelWarning.setVisible(true);
+              
+            }else{
+                // ventana de confirmacion
+                labelWarning.setVisible(false);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmar");
+                alert.setHeaderText(null);
+                alert.setContentText("You want to save to changes?");
+    
+                alert.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+    
+                        adminC.addMovie(text1.getText(), text2.getText(), text3.getText(), Integer.parseInt(text4.getText()),
+                                choiceBox.getValue());
+                        primaryStage.setScene(movieScene);
+                    } else {
+                    }
+                });
             }
-        });
-        return saved;
-
+        }
     }
 
     public class BotonCelda extends TableCell<Movie, Void> {
         private final Button btnEliminar = new Button();
         private final Button btnModificar = new Button();
-        private final Button btnVer = new Button();
+        private final Button seeButton = new Button();
 
         public BotonCelda() {
             // Configura los íconos para los botones
@@ -277,11 +299,11 @@ public class EntryWindow extends Application {
 
             btnEliminar.setGraphic(iconoEliminar);
             btnModificar.setGraphic(iconoModificar);
-            btnVer.setGraphic(iconover);
+            seeButton.setGraphic(iconover);
 
             btnEliminar.getStyleClass().add("boton-eliminar");
             btnModificar.getStyleClass().add("boton-modificar");
-            btnVer.getStyleClass().add("boton-ver");
+            seeButton.getStyleClass().add("seeButton");
 
             btnEliminar.setOnAction(event -> {
                 Movie grupo = getTableView().getItems().get(getIndex());
@@ -302,51 +324,82 @@ public class EntryWindow extends Application {
                 }
             });
 
-            btnVer.setOnAction(event -> {
-                // Group group = getTableView().getItems().get(getIndex());
-                // modifyGroup modifyGroupWindow = new modifyGroup(gc, group, group.getId());
-
-                // Obtiene el Stage actual
-                Stage currentStage = (Stage) tabla.getScene().getWindow();
-
-                // Cierra la ventana actual (TestTabla)
-                currentStage.close();
-
-                // Abre la ventana modifyGroup
-                Stage modifyGroupStage = new Stage();
-                // modifyGroupWindow.start(modifyGroupStage);
+            seeButton.setOnAction(event -> {
+                seeMovieScreen(getTableView().getItems().get(getIndex()));        
             });
 
             btnModificar.setOnAction(event -> {
-                // Group group = getTableView().getItems().get(getIndex());
-                // modifyGroup modifyGroupWindow = new modifyGroup(gc, group, group.getId());
-
-                // Obtiene el Stage actual
-                Stage currentStage = (Stage) tabla.getScene().getWindow();
-
-                // Cierra la ventana actual (TestTabla)
-                currentStage.close();
-
-                // Abre la ventana modifyGroup
-                Stage modifyGroupStage = new Stage();
-                // modifyGroupWindow.start(modifyGroupStage);
+               // editMovieScreen(getTableView().getItems().get(getIndex()));       
             });
 
             // Configura el contenido de las celdas para mostrar los botones
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
-
+        
         @Override
         protected void updateItem(Void item, boolean empty) {
             super.updateItem(item, empty);
             if (empty) {
                 setGraphic(null);
             } else {
-                HBox botonesContainer = new HBox(btnVer, btnEliminar, btnModificar);
+                HBox botonesContainer = new HBox(seeButton, btnEliminar, btnModificar);
                 botonesContainer.setSpacing(5);
                 setGraphic(botonesContainer);
             }
         }
     }
 
+    void seeMovieScreen(Movie movie){
+
+        Stage secundaryStage = new Stage();
+        secundaryStage.initModality(Modality.APPLICATION_MODAL);
+        secundaryStage.setTitle("Movie Information");
+
+        GridPane gridPane = new GridPane();
+        gridPane.setId("root2");
+        gridPane.setMaxWidth(600);
+        gridPane.setMaxHeight(600);
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setVgap(20);
+        gridPane.setHgap(50);
+        
+        Label name = new Label(movie.getName());
+        Label director = new Label(movie.getAuthor());
+        Label description = new Label(movie.getDescription());
+        Label duration = new Label(String.valueOf(movie.getDuration()));
+        Label category = new Label(movie.getCategory());
+        
+        GridPane.setConstraints(labelName, 0, 0);
+        GridPane.setConstraints(labelDirector, 0, 1);
+        GridPane.setConstraints(labelDescription, 0, 2);
+        GridPane.setConstraints(labelDuration, 0, 3);
+        GridPane.setConstraints(labelCategory, 0, 4);
+        
+        GridPane.setConstraints(name, 1, 0);
+        GridPane.setConstraints(director, 1, 1);
+        GridPane.setConstraints(description, 1, 2);
+        GridPane.setConstraints(duration, 1, 3);
+        GridPane.setConstraints(category, 1, 4);
+   
+        Button closeButton = new Button();
+        //closeButton.setTranslateX(-100);
+        closeButton.setText("Close");
+        closeButton.setPrefWidth(100);
+        GridPane.setConstraints(closeButton, 1,5);
+        closeButton.setOnAction(event -> secundaryStage.close());
+        closeButton.setId("button");
+
+        gridPane.getChildren().setAll(labelName,labelDirector,labelDescription,labelDuration,labelCategory,name,director,description,duration,category,closeButton);
+        
+        // Configurar tamano description
+        description.setMaxWidth(200);
+        description.setWrapText(true);
+        
+        Scene seeMovieScene = new Scene(gridPane, 500, 550);
+        seeMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        secundaryStage.setScene(seeMovieScene);
+        secundaryStage.showAndWait();
+    }
+
+    
 }

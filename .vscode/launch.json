@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "co.edu.uptc.run.Main",
+      "projectName": "multimedia_project2"
+    },
+    {
+      "type": "java",
       "name": "RegistrationWindow",
       "request": "launch",
       "mainClass": "co.edu.uptc.run.RegistrationWindow",

@@ -5,6 +5,7 @@
 #root2 {
     -fx-font-size: 16px;
     -fx-font-family: sans-serif;
+    -fx-background-color: white;
 }
 .menubar {
     -fx-background-color: #9C1428; /* Azul */
@@ -41,7 +42,7 @@
     -fx-max-height: 45px; /* Altura máxima personalizada, para mantenerlo circular */
 }
 
-.boton-ver {
+.seeButton {
     -fx-background-color: rgb(112, 108, 108);
 }
 
@@ -65,5 +66,8 @@
 #button:hover {
     -fx-background-color: #c8c8c8; /* Color de fondo */
     -fx-text-fill: black; /* Color del texto */
+}
+#warning {
+    -fx-text-fill: #9C1428; /* Color del texto */
 }
 

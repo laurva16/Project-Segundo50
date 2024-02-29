@@ -1,28 +1,11 @@
 [
   {
+    "category": "Adventure",
     "id": 7813,
     "name": "harry Potter 1",
     "duration": 200,
     "author": "JK",
     "description": "la piedra filosofal"
-  },
-  {
-    "id": 7814,
-    "name": "Name1",
-    "duration": 0,
-    "author": "Author1"
-  },
-  {
-    "id": 7815,
-    "name": "Name2",
-    "duration": 0,
-    "author": "Author1"
-  },
-  {
-    "id": 7816,
-    "name": "Name1",
-    "duration": 0,
-    "author": "Author2"
   },
   {
     "category": "Horror",
@@ -33,27 +16,11 @@
     "description": "pruebafx"
   },
   {
-    "category": "Drama",
-    "id": 7818,
-    "name": "asdf",
-    "duration": 123,
-    "author": "asdf",
-    "description": "asdf"
-  },
-  {
-    "category": "Romance",
-    "id": 7819,
-    "name": "asd",
-    "duration": 21,
-    "author": "asdf",
-    "description": "asffff"
-  },
-  {
-    "category": "Romance",
-    "id": 7820,
-    "name": "fff",
-    "duration": 2,
-    "author": "fff",
-    "description": "ff"
+    "category": "Action",
+    "id": 7821,
+    "name": "dsad",
+    "duration": 222,
+    "author": "asf",
+    "description": "screen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a movie"
   }
 ]
