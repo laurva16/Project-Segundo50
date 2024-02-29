@@ -74,10 +74,12 @@ public class EntryWindow extends Application {
         tablaMovie.getColumns().add(accionesColumna);
 
         tablaMovie.setItems(grupos);
-
-        StackPane stackPane = new StackPane(tablaMovie, botonFlotante);
+        StackPane stackPane = new StackPane(tablaMovie);
         stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
         StackPane.setMargin(tablaMovie, new Insets(20)); // Agregar margen a la tabla
+
+        // Agregar el StackPane que contiene la tabla al centro del BorderPane
+        root.setCenter(stackPane);
 
         // Crear un botón flotante
         ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
@@ -94,7 +96,6 @@ public class EntryWindow extends Application {
         root.setBottom(addNewButton);
 
         // Agregar el StackPane que contiene la tabla al centro del BorderPane
-        root.setCenter(stackPane);
 
         // Obtener dimensiones de la pantalla
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
@@ -107,6 +108,7 @@ public class EntryWindow extends Application {
         primaryStage.setTitle("JavaFX MenuBar with CSS");
         primaryStage.setMaximized(true);
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {
@@ -245,10 +247,26 @@ public class EntryWindow extends Application {
             // Agregar el StackPane que contiene la tabla al centro del BorderPane
             root2.setCenter(stackPane);
 
-            // Obtener dimensiones de la pantalla
+            // Crear un botón flotante
+            ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
+            iconoAgregar.setFitWidth(22);
+            iconoAgregar.setFitHeight(22);
+            Button addNewButton = new Button();
+            addNewButton.setTranslateY(-20);
+            addNewButton.getStyleClass().add("boton-flotante");
+            addNewButton.setGraphic(iconoAgregar);
+
+            // Agregar el botón flotante en la esquina inferior derecha
+            BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+            BorderPane.setMargin(addNewButton, new Insets(15));
+            root2.setBottom(addNewButton);
+
+            // Agregar el StackPane que contiene la tabla al centro del BorderPane
+            root2.setCenter(stackPane);
+
             Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
-            scene2 = new Scene(root2, screenBounds.getWidth(), screenBounds.getHeight());
+            scene2 = new Scene(root2, screenWidth, screenHeight);
 
             // Configurar la escena y mostrarla
             scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
