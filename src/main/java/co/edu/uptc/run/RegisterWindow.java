@@ -21,11 +21,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class RegisterWindow extends Application {
+public class RegisterWindow {
 
-    private static Stage primaryStage;
-    private static LogInWindow logInWindow;
-    private static Scene sceneRegister, sceneLogIn;
+    private static Scene sceneRegister;
     private static UserRegisteredController userRegisteredController;
     private BorderPane root;
     private static VBox vBoxImage;
@@ -48,8 +46,6 @@ public class RegisterWindow extends Application {
 
     public RegisterWindow() {
         userRegisteredController = new UserRegisteredController();
-        logInWindow = new LogInWindow();
-        sceneLogIn = logInWindow.getSceneLogIn();
         root = new BorderPane();
         vBoxImage = new VBox();
         gridPane = new GridPane();
@@ -170,7 +166,8 @@ public class RegisterWindow extends Application {
     }
 
     public static void returnButton() {
-        buttonSignUp.setOnAction(event -> switchToTheLogInScene());
+        LogInWindow login = new LogInWindow();
+        buttonReturn.setOnAction(e -> login.showSceneLoginView());
     }
 
     public static void signUp() {
@@ -230,17 +227,12 @@ public class RegisterWindow extends Application {
         return false;
     }
 
-    public static void switchToTheLogInScene() {
-        primaryStage.setScene(sceneLogIn);
-        primaryStage.setTitle("Scene LogIn");
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void showSceneRegister() {
         gridPane1();
         gridPane2();
         image();
         signUp();
+        returnButton();
 
         stackPane.getChildren().addAll(gridPaneErrors, gridPane);
         root.setTop(labelTitle);
@@ -249,13 +241,10 @@ public class RegisterWindow extends Application {
 
         sceneRegister = new Scene(root);
         sceneRegister.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
-        primaryStage.setScene(sceneRegister);
-        primaryStage.setTitle("Register");
-        primaryStage.setMaximized(true);
-        primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public Scene getScene() {
+        showSceneRegister();
+        return sceneRegister;
     }
 }

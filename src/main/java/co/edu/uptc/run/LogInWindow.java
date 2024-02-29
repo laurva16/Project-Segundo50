@@ -25,8 +25,8 @@ import javafx.stage.Stage;
 
 public class LogInWindow extends Application {
 
-    private Stage primaryStage;
-    private Scene sceneLogIn;
+    private static Stage primaryStage;
+    private static Scene sceneLogIn;
     private static UserRegisteredController userRegisteredController;
     private static Admin admin;
     private static UserRegistered userRegistered;
@@ -53,7 +53,7 @@ public class LogInWindow extends Application {
         gridPaneErrors = new GridPane();
         stackPane = new StackPane();
         buttonSignIn = new Button("Sign In");
-        buttonRegister = new Button("Sign Up");
+        buttonRegister = new Button("Register");
         labelTitle = new Label("Sign In");
         textEmail = new TextField();
         textPassword = new PasswordField();
@@ -129,7 +129,7 @@ public class LogInWindow extends Application {
         labelPasswordError.setVisible(false);
     }
 
-    public static void bootom() {
+    public static void image() {
         try {
             Image logo = new Image(new FileInputStream("src\\prograIconos\\cinema.jpeg"));
             ImageView image = new ImageView(logo);
@@ -153,10 +153,13 @@ public class LogInWindow extends Application {
         buttonSignIn.setOnAction(event -> {
             if (emailValidationUser() && passwordValidationUser()) {
                 // Go to user window
-                System.out.println("Lleggooo");
                 setVisibleFalse();
             }
         });
+    }
+
+    public static void buttonRegister() {
+        buttonRegister.setOnAction(e -> showSceneRegister());
     }
 
     public static boolean emailValidationAdmin() {
@@ -197,12 +200,17 @@ public class LogInWindow extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.primaryStage = primaryStage;
+        LogInWindow.primaryStage = primaryStage;
+        showSceneLoginView();
+    }
+
+    public void showSceneLoginView() {
         gridPane1();
         gridPane2();
-        bootom();
+        image();
         signInAdmin();
         signInUser();
+        buttonRegister();
 
         stackPane.getChildren().addAll(gridPaneErrors, gridPane);
         root.setTop(labelTitle);
@@ -217,11 +225,15 @@ public class LogInWindow extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public static void showSceneRegister() {
+        RegisterWindow registerWindow = new RegisterWindow();
+        primaryStage.setScene(registerWindow.getScene());
+        primaryStage.setTitle("Register");
+        primaryStage.setMaximized(true);
+        primaryStage.show();
     }
 
-    public Scene getSceneLogIn() {
-        return sceneLogIn;
+    public static void main(String[] args) {
+        launch(args);
     }
 }
