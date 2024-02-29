@@ -81,21 +81,23 @@ public class EntryWindow extends Application {
         ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
         iconoAgregar.setFitWidth(22);
         iconoAgregar.setFitHeight(22);
-        botonFlotante.getStyleClass().add("boton-flotante");
-        botonFlotante.setGraphic(iconoAgregar);
+        Button addNewButton = new Button();
+        addNewButton.setTranslateY(-20);
+        addNewButton.getStyleClass().add("boton-flotante");
+        addNewButton.setGraphic(iconoAgregar);
 
         // Agregar el botón flotante en la esquina inferior derecha
-        BorderPane.setAlignment(botonFlotante, Pos.BOTTOM_RIGHT);
-        BorderPane.setMargin(botonFlotante, new Insets(20));
+        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+        BorderPane.setMargin(addNewButton, new Insets(15));
+        root.setBottom(addNewButton);
 
         // Agregar el StackPane que contiene la tabla al centro del BorderPane
         root.setCenter(stackPane);
-        root.setBottom(botonFlotante);
 
         // Obtener dimensiones de la pantalla
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
-        scene1 = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
+        scene1 = new Scene(root, screenWidth, screenHeight);
 
         // Configurar la escena y mostrarla
         scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
