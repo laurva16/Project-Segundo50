@@ -3,9 +3,7 @@ package co.edu.uptc.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import com.google.gson.JsonElement;
-
 import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
@@ -300,8 +298,7 @@ public class UserRegisteredController {
         String[] userArray = user.split("@");
         if (userArray.length == 2) {
             String domain = userArray[1];
-            if (domain.equals("uptc.edu.co") || domain.equals("gmail.com") || domain.equals("outlook.com")
-                    || domain.equals("yahoo.com")) {
+            if (domain.equals("uptc.edu.co") || domain.equals("gmail.com") || domain.equals("outlook.com")) {
                 return true;
             }
         }
@@ -312,9 +309,9 @@ public class UserRegisteredController {
         Random random = new Random();
         int newId;
         if (listUsers.isEmpty()) {
-            return random.nextInt(9999) + 1;
+            return random.nextInt(99999) + 1;
         } else {
-            newId = random.nextInt(9999) + 1;
+            newId = random.nextInt(99999) + 1;
             if (!idFound(newId)) {
                 return newId;
             } else {
@@ -330,8 +327,21 @@ public class UserRegisteredController {
                     user, password);
             userCreated = r;
             listUsers.add(r);
-            return true;
+            return fm.reWriteFile("users", listUsers);
         }
         return false;
+    }
+
+    public boolean searchEmail(String email) {
+        for (UserRegistered user : listUsers) {
+            if (user.getUser().equals(email)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean verifyPassword(String password, String password2) {
+        return password.equals(password2) ? true : false;
     }
 }
