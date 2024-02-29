@@ -18,7 +18,7 @@ public class AdminController {
     FileManagement fm = new FileManagement();
 
     public AdminController() {
-        admin = new Admin();
+        admin = new Admin("Admin", "", 1, "Admin1@uptc.edu.co", "Admin.1");
         loadMoviesFile();
         loadSerieFile();
     }

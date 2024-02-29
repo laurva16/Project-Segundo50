@@ -6,6 +6,14 @@
   "configurations": [
     {
       "type": "java",
+      "name": "LogInWindow",
+      "request": "launch",
+      "mainClass": "co.edu.uptc.run.LogInWindow",
+      "projectName": "multimedia_project2",
+      "vmArgs": "--module-path 'C:\\Program Files\\Java\\javafx-sdk-21.0.2\\lib\\' --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.media"
+    },
+    {
+      "type": "java",
       "name": "RegisterWindow",
       "request": "launch",
       "mainClass": "co.edu.uptc.run.RegisterWindow",

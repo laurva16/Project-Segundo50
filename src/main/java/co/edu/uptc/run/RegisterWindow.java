@@ -43,7 +43,6 @@ public class RegisterWindow extends Application {
     private static Label labelEmailError;
     private static Label labelPasswordError;
     private static Label labelPasswordError2;
-    private static ToggleButton showPasswordButton;
 
     public RegisterWindow() {
         userRegisteredController = new UserRegisteredController();
@@ -233,7 +232,6 @@ public class RegisterWindow extends Application {
         stackPane.getChildren().addAll(gridPaneErrors, gridPane);
         root.setTop(labelTitle);
         root.setCenter(stackPane);
-        root.setRight(showPasswordButton);
         root.setBottom(vBoxImage);
 
         Scene scene = new Scene(root);

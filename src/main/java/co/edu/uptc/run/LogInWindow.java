@@ -1,0 +1,201 @@
+package co.edu.uptc.run;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import co.edu.uptc.controller.UserRegisteredController;
+import co.edu.uptc.model.Admin;
+import co.edu.uptc.model.UserRegistered;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class LogInWindow extends Application {
+
+    private static UserRegisteredController userRegisteredController;
+    private static Admin admin;
+    private static UserRegistered userRegistered;
+    private BorderPane root;
+    private static VBox vBoxImage;
+    private static GridPane gridPane;
+    private static GridPane gridPaneErrors;
+    private StackPane stackPane;
+    private static Button buttonSignIn;
+    private static Label labelTitle;
+    private static TextField textEmail;
+    private static PasswordField textPassword;
+    private static Label labelEmailError;
+    private static Label labelPasswordError;
+
+    public LogInWindow() {
+        userRegisteredController = new UserRegisteredController();
+        admin = new Admin();
+        userRegistered = new UserRegistered();
+        root = new BorderPane();
+        vBoxImage = new VBox();
+        gridPane = new GridPane();
+        gridPaneErrors = new GridPane();
+        stackPane = new StackPane();
+        buttonSignIn = new Button("Sign In");
+        labelTitle = new Label("Sign In");
+        textEmail = new TextField();
+        textPassword = new PasswordField();
+    }
+
+    public static void gridPane1() {
+
+        Label labelEmail = new Label("Email");
+        Label labelPassword = new Label("Password");
+        labelTitle.setId("title");
+        labelTitle.setAlignment(Pos.TOP_CENTER);
+        BorderPane.setAlignment(labelTitle, javafx.geometry.Pos.TOP_CENTER);
+        BorderPane.setMargin(labelTitle, new Insets(60, 0, 50, 0));
+
+        textEmail.setPromptText("Enter your email");
+        textPassword.setPromptText("Enter your password");
+
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setVgap(30);
+        gridPane.setHgap(100);
+
+        GridPane.setConstraints(labelEmail, 0, 0);
+        GridPane.setConstraints(labelPassword, 0, 1);
+
+        GridPane.setConstraints(textEmail, 1, 0);
+        GridPane.setConstraints(textPassword, 1, 1);
+
+        gridPane.getChildren().addAll(labelEmail, labelPassword, textEmail, textPassword);
+    }
+
+    public static void gridPane2() {
+        gridPaneErrors.setId("gridpaneErrors");
+
+        labelEmailError = new Label("* Email does not exist");
+        labelPasswordError = new Label("* Incorrect password");
+
+        labelEmailError.getStyleClass().add("error-label");
+        labelPasswordError.getStyleClass().add("error-label");
+
+        GridPane.setConstraints(labelEmailError, 0, 0);
+        GridPane.setConstraints(labelPasswordError, 0, 1);
+
+        gridPaneErrors.getChildren().addAll(labelEmailError,
+                labelPasswordError);
+
+        gridPaneErrors.setAlignment(Pos.TOP_RIGHT);
+        GridPane.setMargin(labelPasswordError, new Insets(0, 50, 0, 0));
+        gridPaneErrors.setVgap(30);
+        setVisibleFalse();
+    }
+
+    public static void setVisibleFalse() {
+        labelEmailError.setVisible(false);
+        labelPasswordError.setVisible(false);
+    }
+
+    public static void bootom() {
+        buttonSignIn.setCursor(Cursor.HAND);
+        VBox.setMargin(buttonSignIn, new Insets(50, 0, 0, 0));
+        try {
+            Image logo = new Image(new FileInputStream("src\\prograIconos\\cinema.jpeg"));
+            ImageView image = new ImageView(logo);
+            vBoxImage.getChildren().addAll(buttonSignIn, image);
+            vBoxImage.setAlignment(Pos.CENTER);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void signInAdmin() {
+        buttonSignIn.setOnAction(event -> {
+            if (emailValidationAdmin() && passwordValidationAdmin()) {
+                // Go to admin window
+                setVisibleFalse();
+            }
+        });
+    }
+
+    public static boolean emailValidationAdmin() {
+        if (userRegisteredController.getAdmin().getUser().equals(textEmail.getText())) {
+            return true;
+        }
+        setVisibleFalse();
+        labelEmailError.setVisible(true);
+        return false;
+    }
+
+    public static boolean passwordValidationAdmin() {
+        if (admin.couldLogIn(textEmail.getText(), textPassword.getText())) {
+            return true;
+        }
+        setVisibleFalse();
+        labelPasswordError.setVisible(true);
+        return false;
+    }
+
+    public static void signInUser() {
+        buttonSignIn.setOnAction(event -> {
+            if (emailValidationUser() && passwordValidationUser()) {
+                // Go to user window
+                System.out.println("Lleggooo");
+                setVisibleFalse();
+            }
+        });
+    }
+
+    public static boolean emailValidationUser() {
+        if (userRegisteredController.userFound(textEmail.getText())) {
+            return true;
+        }
+        setVisibleFalse();
+        labelEmailError.setVisible(true);
+        return false;
+    }
+
+    public static boolean passwordValidationUser() {
+        if (userRegistered.couldLogIn(textEmail.getText(), textPassword.getText())) {
+            return true;
+        }
+        setVisibleFalse();
+        labelPasswordError.setVisible(true);
+        return false;
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        gridPane1();
+        gridPane2();
+        bootom();
+        signInAdmin();
+        signInUser();
+
+        stackPane.getChildren().addAll(gridPaneErrors, gridPane);
+        root.setTop(labelTitle);
+        root.setCenter(stackPane);
+        root.setBottom(vBoxImage);
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Register");
+        primaryStage.setMaximized(true);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
