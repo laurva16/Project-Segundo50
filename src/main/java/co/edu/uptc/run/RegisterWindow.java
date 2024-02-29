@@ -172,6 +172,7 @@ public class RegisterWindow extends Application {
                     && passwordValidation2()) {
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
                         textPassword.getText());
+                setVisibleFalse();
             }
         });
     }
