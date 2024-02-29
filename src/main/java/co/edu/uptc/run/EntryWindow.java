@@ -38,6 +38,8 @@ public class EntryWindow extends Application {
     private AdminController gc;
     private Scene scene1, scene2;
     private Button botonFlotante = new Button();
+    double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+    double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     public EntryWindow() {
         gc = new AdminController();
