@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +23,9 @@ import javafx.stage.Stage;
 
 public class RegisterWindow extends Application {
 
+    private static Stage primaryStage;
+    private static LogInWindow logInWindow;
+    private static Scene sceneRegister, sceneLogIn;
     private static UserRegisteredController userRegisteredController;
     private BorderPane root;
     private static VBox vBoxImage;
@@ -46,6 +48,8 @@ public class RegisterWindow extends Application {
 
     public RegisterWindow() {
         userRegisteredController = new UserRegisteredController();
+        logInWindow = new LogInWindow();
+        sceneLogIn = logInWindow.getSceneLogIn();
         root = new BorderPane();
         vBoxImage = new VBox();
         gridPane = new GridPane();
@@ -165,6 +169,10 @@ public class RegisterWindow extends Application {
         }
     }
 
+    public static void returnButton() {
+        buttonSignUp.setOnAction(event -> switchToTheLogInScene());
+    }
+
     public static void signUp() {
         buttonSignUp.setOnAction(event -> {
             if (emptyValidation() && existingEmaildValidation() && emailValidation() && passwordValidation()
@@ -222,6 +230,11 @@ public class RegisterWindow extends Application {
         return false;
     }
 
+    public static void switchToTheLogInScene() {
+        primaryStage.setScene(sceneLogIn);
+        primaryStage.setTitle("Scene LogIn");
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         gridPane1();
@@ -234,9 +247,9 @@ public class RegisterWindow extends Application {
         root.setCenter(stackPane);
         root.setBottom(vBoxImage);
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
-        primaryStage.setScene(scene);
+        sceneRegister = new Scene(root);
+        sceneRegister.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
+        primaryStage.setScene(sceneRegister);
         primaryStage.setTitle("Register");
         primaryStage.setMaximized(true);
         primaryStage.show();

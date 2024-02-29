@@ -25,6 +25,8 @@ import javafx.stage.Stage;
 
 public class LogInWindow extends Application {
 
+    private Stage primaryStage;
+    private Scene sceneLogIn;
     private static UserRegisteredController userRegisteredController;
     private static Admin admin;
     private static UserRegistered userRegistered;
@@ -34,6 +36,7 @@ public class LogInWindow extends Application {
     private static GridPane gridPaneErrors;
     private StackPane stackPane;
     private static Button buttonSignIn;
+    private static Button buttonRegister;
     private static Label labelTitle;
     private static TextField textEmail;
     private static PasswordField textPassword;
@@ -50,19 +53,22 @@ public class LogInWindow extends Application {
         gridPaneErrors = new GridPane();
         stackPane = new StackPane();
         buttonSignIn = new Button("Sign In");
+        buttonRegister = new Button("Sign Up");
         labelTitle = new Label("Sign In");
         textEmail = new TextField();
         textPassword = new PasswordField();
     }
 
     public static void gridPane1() {
+        buttonSignIn.setCursor(Cursor.HAND);
+        buttonRegister.setCursor(Cursor.HAND);
 
         Label labelEmail = new Label("Email");
         Label labelPassword = new Label("Password");
         labelTitle.setId("title");
         labelTitle.setAlignment(Pos.TOP_CENTER);
         BorderPane.setAlignment(labelTitle, javafx.geometry.Pos.TOP_CENTER);
-        BorderPane.setMargin(labelTitle, new Insets(60, 0, 50, 0));
+        BorderPane.setMargin(labelTitle, new Insets(50, 0, 50, 0));
 
         textEmail.setPromptText("Enter your email");
         textPassword.setPromptText("Enter your password");
@@ -71,13 +77,30 @@ public class LogInWindow extends Application {
         gridPane.setVgap(30);
         gridPane.setHgap(100);
 
+        GridPane.setHalignment(buttonSignIn, javafx.geometry.HPos.CENTER);
+        GridPane.setValignment(buttonSignIn, javafx.geometry.VPos.CENTER);
+
+        GridPane.setHalignment(buttonRegister, javafx.geometry.HPos.CENTER);
+        GridPane.setValignment(buttonRegister, javafx.geometry.VPos.CENTER);
+
+        GridPane.setHalignment(labelEmail, javafx.geometry.HPos.CENTER);
+        GridPane.setValignment(labelEmail, javafx.geometry.VPos.CENTER);
+
+        GridPane.setHalignment(labelPassword, javafx.geometry.HPos.CENTER);
+        GridPane.setValignment(labelPassword, javafx.geometry.VPos.CENTER);
+
         GridPane.setConstraints(labelEmail, 0, 0);
         GridPane.setConstraints(labelPassword, 0, 1);
+        GridPane.setConstraints(buttonSignIn, 0, 2);
 
         GridPane.setConstraints(textEmail, 1, 0);
         GridPane.setConstraints(textPassword, 1, 1);
+        GridPane.setConstraints(buttonRegister, 1, 2);
 
-        gridPane.getChildren().addAll(labelEmail, labelPassword, textEmail, textPassword);
+        gridPane.getChildren().addAll(labelEmail, labelPassword, textEmail, textPassword, buttonRegister, buttonSignIn);
+
+        GridPane.setMargin(buttonSignIn, new Insets(30, 0, 50, 0));
+        GridPane.setMargin(buttonRegister, new Insets(30, 0, 50, 0));
     }
 
     public static void gridPane2() {
@@ -96,7 +119,7 @@ public class LogInWindow extends Application {
                 labelPasswordError);
 
         gridPaneErrors.setAlignment(Pos.TOP_RIGHT);
-        GridPane.setMargin(labelPasswordError, new Insets(0, 50, 0, 0));
+        GridPane.setMargin(labelPasswordError, new Insets(20, 270, 0, 0));
         gridPaneErrors.setVgap(30);
         setVisibleFalse();
     }
@@ -107,12 +130,10 @@ public class LogInWindow extends Application {
     }
 
     public static void bootom() {
-        buttonSignIn.setCursor(Cursor.HAND);
-        VBox.setMargin(buttonSignIn, new Insets(50, 0, 0, 0));
         try {
             Image logo = new Image(new FileInputStream("src\\prograIconos\\cinema.jpeg"));
             ImageView image = new ImageView(logo);
-            vBoxImage.getChildren().addAll(buttonSignIn, image);
+            vBoxImage.getChildren().addAll(image);
             vBoxImage.setAlignment(Pos.CENTER);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -123,6 +144,16 @@ public class LogInWindow extends Application {
         buttonSignIn.setOnAction(event -> {
             if (emailValidationAdmin() && passwordValidationAdmin()) {
                 // Go to admin window
+                setVisibleFalse();
+            }
+        });
+    }
+
+    public static void signInUser() {
+        buttonSignIn.setOnAction(event -> {
+            if (emailValidationUser() && passwordValidationUser()) {
+                // Go to user window
+                System.out.println("Lleggooo");
                 setVisibleFalse();
             }
         });
@@ -146,16 +177,6 @@ public class LogInWindow extends Application {
         return false;
     }
 
-    public static void signInUser() {
-        buttonSignIn.setOnAction(event -> {
-            if (emailValidationUser() && passwordValidationUser()) {
-                // Go to user window
-                System.out.println("Lleggooo");
-                setVisibleFalse();
-            }
-        });
-    }
-
     public static boolean emailValidationUser() {
         if (userRegisteredController.userFound(textEmail.getText())) {
             return true;
@@ -176,6 +197,7 @@ public class LogInWindow extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
         gridPane1();
         gridPane2();
         bootom();
@@ -187,9 +209,9 @@ public class LogInWindow extends Application {
         root.setCenter(stackPane);
         root.setBottom(vBoxImage);
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
-        primaryStage.setScene(scene);
+        sceneLogIn = new Scene(root);
+        sceneLogIn.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
+        primaryStage.setScene(sceneLogIn);
         primaryStage.setTitle("Register");
         primaryStage.setMaximized(true);
         primaryStage.show();
@@ -197,5 +219,9 @@ public class LogInWindow extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public Scene getSceneLogIn() {
+        return sceneLogIn;
     }
 }
