@@ -37,7 +37,6 @@ public class EntryWindow extends Application {
     private Stage primaryStage;
     private AdminController gc;
     private Scene scene1, scene2;
-    private Button botonFlotante = new Button();
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
@@ -56,14 +55,23 @@ public class EntryWindow extends Application {
         ObservableList<Movie> grupos = FXCollections.observableArrayList(gc.getMovies());
 
         TableColumn<Movie, String> IdColumn = new TableColumn<>("Id");
-        TableColumn<Movie, String> facultyColumn = new TableColumn<>("Name");
-        TableColumn<Movie, String> nombreGrupoColumn = new TableColumn<>("Director");
+        TableColumn<Movie, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<Movie, String> directorColumn = new TableColumn<>("Director");
 
         IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        facultyColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nombreGrupoColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
-        tablaMovie.getColumns().addAll(IdColumn, facultyColumn, nombreGrupoColumn);
+        IdColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
+        nameColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
+        directorColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
+
+        // Configurar estilo de las columnas
+        IdColumn.setStyle("-fx-alignment: CENTER;");
+        nameColumn.setStyle("-fx-alignment: CENTER;");
+        directorColumn.setStyle("-fx-alignment: CENTER;");
+
+        tablaMovie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
 
         // Establecer ancho máximo para la tabla
         tablaMovie.setMaxWidth(600);
@@ -94,11 +102,6 @@ public class EntryWindow extends Application {
         BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
         BorderPane.setMargin(addNewButton, new Insets(15));
         root.setBottom(addNewButton);
-
-        // Agregar el StackPane que contiene la tabla al centro del BorderPane
-
-        // Obtener dimensiones de la pantalla
-        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
         scene1 = new Scene(root, screenWidth, screenHeight);
 
@@ -221,14 +224,23 @@ public class EntryWindow extends Application {
             ObservableList<Serie> series = FXCollections.observableArrayList(gc.getListSeries());
 
             TableColumn<Serie, String> IdColumn = new TableColumn<>("Id");
-            TableColumn<Serie, String> facultyColumn = new TableColumn<>("Name");
-            TableColumn<Serie, String> nombreGrupoColumn = new TableColumn<>("Director");
+            TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
+            TableColumn<Serie, String> directorColumn = new TableColumn<>("Director");
 
             IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-            facultyColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            nombreGrupoColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
-            tablaSerie.getColumns().addAll(IdColumn, facultyColumn, nombreGrupoColumn);
+            IdColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            directorColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+
+            // Configurar estilo de las columnas
+            IdColumn.setStyle("-fx-alignment: CENTER;");
+            nameColumn.setStyle("-fx-alignment: CENTER;");
+            directorColumn.setStyle("-fx-alignment: CENTER;");
+
+            tablaSerie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
 
             // Establecer ancho máximo para la tabla
             tablaSerie.setMaxWidth(600);
@@ -263,8 +275,6 @@ public class EntryWindow extends Application {
 
             // Agregar el StackPane que contiene la tabla al centro del BorderPane
             root2.setCenter(stackPane);
-
-            Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 
             scene2 = new Scene(root2, screenWidth, screenHeight);
 

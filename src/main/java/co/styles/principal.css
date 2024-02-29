@@ -1,6 +1,6 @@
 /* principal.css */
 .root {
-    -fx-background-color:#111111;
+    -fx-background-color: #191919;
 }
 .menubar {
     -fx-background-color: #9C1428; /* Azul */
@@ -52,6 +52,10 @@
 
 .boton-flotante {
     -fx-background-color: green;
+}
+
+.table-row-cell {
+    -fx-alignment: center-left; /* Alineación del contenido de la celda *//* Espaciado interno */
 }
 
 
