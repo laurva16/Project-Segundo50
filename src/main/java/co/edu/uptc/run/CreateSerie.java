@@ -29,23 +29,24 @@ public class CreateSerie extends Application {
     private TextField text4 = new TextField();
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
     private AdminController adminC;
+    double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+    double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     @Override
     public void start(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-
         // Crear el formulario en la mitad izquierda
         VBox formPane = createFormPane();
 
         // Crear la tabla en la mitad derecha
         TableView<Movie> tablaMovie = createTable();
 
-        // Agregar el formulario y la tabla al BorderPane
-        root.setLeft(formPane);
-        root.setRight(tablaMovie);
+        // Dividir la ventana en dos partes con un SplitPane
+        SplitPane splitPane = new SplitPane();
+        splitPane.getItems().addAll(formPane, tablaMovie);
+        splitPane.setDividerPositions(0.5); // Posición del divisor (50% de cada lado)
 
         // Crear la escena
-        Scene newMovieScene = new Scene(root, 800, 600);
+        Scene newMovieScene = new Scene(splitPane, screenWidth, screenHeight);
 
         // Establecer la escena en la ventana
         primaryStage.setScene(newMovieScene);
@@ -72,24 +73,11 @@ public class CreateSerie extends Application {
 
         choiceBox.setMaxSize(300, 20);
 
-        GridPane.setConstraints(labelName, 0, 0);
-        GridPane.setConstraints(labelDirector, 0, 1);
-        GridPane.setConstraints(labelDescription, 0, 2);
-        GridPane.setConstraints(labelDuration, 0, 3);
-        GridPane.setConstraints(labelCategory, 0, 4);
-
-        GridPane.setConstraints(text1, 1, 0);
-        GridPane.setConstraints(text2, 1, 1);
-        GridPane.setConstraints(text3, 1, 2);
-        GridPane.setConstraints(text4, 1, 3);
-        GridPane.setConstraints(choiceBox, 1, 4);
-
         Button acceptButton = new Button("Save");
         Button cancelButton = new Button("Cancel");
 
-        GridPane.setConstraints(acceptButton, 0, 5);
-
-        formPane.getChildren().addAll(labelName, text1, labelDirector, text2, labelDescription, text3, labelDuration,
+        formPane.getChildren().addAll(
+                labelName, text1, labelDirector, text2, labelDescription, text3, labelDuration,
                 text4, labelCategory, choiceBox, acceptButton, cancelButton);
 
         acceptButton.setOnAction(event -> addNewMovie());
@@ -100,7 +88,7 @@ public class CreateSerie extends Application {
 
     private TableView<Movie> createTable() {
         TableView<Movie> tablaMovie = new TableView<>();
-        tablaMovie.setMaxWidth(400); // Establecer ancho máximo para la tabla
+        tablaMovie.setMaxWidth(600); // Establecer ancho máximo para la tabla
 
         TableColumn<Movie, String> IdColumn = new TableColumn<>("Id");
         TableColumn<Movie, String> facultyColumn = new TableColumn<>("Name");
