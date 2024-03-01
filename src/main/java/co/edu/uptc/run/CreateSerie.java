@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,11 +27,16 @@ public class CreateSerie extends Application {
     private TextField text1 = new TextField();
     private TextField text2 = new TextField();
     private TextField text3 = new TextField();
-    private TextField text4 = new TextField();
+    private TextField seasonField = new TextField();
+
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
-    private AdminController adminC;
+    private AdminController ac;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+    public CreateSerie() {
+        ac = new AdminController();
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -60,28 +66,75 @@ public class CreateSerie extends Application {
         formPane.setSpacing(20);
         formPane.setPadding(new Insets(20));
 
+        // GridPane para el formulario principal
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+
+        // Labels y campos de texto del formulario principal
         Label labelName = new Label("Movie name:");
         Label labelDirector = new Label("Director name:");
         Label labelDescription = new Label("Description:");
-        Label labelDuration = new Label("Duration:");
         Label labelCategory = new Label("Category:");
 
         text1.setPrefWidth(300);
         text2.setPrefWidth(300);
-        text3.setPrefWidth(300);
-        text4.setPrefWidth(300);
 
         choiceBox.setMaxSize(300, 20);
 
+        gridPane.add(labelName, 0, 0);
+        gridPane.add(labelDirector, 0, 1);
+        gridPane.add(labelDescription, 0, 2);
+        gridPane.add(labelCategory, 0, 4);
+
+        gridPane.add(text1, 1, 0);
+        gridPane.add(text2, 1, 1);
+        gridPane.add(text3, 1, 2);
+        gridPane.add(choiceBox, 1, 4);
+
+        // HBox para el campo de texto adicional y el botón "Agregar"
+        HBox seasonBox = new HBox();
+        seasonBox.setAlignment(Pos.CENTER);
+        seasonBox.setSpacing(10);
+
+        seasonField.setPrefWidth(250);
+        Button addButton = new Button("+");
+
+        seasonBox.getChildren().addAll(new Label("Name season:"), seasonField, addButton);
+
+        // ChoiceBox para los botones adicionales
+        ChoiceBox<String> additionalOptions = new ChoiceBox<>();
+        additionalOptions.getItems().addAll("Option 1", "Option 2");
+        additionalOptions.setPrefWidth(150);
+
+        // Botones adicionales
+        Button button1 = new Button("Button 1");
+        Button button2 = new Button("Button 2");
+
+        button1.setPrefWidth(100);
+        button2.setPrefWidth(100);
+
+        // HBox para los botones adicionales
+        HBox additionalButtons = new HBox(10, additionalOptions, button1, button2);
+        additionalButtons.setAlignment(Pos.CENTER);
+
+        // Botones "Guardar" y "Cancelar"
         Button acceptButton = new Button("Save");
         Button cancelButton = new Button("Cancel");
 
-        formPane.getChildren().addAll(
-                labelName, text1, labelDirector, text2, labelDescription, text3, labelDuration,
-                text4, labelCategory, choiceBox, acceptButton, cancelButton);
+        acceptButton.setPrefWidth(150);
+        cancelButton.setPrefWidth(150);
 
-        acceptButton.setOnAction(event -> addNewMovie());
+        acceptButton.setOnAction(event -> addNewSerie());
         cancelButton.setOnAction(event -> cancelNewMovie());
+
+        // HBox para los botones
+        HBox buttonPane = new HBox(10, acceptButton, cancelButton);
+        buttonPane.setAlignment(Pos.CENTER);
+
+        // Agregar todos los elementos al VBox principal
+        formPane.getChildren().addAll(gridPane, seasonBox, additionalButtons, buttonPane);
 
         return formPane;
     }
@@ -110,13 +163,15 @@ public class CreateSerie extends Application {
         // primaryStage.setScene(movieScene);
     }
 
-    private boolean addNewMovie() {
+    private boolean addNewSerie() {
         Boolean saved = false;
         // ventana de confirmacion
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar");
         alert.setHeaderText(null);
         alert.setContentText("You want to save to changes?");
+        ac.addSerie(text1.getText(), text2.getText(), text3.getText(),
+                ac.createSeasons(ac.getCurrentSerie().getId(), seasonField.getText(), null), STYLESHEET_CASPIAN);
 
         return saved;
     }
