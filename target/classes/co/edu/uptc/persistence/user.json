@@ -1,0 +1,74 @@
+[
+  {
+    "category": "Adventure",
+    "id": 7813,
+    "name": "harry Potter 1",
+    "duration": 200,
+    "author": "JK",
+    "description": "la piedra filosofal"
+  },
+  {
+    "category": "Horror",
+    "id": 7817,
+    "name": "camilo",
+    "duration": 300,
+    "author": "pruebafx",
+    "description": "pruebafx"
+  },
+  {
+    "category": "Action",
+    "id": 7821,
+    "name": "dsad",
+    "duration": 222,
+    "author": "asf",
+    "description": "screen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a movie"
+  },
+  {
+    "category": "Action",
+    "id": 7822,
+    "name": "dd",
+    "duration": 22,
+    "author": "d",
+    "description": "2"
+  },
+  {
+    "category": "Action",
+    "id": 7823,
+    "name": "pruebatable",
+    "duration": 33,
+    "author": "pruebatable",
+    "description": "pruebatable"
+  },
+  {
+    "category": "Horror",
+    "id": 7824,
+    "name": "dasd",
+    "duration": 22,
+    "author": "asd",
+    "description": "asd"
+  },
+  {
+    "category": "Drama",
+    "id": 7825,
+    "name": "ww",
+    "duration": 22,
+    "author": "ww",
+    "description": "ww"
+  },
+  {
+    "category": "Horror",
+    "id": 7826,
+    "name": "ee",
+    "duration": 2,
+    "author": "ee",
+    "description": "ee"
+  },
+  {
+    "category": "Comedy",
+    "id": 7827,
+    "name": "ff",
+    "duration": 33,
+    "author": "ff",
+    "description": "ff"
+  }
+]

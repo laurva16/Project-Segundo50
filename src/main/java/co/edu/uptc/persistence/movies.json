@@ -8,19 +8,19 @@
     "description": "la piedra filosofal"
   },
   {
-    "category": "Horror",
-    "id": 7817,
-    "name": "pruebafx",
-    "duration": 300,
-    "author": "pruebafx",
-    "description": "pruebafx"
+    "category": "Romance",
+    "id": 7821,
+    "name": "NuevoNombre",
+    "duration": 200,
+    "author": "Directorpepito",
+    "description": "prueba"
   },
   {
-    "category": "Action",
-    "id": 7821,
-    "name": "dsad",
-    "duration": 222,
-    "author": "asf",
-    "description": "screen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a moviescreen for the administrator to see the information of a movie"
+    "category": "Drama",
+    "id": 7823,
+    "name": "Juguito",
+    "duration": 122,
+    "author": "de",
+    "description": "MAngo"
   }
 ]

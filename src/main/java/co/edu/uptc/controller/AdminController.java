@@ -7,6 +7,7 @@ import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
+import co.edu.uptc.model.UserRegistered;
 import co.edu.uptc.utilities.FileManagement;
 
 public class AdminController {
@@ -67,7 +68,7 @@ public class AdminController {
         }
         return false;
     }
-
+    
     public boolean addSerie(String name, String author, String description, ArrayList<Season> seasons,
             String nameCategory) {
         if (addMultimediaValidation(name, author, 2)) {
