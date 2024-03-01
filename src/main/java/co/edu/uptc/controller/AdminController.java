@@ -7,6 +7,7 @@ import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
+import co.edu.uptc.model.UserRegistered;
 import co.edu.uptc.utilities.FileManagement;
 
 public class AdminController {
@@ -53,29 +54,30 @@ public class AdminController {
         if (serieFound(idSerie) != -1) {
             // admin.setSeries(listSeries);
             listSeries.remove(listSeries.get(serieFound(idSerie)));
-            fm.reWriteFile("series", listSeries);
-            return true;
+            return fm.reWriteFile("series", listSeries);
         }
         return false;
     }
 
-    public void addMovie(String name, String author, String description, int duration, String nameCategorytegory) {
+    public boolean addMovie(String name, String author, String description, int duration, String nameCategory) {
         if (addMultimediaValidation(name, author, 1)) {
-            Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategorytegory);
+            Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategory);
             listMovies.add(newMovie);
             // admin.setMovies(listMovies);
-            fm.writeFile("movies", newMovie);
+            return fm.writeFile("movies", newMovie);
         }
+        return false;
     }
-
-    public void addSerie(String name, String author, String description, ArrayList<Season> seasons,
+    
+    public boolean addSerie(String name, String author, String description, ArrayList<Season> seasons,
             String nameCategory) {
         if (addMultimediaValidation(name, author, 2)) {
             Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons, nameCategory);
             listSeries.add(newSerie);
             // admin.setSeries(listSeries);
-            fm.writeFile("series", newSerie);
+            return fm.writeFile("series", newSerie);
         }
+        return false;
     }
 
     public boolean addSeason(int idSerie, String nameSeason,

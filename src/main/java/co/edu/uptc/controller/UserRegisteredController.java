@@ -35,6 +35,28 @@ public class UserRegisteredController {
         }
     }
 
+    public boolean couldLogIn(String userName, String password) {
+
+        for (UserRegistered user : listUsers) {
+            if (user.getUser().equals(userName) && user.getPassword().equals(password)) {
+                currentUser = user;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean updateUserInformation() {
+        for (UserRegistered user : listUsers) {
+            if (user.getId() == currentUser.getId()) {
+                user = currentUser;
+                fm.reWriteFile("user", listUsers);
+            }
+        }
+        return false;
+    }
+
     public ArrayList<UserRegistered> getListUsers() {
         return listUsers;
     }

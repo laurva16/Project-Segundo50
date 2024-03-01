@@ -1,20 +1,26 @@
 [
   {
-    "id": 7814,
-    "name": "Name1",
-    "duration": 0,
-    "author": "Author1"
+    "category": "Adventure",
+    "id": 7813,
+    "name": "harry Potter 1",
+    "duration": 200,
+    "author": "JK",
+    "description": "la piedra filosofal"
   },
   {
-    "id": 7815,
-    "name": "Name2",
-    "duration": 0,
-    "author": "Author1"
+    "category": "Romance",
+    "id": 7821,
+    "name": "NuevoNombre",
+    "duration": 200,
+    "author": "Directorpepito",
+    "description": "prueba"
   },
   {
-    "id": 7816,
-    "name": "Name1",
-    "duration": 0,
-    "author": "Author2"
+    "category": "Drama",
+    "id": 7823,
+    "name": "Juguito",
+    "duration": 122,
+    "author": "de",
+    "description": "MAngo"
   }
 ]

@@ -26,10 +26,12 @@ public class CategoryController {
     }
 
     public ArrayList<Category> loadCategories() {
-        categories.add(new Category("Accion"));
-        categories.add(new Category("terror"));
+        categories.add(new Category("Action"));
+        categories.add(new Category("Horror"));
         categories.add(new Category("Drama"));
-
+        categories.add(new Category("Adventure"));
+        categories.add(new Category("Comedy"));
+        categories.add(new Category("Romance"));
         return categories;
     }
 

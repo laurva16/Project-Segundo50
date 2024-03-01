@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Optional;
 
 import co.edu.uptc.controller.AdminController;
+import co.edu.uptc.controller.CategoryController;
+import co.edu.uptc.model.Category;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.Serie;
 import javafx.application.Application;
@@ -16,7 +18,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,34 +30,50 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class EntryWindow extends Application {
     private TableView<Movie> tablaMovie;
     private TableView<Serie> tablaSerie = new TableView<>();
-    private Stage primaryStage;
-    private AdminController gc;
+    private Stage primaryStage = new Stage();
+    private AdminController adminC;
+    private CategoryController categoryC;
     private Scene scene1, scene2;
+    private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    Label labelName = new Label("Movie name:");
+    Label labelDirector = new Label("Director name:");
+    Label labelDescription = new Label("Description:");
+    Label labelDuration = new Label("Duration:");
+    Label labelCategory = new Label("Category:");
+    Label labelWarning;
+
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     public EntryWindow() {
-        gc = new AdminController();
+        adminC = new AdminController();
+        categoryC = new CategoryController();
+        categoryC.getCategories().forEach(
+                category -> choiceBox.getItems().add(category.getName()));
     }
 
-    @Override
-    public void start(Stage primaryStage) {
-        tablaMovie = new TableView<>();
-        this.primaryStage = primaryStage;
+    public void showMovieScene(){
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
         root.setTop(menuBar);
 
+        tablaMovie = new TableView<>();
+
         // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-        ObservableList<Movie> grupos = FXCollections.observableArrayList(gc.getMovies());
+        ObservableList<Movie> grupos = FXCollections.observableArrayList(adminC.getMovies());
 
         TableColumn<Movie, String> IdColumn = new TableColumn<>("Id");
         TableColumn<Movie, String> nameColumn = new TableColumn<>("Name");
@@ -113,16 +133,40 @@ public class EntryWindow extends Application {
         primaryStage.setMaximized(true);
         primaryStage.show();
 
+        // Add new Movie scene
+        addNewButton.setOnAction(event -> switchNewMovieScene());
+    }
+    @Override
+    public void start(Stage primaryStage) {
+        showMovieScene();
+        this.primaryStage = primaryStage;
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    void switchNewMovieScene() {
+        NewMovieScreen nms = new NewMovieScreen(this, adminC);
+        nms.switchScene();
+        primaryStage.setScene(nms.getNewMovieScene());
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle("New Movie Scene");
+        primaryStage.show();
+    }
+
+    public Scene getMovieScene() {
+        return scene1;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     public class BotonCelda extends TableCell<Movie, Void> {
         private final Button btnEliminar = new Button();
         private final Button btnModificar = new Button();
-        private final Button btnVer = new Button();
+        private final Button seeButton = new Button();
 
         public BotonCelda() {
             // Configura los íconos para los botones
@@ -142,11 +186,11 @@ public class EntryWindow extends Application {
 
             btnEliminar.setGraphic(iconoEliminar);
             btnModificar.setGraphic(iconoModificar);
-            btnVer.setGraphic(iconover);
+            seeButton.setGraphic(iconover);
 
             btnEliminar.getStyleClass().add("boton-eliminar");
             btnModificar.getStyleClass().add("boton-modificar");
-            btnVer.getStyleClass().add("boton-ver");
+            seeButton.getStyleClass().add("seeButton");
 
             btnEliminar.setOnAction(event -> {
                 Movie grupo = getTableView().getItems().get(getIndex());
@@ -158,21 +202,18 @@ public class EntryWindow extends Application {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    gc.deleteMovie(grupo.getId());
+                    adminC.deleteMovie(grupo.getId());
 
                     tablaMovie.getItems().remove(grupo);
                 }
             });
 
-            btnVer.setOnAction(event -> {
-                // Group group = getTableView().getItems().get(getIndex());
-                // modifyGroup modifyGroupWindow = new modifyGroup(gc, group, group.getId());
+            seeButton.setOnAction(event -> {
+                seeMovieScreen(getTableView().getItems().get(getIndex()));
             });
 
             btnModificar.setOnAction(event -> {
-                // Group group = getTableView().getItems().get(getIndex());
-                // modifyGroup modifyGroupWindow = new modifyGroup(gc, group, group.getId());
-
+                // editMovieScreen(getTableView().getItems().get(getIndex()));
             });
 
             // Configura el contenido de las celdas para mostrar los botones
@@ -185,7 +226,7 @@ public class EntryWindow extends Application {
             if (empty) {
                 setGraphic(null);
             } else {
-                HBox botonesContainer = new HBox(btnVer, btnEliminar, btnModificar);
+                HBox botonesContainer = new HBox(seeButton, btnEliminar, btnModificar);
                 botonesContainer.setSpacing(5);
                 setGraphic(botonesContainer);
             }
@@ -222,7 +263,7 @@ public class EntryWindow extends Application {
             root2.setTop(menuBar);
 
             // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-            ObservableList<Serie> series = FXCollections.observableArrayList(gc.getListSeries());
+            ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
 
             TableColumn<Serie, String> IdColumn = new TableColumn<>("Id");
             TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
@@ -326,7 +367,7 @@ public class EntryWindow extends Application {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    gc.deleteSerie(serie.getId());
+                    adminC.deleteSerie(serie.getId());
                     tablaSerie.getItems().remove(serie);
                 }
             });
@@ -356,6 +397,58 @@ public class EntryWindow extends Application {
                 setGraphic(botonesContainer);
             }
         }
+    }
+
+    void seeMovieScreen(Movie movie) {
+
+        Stage secundaryStage = new Stage();
+        secundaryStage.initModality(Modality.APPLICATION_MODAL);
+        secundaryStage.setTitle("Movie Information");
+
+        GridPane gridPane = new GridPane();
+        gridPane.setId("root2");
+        gridPane.setMaxWidth(600);
+        gridPane.setMaxHeight(600);
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setVgap(20);
+        gridPane.setHgap(50);
+
+        Label name = new Label(movie.getName());
+        Label director = new Label(movie.getAuthor());
+        Label description = new Label(movie.getDescription());
+        Label duration = new Label(String.valueOf(movie.getDuration()));
+        Label category = new Label(movie.getCategory());
+
+        GridPane.setConstraints(labelName, 0, 0);
+        GridPane.setConstraints(labelDirector, 0, 1);
+        GridPane.setConstraints(labelDescription, 0, 2);
+        GridPane.setConstraints(labelDuration, 0, 3);
+        GridPane.setConstraints(labelCategory, 0, 4);
+
+        GridPane.setConstraints(name, 1, 0);
+        GridPane.setConstraints(director, 1, 1);
+        GridPane.setConstraints(description, 1, 2);
+        GridPane.setConstraints(duration, 1, 3);
+        GridPane.setConstraints(category, 1, 4);
+
+        Button closeButton = new Button();
+        // closeButton.setTranslateX(-100);
+        closeButton.setText("Close");
+        closeButton.setPrefWidth(100);
+        GridPane.setConstraints(closeButton, 1, 5);
+        closeButton.setOnAction(event -> secundaryStage.close());
+        closeButton.setId("button");
+        gridPane.getChildren().setAll(labelName, labelDirector, labelDescription, labelDuration, labelCategory, name,
+                director, description, duration, category, closeButton);
+
+        // Configurar tamano description
+        description.setMaxWidth(200);
+        description.setWrapText(true);
+
+        Scene seeMovieScene = new Scene(gridPane, 500, 550);
+        seeMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        secundaryStage.setScene(seeMovieScene);
+        secundaryStage.showAndWait();
     }
 
     private void cambiarAEscena1() {

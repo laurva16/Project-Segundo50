@@ -36,7 +36,7 @@
     -fx-max-height: 45px; /* Altura máxima personalizada, para mantenerlo circular */
 }
 
-.boton-ver {
+.seeButton {
     -fx-background-color: rgb(112, 108, 108);
 }
 
