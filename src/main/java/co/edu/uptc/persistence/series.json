@@ -54,5 +54,19 @@
     "name": "Name1",
     "duration": 0,
     "author": "Author2"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "lauraaaaaa"
+      }
+    ],
+    "category": "terror",
+    "id": 462,
+    "name": "rueba2222",
+    "duration": 0,
+    "author": "jfgjdggg",
+    "description": "gdfgfgfg"
   }
 ]

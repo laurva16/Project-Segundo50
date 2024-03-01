@@ -794,11 +794,11 @@ public class AppMenus {
                                         JOptionPane.YES_NO_OPTION);
 
                                 if (confirmResult == JOptionPane.YES_OPTION) {
-                                    ac.addSerie(name, author, description,
+                                    /*ac.addSerie(name, author, description,
                                             ac.createSeasons(100, name,
                                                     ac.createChapter(nameChapter, descriptionChapter,
                                                             durationChapter)),
-                                            null);
+                                            null);*/
 
                                     while (true) {
 

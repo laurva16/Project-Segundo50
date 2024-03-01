@@ -12,7 +12,7 @@ import co.edu.uptc.utilities.FileManagement;
 public class AdminController {
 
     private Admin admin;
-    private Serie currentSerie; // Creo que hay que eliminar esto
+    private Serie currentSerie;
     private ArrayList<Movie> listMovies;
     private ArrayList<Serie> listSeries;
     FileManagement fm = new FileManagement();
@@ -68,11 +68,12 @@ public class AdminController {
         }
     }
 
-    public void addSerie(String name, String author, String description, ArrayList<Season> seasons,
+    public void addSerie(String name, String author, String description,
             String nameCategory) {
         if (addMultimediaValidation(name, author, 2)) {
-            Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons, nameCategory);
+            Serie newSerie = new Serie(assignidSerie(), name, author, description, nameCategory);
             listSeries.add(newSerie);
+            currentSerie = newSerie;
             // admin.setSeries(listSeries);
             fm.writeFile("series", newSerie);
         }
@@ -243,10 +244,10 @@ public class AdminController {
         return false;
     }
 
-    public ArrayList<Season> createSeasons(int idSerie, String name,
+    public ArrayList<Season> createSeasons(String name,
             ArrayList<MultimediaContent> seasonMultimediaContent) {
         ArrayList<Season> listSeasons = new ArrayList<Season>();
-        listSeasons.add(new Season(assignidSeason(idSerie), name, seasonMultimediaContent));
+        listSeasons.add(new Season(1, name, seasonMultimediaContent));
         return listSeasons;
     }
 

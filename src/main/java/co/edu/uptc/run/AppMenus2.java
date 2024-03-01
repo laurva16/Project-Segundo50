@@ -824,11 +824,13 @@ public class AppMenus2 {
 
                                     if (selectedCategoryName != null) {
 
-                                        ac.addSerie(name, author, description,
-                                                ac.createSeasons(100, name,
-                                                        ac.createChapter(nameChapter, descriptionChapter,
-                                                                durationChapter)),
-                                                selectedCategoryName);
+                                        /*
+                                         * ac.addSerie(name, author, description,
+                                         * ac.createSeasons(100, name,
+                                         * ac.createChapter(nameChapter, descriptionChapter,
+                                         * durationChapter)),
+                                         * selectedCategoryName);
+                                         */
 
                                         while (true) {
 

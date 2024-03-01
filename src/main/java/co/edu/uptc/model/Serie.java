@@ -6,7 +6,7 @@ public class Serie extends MultimediaContent {
     private ArrayList<Season> seasons;
     String category;
 
-    public Serie(int id, String name, String author, String description, ArrayList<Season> seasons, String category) {
+    public Serie(int id, String name, String author, String description, String category) {
         super(id, name, author, description);
         this.seasons = seasons;
         this.category = category;

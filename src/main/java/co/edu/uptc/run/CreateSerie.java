@@ -20,10 +20,12 @@ import javafx.geometry.Rectangle2D;
 import java.util.Optional;
 
 import co.edu.uptc.controller.AdminController;
+import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.Movie;
 
 public class CreateSerie extends Application {
-    private Scene movieScene;
+    private Scene Scene1, Scene2;
+    private Stage primaryStage;
     private TextField text1 = new TextField();
     private TextField text2 = new TextField();
     private TextField text3 = new TextField();
@@ -31,15 +33,24 @@ public class CreateSerie extends Application {
 
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
     private AdminController ac;
+    private CategoryController categoryC;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     public CreateSerie() {
         ac = new AdminController();
+        categoryC = new CategoryController();
+        categoryC.getCategories().forEach(
+                category -> choiceBox.getItems().add(category.getName()));
+
     }
 
     @Override
     public void start(Stage primaryStage) {
+
+    }
+
+    private void formularySeason() {
         // Crear el formulario en la mitad izquierda
         VBox formPane = createFormPane();
 
@@ -52,12 +63,13 @@ public class CreateSerie extends Application {
         splitPane.setDividerPositions(0.5); // Posición del divisor (50% de cada lado)
 
         // Crear la escena
-        Scene newMovieScene = new Scene(splitPane, screenWidth, screenHeight);
+        Scene2 = new Scene(splitPane, screenWidth, screenHeight);
 
         // Establecer la escena en la ventana
-        primaryStage.setScene(newMovieScene);
+        primaryStage.setScene(Scene2);
         primaryStage.setTitle("New Movie Scene");
         primaryStage.show();
+
     }
 
     private VBox createFormPane() {
@@ -100,6 +112,8 @@ public class CreateSerie extends Application {
 
         seasonField.setPrefWidth(250);
         Button addButton = new Button("+");
+
+        addButton.setOnAction(event -> ac.addSeason(0, STYLESHEET_CASPIAN, null));
 
         seasonBox.getChildren().addAll(new Label("Name season:"), seasonField, addButton);
 
@@ -171,7 +185,7 @@ public class CreateSerie extends Application {
         alert.setHeaderText(null);
         alert.setContentText("You want to save to changes?");
         ac.addSerie(text1.getText(), text2.getText(), text3.getText(),
-                ac.createSeasons(ac.getCurrentSerie().getId(), seasonField.getText(), null), STYLESHEET_CASPIAN);
+                choiceBox.getValue());
 
         return saved;
     }
