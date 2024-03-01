@@ -32,7 +32,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class EntryWindow extends Application {
-    private TableView<Movie> tablaMovie = new TableView<>();
+    private TableView<Movie> tablaMovie;
     private TableView<Serie> tablaSerie = new TableView<>();
     private Stage primaryStage;
     private AdminController gc;
@@ -46,6 +46,7 @@ public class EntryWindow extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        tablaMovie = new TableView<>();
         this.primaryStage = primaryStage;
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
