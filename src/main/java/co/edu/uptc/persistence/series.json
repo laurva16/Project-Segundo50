@@ -68,5 +68,23 @@
     "duration": 0,
     "author": "jfgjdggg",
     "description": "gdfgfgfg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "Vamooo"
+      },
+      {
+        "id": 2,
+        "seasonName": "vamo222"
+      }
+    ],
+    "category": "terror",
+    "id": 463,
+    "name": "sumadre",
+    "duration": 0,
+    "author": "Laura",
+    "description": "juajauajauaauaj"
   }
 ]

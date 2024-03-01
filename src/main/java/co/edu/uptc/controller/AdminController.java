@@ -68,10 +68,10 @@ public class AdminController {
         }
     }
 
-    public void addSerie(String name, String author, String description,
+    public void addSerie(String name, String author, String description, ArrayList<Season> listSeasons,
             String nameCategory) {
         if (addMultimediaValidation(name, author, 2)) {
-            Serie newSerie = new Serie(assignidSerie(), name, author, description, nameCategory);
+            Serie newSerie = new Serie(assignidSerie(), name, author, description, listSeasons, nameCategory);
             listSeries.add(newSerie);
             currentSerie = newSerie;
             // admin.setSeries(listSeries);
