@@ -112,6 +112,26 @@ public class AdminController {
         }
     }
 
+    public void addChapterName(String name, String description, int duration, int idSerie,
+            String idSeason) {
+        int serieIndex = serieFound(idSerie);
+        int seasonIndex = seasonNameFound(idSeason, idSerie);
+
+        if (serieIndex != -1 && seasonIndex != -1) {
+            if (listSeries.get(serieIndex).getSeasons().get(seasonIndex).getchapters() == null) {
+
+                listSeries.get(serieIndex).getSeasons().get(seasonIndex).setchapters(new ArrayList<>());
+                listSeries.get(serieIndex).getSeasons().get(seasonIndex)
+                        .addchapters((new MultimediaContent(assignidChapter(serieIndex, seasonIndex),
+                                duration, name, description)));
+            } else {
+                listSeries.get(serieIndex).getSeasons().get(seasonIndex).getchapters().add(
+                        (new MultimediaContent(assignidChapter(serieIndex, seasonIndex), duration, name, description)));
+            }
+            fm.reWriteFile("series", listSeries);
+        }
+    }
+
     public boolean updateMovieInformation(Movie updateMovie) {
         for (Movie movie : listMovies) {
             if (movie.getId() == updateMovie.getId()) {
@@ -372,8 +392,6 @@ public class AdminController {
 
         if (aux != -1) {
             listSeries.get(aux).getSeasons().get(auxSeason).setSeasonName(nameSeasonNew);
-            fm.reWriteFile("series", listSeries);
-
             return true;
         }
         return false;
@@ -384,7 +402,9 @@ public class AdminController {
         int auxSeason = seasonNameFound(idSeason, Selected);
 
         if (aux != -1) {
+
             listSeries.get(aux).getSeasons().get(auxSeason).setSeasonName(nameSeasonNew);
+            fm.reWriteFile("series", listSeries);
 
             return true;
         }

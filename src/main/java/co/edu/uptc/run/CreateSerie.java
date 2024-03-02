@@ -1,7 +1,7 @@
-
 package co.edu.uptc.run;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -28,18 +28,28 @@ import java.util.Optional;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.Movie;
+import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
+import co.edu.uptc.model.Serie;
 
 public class CreateSerie extends Application {
-    private Scene Scene1, Scene2;
+    private Scene Scene1, Scene2, Scene3;
     private Stage primaryStage;
     private TextField text1 = new TextField();
     private TextField text2 = new TextField();
     private TextField text3 = new TextField();
+    private TextField textNameChapter = new TextField();
+    private TextField textDurationChapter = new TextField();
+    private TextField textDescriptionChapter = new TextField();
     private TextField seasonField = new TextField();
+    TableView<Season> tablaMovie = new TableView<>();
+    // Declara un observable list para almacenar las temporadas
+    ObservableList<String> seasonsList = FXCollections.observableArrayList();
+
+    // Añade el ChoiceBox y la lista observable de temporadas
+    ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
 
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
-    private ChoiceBox<Season> choiceSeason = new ChoiceBox<>();
     private AdminController ac;
     private CategoryController categoryC;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
@@ -136,7 +146,7 @@ public class CreateSerie extends Application {
         VBox formPane = createFormPane();
 
         // Crear la tabla en la mitad derecha
-        TableView<Movie> tablaMovie = createTable();
+        TableView<Season> tablaMovie = createTable();
 
         // Dividir la ventana en dos partes con un SplitPane
         SplitPane splitPane = new SplitPane();
@@ -179,11 +189,7 @@ public class CreateSerie extends Application {
         Button addButton = new Button();
 
         addButton.setGraphic(iconoAddSeason);
-        // Declara un observable list para almacenar las temporadas
-        ObservableList<String> seasonsList = FXCollections.observableArrayList();
 
-        // Añade el ChoiceBox y la lista observable de temporadas
-        ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
         additionalOptions.setPrefWidth(250);
 
         // Añadir temporadas al ChoiceBox de temporadas (cambia este código según la
@@ -301,10 +307,18 @@ public class CreateSerie extends Application {
                 Optional<String> result = dialog.showAndWait();
                 result.ifPresent(newName -> {
                     if (!newName.isEmpty()) {
-                        // Aquí puedes realizar la actualización de la temporada con el nuevo nombre
-                        // Implementa la lógica según tus necesidades
+                        // Actualizar la temporada con el nuevo nombre
                         ac.modifySeasonName(newName, ac.getCurrentSerie().getId(), selectedSeason);
-                        System.out.println("New Season Name: " + newName);
+
+                        // Actualizar el nombre de la temporada en la lista observable
+                        int selectedIndex = additionalOptions.getItems().indexOf(selectedSeason);
+                        seasonsList.set(selectedIndex, newName);
+
+                        // Actualizar el ChoiceBox con la lista actualizada
+                        additionalOptions.setItems(seasonsList);
+
+                        // Volver a seleccionar la temporada modificada
+                        additionalOptions.getSelectionModel().select(newName);
                     }
                 });
             }
@@ -319,28 +333,82 @@ public class CreateSerie extends Application {
         HBox buttonPane = new HBox(10, acceptButton, cancelButton);
         buttonPane.setAlignment(Pos.CENTER);
 
+        Button addChapterButton = new Button("Add Chapter");
+        addChapterButton.setOnAction(event -> {
+            formularyChapter();
+
+        });
+        addChapterButton.setPrefWidth(370);
+
+        // VBox para el botón "Add Chapter"
+        VBox addChapterBox = new VBox(addChapterButton);
+        addChapterBox.setAlignment(Pos.CENTER);
+
         // Agregar todos los elementos al VBox principal
-        formPane.getChildren().addAll(gridPane, seasonBox, additionalButtons, buttonPane);
+        formPane.getChildren().addAll(gridPane, seasonBox, additionalButtons, addChapterBox, buttonPane);
 
         return formPane;
     }
 
-    private TableView<Movie> createTable() {
-        TableView<Movie> tablaMovie = new TableView<>();
+    private TableView<Season> createTable() {
         tablaMovie.setMaxWidth(600); // Establecer ancho máximo para la tabla
 
-        TableColumn<Movie, String> IdColumn = new TableColumn<>("Id");
-        TableColumn<Movie, String> facultyColumn = new TableColumn<>("Name");
-        TableColumn<Movie, String> nombreGrupoColumn = new TableColumn<>("Director");
+        // Crear las columnas de la tabla
+        TableColumn<Season, String> IdSeasonColumn = new TableColumn<>("Id Season");
+        TableColumn<Season, String> nameSeasonColumn = new TableColumn<>("Name Season");
+        TableColumn<Season, String> IdChapterColumn = new TableColumn<>("Id Chapter");
+        TableColumn<Season, String> NameChapterColumn = new TableColumn<>("Name Chapter");
+        TableColumn<Season, Void> accionesColumna = new TableColumn<>("Actions");
 
-        IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        facultyColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nombreGrupoColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        // Configurar las celdas de cada columna
+        IdSeasonColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameSeasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonName"));
 
-        // Agregar columna de botones
-        TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Actions");
-        // accionesColumna.setCellFactory(param -> new BotonCelda());
-        tablaMovie.getColumns().addAll(IdColumn, facultyColumn, nombreGrupoColumn, accionesColumna);
+        // Configurar celdas de capítulos
+        IdChapterColumn.setCellValueFactory(cellData -> new SimpleStringProperty(""));
+        IdChapterColumn.setCellFactory(column -> new TableCell<Season, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    Season season = getTableView().getItems().get(getIndex());
+                    ObservableList<MultimediaContent> chapters = FXCollections
+                            .observableArrayList(season.getchapters());
+
+                    StringBuilder chapterIds = new StringBuilder();
+                    for (MultimediaContent chapter : chapters) {
+                        chapterIds.append(chapter.getId()).append("\n");
+                    }
+                    setText(chapterIds.toString());
+                }
+            }
+        });
+
+        NameChapterColumn.setCellValueFactory(cellData -> new SimpleStringProperty(""));
+        NameChapterColumn.setCellFactory(column -> new TableCell<Season, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    Season season = getTableView().getItems().get(getIndex());
+                    ObservableList<MultimediaContent> chapters = FXCollections
+                            .observableArrayList(season.getchapters());
+                    StringBuilder chapterNames = new StringBuilder();
+                    for (MultimediaContent chapter : chapters) {
+                        chapterNames.append(chapter.getName()).append("\n");
+                    }
+                    setText(chapterNames.toString());
+                }
+            }
+        });
+
+        // Agregar las columnas a la tabla
+        tablaMovie.getColumns().addAll(IdSeasonColumn, nameSeasonColumn, IdChapterColumn, NameChapterColumn,
+                accionesColumna);
 
         return tablaMovie;
     }
@@ -377,36 +445,109 @@ public class CreateSerie extends Application {
         return saved;
     }
 
-    private boolean deleteSeason() {
-        Boolean saved = false;
-        // Ventana de confirmación
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar");
-        alert.setHeaderText(null);
-        alert.setContentText("¿Deseas guardar los cambios?");
+    private void formularyChapter() {
+        BorderPane root3 = new BorderPane();
+        root3.setId("root2");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Verificar si se seleccionó alguna temporada antes de intentar eliminarla
-            if (choiceSeason.getValue() != null) {
-                // Si hay una temporada seleccionada, eliminarla
-                ac.deleteSeason(choiceSeason.getValue().getId(), ac.getCurrentSerie().getId());
-            } else {
-                // Si no hay ninguna temporada seleccionada, mostrar un mensaje de error o
-                // realizar alguna otra acción según sea necesario
-                System.out.println("No se ha seleccionado ninguna temporada.");
+        GridPane gridPane = new GridPane();
+
+        text1.setPrefWidth(300);
+        text2.setPrefWidth(300);
+        text3.setPrefWidth(300);
+
+        Label labelName = new Label("Chapter name:");
+        Label labelDuration = new Label("Duration:");
+        Label labelDescription = new Label("Description:");
+
+        gridPane.setMaxWidth(600);
+        gridPane.setMaxHeight(600);
+        gridPane.setAlignment(Pos.CENTER);
+
+        GridPane.setConstraints(labelName, 0, 0);
+        GridPane.setConstraints(labelDuration, 0, 1);
+        GridPane.setConstraints(labelDescription, 0, 2);
+
+        GridPane.setConstraints(textNameChapter, 1, 0);
+        GridPane.setConstraints(textDurationChapter, 1, 1);
+        GridPane.setConstraints(textDescriptionChapter, 1, 2);
+
+        gridPane.setVgap(20);
+        gridPane.setHgap(0);
+
+        gridPane.getChildren().setAll(labelName, textNameChapter, labelDuration, textDurationChapter, labelDescription,
+                textDescriptionChapter);
+        root3.setCenter(gridPane);
+
+        root3.setStyle("-fx-background-color: #191919;");
+        gridPane.setStyle("-fx-background-color: white;");
+
+        // Save buttton
+        Button acceptButton = new Button();
+
+        GridPane.setConstraints(acceptButton, 0, 5);
+        acceptButton.setTranslateY(100);
+        acceptButton.setText("Accept");
+        acceptButton.setPrefWidth(150);
+        GridPane.setHalignment(acceptButton, javafx.geometry.HPos.LEFT);
+        String selectedSeason = additionalOptions.getValue();
+        acceptButton.setOnAction(event -> {
+            // Obtener la temporada seleccionada del ChoiceBox
+            String selectedSeasonName = additionalOptions.getValue();
+            Season selectedSeasonObj = null; // Cambiar el nombre de la variable
+
+            // Buscar la temporada seleccionada en la lista de temporadas
+            for (Season season : ac.getCurrentSerie().getSeasons()) {
+                if (season.getSeasonName().equals(selectedSeasonName)) {
+                    selectedSeasonObj = season;
+                    break;
+                }
             }
 
-            // Continuar con el formulario de las temporadas
-            formularySeason();
+            // Verificar si se encontró la temporada seleccionada
+            if (selectedSeasonObj != null) {
+                // Agregar el nuevo capítulo a la temporada seleccionada
+                ac.addChapterName(textNameChapter.getText(), textDescriptionChapter.getText(),
+                        Integer.parseInt(textDurationChapter.getText()), ac.getCurrentSerie().getId(),
+                        selectedSeasonName);
 
-            // Cambiar a la segunda escena
-            primaryStage.setScene(Scene2);
+                // Actualizar la tabla con la lista de temporadas actualizada
+                tablaMovie.getItems().clear(); // Limpiar la tabla
+                tablaMovie.getItems().addAll(ac.getCurrentSerie().getSeasons()); // Establecer la lista observable
+                                                                                 // actualizada
+            }
 
-            saved = true;
-        }
+            // Cambiar a la primera escena después de agregar el capítulo
+            cambiarAEscena1();
+        });
 
-        return saved;
+        // Cancel buttton
+        Button cancelButton = new Button();
+        GridPane.setConstraints(cancelButton, 1, 5);
+        cancelButton.setTranslateY(100);
+        cancelButton.setText("Cancel");
+        cancelButton.setPrefWidth(150);
+        GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
+
+        cancelButton.setOnAction(event -> cancelNewMovie());
+        gridPane.getChildren().addAll(acceptButton, cancelButton);
+
+        // Crear la escena
+        Scene3 = new Scene(root3, screenWidth, screenHeight);
+        // aplicar CSS
+        Scene3.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        cancelButton.setId("button");
+        acceptButton.setId("button");
+
+        // Establecer la escena en la ventana
+        primaryStage.setScene(Scene3);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle("New chapter Scene");
+        primaryStage.show();
+
+    }
+
+    private void cambiarAEscena1() {
+        primaryStage.setScene(Scene2);
     }
 
     public static void main(String[] args) {
