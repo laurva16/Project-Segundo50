@@ -42,7 +42,7 @@ public class CreateSerie extends Application {
     private TextField textDurationChapter = new TextField();
     private TextField textDescriptionChapter = new TextField();
     private TextField seasonField = new TextField();
-    TableView<Season> tablaMovie = new TableView<>();
+    TableView<MultimediaContent> tablaMovie = new TableView<>();
     // Declara un observable list para almacenar las temporadas
     ObservableList<String> seasonsList = FXCollections.observableArrayList();
 
@@ -146,7 +146,7 @@ public class CreateSerie extends Application {
         VBox formPane = createFormPane();
 
         // Crear la tabla en la mitad derecha
-        TableView<Season> tablaMovie = createTable();
+        TableView<MultimediaContent> tablaMovie = createTable();
 
         // Dividir la ventana en dos partes con un SplitPane
         SplitPane splitPane = new SplitPane();
@@ -160,6 +160,13 @@ public class CreateSerie extends Application {
         primaryStage.setScene(Scene2);
         primaryStage.setTitle("New Movie Scene");
         primaryStage.show();
+
+        additionalOptions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // Actualizar la tabla con los capítulos de la nueva temporada seleccionada
+            if (newValue != null) {
+                refreshChapterTable(newValue);
+            }
+        });
 
     }
 
@@ -336,7 +343,6 @@ public class CreateSerie extends Application {
         Button addChapterButton = new Button("Add Chapter");
         addChapterButton.setOnAction(event -> {
             formularyChapter();
-
         });
         addChapterButton.setPrefWidth(370);
 
@@ -350,65 +356,15 @@ public class CreateSerie extends Application {
         return formPane;
     }
 
-    private TableView<Season> createTable() {
-        tablaMovie.setMaxWidth(600); // Establecer ancho máximo para la tabla
+    private TableView<MultimediaContent> createTable() {
 
         // Crear las columnas de la tabla
-        TableColumn<Season, String> IdSeasonColumn = new TableColumn<>("Id Season");
-        TableColumn<Season, String> nameSeasonColumn = new TableColumn<>("Name Season");
-        TableColumn<Season, String> IdChapterColumn = new TableColumn<>("Id Chapter");
-        TableColumn<Season, String> NameChapterColumn = new TableColumn<>("Name Chapter");
-        TableColumn<Season, Void> accionesColumna = new TableColumn<>("Actions");
-
-        // Configurar las celdas de cada columna
-        IdSeasonColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameSeasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonName"));
-
-        // Configurar celdas de capítulos
-        IdChapterColumn.setCellValueFactory(cellData -> new SimpleStringProperty(""));
-        IdChapterColumn.setCellFactory(column -> new TableCell<Season, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    Season season = getTableView().getItems().get(getIndex());
-                    ObservableList<MultimediaContent> chapters = FXCollections
-                            .observableArrayList(season.getchapters());
-
-                    StringBuilder chapterIds = new StringBuilder();
-                    for (MultimediaContent chapter : chapters) {
-                        chapterIds.append(chapter.getId()).append("\n");
-                    }
-                    setText(chapterIds.toString());
-                }
-            }
-        });
-
-        NameChapterColumn.setCellValueFactory(cellData -> new SimpleStringProperty(""));
-        NameChapterColumn.setCellFactory(column -> new TableCell<Season, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    Season season = getTableView().getItems().get(getIndex());
-                    ObservableList<MultimediaContent> chapters = FXCollections
-                            .observableArrayList(season.getchapters());
-                    StringBuilder chapterNames = new StringBuilder();
-                    for (MultimediaContent chapter : chapters) {
-                        chapterNames.append(chapter.getName()).append("\n");
-                    }
-                    setText(chapterNames.toString());
-                }
-            }
-        });
+        TableColumn<MultimediaContent, String> IdChapterColumn = new TableColumn<>("Id Chapter");
+        TableColumn<MultimediaContent, String> NameChapterColumn = new TableColumn<>("Name Chapter");
+        TableColumn<MultimediaContent, Void> accionesColumna = new TableColumn<>("Actions");
 
         // Agregar las columnas a la tabla
-        tablaMovie.getColumns().addAll(IdSeasonColumn, nameSeasonColumn, IdChapterColumn, NameChapterColumn,
-                accionesColumna);
+        tablaMovie.getColumns().addAll(IdChapterColumn, NameChapterColumn, accionesColumna);
 
         return tablaMovie;
     }
@@ -493,7 +449,7 @@ public class CreateSerie extends Application {
         acceptButton.setOnAction(event -> {
             // Obtener la temporada seleccionada del ChoiceBox
             String selectedSeasonName = additionalOptions.getValue();
-            Season selectedSeasonObj = null; // Cambiar el nombre de la variable
+            Season selectedSeasonObj = null;
 
             // Buscar la temporada seleccionada en la lista de temporadas
             for (Season season : ac.getCurrentSerie().getSeasons()) {
@@ -510,14 +466,15 @@ public class CreateSerie extends Application {
                         Integer.parseInt(textDurationChapter.getText()), ac.getCurrentSerie().getId(),
                         selectedSeasonName);
 
-                // Actualizar la tabla con la lista de temporadas actualizada
-                tablaMovie.getItems().clear(); // Limpiar la tabla
-                tablaMovie.getItems().addAll(ac.getCurrentSerie().getSeasons()); // Establecer la lista observable
-                                                                                 // actualizada
+                // Actualizar la tabla con los capítulos de la temporada seleccionada
+                refreshChapterTable(selectedSeasonName);
+                cambiarAEscena1();
             }
 
-            // Cambiar a la primera escena después de agregar el capítulo
-            cambiarAEscena1();
+            // Limpiar los campos de texto del capítulo
+            textNameChapter.clear();
+            textDurationChapter.clear();
+            textDescriptionChapter.clear();
         });
 
         // Cancel buttton
@@ -550,7 +507,36 @@ public class CreateSerie extends Application {
         primaryStage.setScene(Scene2);
     }
 
+    private void refreshChapterTable(String selectedSeasonName) {
+        // Limpiar la tabla
+        tablaMovie.getItems().clear();
+        tablaMovie.getColumns().clear();
+
+        // Crear las columnas de la tabla
+        TableColumn<MultimediaContent, String> IdChapterColumn = new TableColumn<>("Id Chapter");
+        TableColumn<MultimediaContent, String> NameChapterColumn = new TableColumn<>("Name Chapter");
+        TableColumn<MultimediaContent, Void> accionesColumna = new TableColumn<>("Actions");
+
+        // Agregar las columnas a la tabla
+        tablaMovie.getColumns().addAll(IdChapterColumn, NameChapterColumn, accionesColumna);
+
+        // Obtener los capítulos de la temporada seleccionada
+        ArrayList<MultimediaContent> chapters = ac.getCurrentSerie().getSeasons()
+                .get(ac.seasonNameFound(selectedSeasonName, ac.getCurrentSerie().getId())).getchapters();
+
+        // Crear una lista observable de capítulos
+        ObservableList<MultimediaContent> chapterList = FXCollections.observableArrayList(chapters);
+
+        // Asignar los valores a las celdas de la tabla
+        IdChapterColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        NameChapterColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        // Agregar los datos a la tabla
+        tablaMovie.setItems(chapterList);
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
+
 }

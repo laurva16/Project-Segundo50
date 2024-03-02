@@ -325,5 +325,243 @@
     "duration": 0,
     "author": "jjjjj",
     "description": "j"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "gfhfg",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "gfhfg",
+            "duration": 4534,
+            "description": "nghjh"
+          }
+        ]
+      }
+    ],
+    "category": "Drama",
+    "id": 472,
+    "name": "fghfg",
+    "duration": 0,
+    "author": "hfhf",
+    "description": "gghg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "fdgdfg",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "fdgdf",
+            "duration": 45435,
+            "description": "cvfg"
+          }
+        ]
+      }
+    ],
+    "category": "Action",
+    "id": 473,
+    "name": "fgd",
+    "duration": 0,
+    "author": "gdg",
+    "description": "d54"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "dsfsfdf",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "dfds",
+            "duration": 35454,
+            "description": "fgdfg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 474,
+    "name": "dfdf",
+    "duration": 0,
+    "author": "dfsdfsd",
+    "description": "sdfsfsd"
+  },
+  {
+    "seasons": [],
+    "category": "Action",
+    "id": 475,
+    "name": "GF",
+    "duration": 0,
+    "author": "DFGFGDF",
+    "description": "FDGDFG"
+  },
+  {
+    "seasons": [],
+    "category": "Action",
+    "id": 476,
+    "name": "DGD",
+    "duration": 0,
+    "author": "FDFGDF",
+    "description": "FDGDF"
+  },
+  {
+    "seasons": [],
+    "category": "Drama",
+    "id": 477,
+    "name": "fgd",
+    "duration": 0,
+    "author": "fdfgd",
+    "description": "dgdg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "trtreyrt",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "gh",
+            "duration": 43534,
+            "description": "fgdfg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 478,
+    "name": "ret",
+    "duration": 0,
+    "author": "ertert",
+    "description": "erte"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "dfgdfg",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "fgdf",
+            "duration": 3453,
+            "description": "fgdfg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 479,
+    "name": "dfgd",
+    "duration": 0,
+    "author": "gdgd",
+    "description": "dfgdffg"
+  },
+  {
+    "seasons": [],
+    "category": "Horror",
+    "id": 480,
+    "name": "ghf",
+    "duration": 0,
+    "author": "gfghfg",
+    "description": "hfghfh"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "dfdf",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "dfd",
+            "duration": 454,
+            "description": "dfd"
+          },
+          {
+            "id": 2,
+            "name": "er",
+            "duration": 24,
+            "description": "cfv"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "fgf",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "at",
+            "duration": 3432,
+            "description": "fsdfds"
+          },
+          {
+            "id": 2,
+            "name": "otro",
+            "duration": 35435,
+            "description": "df"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 481,
+    "name": "df",
+    "duration": 0,
+    "author": "ddsfsd",
+    "description": "dsfsd"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "dfgdf",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "sds",
+            "duration": 24,
+            "description": "f"
+          },
+          {
+            "id": 2,
+            "name": "otro mas",
+            "duration": 32423,
+            "description": "dsfsd"
+          },
+          {
+            "id": 3,
+            "name": "y otor",
+            "duration": 43,
+            "description": "df"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "aaaa",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "sera",
+            "duration": 2334,
+            "description": "posible?"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 482,
+    "name": "ajama",
+    "duration": 0,
+    "author": "fgdf",
+    "description": "fdgdf"
   }
 ]
