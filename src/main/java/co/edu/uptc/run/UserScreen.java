@@ -2,18 +2,14 @@ package co.edu.uptc.run;
 
 import java.io.File;
 import java.util.Optional;
-
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
-import co.edu.uptc.model.Category;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.Serie;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,11 +29,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -231,11 +224,17 @@ public class UserScreen {
         Region spacer = new Region();
         Button movieButton = new Button("Movie");
         Button serieButton = new Button("Serie");
+        Button playListButton = new Button("PlayList");
+        Button subscriptionButton = new Button("Subscription");
         Button returnButton = new Button("Log Out");
+
         movieButton.setCursor(Cursor.HAND);
         serieButton.setCursor(Cursor.HAND);
+        playListButton.setCursor(Cursor.HAND);
+        subscriptionButton.setCursor(Cursor.HAND);
         returnButton.setCursor(Cursor.HAND);
 
+        subscriptionButton.setMinWidth(110);
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
         // Asignar acciones a los botones
@@ -253,10 +252,13 @@ public class UserScreen {
         });
 
         // Crear la barra de herramientas y agregar los botones
-        ToolBar toolBar = new ToolBar(movieButton, serieButton, spacer, returnButton);
+        ToolBar toolBar = new ToolBar(movieButton, serieButton, playListButton, subscriptionButton, spacer,
+                returnButton);
         toolBar.getStyleClass().add("menubar");
         movieButton.getStyleClass().add("menu");
         serieButton.getStyleClass().add("menu");
+        playListButton.getStyleClass().add("menu");
+        subscriptionButton.getStyleClass().add("menu");
         returnButton.getStyleClass().add("menu");
 
         return toolBar;
