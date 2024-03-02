@@ -228,6 +228,7 @@ public class EntryWindow {
     private ToolBar createMenuBar() {
         Button movieButton = new Button("Movie");
         Button serieButton = new Button("Serie");
+        Button returnButton = new Button("Log Out");
 
         // Asignar acciones a los botones
         movieButton.setOnAction(event -> {
@@ -239,11 +240,16 @@ public class EntryWindow {
             entryWindowSerie();
         });
 
+        returnButton.setOnAction(event -> {
+            LogInWindow.getSceneLogIn();
+        });
+
         // Crear la barra de herramientas y agregar los botones
-        ToolBar toolBar = new ToolBar(movieButton, serieButton);
+        ToolBar toolBar = new ToolBar(movieButton, serieButton, returnButton);
         toolBar.getStyleClass().add("menubar");
         movieButton.getStyleClass().add("menu");
         serieButton.getStyleClass().add("menu");
+        returnButton.getStyleClass().add("menu");
 
         return toolBar;
     }

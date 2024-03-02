@@ -32,11 +32,11 @@ public class LogInWindow extends Application {
     private static UserRegisteredController userRegisteredController;
     private static Admin admin;
     private static UserRegistered userRegistered;
-    private BorderPane root;
+    private static BorderPane root;
     private static VBox vBoxImage;
     private static GridPane gridPane;
     private static GridPane gridPaneErrors;
-    private StackPane stackPane;
+    private static StackPane stackPane;
     private static Button buttonSignIn;
     private static Button buttonRegister;
     private static Label labelTitle;
@@ -202,7 +202,7 @@ public class LogInWindow extends Application {
         showSceneLoginView();
     }
 
-    public void showSceneLoginView() {
+    public static void showSceneLoginView() {
         gridPane1();
         gridPane2();
         image();
@@ -232,6 +232,11 @@ public class LogInWindow extends Application {
 
     public static Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public static Scene getSceneLogIn() {
+        showSceneLoginView();
+        return sceneLogIn;
     }
 
     public static void main(String[] args) {
