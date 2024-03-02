@@ -31,7 +31,6 @@ public class LogInWindow extends Application {
     private static AdminController adminController;
     private static UserRegisteredController userRegisteredController;
     private static Admin admin;
-    private static UserRegistered userRegistered;
     private static BorderPane root;
     private static VBox vBoxImage;
     private static GridPane gridPane;
@@ -49,7 +48,6 @@ public class LogInWindow extends Application {
         adminController = new AdminController();
         userRegisteredController = new UserRegisteredController();
         admin = new Admin();
-        userRegistered = new UserRegistered();
         root = new BorderPane();
         vBoxImage = new VBox();
         gridPane = new GridPane();
@@ -150,7 +148,8 @@ public class LogInWindow extends Application {
                 entryWindow.showMovieScene();
                 setVisibleFalse();
             } else if (emailValidationUser() && passwordValidationUser()) {
-                // Go to user window
+                UserScreen userScreen = new UserScreen();
+                userScreen.showMovieScene();
                 setVisibleFalse();
             }
         });
@@ -188,7 +187,7 @@ public class LogInWindow extends Application {
     }
 
     public static boolean passwordValidationUser() {
-        if (userRegistered.couldLogIn(textEmail.getText(), textPassword.getText())) {
+        if (userRegisteredController.couldLogIn(textEmail.getText(), textPassword.getText())) {
             return true;
         }
         setVisibleFalse();
