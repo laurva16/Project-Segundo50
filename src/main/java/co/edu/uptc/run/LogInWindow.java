@@ -148,7 +148,7 @@ public class LogInWindow extends Application {
         buttonSignIn.setOnAction(event -> {
             if (emailValidationAdmin() && passwordValidationAdmin()) {
                 EntryWindow entryWindow = new EntryWindow();
-                entryWindow.cambiarAEscena1();
+                entryWindow.showMovieScene();
                 setVisibleFalse();
             } else if (emailValidationUser() && passwordValidationUser()) {
                 // Go to user window

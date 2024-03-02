@@ -40,7 +40,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class EntryWindow extends Application {
+public class EntryWindow {
     private TableView<Movie> tablaMovie;
     private TableView<Serie> tablaSerie = new TableView<>();
     private Stage primaryStage;
@@ -143,16 +143,6 @@ public class EntryWindow extends Application {
         // Add new Movie scene
         addNewButton.setOnAction(event -> switchNewMovieScene());
 
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        showMovieScene();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     void switchNewMovieScene() {
@@ -458,6 +448,7 @@ public class EntryWindow extends Application {
     }
 
     public Scene getScene1() {
+        showMovieScene();
         return scene1;
     }
 }

@@ -49,7 +49,7 @@ public class MovieScreen {
 
     private Stage primaryStage;
 
-    public MovieScreen(Stage primaryStage,  AdminController adminC) {
+    public MovieScreen(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
 
         this.adminC = adminC;
@@ -131,9 +131,9 @@ public class MovieScreen {
         return newMovieScene;
     }
 
-    private void returnScene () {
+    private void returnScene() {
         EntryWindow main = new EntryWindow();
-        main.start(primaryStage);
+        main.getScene1();
     }
 
     public void addNewMovie() {
@@ -273,11 +273,9 @@ public class MovieScreen {
         cancelButton.setId("button");
         acceptButton.setId("button");
         labelWarning.setId("warning");
-        
-        return editMovieScene;   
-    }
 
-    
+        return editMovieScene;
+    }
 
     public void editMovie(Movie movie) {
         Boolean numberValid;
@@ -289,19 +287,21 @@ public class MovieScreen {
         }
 
         labelWarning.setVisible(false);
-        if(!numberValid && (!durationField.getText().isEmpty())){
+        if (!numberValid && (!durationField.getText().isEmpty())) {
             labelWarning.setText("* Duration format is invalid !");
             labelWarning.setVisible(true);
-        }else{
-            if (nameField.getText().isEmpty() || directorField.getText().isEmpty() || descriptionField.getText().isEmpty() || durationField.getText().isEmpty() || (choiceBox.getValue() == null)) {
+        } else {
+            if (nameField.getText().isEmpty() || directorField.getText().isEmpty()
+                    || descriptionField.getText().isEmpty() || durationField.getText().isEmpty()
+                    || (choiceBox.getValue() == null)) {
                 labelWarning.setText("* All fields must be filled!");
                 labelWarning.setVisible(true);
-            }else{
+            } else {
                 labelWarning.setVisible(false);
                 movie.setName(nameField.getText());
                 movie.setDescription(descriptionField.getText());
                 movie.setAuthor(directorField.getText());
-                movie.setDuration(Integer.parseInt( durationField.getText() ));
+                movie.setDuration(Integer.parseInt(durationField.getText()));
                 movie.setCategory(choiceBox.getValue());
                 adminC.updateMovieInformation(movie);
                 returnScene();
