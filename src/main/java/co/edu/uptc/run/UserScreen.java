@@ -239,7 +239,6 @@ public class UserScreen {
 
         // Asignar acciones a los botones
         movieButton.setOnAction(event -> {
-            // Aquí va la lógica para mostrar la ventana de películas
             cambiarAEscena1();
         });
 

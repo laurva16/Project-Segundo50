@@ -63,6 +63,7 @@ public class EntryWindow {
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     MovieScreen movieScreen;
+    DisplayMultimediaScreen displayScreen;
 
     public EntryWindow() {
         logInWindow = new LogInWindow();
@@ -133,6 +134,14 @@ public class EntryWindow {
         BorderPane.setMargin(addNewButton, new Insets(15));
         root.setBottom(addNewButton);
 
+        //TEMPORAL PARA REPRODUCCION
+
+        Button b = new Button();
+        root.setBottom(b);
+        b.setTranslateY(-60);
+        b.setOnAction(event -> switchReproductionScene());
+        //
+
         scene1 = new Scene(root, screenWidth, screenHeight);
 
         // Configurar la escena y mostrarla
@@ -145,6 +154,11 @@ public class EntryWindow {
         // Add new Movie scene
         addNewButton.setOnAction(event -> switchNewMovieScene());
 
+    }
+
+    void switchReproductionScene(){
+        displayScreen = new DisplayMultimediaScreen();
+        primaryStage.setScene(displayScreen.multimediaScene("Movie1"));
     }
 
     void switchNewMovieScene() {
