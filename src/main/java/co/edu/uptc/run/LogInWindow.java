@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
-import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.UserRegistered;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -20,6 +19,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -30,7 +32,6 @@ public class LogInWindow extends Application {
     private static Scene sceneLogIn;
     private static AdminController adminController;
     private static UserRegisteredController userRegisteredController;
-    private static Admin admin;
     private static UserRegistered userRegistered;
     private static BorderPane root;
     private static VBox vBoxImage;
@@ -39,6 +40,8 @@ public class LogInWindow extends Application {
     private static StackPane stackPane;
     private static Button buttonSignIn;
     private static Button buttonRegister;
+    private static Button buttonVisitor;
+    private static StackPane stackPaneTop;
     private static Label labelTitle;
     private static TextField textEmail;
     private static PasswordField textPassword;
@@ -48,18 +51,36 @@ public class LogInWindow extends Application {
     public LogInWindow() {
         adminController = new AdminController();
         userRegisteredController = new UserRegisteredController();
-        admin = new Admin();
         userRegistered = new UserRegistered();
         root = new BorderPane();
         vBoxImage = new VBox();
         gridPane = new GridPane();
         gridPaneErrors = new GridPane();
         stackPane = new StackPane();
+        stackPaneTop = new StackPane();
         buttonSignIn = new Button("Sign In");
         buttonRegister = new Button("Register");
+        buttonVisitor = new Button("Visitor");
         labelTitle = new Label("Sign In");
         textEmail = new TextField();
         textPassword = new PasswordField();
+    }
+
+    public static void top() {
+        labelTitle.setId("title");
+        HBox hBox1 = new HBox();
+        HBox hBox2 = new HBox();
+
+        hBox1.getChildren().add(labelTitle);
+        hBox2.getChildren().add(buttonVisitor);
+
+        hBox1.setAlignment(Pos.CENTER);
+        hBox2.setAlignment(Pos.TOP_RIGHT);
+
+        stackPaneTop.getChildren().addAll(hBox1, hBox2);
+        StackPane.setMargin(hBox1, new Insets(50, 0, 0, 0));
+        StackPane.setMargin(hBox2, new Insets(5, 5, 0, 0));
+        BorderPane.setMargin(stackPaneTop, new Insets(0, 0, 50, 0));
     }
 
     public static void gridPane1() {
@@ -68,10 +89,6 @@ public class LogInWindow extends Application {
 
         Label labelEmail = new Label("Email");
         Label labelPassword = new Label("Password");
-        labelTitle.setId("title");
-        labelTitle.setAlignment(Pos.TOP_CENTER);
-        BorderPane.setAlignment(labelTitle, javafx.geometry.Pos.TOP_CENTER);
-        BorderPane.setMargin(labelTitle, new Insets(50, 0, 50, 0));
 
         textEmail.setPromptText("Enter your email");
         textPassword.setPromptText("Enter your password");
@@ -205,12 +222,13 @@ public class LogInWindow extends Application {
     public static void showSceneLoginView() {
         gridPane1();
         gridPane2();
+        top();
         image();
         signIn();
         buttonRegister();
 
         stackPane.getChildren().addAll(gridPaneErrors, gridPane);
-        root.setTop(labelTitle);
+        root.setTop(stackPaneTop);
         root.setCenter(stackPane);
         root.setBottom(vBoxImage);
 
