@@ -19,7 +19,8 @@ public class AdminController {
     FileManagement fm = new FileManagement();
 
     public AdminController() {
-        admin = new Admin("Admin", "", 1, "Admin1@uptc.edu.co", "Admin.1");
+        // admin = new Admin("Admin", "", 1, "Admin1@uptc.edu.co", "Admin.1");
+        admin = new Admin("Admin", "", 1, "1", "1");
         loadMoviesFile();
         loadSerieFile();
     }
@@ -68,7 +69,7 @@ public class AdminController {
         }
         return false;
     }
-    
+
     public boolean addSerie(String name, String author, String description, ArrayList<Season> seasons,
             String nameCategory) {
         if (addMultimediaValidation(name, author, 2)) {

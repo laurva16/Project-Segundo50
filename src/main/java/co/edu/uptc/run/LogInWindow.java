@@ -3,6 +3,8 @@ package co.edu.uptc.run;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.UserRegistered;
@@ -27,6 +29,7 @@ public class LogInWindow extends Application {
 
     private static Stage primaryStage;
     private static Scene sceneLogIn;
+    private static AdminController adminController;
     private static UserRegisteredController userRegisteredController;
     private static Admin admin;
     private static UserRegistered userRegistered;
@@ -44,6 +47,7 @@ public class LogInWindow extends Application {
     private static Label labelPasswordError;
 
     public LogInWindow() {
+        adminController = new AdminController();
         userRegisteredController = new UserRegisteredController();
         admin = new Admin();
         userRegistered = new UserRegistered();
@@ -143,7 +147,8 @@ public class LogInWindow extends Application {
     public static void signIn() {
         buttonSignIn.setOnAction(event -> {
             if (emailValidationAdmin() && passwordValidationAdmin()) {
-                // Go to admin window
+                EntryWindow entryWindow = new EntryWindow();
+                entryWindow.cambiarAEscena1();
                 setVisibleFalse();
             } else if (emailValidationUser() && passwordValidationUser()) {
                 // Go to user window
@@ -157,7 +162,7 @@ public class LogInWindow extends Application {
     }
 
     public static boolean emailValidationAdmin() {
-        if (userRegisteredController.getAdmin().getUser().equals(textEmail.getText())) {
+        if (adminController.getAdmin().getUser().equals(textEmail.getText())) {
             return true;
         }
         setVisibleFalse();
@@ -166,7 +171,7 @@ public class LogInWindow extends Application {
     }
 
     public static boolean passwordValidationAdmin() {
-        if (admin.couldLogIn(textEmail.getText(), textPassword.getText())) {
+        if (adminController.getAdmin().getPassword().equals(textPassword.getText())) {
             return true;
         }
         setVisibleFalse();

@@ -453,7 +453,11 @@ public class EntryWindow extends Application {
         secundaryStage.showAndWait();
     }
 
-    private void cambiarAEscena1() {
+    public void cambiarAEscena1() {
         primaryStage.setScene(scene1);
+    }
+
+    public Scene getScene1() {
+        return scene1;
     }
 }
