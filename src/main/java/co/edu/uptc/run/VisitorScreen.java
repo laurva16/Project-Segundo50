@@ -4,18 +4,16 @@ import java.io.File;
 import java.util.Optional;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
-import co.edu.uptc.model.Category;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.Serie;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
@@ -25,23 +23,20 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class EntryWindow {
+public class VisitorScreen {
+
     private TableView<Movie> tablaMovie;
     private TableView<Serie> tablaSerie = new TableView<>();
     private Stage primaryStage;
@@ -63,7 +58,7 @@ public class EntryWindow {
 
     MovieScreen movieScreen;
 
-    public EntryWindow() {
+    public VisitorScreen() {
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
         adminC = new AdminController();
@@ -464,4 +459,5 @@ public class EntryWindow {
         showMovieScene();
         return scene1;
     }
+
 }

@@ -20,8 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -73,11 +71,11 @@ public class LogInWindow extends Application {
 
         hBox1.getChildren().add(labelTitle);
         hBox2.getChildren().add(buttonVisitor);
+        stackPaneTop.getChildren().addAll(hBox1, hBox2);
 
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.TOP_RIGHT);
 
-        stackPaneTop.getChildren().addAll(hBox1, hBox2);
         StackPane.setMargin(hBox1, new Insets(50, 0, 0, 0));
         StackPane.setMargin(hBox2, new Insets(5, 5, 0, 0));
         BorderPane.setMargin(stackPaneTop, new Insets(0, 0, 50, 0));
@@ -160,6 +158,10 @@ public class LogInWindow extends Application {
         }
     }
 
+    public static void buttonVisitor() {
+        buttonVisitor.setOnAction(event -> showSceneVisitor());
+    }
+
     public static void signIn() {
         buttonSignIn.setOnAction(event -> {
             if (emailValidationAdmin() && passwordValidationAdmin()) {
@@ -226,6 +228,7 @@ public class LogInWindow extends Application {
         image();
         signIn();
         buttonRegister();
+        buttonVisitor();
 
         stackPane.getChildren().addAll(gridPaneErrors, gridPane);
         root.setTop(stackPaneTop);
@@ -246,6 +249,11 @@ public class LogInWindow extends Application {
         primaryStage.setTitle("Register");
         primaryStage.setMaximized(true);
         primaryStage.show();
+    }
+
+    public static void showSceneVisitor() {
+        VisitorScreen visitorScreen = new VisitorScreen();
+        visitorScreen.showMovieScene();
     }
 
     public static Stage getPrimaryStage() {
