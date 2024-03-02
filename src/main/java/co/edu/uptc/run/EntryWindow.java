@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -33,6 +34,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -226,9 +228,15 @@ public class EntryWindow {
     }
 
     private ToolBar createMenuBar() {
+        Region spacer = new Region();
         Button movieButton = new Button("Movie");
         Button serieButton = new Button("Serie");
         Button returnButton = new Button("Log Out");
+        movieButton.setCursor(Cursor.HAND);
+        serieButton.setCursor(Cursor.HAND);
+        returnButton.setCursor(Cursor.HAND);
+
+        HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
         // Asignar acciones a los botones
         movieButton.setOnAction(event -> {
@@ -245,7 +253,7 @@ public class EntryWindow {
         });
 
         // Crear la barra de herramientas y agregar los botones
-        ToolBar toolBar = new ToolBar(movieButton, serieButton, returnButton);
+        ToolBar toolBar = new ToolBar(movieButton, serieButton, spacer, returnButton);
         toolBar.getStyleClass().add("menubar");
         movieButton.getStyleClass().add("menu");
         serieButton.getStyleClass().add("menu");
