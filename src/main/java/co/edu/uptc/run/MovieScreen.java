@@ -308,5 +308,4 @@ public class MovieScreen {
             }
         }
     }
-
 }
