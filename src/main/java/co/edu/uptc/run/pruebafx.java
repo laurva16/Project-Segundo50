@@ -4,50 +4,66 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class pruebafx extends Application {
-
-     @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Main Window");
-
-        // Crear un botón para mostrar la ventana emergente
-        Button openButton = new Button("Open Popup");
-        openButton.setOnAction(event -> showPopup());
-
-        // Colocar el botón en un contenedor
-        VBox root = new VBox(10, openButton);
-        root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root, 300, 200);
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public class pruebafx extends Application {
+        private Stage primaryStage;
+    
+        @Override
+        public void start(Stage primaryStage) {
+            this.primaryStage = primaryStage;
+    
+            // Crear la escena principal y establecerla en el escenario principal
+            Scene scene1 = new Scene(createScene1Content(), 400, 300);
+            primaryStage.setScene(scene1);
+            primaryStage.setTitle("Scene 1");
+            primaryStage.show();
+        }
+    
+        private VBox createScene1Content() {
+            VBox layout = new VBox(10);
+            layout.setAlignment(Pos.CENTER);
+    
+            Button botonCambiar = new Button("Cambiar a Escena 2");
+            botonCambiar.setOnAction(e -> cambiarAEscena2());
+    
+            layout.getChildren().addAll(botonCambiar);
+            return layout;
+        }
+    
+        private void cambiarAEscena2() {
+            Clase2 clase2 = new Clase2(primaryStage);
+            primaryStage.setScene(clase2.crearEscena());
+        }
+        
+    
+        public static void main(String[] args) {
+            launch(args);
+        }
     }
-
-    private void showPopup() {
-        // Crear un nuevo Stage para la ventana emergente
-        Stage popupStage = new Stage();
-        popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Popup Window");
-
-        // Crear el contenido de la ventana emergente
-        Button closeButton = new Button("Close");
-        closeButton.setOnAction(event -> popupStage.close());
-        VBox popupRoot = new VBox(10, closeButton);
-        popupRoot.setAlignment(Pos.CENTER);
-        Scene popupScene = new Scene(popupRoot, 200, 100);
-
-        // Establecer la escena y mostrar la ventana emergente
-        popupStage.setScene(popupScene);
-        popupStage.showAndWait(); // Espera hasta que se cierre la ventana emergente
+    
+    class Clase2 {
+        private Stage primaryStage;
+    
+        public Clase2(Stage primaryStage) {
+            this.primaryStage = primaryStage;
+        }
+    
+        public Scene crearEscena() {
+            VBox layout = new VBox(10);
+            layout.setAlignment(Pos.CENTER);
+    
+            Button botonCambiar = new Button("Volver a Escena 1");
+            botonCambiar.setOnAction(e -> cambiarAEscena1());
+    
+            layout.getChildren().addAll(botonCambiar);
+            return new Scene(layout, 400, 300);
+        }
+    
+        private void cambiarAEscena1() {
+            pruebafx main = new pruebafx();
+            main.start(primaryStage);
+        }
     }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-}
+    

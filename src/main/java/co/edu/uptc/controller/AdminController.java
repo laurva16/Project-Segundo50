@@ -111,6 +111,15 @@ public class AdminController {
         }
     }
 
+    public boolean updateMovieInformation(Movie updateMovie) {
+        for (Movie movie : listMovies) {
+            if (movie.getId() == updateMovie.getId()) {
+                movie = updateMovie;
+            }
+        }
+        return fm.reWriteFile("movies", listMovies);
+    }
+
     public ArrayList<Movie> getMovies() {
         return listMovies;
     }

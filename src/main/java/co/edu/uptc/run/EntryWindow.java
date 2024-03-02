@@ -48,6 +48,7 @@ public class EntryWindow extends Application {
     private CategoryController categoryC;
     private Scene scene1, scene2;
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+
     Label labelName = new Label("Movie name:");
     Label labelDirector = new Label("Director name:");
     Label labelDescription = new Label("Description:");
@@ -58,14 +59,17 @@ public class EntryWindow extends Application {
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
+    MovieScreen movieScreen;
+
     public EntryWindow() {
         adminC = new AdminController();
         categoryC = new CategoryController();
         categoryC.getCategories().forEach(
                 category -> choiceBox.getItems().add(category.getName()));
+
     }
 
-    public void showMovieScene(){
+    public void showMovieScene() {
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
         root.setTop(menuBar);
@@ -135,11 +139,13 @@ public class EntryWindow extends Application {
 
         // Add new Movie scene
         addNewButton.setOnAction(event -> switchNewMovieScene());
+
     }
+
     @Override
     public void start(Stage primaryStage) {
-        showMovieScene();
         this.primaryStage = primaryStage;
+        showMovieScene();
     }
 
     public static void main(String[] args) {
@@ -147,20 +153,13 @@ public class EntryWindow extends Application {
     }
 
     void switchNewMovieScene() {
-        NewMovieScreen nms = new NewMovieScreen(this, adminC);
-        nms.switchScene();
-        primaryStage.setScene(nms.getNewMovieScene());
-        primaryStage.setMaximized(true);
-        primaryStage.setTitle("New Movie Scene");
-        primaryStage.show();
+        movieScreen = new MovieScreen(primaryStage, adminC);
+        primaryStage.setScene(movieScreen.newMovieScene());
     }
 
-    public Scene getMovieScene() {
-        return scene1;
-    }
-
-    public Stage getPrimaryStage() {
-        return primaryStage;
+    void switchEditMovieScene(Movie movie) {
+        movieScreen = new MovieScreen(primaryStage, adminC);
+        primaryStage.setScene(movieScreen.editMovieScene(movie));
     }
 
     public class BotonCelda extends TableCell<Movie, Void> {
@@ -213,7 +212,7 @@ public class EntryWindow extends Application {
             });
 
             btnModificar.setOnAction(event -> {
-                // editMovieScreen(getTableView().getItems().get(getIndex()));
+                switchEditMovieScene(getTableView().getItems().get(getIndex()));
             });
 
             // Configura el contenido de las celdas para mostrar los botones

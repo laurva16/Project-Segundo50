@@ -8,19 +8,11 @@
     "description": "la piedra filosofal"
   },
   {
-    "category": "Romance",
+    "category": "Horror",
     "id": 7821,
-    "name": "NuevoNombre",
-    "duration": 200,
-    "author": "Directorpepito",
-    "description": "prueba"
-  },
-  {
-    "category": "Drama",
-    "id": 7823,
-    "name": "Juguito",
-    "duration": 122,
-    "author": "de",
-    "description": "MAngo"
+    "name": "El Aro",
+    "duration": 120,
+    "author": "Juan Murillo",
+    "description": "miedo descp."
   }
 ]
