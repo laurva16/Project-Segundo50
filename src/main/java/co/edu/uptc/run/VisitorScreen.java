@@ -1,7 +1,6 @@
 package co.edu.uptc.run;
 
 import java.io.File;
-import java.util.Optional;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.Movie;
@@ -12,10 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
@@ -108,24 +104,10 @@ public class VisitorScreen {
         tablaMovie.setItems(grupos);
         StackPane stackPane = new StackPane(tablaMovie);
         stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
-        StackPane.setMargin(tablaMovie, new Insets(20)); // Agregar margen a la tabla
+        BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
 
         // Agregar el StackPane que contiene la tabla al centro del BorderPane
         root.setCenter(stackPane);
-
-        // Crear un botón flotante
-        ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
-        iconoAgregar.setFitWidth(22);
-        iconoAgregar.setFitHeight(22);
-        Button addNewButton = new Button();
-        addNewButton.setTranslateY(-20);
-        addNewButton.getStyleClass().add("boton-flotante");
-        addNewButton.setGraphic(iconoAgregar);
-
-        // Agregar el botón flotante en la esquina inferior derecha
-        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
-        BorderPane.setMargin(addNewButton, new Insets(15));
-        root.setBottom(addNewButton);
 
         scene1 = new Scene(root, screenWidth, screenHeight);
 
@@ -135,10 +117,6 @@ public class VisitorScreen {
         primaryStage.setTitle("JavaFX MenuBar with CSS");
         primaryStage.setMaximized(true);
         primaryStage.show();
-
-        // Add new Movie scene
-        addNewButton.setOnAction(event -> switchNewMovieScene());
-
     }
 
     void switchNewMovieScene() {
@@ -146,62 +124,21 @@ public class VisitorScreen {
         primaryStage.setScene(movieScreen.newMovieScene());
     }
 
-    void switchEditMovieScene(Movie movie) {
-        movieScreen = new MovieScreen(primaryStage, adminC);
-        primaryStage.setScene(movieScreen.editMovieScene(movie));
-    }
-
     public class BotonCelda extends TableCell<Movie, Void> {
-        private final Button btnEliminar = new Button();
-        private final Button btnModificar = new Button();
         private final Button seeButton = new Button();
 
         public BotonCelda() {
             // Configura los íconos para los botones
-
-            ImageView iconoEliminar = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
-            ImageView iconoModificar = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
             ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
-
-            iconoEliminar.setFitWidth(16);
-            iconoEliminar.setFitHeight(16);
-
-            iconoModificar.setFitWidth(16);
-            iconoModificar.setFitHeight(16);
 
             iconover.setFitWidth(16);
             iconover.setFitHeight(16);
 
-            btnEliminar.setGraphic(iconoEliminar);
-            btnModificar.setGraphic(iconoModificar);
             seeButton.setGraphic(iconover);
-
-            btnEliminar.getStyleClass().add("boton-eliminar");
-            btnModificar.getStyleClass().add("boton-modificar");
             seeButton.getStyleClass().add("seeButton");
-
-            btnEliminar.setOnAction(event -> {
-                Movie grupo = getTableView().getItems().get(getIndex());
-                // Mostrar una ventana emergente de confirmación
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Confirm deletion");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to delete this movie?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    adminC.deleteMovie(grupo.getId());
-
-                    tablaMovie.getItems().remove(grupo);
-                }
-            });
 
             seeButton.setOnAction(event -> {
                 seeMovieScreen(getTableView().getItems().get(getIndex()));
-            });
-
-            btnModificar.setOnAction(event -> {
-                switchEditMovieScene(getTableView().getItems().get(getIndex()));
             });
 
             // Configura el contenido de las celdas para mostrar los botones
@@ -214,7 +151,7 @@ public class VisitorScreen {
             if (empty) {
                 setGraphic(null);
             } else {
-                HBox botonesContainer = new HBox(seeButton, btnEliminar, btnModificar);
+                HBox botonesContainer = new HBox(seeButton);
                 botonesContainer.setSpacing(5);
                 setGraphic(botonesContainer);
             }
@@ -234,7 +171,6 @@ public class VisitorScreen {
 
         // Asignar acciones a los botones
         movieButton.setOnAction(event -> {
-            // Aquí va la lógica para mostrar la ventana de películas
             cambiarAEscena1();
         });
 
@@ -295,29 +231,11 @@ public class VisitorScreen {
             tablaSerie.setItems(series);
 
             StackPane stackPane = new StackPane(tablaSerie);
-            stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
-            StackPane.setMargin(tablaSerie, new Insets(20)); // Agregar margen a la tabla
+            stackPane.setAlignment(Pos.CENTER);
+            BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
 
             // Agregar el StackPane que contiene la tabla al centro del BorderPane
             root2.setCenter(stackPane);
-
-            // Crear un botón flotante
-            ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
-            iconoAgregar.setFitWidth(22);
-            iconoAgregar.setFitHeight(22);
-            Button addNewButton = new Button();
-            addNewButton.setTranslateY(-20);
-            addNewButton.getStyleClass().add("boton-flotante");
-            addNewButton.setGraphic(iconoAgregar);
-
-            // Agregar el botón flotante en la esquina inferior derecha
-            BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
-            BorderPane.setMargin(addNewButton, new Insets(15));
-            root2.setBottom(addNewButton);
-
-            // Agregar el StackPane que contiene la tabla al centro del BorderPane
-            root2.setCenter(stackPane);
-
             scene2 = new Scene(root2, screenWidth, screenHeight);
 
             // Configurar la escena y mostrarla
@@ -329,55 +247,20 @@ public class VisitorScreen {
     }
 
     public class BotonCeldaSerie extends TableCell<Serie, Void> {
-        private final Button btnEliminar = new Button();
-        private final Button btnModificar = new Button();
         private final Button btnVer = new Button();
 
         public BotonCeldaSerie() {
             // Configura los íconos para los botones
-
-            ImageView iconoEliminar = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
-            ImageView iconoModificar = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
             ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
-
-            iconoEliminar.setFitWidth(16);
-            iconoEliminar.setFitHeight(16);
-
-            iconoModificar.setFitWidth(16);
-            iconoModificar.setFitHeight(16);
 
             iconover.setFitWidth(16);
             iconover.setFitHeight(16);
 
-            btnEliminar.setGraphic(iconoEliminar);
-            btnModificar.setGraphic(iconoModificar);
             btnVer.setGraphic(iconover);
 
-            btnEliminar.getStyleClass().add("boton-eliminar");
-            btnModificar.getStyleClass().add("boton-modificar");
             btnVer.getStyleClass().add("boton-ver");
 
-            btnEliminar.setOnAction(event -> {
-                Serie serie = getTableView().getItems().get(getIndex());
-                // Mostrar una ventana emergente de confirmación
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirm deletion");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to delete this serie?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    adminC.deleteSerie(serie.getId());
-                    tablaSerie.getItems().remove(serie);
-                }
-            });
-
             btnVer.setOnAction(event -> {
-                // Serie serie = getTableView().getItems().get(getIndex());
-                // modifySerie modifySerieWindow = new modifySerie(gc, serie, serie.getId());
-            });
-
-            btnModificar.setOnAction(event -> {
                 // Serie serie = getTableView().getItems().get(getIndex());
                 // modifySerie modifySerieWindow = new modifySerie(gc, serie, serie.getId());
             });
@@ -392,7 +275,7 @@ public class VisitorScreen {
             if (empty) {
                 setGraphic(null);
             } else {
-                HBox botonesContainer = new HBox(btnVer, btnEliminar, btnModificar);
+                HBox botonesContainer = new HBox(btnVer);
                 botonesContainer.setSpacing(5);
                 setGraphic(botonesContainer);
             }
