@@ -140,18 +140,12 @@ public class LogInWindow extends Application {
         }
     }
 
-    public static void signInAdmin() {
+    public static void signIn() {
         buttonSignIn.setOnAction(event -> {
             if (emailValidationAdmin() && passwordValidationAdmin()) {
                 // Go to admin window
                 setVisibleFalse();
-            }
-        });
-    }
-
-    public static void signInUser() {
-        buttonSignIn.setOnAction(event -> {
-            if (emailValidationUser() && passwordValidationUser()) {
+            } else if (emailValidationUser() && passwordValidationUser()) {
                 // Go to user window
                 setVisibleFalse();
             }
@@ -208,8 +202,7 @@ public class LogInWindow extends Application {
         gridPane1();
         gridPane2();
         image();
-        signInAdmin();
-        signInUser();
+        signIn();
         buttonRegister();
 
         stackPane.getChildren().addAll(gridPaneErrors, gridPane);
@@ -231,6 +224,10 @@ public class LogInWindow extends Application {
         primaryStage.setTitle("Register");
         primaryStage.setMaximized(true);
         primaryStage.show();
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     public static void main(String[] args) {

@@ -43,7 +43,8 @@ import javafx.stage.Stage;
 public class EntryWindow extends Application {
     private TableView<Movie> tablaMovie;
     private TableView<Serie> tablaSerie = new TableView<>();
-    private Stage primaryStage = new Stage();
+    private Stage primaryStage;
+    private LogInWindow logInWindow;
     private AdminController adminC;
     private CategoryController categoryC;
     private Scene scene1, scene2;
@@ -62,6 +63,8 @@ public class EntryWindow extends Application {
     MovieScreen movieScreen;
 
     public EntryWindow() {
+        logInWindow = new LogInWindow();
+        primaryStage = LogInWindow.getPrimaryStage();
         adminC = new AdminController();
         categoryC = new CategoryController();
         categoryC.getCategories().forEach(
