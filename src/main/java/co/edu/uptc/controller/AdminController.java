@@ -372,6 +372,19 @@ public class AdminController {
 
         if (aux != -1) {
             listSeries.get(aux).getSeasons().get(auxSeason).setSeasonName(nameSeasonNew);
+            fm.reWriteFile("series", listSeries);
+
+            return true;
+        }
+        return false;
+    }
+
+    public boolean modifySeasonName(String nameSeasonNew, int Selected, String idSeason) {
+        int aux = serieFound(Selected);
+        int auxSeason = seasonNameFound(idSeason, Selected);
+
+        if (aux != -1) {
+            listSeries.get(aux).getSeasons().get(auxSeason).setSeasonName(nameSeasonNew);
 
             return true;
         }

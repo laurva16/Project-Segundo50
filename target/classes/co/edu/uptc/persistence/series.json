@@ -40,5 +40,14 @@
     "name": "Name1",
     "duration": 0,
     "author": "Author2"
+  },
+  {
+    "seasons": [],
+    "category": "Horror",
+    "id": 462,
+    "name": "fgh",
+    "duration": 0,
+    "author": "ghfg",
+    "description": "hfghf"
   }
 ]

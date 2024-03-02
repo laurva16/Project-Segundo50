@@ -220,7 +220,7 @@ public class CreateSerie extends Application {
 
         buttonDeleteSeason.setGraphic(iconoDeleteSeason);
         Button buttonModifySeason = new Button();
-        buttonModifySeason.setGraphic(buttonModifySeason);
+        buttonModifySeason.setGraphic(iconoModifySeason);
 
         buttonDeleteSeason.setOnAction(event -> {
             String selectedSeason = additionalOptions.getValue(); // Obtener la temporada seleccionada
@@ -259,6 +259,56 @@ public class CreateSerie extends Application {
         // Botones "Guardar" y "Cancelar"
         Button acceptButton = new Button("Save");
         Button cancelButton = new Button("Cancel");
+
+        buttonModifySeason.setOnAction(event -> {
+            String selectedSeason = additionalOptions.getValue(); // Obtener la temporada seleccionada
+            if (selectedSeason != null) {
+                // Crear un cuadro de diálogo para modificar la temporada
+                Dialog<String> dialog = new Dialog<>();
+                dialog.setTitle("Modify Season Name");
+
+                // Crear el contenido del cuadro de diálogo
+                VBox dialogContent = new VBox();
+                dialogContent.setSpacing(10);
+
+                // Campo de texto para introducir el nuevo nombre de la temporada
+                TextField newNameField = new TextField();
+                newNameField.setPromptText("New Season Name");
+
+                // Mensaje de confirmación
+                Label confirmationLabel = new Label("Are you sure you want to make these changes?");
+
+                dialogContent.getChildren().addAll(new Label("Change the name of the season '" + selectedSeason + "'"),
+                        newNameField,
+                        confirmationLabel);
+
+                dialog.getDialogPane().setContent(dialogContent);
+
+                // Botones de OK y Cancelar
+                ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                ButtonType cancelButton2 = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                dialog.getDialogPane().getButtonTypes().addAll(okButton, cancelButton2);
+
+                // Manejar la acción del botón OK
+                dialog.setResultConverter(buttonType -> {
+                    if (buttonType == okButton) {
+                        return newNameField.getText();
+                    }
+                    return null;
+                });
+
+                // Mostrar el diálogo y manejar la respuesta
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(newName -> {
+                    if (!newName.isEmpty()) {
+                        // Aquí puedes realizar la actualización de la temporada con el nuevo nombre
+                        // Implementa la lógica según tus necesidades
+                        ac.modifySeasonName(newName, ac.getCurrentSerie().getId(), selectedSeason);
+                        System.out.println("New Season Name: " + newName);
+                    }
+                });
+            }
+        });
 
         acceptButton.setPrefWidth(150);
         cancelButton.setPrefWidth(150);
