@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -85,6 +86,15 @@ public class DisplayMultimediaScreen {
         root.setAlignment(Pos.CENTER);
         Scene displayScene = new Scene(root, screenWidth, screenHeight);
 
+        buttonBox.setMinHeight(Region.USE_PREF_SIZE);
+        buttonBox.setMaxHeight(Region.USE_PREF_SIZE);
+        mediaView.setFitWidth(Region.USE_COMPUTED_SIZE);
+        mediaView.setFitHeight(Region.USE_COMPUTED_SIZE);
+       
+        //intento 2
+       // mediaView.setPreserveRatio(true);
+       // mediaView.setFitHeight(750); 
+        //
         root.getChildren().setAll(mediaView, buttonBox);
 
         //BorderPane.setMargin(buttonBox, new Insets(-25, 0, 0, 0));
