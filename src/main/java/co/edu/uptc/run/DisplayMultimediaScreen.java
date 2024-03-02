@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -25,7 +26,7 @@ public class DisplayMultimediaScreen {
 
     public Scene multimediaScene(String nameFile) {
         String videoFile = filePath + nameFile + ".mp4";
-        BorderPane root = new BorderPane();
+        VBox root = new VBox();
 
         // Crear un objeto Media
         Media media = new Media(new File(videoFile).toURI().toString());
@@ -58,7 +59,10 @@ public class DisplayMultimediaScreen {
             Duration currentTime = mediaPlayer.getCurrentTime();
             mediaPlayer.seek(currentTime.add(Duration.seconds(5)));
         });
-        homeButton.setOnAction(event ->returnScene());
+        homeButton.setOnAction(event ->{
+            mediaPlayer.stop();
+            returnScene();
+        });
         //
 
         playButton.setPrefWidth(100);
@@ -75,16 +79,16 @@ public class DisplayMultimediaScreen {
 
         HBox buttonBox = new HBox(homeButton, playButton, pauseButton, stopButton, rewindButton, fastForwardButton);
         buttonBox.setSpacing(80);
-        buttonBox.setMaxHeight(80);
+        buttonBox.setPrefHeight(60);
         buttonBox.setAlignment(Pos.CENTER); 
         
+        root.setAlignment(Pos.CENTER);
         Scene displayScene = new Scene(root, screenWidth, screenHeight);
 
-        root.setTop(mediaView);
-        root.setCenter(buttonBox);
+        root.getChildren().setAll(mediaView, buttonBox);
 
-        BorderPane.setMargin(buttonBox, new Insets(-25, 0, 0, 0));
-        BorderPane.setAlignment(mediaView, Pos.TOP_CENTER);
+        //BorderPane.setMargin(buttonBox, new Insets(-25, 0, 0, 0));
+        //BorderPane.setAlignment(mediaView, Pos.TOP_CENTER);
 
         // CSS
         displayScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\display.css").toURI().toString());

@@ -137,8 +137,8 @@ public class EntryWindow {
         //TEMPORAL PARA REPRODUCCION
 
         Button b = new Button();
-        root.setBottom(b);
-        b.setTranslateY(-60);
+        root.setLeft(b);
+        b.setTranslateY(60);
         b.setOnAction(event -> switchReproductionScene());
         //
 
