@@ -68,12 +68,13 @@ public class AdminController {
         }
         return false;
     }
-    
+
     public boolean addSerie(String name, String author, String description, ArrayList<Season> seasons,
             String nameCategory) {
         if (addMultimediaValidation(name, author, 2)) {
             Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons, nameCategory);
             listSeries.add(newSerie);
+            currentSerie = newSerie;
             // admin.setSeries(listSeries);
             return fm.writeFile("series", newSerie);
         }
@@ -145,6 +146,15 @@ public class AdminController {
     public int seasonFound(int idSeason, int idSerie) {
         for (int i = 0; i < listSeries.get(serieFound(idSerie)).getSeasons().size(); i++) {
             if (listSeries.get(serieFound(idSerie)).getSeasons().get(i).getId() == idSeason) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int seasonNameFound(String idSeason, int idSerie) {
+        for (int i = 0; i < listSeries.get(serieFound(idSerie)).getSeasons().size(); i++) {
+            if (listSeries.get(serieFound(idSerie)).getSeasons().get(i).getSeasonName().equals(idSeason)) {
                 return i;
             }
         }
@@ -273,6 +283,14 @@ public class AdminController {
 
         listSeries.get(serieFound(idSerie)).getSeasons()
                 .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(idSeason, idSerie)));
+
+    }
+
+    public void deleteSeasonName(String idSeason, int idSerie) {
+
+        listSeries.get(serieFound(idSerie)).getSeasons()
+                .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie)));
+        fm.reWriteFile("series", listSeries);
 
     }
 
