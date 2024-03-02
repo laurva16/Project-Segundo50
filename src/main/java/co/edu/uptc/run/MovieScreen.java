@@ -180,8 +180,7 @@ public class MovieScreen {
 
     public Scene editMovieScene(Movie movie) {
 
-        BorderPane root2 = new BorderPane();
-        root2.setId("root2");
+        BorderPane root3 = new BorderPane();
 
         GridPane gridPane = new GridPane();
         //
@@ -238,10 +237,7 @@ public class MovieScreen {
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
-        root2.setCenter(gridPane);
-
-        root2.setStyle("-fx-background-color: #191919;");
-        gridPane.setStyle("-fx-background-color: white;");
+        root3.setCenter(gridPane);
 
         // Save buttton
         Button acceptButton = new Button();
@@ -267,13 +263,14 @@ public class MovieScreen {
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
-        editMovieScene = new Scene(root2, screenWidth, screenHeight);
+        editMovieScene = new Scene(root3, screenWidth, screenHeight);
         // aplicar CSS
         editMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
         labelWarning.setId("warning");
-
+        root3.setId("root3");
+        gridPane.setId("gridPane");
         return editMovieScene;
     }
 

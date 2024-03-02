@@ -22,6 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class LogInWindow extends Application {
@@ -44,6 +45,8 @@ public class LogInWindow extends Application {
     private static PasswordField textPassword;
     private static Label labelEmailError;
     private static Label labelPasswordError;
+    private static double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+    private static double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     public LogInWindow() {
         adminController = new AdminController();
@@ -214,7 +217,7 @@ public class LogInWindow extends Application {
         root.setCenter(stackPane);
         root.setBottom(vBoxImage);
 
-        sceneLogIn = new Scene(root);
+        sceneLogIn = new Scene(root, screenWidth,screenHeight);
         sceneLogIn.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
         primaryStage.setScene(sceneLogIn);
         primaryStage.setTitle("Register");

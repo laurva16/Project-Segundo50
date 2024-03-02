@@ -1,0 +1,26 @@
+/* principal.css */
+#vbox {
+    -fx-background-color: black;
+}
+#hbox {
+    -fx-font-size: 16px;
+    -fx-font-family: sans-serif;
+    -fx-background-color: #191919;
+}
+#button {
+    -fx-background-color: #9C1428;
+    -fx-text-fill: white;
+}
+#button:hover {
+    -fx-background-color: #c8c8c8; /* Color de fondo */
+    -fx-text-fill: black; /* Color del texto */
+}
+#home-button {
+    
+    -fx-background-color: #c8c8c8; /* Color de fondo */
+    -fx-text-fill: black; /* Color del texto */
+}
+#home-button:hover {
+    -fx-background-color: #9C1428;
+    -fx-text-fill: white;
+}
