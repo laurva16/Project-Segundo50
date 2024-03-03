@@ -6,6 +6,7 @@ public class MultimediaContent {
     private int duration;
     private String author;
     private String description;
+    private String fileVideo;
 
     public MultimediaContent() {
     }
@@ -84,4 +85,13 @@ public class MultimediaContent {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getSeason'");
     }
+
+    public String getFileVideo() {
+        return fileVideo;
+    }
+
+    public void setFileVideo(String fileVideo) {
+        this.fileVideo = fileVideo;
+    }
+    
 }

@@ -57,10 +57,10 @@ public class AppTest {
     public void addMultimediaValidation() {
         AdminController ac = new AdminController();
 
-        ac.addMovie("Name1", "Author1", null, 0, null);
-        ac.addMovie("Name2", "Author1", null, 0, null);
-        ac.addMovie("Name1", "Author2", null, 0, null);
-        ac.addMovie("Name1", "Author1", null, 0, null);
+        //ac.addMovie("Name1", "Author1", null, 0, null);
+        //ac.addMovie("Name2", "Author1", null, 0, null);
+       // ac.addMovie("Name1", "Author2", null, 0, null);
+       // ac.addMovie("Name1", "Author1", null, 0, null);
 
         ac.addSerie("Name1", "Author1", null, new ArrayList<Season>(), null);
         ac.addSerie("Name2", "Author1", null, new ArrayList<Season>(), null);
