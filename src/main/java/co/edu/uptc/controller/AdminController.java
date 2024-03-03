@@ -407,6 +407,28 @@ public class AdminController {
         return false;
     }
 
+    public boolean modifyChaptersName(String description, String name, int duration, int Selected, String idSeason,
+            String idChapter) {
+        int aux = serieFound(Selected);
+        int auxSeason = seasonNameFound(idSeason, Selected);
+        int auxChapter = chapterNameFound(idSeason, Selected, idChapter);
+
+        if (aux != -1) {
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
+                    .setDescription(description);
+
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
+                    .setName(name);
+
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
+                    .setDuration(duration);
+            fm.reWriteFile("series", listSeries);
+            return true;
+
+        }
+        return false;
+    }
+
     public boolean modifySeason(String nameSeasonNew, int Selected, int idSeason) {
         int aux = serieFound(Selected);
         int auxSeason = seasonFound(idSeason, Selected);
