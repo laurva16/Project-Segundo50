@@ -157,7 +157,7 @@ public class EntryWindow {
     }
 
     void switchReproductionScene(){
-        displayScreen = new DisplayMultimediaScreen();
+        displayScreen = new DisplayMultimediaScreen(primaryStage);
         primaryStage.setScene(displayScreen.multimediaScene("Movie1"));
     }
 

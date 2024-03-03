@@ -8,14 +8,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
+
+import co.edu.uptc.controller.AdminController;
 
 public class DisplayMultimediaScreen {
 
@@ -24,20 +29,22 @@ public class DisplayMultimediaScreen {
     private String filePath = "src/multimediaVideos/";
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+    
+    private Stage primaryStage;
+    public DisplayMultimediaScreen(Stage primaryStage){
+        this.primaryStage = primaryStage;
+    }
 
     public Scene multimediaScene(String nameFile) {
         String videoFile = filePath + nameFile + ".mp4";
-        VBox root = new VBox();
 
-        // Crear un objeto Media
+        BorderPane root = new BorderPane(); 
+      
         Media media = new Media(new File(videoFile).toURI().toString());
-
-        // Crear un objeto MediaPlayer
         mediaPlayer = new MediaPlayer(media);
-
-        // Crear un objeto MediaView y asociarlo al MediaPlayer
         mediaView = new MediaView(mediaPlayer);
 
+        // Buttons
         Button playButton = new Button("Play");
         Button pauseButton = new Button("Pause");
         Button stopButton = new Button("Stop");
@@ -45,26 +52,22 @@ public class DisplayMultimediaScreen {
         Button fastForwardButton = new Button("5s >>");
         Button homeButton = new Button("Home");
 
-        
-        // Buttons actions
         playButton.setOnAction(event -> mediaPlayer.play());
         pauseButton.setOnAction(event -> mediaPlayer.pause());
-        stopButton.setOnAction(event-> mediaPlayer.stop());
+        stopButton.setOnAction(event -> mediaPlayer.stop());
 
         rewindButton.setOnAction(event -> {
-            Duration currentTime = mediaPlayer.getCurrentTime();
-            mediaPlayer.seek(currentTime.subtract(Duration.seconds(5)));
+            mediaPlayer.seek(mediaPlayer.getCurrentTime().subtract(javafx.util.Duration.seconds(5)));
         });
 
         fastForwardButton.setOnAction(event -> {
-            Duration currentTime = mediaPlayer.getCurrentTime();
-            mediaPlayer.seek(currentTime.add(Duration.seconds(5)));
+            mediaPlayer.seek(mediaPlayer.getCurrentTime().add(javafx.util.Duration.seconds(5)));
         });
-        homeButton.setOnAction(event ->{
+
+        homeButton.setOnAction(event -> {
             mediaPlayer.stop();
             returnScene();
         });
-        //
 
         playButton.setPrefWidth(100);
         pauseButton.setPrefWidth(100);
@@ -72,42 +75,38 @@ public class DisplayMultimediaScreen {
         rewindButton.setPrefWidth(100);
         fastForwardButton.setPrefWidth(100);
         homeButton.setPrefWidth(125);
-
-        ImageView homeIcon = new ImageView(new Image("file:" + "src\\prograIconos\\home2.png"));
+        
+        ImageView homeIcon = new ImageView(new Image("file:" + "src/prograIconos/home2.png"));
         homeIcon.setFitWidth(22);
         homeIcon.setFitHeight(22);
         homeButton.setGraphic(homeIcon);
+        //
 
         HBox buttonBox = new HBox(homeButton, playButton, pauseButton, stopButton, rewindButton, fastForwardButton);
         buttonBox.setSpacing(80);
-        buttonBox.setPrefHeight(60);
-        buttonBox.setAlignment(Pos.CENTER); 
+        buttonBox.setMaxHeight(70);
+        buttonBox.setAlignment(Pos.CENTER);
         
-        root.setAlignment(Pos.CENTER);
-        Scene displayScene = new Scene(root, screenWidth, screenHeight);
-
-        buttonBox.setMinHeight(Region.USE_PREF_SIZE);
-        buttonBox.setMaxHeight(Region.USE_PREF_SIZE);
-        mediaView.setFitWidth(Region.USE_COMPUTED_SIZE);
-        mediaView.setFitHeight(Region.USE_COMPUTED_SIZE);
-       
-        //intento 2
-       // mediaView.setPreserveRatio(true);
-       // mediaView.setFitHeight(750); 
+        //ajuste de tamano
+        mediaView.setFitHeight(600);//650
+        mediaView.setFitHeight(600);
         //
-        root.getChildren().setAll(mediaView, buttonBox);
 
-        //BorderPane.setMargin(buttonBox, new Insets(-25, 0, 0, 0));
-        //BorderPane.setAlignment(mediaView, Pos.TOP_CENTER);
-
+        BorderPane.setMargin(buttonBox, new Insets(0, 0, 0, 0));
+        BorderPane.setAlignment(mediaView, Pos.TOP_CENTER);
+        root.setTop(mediaView);
+        root.setCenter(buttonBox);
+        
         // CSS
-        displayScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\display.css").toURI().toString());
+
+        Scene displayScene = new Scene(root, screenWidth, screenHeight);
+        displayScene.getStylesheets().add(new File("src/main/java/co/styles/display.css").toURI().toString());
         playButton.setId("button");
         stopButton.setId("button");
         pauseButton.setId("button");
         rewindButton.setId("button");
         fastForwardButton.setId("button");
-        root.setId("vbox");
+        root.setId("root");
         buttonBox.setId("hbox");
         homeButton.setId("home-button");
 
