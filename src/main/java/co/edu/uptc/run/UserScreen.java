@@ -57,6 +57,12 @@ public class UserScreen {
 
     MovieScreen movieScreen;
 
+    Button movieButton = new Button("Movie");
+    Button serieButton = new Button("Serie");
+    Button playListButton = new Button("PlayList");
+    Button subscriptionButton = new Button("Subscription");
+    Button returnButton = new Button("Log Out");
+
     public UserScreen() {
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
@@ -71,6 +77,7 @@ public class UserScreen {
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
         root.setTop(menuBar);
+        movieButton.setStyle("-fx-text-fill: black;");
 
         tablaMovie = new TableView<>();
 
@@ -189,11 +196,11 @@ public class UserScreen {
 
     private ToolBar createMenuBar() {
         Region spacer = new Region();
-        Button movieButton = new Button("Movie");
-        Button serieButton = new Button("Serie");
-        Button playListButton = new Button("PlayList");
-        Button subscriptionButton = new Button("Subscription");
-        Button returnButton = new Button("Log Out");
+        movieButton = new Button("Movie");
+        serieButton = new Button("Serie");
+        playListButton = new Button("PlayList");
+        subscriptionButton = new Button("Subscription");
+        returnButton = new Button("Log Out");
 
         movieButton.setCursor(Cursor.HAND);
         serieButton.setCursor(Cursor.HAND);
@@ -234,6 +241,7 @@ public class UserScreen {
         if (scene2 == null) {
             BorderPane root2 = new BorderPane();
             ToolBar menuBar = createMenuBar();
+            serieButton.setStyle("-fx-text-fill: black;");
             root2.setTop(menuBar);
 
             // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
