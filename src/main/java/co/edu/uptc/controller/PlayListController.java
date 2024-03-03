@@ -10,10 +10,15 @@ import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
 
 public class PlayListController {
-    private UserRegisteredController userC = new UserRegisteredController();
+    private UserRegisteredController userC;
+    private UserRegistered currentUser;
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Serie> series = new ArrayList<>();
     private PlayList currentPlayList;
+
+    public PlayListController() {
+        currentUser = new UserRegistered();
+    }
 
     public int getSerieIndex(ArrayList<Serie> serie, int idSerie) {
         for (int i = 0; i < serie.size(); i++) {
@@ -34,15 +39,15 @@ public class PlayListController {
     }
 
     public String[] playListNames() {
-        String playListNames[] = new String[userC.getCurrentUser().getplayList().size()];
-        for (int i = 0; i < userC.getCurrentUser().getplayList().size(); i++) {
-            playListNames[i] = userC.getCurrentUser().getplayList().get(i).getName();
+        String playListNames[] = new String[currentUser.getplayList().size()];
+        for (int i = 0; i < currentUser.getplayList().size(); i++) {
+            playListNames[i] = currentUser.getplayList().get(i).getName();
         }
         return playListNames;
     }
 
     public void playListFound(String name) {
-        for (PlayList i : userC.getCurrentUser().getplayList()) {
+        for (PlayList i : currentUser.getplayList()) {
             if (i.getName().equals(name)) {
                 currentPlayList = i;
             }
@@ -122,12 +127,16 @@ public class PlayListController {
 
     public void addPlayList(String name) {
         PlayList p = new PlayList(name);
-        userC.getCurrentUser().addplayList(p);
+        currentUser.addplayList(p);
 
     }
 
+    public ArrayList<PlayList> getPlayList() {
+        return currentUser.getplayList();
+    }
+
     public void addMovieToPlayList(String namePlayList, int idMovie) {
-        for (PlayList i : userC.getCurrentUser().getplayList()) {
+        for (PlayList i : currentUser.getplayList()) {
             if (i.getName().equals(namePlayList)) {
                 for (Movie j : movies) {
                     if (j.getId() == idMovie) {
@@ -142,7 +151,7 @@ public class PlayListController {
     }
 
     public void addSerieToPlayList(String namePlayList, int idSerie) {
-        for (PlayList i : userC.getCurrentUser().getplayList()) {
+        for (PlayList i : currentUser.getplayList()) {
             if (i.getName().equals(namePlayList)) {
                 for (Serie j : series) {
                     if (j.getId() == idSerie) {
@@ -156,7 +165,7 @@ public class PlayListController {
     }
 
     public void updateNamePlayList(String oldName, String newName) {
-        for (PlayList i : userC.getCurrentUser().getplayList()) {
+        for (PlayList i : currentUser.getplayList()) {
             if (i.getName().equals(oldName)) {
                 i.setName(newName);
             }
@@ -242,7 +251,7 @@ public class PlayListController {
     }
 
     public boolean nameRepeated(String namePLayList) {
-        for (PlayList i : userC.getCurrentUser().getplayList()) {
+        for (PlayList i : currentUser.getplayList()) {
             if (i.getName().equals(namePLayList)) {
                 return true;
             }
@@ -251,9 +260,9 @@ public class PlayListController {
     }
 
     public void removePlayList(String name) {
-        for (PlayList i : userC.getCurrentUser().getplayList()) {
+        for (PlayList i : currentUser.getplayList()) {
             if (i.getName().equals(name)) {
-                userC.getCurrentUser().removeplayList(i);
+                currentUser.removeplayList(i);
                 break;
             }
         }
@@ -264,7 +273,7 @@ public class PlayListController {
     }
 
     public void setCurrentPlayList(String currentPlayList) {
-        for (PlayList i : userC.getCurrentUser().getplayList()) {
+        for (PlayList i : currentUser.getplayList()) {
             if (i.getName().equals(currentPlayList)) {
                 this.currentPlayList = i;
             }
@@ -272,11 +281,15 @@ public class PlayListController {
     }
 
     public UserRegistered getCurrentUser() {
-        return userC.getCurrentUser();
+        return currentUser;
     }
 
     public void setUserC(UserRegisteredController userC) {
         this.userC = userC;
+    }
+
+    public void setCurrentUser(UserRegistered currentUser) {
+        this.currentUser = currentUser;
     }
 
     public void setMovies(ArrayList<Movie> movies) {

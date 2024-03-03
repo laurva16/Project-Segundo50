@@ -191,6 +191,7 @@ public class LogInWindow extends Application {
 
     public static boolean passwordValidationUser() {
         if (userRegisteredController.couldLogIn(textEmail.getText(), textPassword.getText())) {
+            userRegisteredController.setCurrentUser(textEmail.getText());
             return true;
         }
         setVisibleFalse();
@@ -216,7 +217,7 @@ public class LogInWindow extends Application {
         root.setCenter(stackPane);
         root.setBottom(vBoxImage);
 
-        sceneLogIn = new Scene(root, screenWidth,screenHeight);
+        sceneLogIn = new Scene(root, screenWidth, screenHeight);
         sceneLogIn.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
         primaryStage.setScene(sceneLogIn);
         primaryStage.setTitle("Register");
@@ -239,6 +240,10 @@ public class LogInWindow extends Application {
     public static Scene getSceneLogIn() {
         showSceneLoginView();
         return sceneLogIn;
+    }
+
+    public static UserRegisteredController getUserRegisteredController() {
+        return userRegisteredController;
     }
 
     public static void main(String[] args) {

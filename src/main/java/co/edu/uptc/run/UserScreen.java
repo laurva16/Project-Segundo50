@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.Optional;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
+import co.edu.uptc.controller.PlayListController;
+import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.Movie;
+import co.edu.uptc.model.PlayList;
 import co.edu.uptc.model.Serie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,6 +47,8 @@ public class UserScreen {
     private CategoryController categoryC;
     private Scene scene1, scene2;
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    private PlayListController playListController;
+    private UserRegisteredController userRegisteredController;
 
     Label labelName = new Label("Movie name:");
     Label labelDirector = new Label("Director name:");
@@ -64,6 +69,8 @@ public class UserScreen {
     Button returnButton = new Button("Log Out");
 
     public UserScreen() {
+        userRegisteredController = LogInWindow.getUserRegisteredController();
+        playListController = new PlayListController();
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
         adminC = new AdminController();
@@ -169,12 +176,12 @@ public class UserScreen {
             btnWatch.setOnAction(event -> {
             });
 
-            btnDetails.setOnAction(event -> {
-                seeMovieScreen(getTableView().getItems().get(getIndex()));
-            });
+            btnDetails.setOnAction(event -> seeMovieScreen(getTableView().getItems().get(getIndex())));
 
             btnPlayList.setOnAction(event -> {
-
+                userRegisteredController.addPlayList("pl1");
+                userRegisteredController.addPlayList("pl2");
+                userRegisteredController.addPlayList("pl3");
             });
 
             // Configura el contenido de las celdas para mostrar los botones
