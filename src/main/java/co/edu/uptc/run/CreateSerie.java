@@ -429,8 +429,19 @@ public class CreateSerie extends Application {
         VBox addChapterBox = new VBox(addChapterButton);
         addChapterBox.setAlignment(Pos.CENTER);
 
+        Button viewChapterButton = new Button("View Chapters");
+        viewChapterButton.setOnAction(event -> {
+            formularyChapter();
+        });
+        viewChapterButton.setPrefWidth(370);
+
+        // VBox para el botón "Add Chapter"
+        VBox viewChapterBox = new VBox(viewChapterButton);
+        viewChapterBox.setAlignment(Pos.CENTER);
+
         // Agregar todos los elementos al VBox principal
         formPane.getChildren().addAll(gridPane, seasonBox, additionalButtons, addChapterBox, additionalButtonsChapters,
+                viewChapterBox,
                 buttonPane);
 
         return formPane;
