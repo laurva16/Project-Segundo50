@@ -381,6 +381,7 @@ public class AdminController {
             listSeries.get(aux).setDescription(description);
             listSeries.get(aux).setName(name);
             admin.setSeries(listSeries);
+            fm.reWriteFile("series", listSeries);
             return true;
         }
         return false;

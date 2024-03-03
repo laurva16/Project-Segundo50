@@ -27,7 +27,7 @@ import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 
 public class CreateSerie extends Application {
-    private Scene Scene1, Scene2, Scene3, Scene4;
+    private Scene Scene1, Scene2, Scene3, Scene4, Scene5;
     private Stage primaryStage;
     private TextField text1 = new TextField();
     private TextField text2 = new TextField();
@@ -145,7 +145,7 @@ public class CreateSerie extends Application {
         // Botón de retorno
         Button returnButton = new Button("Return");
         returnButton.setOnAction(event -> {
-            primaryStage.setScene(Scene1);
+            modifySerie();
         });
         returnButton.setPrefWidth(150);
 
@@ -700,6 +700,94 @@ public class CreateSerie extends Application {
         primaryStage.setScene(Scene4);
         primaryStage.setMaximized(true);
         primaryStage.setTitle("New chapter Scene");
+        primaryStage.show();
+
+    }
+
+    private void modifySerie() {
+        TextField textModify1 = new TextField(ac.getCurrentSerie().getName());
+        TextField textModify2 = new TextField(ac.getCurrentSerie().getAuthor());
+        TextField textModify3 = new TextField(ac.getCurrentSerie().getDescription());
+        BorderPane root2 = new BorderPane();
+        root2.setId("root2");
+
+        GridPane gridPane = new GridPane();
+
+        textModify1.setPrefWidth(300);
+        textModify2.setPrefWidth(300);
+        textModify3.setPrefWidth(300);
+
+        Label labelName = new Label("Serie name:");
+        Label labelDirector = new Label("Director name:");
+        Label labelDescription = new Label("Description:");
+        Label labelCategory = new Label("Category:");
+
+        choiceBox.setMaxSize(300, 20);
+
+        gridPane.setMaxWidth(600);
+        gridPane.setMaxHeight(600);
+        gridPane.setAlignment(Pos.CENTER);
+
+        GridPane.setConstraints(labelName, 0, 0);
+        GridPane.setConstraints(labelDirector, 0, 1);
+        GridPane.setConstraints(labelDescription, 0, 2);
+        GridPane.setConstraints(labelCategory, 0, 4);
+
+        GridPane.setConstraints(textModify1, 1, 0);
+        GridPane.setConstraints(textModify2, 1, 1);
+        GridPane.setConstraints(textModify3, 1, 2);
+        GridPane.setConstraints(choiceBox, 1, 4);
+
+        gridPane.setVgap(20);
+        gridPane.setHgap(0);
+
+        gridPane.getChildren().setAll(labelName, textModify1, labelDirector, textModify2, labelDescription, textModify3,
+                labelCategory,
+                choiceBox);
+        root2.setCenter(gridPane);
+
+        root2.setStyle("-fx-background-color: #191919;");
+        gridPane.setStyle("-fx-background-color: white;");
+
+        // Save buttton
+        Button acceptButton = new Button();
+
+        GridPane.setConstraints(acceptButton, 0, 5);
+        acceptButton.setTranslateY(100);
+        acceptButton.setText("Next");
+        acceptButton.setPrefWidth(150);
+        GridPane.setHalignment(acceptButton, javafx.geometry.HPos.LEFT);
+        acceptButton.setOnAction(event -> {
+            // Modificar la serie actual con los datos del formulario
+            ac.modifySeries(textModify3.getText(), textModify1.getText(), textModify2.getText(),
+                    ac.getCurrentSerie().getId());
+
+            // Cambiar a la escena anterior
+            formularySeason();
+        });
+
+        // Cancel buttton
+        Button cancelButton = new Button();
+        GridPane.setConstraints(cancelButton, 1, 5);
+        cancelButton.setTranslateY(100);
+        cancelButton.setText("Cancel");
+        cancelButton.setPrefWidth(150);
+        GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
+
+        cancelButton.setOnAction(event -> cancelNewMovie());
+        gridPane.getChildren().addAll(acceptButton, cancelButton);
+
+        // Crear la escena
+        Scene5 = new Scene(root2, screenWidth, screenHeight);
+        // aplicar CSS
+        Scene5.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        cancelButton.setId("button");
+        acceptButton.setId("button");
+
+        // Establecer la escena en la ventana
+        primaryStage.setScene(Scene5);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle("New Serie Scene");
         primaryStage.show();
 
     }
