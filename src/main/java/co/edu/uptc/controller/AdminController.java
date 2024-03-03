@@ -75,6 +75,7 @@ public class AdminController {
         if (addMultimediaValidation(name, author, 2)) {
             Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons, nameCategory);
             listSeries.add(newSerie);
+            currentSerie = newSerie;
             // admin.setSeries(listSeries);
             return fm.writeFile("series", newSerie);
         }
@@ -100,6 +101,26 @@ public class AdminController {
 
         if (serieIndex != -1 && seasonIndex != -1) {
             if (listSeries.get(serieIndex).getSeasons().get(seasonIndex).getchapters() == null) {
+                listSeries.get(serieIndex).getSeasons().get(seasonIndex).setchapters(new ArrayList<>());
+                listSeries.get(serieIndex).getSeasons().get(seasonIndex)
+                        .addchapters((new MultimediaContent(assignidChapter(serieIndex, seasonIndex),
+                                duration, name, description)));
+            } else {
+                listSeries.get(serieIndex).getSeasons().get(seasonIndex).getchapters().add(
+                        (new MultimediaContent(assignidChapter(serieIndex, seasonIndex), duration, name, description)));
+            }
+            fm.reWriteFile("series", listSeries);
+        }
+    }
+
+    public void addChapterName(String name, String description, int duration, int idSerie,
+            String idSeason) {
+        int serieIndex = serieFound(idSerie);
+        int seasonIndex = seasonNameFound(idSeason, idSerie);
+
+        if (serieIndex != -1 && seasonIndex != -1) {
+            if (listSeries.get(serieIndex).getSeasons().get(seasonIndex).getchapters() == null) {
+
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex).setchapters(new ArrayList<>());
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex)
                         .addchapters((new MultimediaContent(assignidChapter(serieIndex, seasonIndex),
@@ -152,11 +173,31 @@ public class AdminController {
         return -1;
     }
 
+    public int seasonNameFound(String idSeason, int idSerie) {
+        for (int i = 0; i < listSeries.get(serieFound(idSerie)).getSeasons().size(); i++) {
+            if (listSeries.get(serieFound(idSerie)).getSeasons().get(i).getSeasonName().equals(idSeason)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public int chapterFound(int idSeason, int idSerie, int idChapter) {
         for (int i = 0; i < listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(idSeason, idSerie))
                 .getchapters().size(); i++) {
             if (listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(idSeason, idSerie))
                     .getchapters().get(i).getId() == idChapter) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int chapterNameFound(String idSeason, int idSerie, String idChapter) {
+        for (int i = 0; i < listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie))
+                .getchapters().size(); i++) {
+            if (listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie))
+                    .getchapters().get(i).getName().equals(idChapter)) {
                 return i;
             }
         }
@@ -277,6 +318,14 @@ public class AdminController {
 
     }
 
+    public void deleteSeasonName(String idSeason, int idSerie) {
+
+        listSeries.get(serieFound(idSerie)).getSeasons()
+                .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie)));
+        fm.reWriteFile("series", listSeries);
+
+    }
+
     public void deleteChapter(int idSeason, int idSerie, int idChapter) {
 
         listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(idSeason, idSerie))
@@ -284,6 +333,16 @@ public class AdminController {
                 .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(idSeason, idSerie))
                         .getchapters().get(chapterFound(idSeason, idSerie, idChapter)));
         fm.reWriteFile("season", listSeries);
+
+    }
+
+    public void deleteChapterName(String idSeason, int idSerie, String idChapter) {
+
+        listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie))
+                .getchapters()
+                .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie))
+                        .getchapters().get(chapterNameFound(idSeason, idSerie, idChapter)));
+        fm.reWriteFile("series", listSeries);
 
     }
 
@@ -323,6 +382,7 @@ public class AdminController {
             listSeries.get(aux).setDescription(description);
             listSeries.get(aux).setName(name);
             admin.setSeries(listSeries);
+            fm.reWriteFile("series", listSeries);
             return true;
         }
         return false;
@@ -349,12 +409,47 @@ public class AdminController {
         return false;
     }
 
+    public boolean modifyChaptersName(String description, String name, int duration, int Selected, String idSeason,
+            String idChapter) {
+        int aux = serieFound(Selected);
+        int auxSeason = seasonNameFound(idSeason, Selected);
+        int auxChapter = chapterNameFound(idSeason, Selected, idChapter);
+
+        if (aux != -1) {
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
+                    .setDescription(description);
+
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
+                    .setName(name);
+
+            listSeries.get(aux).getSeasons().get(auxSeason).getchapters().get(auxChapter)
+                    .setDuration(duration);
+            fm.reWriteFile("series", listSeries);
+            return true;
+
+        }
+        return false;
+    }
+
     public boolean modifySeason(String nameSeasonNew, int Selected, int idSeason) {
         int aux = serieFound(Selected);
         int auxSeason = seasonFound(idSeason, Selected);
 
         if (aux != -1) {
             listSeries.get(aux).getSeasons().get(auxSeason).setSeasonName(nameSeasonNew);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean modifySeasonName(String nameSeasonNew, int Selected, String idSeason) {
+        int aux = serieFound(Selected);
+        int auxSeason = seasonNameFound(idSeason, Selected);
+
+        if (aux != -1) {
+
+            listSeries.get(aux).getSeasons().get(auxSeason).setSeasonName(nameSeasonNew);
+            fm.reWriteFile("series", listSeries);
 
             return true;
         }

@@ -40,5 +40,32 @@
     "name": "Name1",
     "duration": 0,
     "author": "Author2"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "wendy",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "valntina",
+            "duration": 100000,
+            "description": "chaooo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "wilmar",
+        "chapters": []
+      }
+    ],
+    "category": "Action",
+    "id": 462,
+    "name": "griselda",
+    "duration": 0,
+    "author": "laura",
+    "description": "angela"
   }
 ]
