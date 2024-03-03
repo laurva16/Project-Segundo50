@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -36,7 +37,7 @@ public class CreateSerie extends Application {
     private TextField textDurationChapter = new TextField();
     private TextField textDescriptionChapter = new TextField();
     private TextField seasonField = new TextField();
-    TableView<MultimediaContent> tablaMovie = new TableView<>();
+    TableView<MultimediaContent> tablaChapters = new TableView<>();
     // Declara un observable list para almacenar las temporadas
     ObservableList<String> seasonsList = FXCollections.observableArrayList();
     ObservableList<String> multimediaContentList = FXCollections.observableArrayList();
@@ -430,11 +431,17 @@ public class CreateSerie extends Application {
         addChapterBox.setAlignment(Pos.CENTER);
 
         Button viewChapterButton = new Button("View Chapters");
-        viewChapterButton.setOnAction(event -> {
-            formularyChapter();
-        });
-        viewChapterButton.setPrefWidth(370);
 
+        viewChapterButton.setOnAction(event -> {
+            String selectedSeasonName = additionalOptions.getValue();
+            if (selectedSeasonName != null) {
+                tableChapters(selectedSeasonName);
+            } else {
+                System.out.println("");
+            }
+        });
+
+        viewChapterButton.setPrefWidth(370);
         // VBox para el botón "Add Chapter"
         VBox viewChapterBox = new VBox(viewChapterButton);
         viewChapterBox.setAlignment(Pos.CENTER);
@@ -801,6 +808,56 @@ public class CreateSerie extends Application {
         primaryStage.setTitle("New Serie Scene");
         primaryStage.show();
 
+    }
+
+    private void tableChapters(String selectedSeasonName) {
+        Season selectedSeason = ac.getCurrentSerie().getSeasons()
+                .get(ac.seasonNameFound(selectedSeasonName, ac.getCurrentSerie().getId()));
+
+        if (selectedSeason != null && selectedSeason.getchapters() != null && !selectedSeason.getchapters().isEmpty()) {
+            // Si hay capítulos en la temporada, mostrar la tabla como antes
+            ObservableList<MultimediaContent> chapters = FXCollections
+                    .observableArrayList(selectedSeason.getchapters());
+
+            TableView<MultimediaContent> tableView = new TableView<>(chapters);
+
+            TableColumn<MultimediaContent, String> idColumn = new TableColumn<>("Id");
+            TableColumn<MultimediaContent, String> nameColumn = new TableColumn<>("Name");
+            TableColumn<MultimediaContent, String> durationColumn = new TableColumn<>("Duration");
+
+            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
+
+            tableView.getColumns().addAll(idColumn, nameColumn, durationColumn);
+
+            // Crear un título para la tabla
+            Label titleLabel = new Label("Chapters of " + selectedSeasonName);
+            titleLabel.setAlignment(Pos.CENTER);
+            titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+            // Crear un BorderPane para incluir el título y la tabla
+            BorderPane borderPane = new BorderPane();
+            borderPane.setTop(titleLabel);
+            borderPane.setCenter(tableView);
+
+            Scene scene = new Scene(borderPane, 400, 500);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Chapters of " + selectedSeasonName);
+            stage.show();
+        } else {
+            // Si no hay capítulos en la temporada, mostrar un mensaje
+            Label messageLabel = new Label("There are no chapters in this season.");
+            messageLabel.setAlignment(Pos.CENTER);
+            messageLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+            Scene scene = new Scene(messageLabel, 400, 500);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("No Chapters");
+            stage.show();
+        }
     }
 
     public static void main(String[] args) {

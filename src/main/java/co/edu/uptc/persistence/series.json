@@ -69,21 +69,37 @@
     "description": "angela"
   },
   {
-    "seasons": [],
-    "category": "Drama",
-    "id": 463,
-    "name": "f",
-    "duration": 0,
-    "author": "dfsd",
-    "description": "dsfsd"
-  },
-  {
-    "seasons": [],
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "aver",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "creo uno",
+            "duration": 2312,
+            "description": "dfsdf"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "pailar",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "antohercuestion",
+            "duration": 343,
+            "description": "43"
+          }
+        ]
+      }
+    ],
     "category": "Action",
-    "id": 464,
-    "name": "aa",
+    "id": 463,
+    "name": "salsa",
     "duration": 0,
-    "author": "aaa",
-    "description": "aaaa"
+    "author": "dfsdf",
+    "description": "3434"
   }
 ]
