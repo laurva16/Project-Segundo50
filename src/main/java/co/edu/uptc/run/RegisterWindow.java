@@ -165,6 +165,7 @@ public class RegisterWindow {
         }
     }
 
+    @SuppressWarnings("static-access")
     public static void returnButton() {
         LogInWindow login = new LogInWindow();
         buttonReturn.setOnAction(e -> login.showSceneLoginView());
