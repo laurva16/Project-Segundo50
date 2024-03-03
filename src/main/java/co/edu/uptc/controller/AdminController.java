@@ -9,6 +9,7 @@ import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
 import co.edu.uptc.utilities.FileManagement;
+import javafx.scene.control.ChoiceBox;
 
 public class AdminController {
 
@@ -60,9 +61,10 @@ public class AdminController {
         return false;
     }
 
-    public boolean addMovie(String name, String author, String description, int duration, String nameCategory) {
+    public boolean addMovie(String name, String author, String description, int duration, String nameCategory, String fileVideo) {
         if (addMultimediaValidation(name, author, 1)) {
             Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategory);
+            newMovie.setFileVideo(fileVideo);
             listMovies.add(newMovie);
             // admin.setMovies(listMovies);
             return fm.writeFile("movies", newMovie);
@@ -124,6 +126,31 @@ public class AdminController {
     public ArrayList<Movie> getMovies() {
         return listMovies;
     }
+
+   /*
+    *  public ChoiceBox <String> getDisponibleFileVideoNames(){
+        ChoiceBox <String> choiceBox = new ChoiceBox<>();
+        ArrayList <String> fileNames = fm.getFileVideoNames();
+        ArrayList <String> usedNames = new ArrayList<>();
+
+        //movies
+        for(Movie movie: listMovies){
+            usedNames.add(movie.getFileVideo());        
+        }
+       // for(Serie serie: listSeries){
+        //    usedNames.add(serie.getFileVideo());        
+       // }
+        
+       for(String used: usedNames){
+            fileNames.remove(used);
+       }
+       for(String names: fileNames){
+            choiceBox.getItems().add(names);
+       }
+       return choiceBox;
+     
+    }
+    */
 
     public int movieFound(int id) {
         for (int i = 0; i < listMovies.size(); i++) {

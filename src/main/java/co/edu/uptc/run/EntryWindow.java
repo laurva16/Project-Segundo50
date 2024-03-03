@@ -5,15 +5,12 @@ import java.util.Optional;
 
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
-import co.edu.uptc.model.Category;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.Serie;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,11 +30,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -57,8 +51,7 @@ public class EntryWindow {
     Label labelDescription = new Label("Description:");
     Label labelDuration = new Label("Duration:");
     Label labelCategory = new Label("Category:");
-    Label labelWarning;
-
+    Label labelFileVideo = new Label("File Video:");
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
@@ -137,7 +130,7 @@ public class EntryWindow {
         //TEMPORAL PARA REPRODUCCION
 
         Button b = new Button();
-        root.setBottom(b);
+        root.setLeft(b);
         b.setTranslateY(-60);
         b.setOnAction(event -> switchReproductionScene());
         //
@@ -158,7 +151,7 @@ public class EntryWindow {
 
     void switchReproductionScene(){
         displayScreen = new DisplayMultimediaScreen();
-        primaryStage.setScene(displayScreen.multimediaScene("Movie1"));
+        primaryStage.setScene(displayScreen.multimediaScene("M_001", true));
     }
 
     void switchNewMovieScene() {
@@ -438,28 +431,32 @@ public class EntryWindow {
         Label description = new Label(movie.getDescription());
         Label duration = new Label(String.valueOf(movie.getDuration()));
         Label category = new Label(movie.getCategory());
+        Label fileVideo = new Label(movie.getFileVideo());
 
         GridPane.setConstraints(labelName, 0, 0);
         GridPane.setConstraints(labelDirector, 0, 1);
         GridPane.setConstraints(labelDescription, 0, 2);
         GridPane.setConstraints(labelDuration, 0, 3);
         GridPane.setConstraints(labelCategory, 0, 4);
+        GridPane.setConstraints(labelFileVideo, 0, 5);
 
         GridPane.setConstraints(name, 1, 0);
         GridPane.setConstraints(director, 1, 1);
         GridPane.setConstraints(description, 1, 2);
         GridPane.setConstraints(duration, 1, 3);
         GridPane.setConstraints(category, 1, 4);
+        GridPane.setConstraints(fileVideo, 1, 5);
 
         Button closeButton = new Button();
-        // closeButton.setTranslateX(-100);
+        closeButton.setTranslateY(50);
         closeButton.setText("Close");
         closeButton.setPrefWidth(100);
-        GridPane.setConstraints(closeButton, 1, 5);
+        GridPane.setConstraints(closeButton, 1, 6);
         closeButton.setOnAction(event -> secundaryStage.close());
         closeButton.setId("button");
+
         gridPane.getChildren().setAll(labelName, labelDirector, labelDescription, labelDuration, labelCategory, name,
-                director, description, duration, category, closeButton);
+                director, description, duration, category, closeButton, fileVideo, labelFileVideo);
 
         // Configurar tamano description
         description.setMaxWidth(200);

@@ -19,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class RegisterWindow {
@@ -43,6 +44,8 @@ public class RegisterWindow {
     private static Label labelEmailError;
     private static Label labelPasswordError;
     private static Label labelPasswordError2;
+    private static double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+    private static double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     public RegisterWindow() {
         userRegisteredController = new UserRegisteredController();
@@ -239,7 +242,7 @@ public class RegisterWindow {
         root.setCenter(stackPane);
         root.setBottom(vBoxImage);
 
-        sceneRegister = new Scene(root);
+        sceneRegister = new Scene(root, screenWidth,screenHeight);
         sceneRegister.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
     }
 
