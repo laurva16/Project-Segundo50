@@ -45,9 +45,12 @@ public class CreateSerie extends Application {
     TableView<MultimediaContent> tablaMovie = new TableView<>();
     // Declara un observable list para almacenar las temporadas
     ObservableList<String> seasonsList = FXCollections.observableArrayList();
+    ObservableList<String> multimediaContentList = FXCollections.observableArrayList();
+    ArrayList<MultimediaContent> chapterList = new ArrayList<>();
 
     // Añade el ChoiceBox y la lista observable de temporadas
     ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
+    ChoiceBox<String> additionalOptionsMultimediaContent = new ChoiceBox<>(multimediaContentList);
 
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
     private AdminController ac;
@@ -145,28 +148,13 @@ public class CreateSerie extends Application {
         // Crear el formulario en la mitad izquierda
         VBox formPane = createFormPane();
 
-        // Crear la tabla en la mitad derecha
-        TableView<MultimediaContent> tablaMovie = createTable();
-
-        // Dividir la ventana en dos partes con un SplitPane
-        SplitPane splitPane = new SplitPane();
-        splitPane.getItems().addAll(formPane, tablaMovie);
-        splitPane.setDividerPositions(0.5); // Posición del divisor (50% de cada lado)
-
         // Crear la escena
-        Scene2 = new Scene(splitPane, screenWidth, screenHeight);
+        Scene2 = new Scene(formPane, screenWidth, screenHeight);
 
         // Establecer la escena en la ventana
         primaryStage.setScene(Scene2);
         primaryStage.setTitle("New Movie Scene");
         primaryStage.show();
-
-        additionalOptions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            // Actualizar la tabla con los capítulos de la nueva temporada seleccionada
-            if (newValue != null) {
-                refreshChapterTable(newValue);
-            }
-        });
 
     }
 
@@ -198,20 +186,49 @@ public class CreateSerie extends Application {
         addButton.setGraphic(iconoAddSeason);
 
         additionalOptions.setPrefWidth(250);
+        additionalOptionsMultimediaContent.setPrefWidth(250);
 
         // Añadir temporadas al ChoiceBox de temporadas (cambia este código según la
         // fuente de tus temporadas)
         ArrayList<Season> seasonList = new ArrayList<>(); // Supongamos que tienes una lista de temporadas
+
         for (Season season : seasonList) {
             additionalOptions.getItems().add(season.getSeasonName());
-        }
 
-        // Función para agregar una temporada y actualizar el ChoiceBox
+        }
+        additionalOptions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                // Obtener la serie actual
+                Serie currentSerie = ac.getCurrentSerie();
+
+                // Buscar la temporada seleccionada
+                Season selectedSeason = currentSerie.getSeasons().stream()
+                        .filter(season -> season.getSeasonName().equals(newValue))
+                        .findFirst()
+                        .orElse(null);
+
+                // Verificar si la temporada seleccionada no es nula y tiene capítulos
+                if (selectedSeason != null && selectedSeason.getchapters() != null) {
+                    // Actualizar el ChoiceBox de capítulos con los capítulos de la temporada
+                    // seleccionada
+                    multimediaContentList.clear();
+                    for (MultimediaContent chapter : selectedSeason.getchapters()) {
+                        multimediaContentList.add(chapter.getName());
+                    }
+                } else {
+                    // Si la temporada seleccionada no tiene capítulos, limpiar la lista de
+                    // capítulos
+                    multimediaContentList.clear();
+                }
+            }
+        });
+
         addButton.setOnAction(event -> {
             String seasonName = seasonField.getText();
             ac.addSeason(ac.getCurrentSerie().getId(), seasonName, null);
             // Agrega la temporada a la lista observable
             seasonsList.add(seasonName);
+
             seasonField.clear();
         });
 
@@ -222,12 +239,20 @@ public class CreateSerie extends Application {
 
         ImageView iconoDeleteSeason = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
         ImageView iconoModifySeason = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
+        ImageView iconoDeleteChapter = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
+        ImageView iconoModifyChapter = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
 
         iconoDeleteSeason.setFitWidth(16);
         iconoDeleteSeason.setFitHeight(16);
 
         iconoModifySeason.setFitWidth(16);
         iconoModifySeason.setFitHeight(16);
+
+        iconoDeleteChapter.setFitWidth(16);
+        iconoDeleteChapter.setFitHeight(16);
+
+        iconoModifyChapter.setFitWidth(16);
+        iconoModifyChapter.setFitHeight(16);
 
         Button buttonDeleteSeason = new Button();
 
@@ -268,6 +293,48 @@ public class CreateSerie extends Application {
         // HBox para los botones adicionales
         HBox additionalButtons = new HBox(10, additionalOptions, buttonDeleteSeason, buttonModifySeason);
         additionalButtons.setAlignment(Pos.CENTER);
+
+        Button buttonDeleteChapter = new Button();
+        buttonDeleteChapter.setGraphic(iconoDeleteChapter);
+        buttonDeleteChapter.setOnAction(event -> {
+            String selectedSeasonName = additionalOptions.getValue();
+            String selectedChapterName = additionalOptionsMultimediaContent.getValue();
+            if (selectedSeasonName != null && selectedChapterName != null) {
+                // Mostrar un cuadro de diálogo de confirmación
+                Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationDialog.setTitle("Confirmation");
+                confirmationDialog.setHeaderText("Delete Chapter");
+                confirmationDialog.setContentText("Are you sure you want to delete this chapter?");
+
+                // Obtener la respuesta del usuario
+                confirmationDialog.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        // Eliminar el capítulo de la temporada seleccionada
+                        ac.deleteChapterName(selectedSeasonName, ac.getCurrentSerie().getId(), selectedChapterName);
+
+                        // Actualizar la lista observable de capítulos
+                        additionalOptionsMultimediaContent.getItems().remove(selectedChapterName);
+
+                        // Limpiar la lista de capítulos local
+                        chapterList.removeIf(chapter -> chapter.getName().equals(selectedChapterName));
+
+                        // Después de eliminar, selecciona la primera temporada (o cualquier otra
+                        // lógica)
+                        if (!additionalOptionsMultimediaContent.getItems().isEmpty()) {
+                            additionalOptionsMultimediaContent.getSelectionModel().selectFirst();
+                        }
+                    }
+                });
+            }
+        });
+
+        Button buttonModifyChapter = new Button();
+        buttonModifyChapter.setGraphic(iconoModifyChapter);
+
+        // HBox para los botones adicionales
+        HBox additionalButtonsChapters = new HBox(10, additionalOptionsMultimediaContent, buttonDeleteChapter,
+                buttonModifyChapter);
+        additionalButtonsChapters.setAlignment(Pos.CENTER);
 
         // Botones "Guardar" y "Cancelar"
         Button acceptButton = new Button("Save");
@@ -351,22 +418,10 @@ public class CreateSerie extends Application {
         addChapterBox.setAlignment(Pos.CENTER);
 
         // Agregar todos los elementos al VBox principal
-        formPane.getChildren().addAll(gridPane, seasonBox, additionalButtons, addChapterBox, buttonPane);
+        formPane.getChildren().addAll(gridPane, seasonBox, additionalButtons, addChapterBox, additionalButtonsChapters,
+                buttonPane);
 
         return formPane;
-    }
-
-    private TableView<MultimediaContent> createTable() {
-
-        // Crear las columnas de la tabla
-        TableColumn<MultimediaContent, String> IdChapterColumn = new TableColumn<>("Id Chapter");
-        TableColumn<MultimediaContent, String> NameChapterColumn = new TableColumn<>("Name Chapter");
-        TableColumn<MultimediaContent, Void> accionesColumna = new TableColumn<>("Actions");
-
-        // Agregar las columnas a la tabla
-        tablaMovie.getColumns().addAll(IdChapterColumn, NameChapterColumn, accionesColumna);
-
-        return tablaMovie;
     }
 
     private void cancelNewMovie() {
@@ -466,10 +521,15 @@ public class CreateSerie extends Application {
                         Integer.parseInt(textDurationChapter.getText()), ac.getCurrentSerie().getId(),
                         selectedSeasonName);
 
-                // Actualizar la tabla con los capítulos de la temporada seleccionada
-                refreshChapterTable(selectedSeasonName);
-                cambiarAEscena1();
+                // Actualizar el ChoiceBox de capítulos con los capítulos de la temporada
+                // seleccionada
+                multimediaContentList.clear();
+                for (MultimediaContent chapter : selectedSeasonObj.getchapters()) {
+                    multimediaContentList.add(chapter.getName());
+                }
             }
+
+            cambiarAEscena1();
 
             // Limpiar los campos de texto del capítulo
             textNameChapter.clear();
@@ -505,34 +565,6 @@ public class CreateSerie extends Application {
 
     private void cambiarAEscena1() {
         primaryStage.setScene(Scene2);
-    }
-
-    private void refreshChapterTable(String selectedSeasonName) {
-        // Limpiar la tabla
-        tablaMovie.getItems().clear();
-        tablaMovie.getColumns().clear();
-
-        // Crear las columnas de la tabla
-        TableColumn<MultimediaContent, String> IdChapterColumn = new TableColumn<>("Id Chapter");
-        TableColumn<MultimediaContent, String> NameChapterColumn = new TableColumn<>("Name Chapter");
-        TableColumn<MultimediaContent, Void> accionesColumna = new TableColumn<>("Actions");
-
-        // Agregar las columnas a la tabla
-        tablaMovie.getColumns().addAll(IdChapterColumn, NameChapterColumn, accionesColumna);
-
-        // Obtener los capítulos de la temporada seleccionada
-        ArrayList<MultimediaContent> chapters = ac.getCurrentSerie().getSeasons()
-                .get(ac.seasonNameFound(selectedSeasonName, ac.getCurrentSerie().getId())).getchapters();
-
-        // Crear una lista observable de capítulos
-        ObservableList<MultimediaContent> chapterList = FXCollections.observableArrayList(chapters);
-
-        // Asignar los valores a las celdas de la tabla
-        IdChapterColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        NameChapterColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        // Agregar los datos a la tabla
-        tablaMovie.setItems(chapterList);
     }
 
     public static void main(String[] args) {

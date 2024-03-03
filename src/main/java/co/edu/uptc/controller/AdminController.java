@@ -192,6 +192,17 @@ public class AdminController {
         return -1;
     }
 
+    public int chapterNameFound(String idSeason, int idSerie, String idChapter) {
+        for (int i = 0; i < listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie))
+                .getchapters().size(); i++) {
+            if (listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie))
+                    .getchapters().get(i).getName().equals(idChapter)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public ArrayList<String> ShowListMovieNames() {
         ArrayList<String> movieNames = new ArrayList<>();
         for (MultimediaContent movie : listMovies) {
@@ -321,6 +332,16 @@ public class AdminController {
                 .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonFound(idSeason, idSerie))
                         .getchapters().get(chapterFound(idSeason, idSerie, idChapter)));
         fm.reWriteFile("season", listSeries);
+
+    }
+
+    public void deleteChapterName(String idSeason, int idSerie, String idChapter) {
+
+        listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie))
+                .getchapters()
+                .remove(listSeries.get(serieFound(idSerie)).getSeasons().get(seasonNameFound(idSeason, idSerie))
+                        .getchapters().get(chapterNameFound(idSeason, idSerie, idChapter)));
+        fm.reWriteFile("series", listSeries);
 
     }
 

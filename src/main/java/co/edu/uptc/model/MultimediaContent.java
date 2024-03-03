@@ -7,6 +7,9 @@ public class MultimediaContent {
     private String author;
     private String description;
 
+    public MultimediaContent() {
+    }
+
     public MultimediaContent(int id, String name, String author, String description) {
         this.id = id;
         this.name = name;
@@ -75,5 +78,10 @@ public class MultimediaContent {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public Object getSeason() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSeason'");
     }
 }
