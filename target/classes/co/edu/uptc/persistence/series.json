@@ -10,7 +10,8 @@
     "name": "prueba",
     "duration": 0,
     "author": "prueba",
-    "description": "prueba"
+    "description": "prueba",
+    "category": "Action"
   },
   {
     "seasons": [],
@@ -18,27 +19,34 @@
     "name": "prueba2",
     "duration": 0,
     "author": "prueba",
-    "description": "prueba"
+    "description": "prueba",
+    "category": "Action"
   },
   {
     "seasons": [],
     "id": 459,
     "name": "Name1",
     "duration": 0,
-    "author": "Author1"
+    "author": "Author1",
+    "description": "prueba",
+    "category": "Action"
   },
   {
     "seasons": [],
     "id": 460,
     "name": "Name2",
     "duration": 0,
-    "author": "Author1"
+    "author": "Author1",
+    "description": "pruebaaa",
+    "category": "Action"
   },
   {
     "seasons": [],
     "id": 461,
     "name": "Name1",
     "duration": 0,
-    "author": "Author2"
+    "author": "Author2",
+    "description": "pruebaaaaaaaa",
+    "category": "Action"
   }
 ]

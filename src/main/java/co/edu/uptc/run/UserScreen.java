@@ -138,7 +138,7 @@ public class UserScreen {
             btnPlayList.setCursor(Cursor.HAND);
 
             // Configura los íconos para los botones
-            ImageView iconoWatch = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
+            ImageView iconoWatch = new ImageView(new Image("file:" + "src\\prograIconos\\play.png"));
             ImageView iconoDetails = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
             ImageView iconoPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\corazon.png"));
 
@@ -167,6 +167,7 @@ public class UserScreen {
             });
 
             btnPlayList.setOnAction(event -> {
+
             });
 
             // Configura el contenido de las celdas para mostrar los botones
@@ -238,24 +239,24 @@ public class UserScreen {
             // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
             ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
 
-            TableColumn<Serie, String> IdColumn = new TableColumn<>("Id");
             TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
-            TableColumn<Serie, String> directorColumn = new TableColumn<>("Director");
+            TableColumn<Serie, String> categoryColumn = new TableColumn<>("Category");
+            TableColumn<Serie, String> descriptionColumn = new TableColumn<>("Description");
 
-            IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+            categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+            descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-            IdColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
             nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            directorColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            categoryColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            descriptionColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
 
             // Configurar estilo de las columnas
-            IdColumn.setStyle("-fx-alignment: CENTER;");
             nameColumn.setStyle("-fx-alignment: CENTER;");
-            directorColumn.setStyle("-fx-alignment: CENTER;");
+            categoryColumn.setStyle("-fx-alignment: CENTER;");
+            descriptionColumn.setStyle("-fx-alignment: CENTER;");
 
-            tablaSerie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
+            tablaSerie.getColumns().addAll(nameColumn, categoryColumn, descriptionColumn);
 
             // Establecer ancho máximo para la tabla
             tablaSerie.setMaxWidth(600);
@@ -290,7 +291,7 @@ public class UserScreen {
 
         public BotonCeldaSerie() {
             // Configura los íconos para los botones
-            ImageView iconoWatch = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
+            ImageView iconoWatch = new ImageView(new Image("file:" + "src\\prograIconos\\play.png"));
             ImageView iconoDetails = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
             ImageView iconoPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\corazon.png"));
 
