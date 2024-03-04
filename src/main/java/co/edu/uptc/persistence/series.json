@@ -45,8 +45,67 @@
     "id": 461,
     "name": "Name1",
     "duration": 0,
-    "author": "Author2",
-    "description": "pruebaaaaaaaa",
-    "category": "Action"
+    "author": "Author2"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "wendy",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "valntina",
+            "duration": 100000,
+            "description": "chaooo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "wilmar",
+        "chapters": []
+      }
+    ],
+    "category": "Action",
+    "id": 462,
+    "name": "griselda",
+    "duration": 0,
+    "author": "laura",
+    "description": "angela"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "aver",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "creo uno",
+            "duration": 2312,
+            "description": "dfsdf"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "pailar",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "antohercuestion",
+            "duration": 343,
+            "description": "43"
+          }
+        ]
+      }
+    ],
+    "category": "Action",
+    "id": 463,
+    "name": "salsa",
+    "duration": 0,
+    "author": "dfsdf",
+    "description": "3434"
   }
 ]
