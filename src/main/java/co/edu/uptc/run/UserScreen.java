@@ -188,9 +188,12 @@ public class UserScreen {
                 btnPlayList.getItems().add(name);
 
                 name.setOnAction(event -> {
+                    if (userRegisteredController.addMovieToPlayList(name.getText(),
+                            grupos.get(this.getIndex()).getId())) {
+                        alertMovie(name.getText(), grupos.get(this.getIndex()).getName());
+                    }
 
-                    userRegisteredController.addMovieToPlayList(name.getText(),
-                            grupos.get(this.getIndex()).getId());
+                    // Falta agregar mensaje de confirmación y mensaje de agregar playList
                 });
             }
 
@@ -425,5 +428,14 @@ public class UserScreen {
     public Scene getScene1() {
         showMovieScene();
         return scene1;
+    }
+
+    public void alertMovie(String playListName, String movieName) {
+        Alert comprobation = new Alert(AlertType.INFORMATION);
+        comprobation.setTitle("PlayList");
+        comprobation.setHeaderText("Successfully added to the playList");
+        comprobation.setContentText("The movie " + movieName
+                + " was added to PlayList " + playListName);
+        comprobation.showAndWait();
     }
 }
