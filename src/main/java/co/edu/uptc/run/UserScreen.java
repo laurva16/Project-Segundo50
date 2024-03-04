@@ -1,7 +1,6 @@
 package co.edu.uptc.run;
 
 import java.io.File;
-import java.util.Optional;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.controller.PlayListController;
@@ -17,13 +16,11 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -82,9 +79,9 @@ public class UserScreen {
         categoryC = new CategoryController();
         categoryC.getCategories().forEach(
                 category -> choiceBox.getItems().add(category.getName()));
-        userRegisteredController.addPlayList("pl1");
-        userRegisteredController.addPlayList("pl2");
-        userRegisteredController.addPlayList("pl3");
+        // userRegisteredController.addPlayList("pl1");
+        // userRegisteredController.addPlayList("pl2");
+        // userRegisteredController.addPlayList("pl3");
     }
 
     public void showMovieScene() {
@@ -181,19 +178,26 @@ public class UserScreen {
 
             btnDetails.setOnAction(event -> seeMovieScreen(getTableView().getItems().get(getIndex())));
 
-            for (PlayList playList : userRegisteredController.getPlayList()) {
-                // Adquiere la playList
-                MenuItem name = new MenuItem(playList.getName());
-                name.setUserData(playList.getName());
-                btnPlayList.getItems().add(name);
+            if (!userRegisteredController.getPlayList().isEmpty()) {
+                for (PlayList playList : userRegisteredController.getPlayList()) {
+                    // Adquiere la playList
+                    MenuItem name = new MenuItem(playList.getName());
+                    name.setUserData(playList.getName());
+                    btnPlayList.getItems().add(name);
 
-                name.setOnAction(event -> {
-                    if (userRegisteredController.addMovieToPlayList(name.getText(),
-                            grupos.get(this.getIndex()).getId())) {
-                        alertMovie(name.getText(), grupos.get(this.getIndex()).getName());
+                    name.setOnAction(event -> {
+                        if (userRegisteredController.addMovieToPlayList(name.getText(),
+                                grupos.get(this.getIndex()).getId())) {
+                            alertMovie(name.getText(), grupos.get(this.getIndex()).getName());
+                        }
+                    });
+                }
+            } else {
+                // Accede al botón como tal del btnPlaylist
+                btnPlayList.showingProperty().addListener((obs, wasShowing, isNowShowing) -> {
+                    if (!isNowShowing) {
+                        alertNonExistentPlayList();
                     }
-
-                    // Falta agregar mensaje de confirmación y mensaje de agregar playList
                 });
             }
 
@@ -268,7 +272,6 @@ public class UserScreen {
             serieButton.setStyle("-fx-text-fill: black;");
             root2.setTop(menuBar);
 
-            // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
             ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
 
             TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
@@ -371,7 +374,6 @@ public class UserScreen {
     }
 
     void seeMovieScreen(Movie movie) {
-
         Stage secundaryStage = new Stage();
         secundaryStage.initModality(Modality.APPLICATION_MODAL);
         secundaryStage.setTitle("Movie Information");
@@ -436,6 +438,14 @@ public class UserScreen {
         comprobation.setHeaderText("Successfully added to the playList");
         comprobation.setContentText("The movie " + movieName
                 + " was added to PlayList " + playListName);
+        comprobation.showAndWait();
+    }
+
+    public void alertNonExistentPlayList() {
+        Alert comprobation = new Alert(AlertType.INFORMATION);
+        comprobation.setTitle("PlayList");
+        comprobation.setHeaderText("No playList found");
+        comprobation.setContentText(null);
         comprobation.showAndWait();
     }
 }
