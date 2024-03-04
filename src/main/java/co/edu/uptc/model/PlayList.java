@@ -55,4 +55,9 @@ public class PlayList {
     public void removeSerie(Serie serie) {
         series.remove(serie);
     }
+
+    @Override
+    public String toString() {
+        return "PlayList [name=" + name + ", movies=" + movies + ", series=" + series + "]";
+    }
 }

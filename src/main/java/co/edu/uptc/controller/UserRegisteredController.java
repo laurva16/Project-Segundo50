@@ -18,6 +18,7 @@ public class UserRegisteredController {
     private ArrayList<UserRegistered> listUsers = new ArrayList<>();
     private UserRegistered currentUser;
     private Admin admin;
+    private AdminController adminController;
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Serie> series = new ArrayList<>();
     private UserRegistered userCreated;
@@ -26,6 +27,7 @@ public class UserRegisteredController {
 
     public UserRegisteredController() {
         readUserFile();
+        adminController = new AdminController();
         playListController = new PlayListController();
     }
 
@@ -389,5 +391,23 @@ public class UserRegisteredController {
 
     public ArrayList<PlayList> getPlayList() {
         return playListController.getPlayList();
+    }
+
+    public boolean addMovieToPlayList(String listName, int idMovie) {
+        try {
+            setMoviesPlay();
+            playListController.addMovieToPlayList(listName, idMovie);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public UserRegistered getCurrentUserPlay() {
+        return playListController.getCurrentUser();
+    }
+
+    public void setMoviesPlay() {
+        playListController.setMovies(adminController.getMovies());
     }
 }

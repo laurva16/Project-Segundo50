@@ -21,6 +21,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -68,6 +71,8 @@ public class UserScreen {
     Button subscriptionButton = new Button("Subscription");
     Button returnButton = new Button("Log Out");
 
+    ObservableList<Movie> grupos;
+
     public UserScreen() {
         userRegisteredController = LogInWindow.getUserRegisteredController();
         playListController = new PlayListController();
@@ -77,7 +82,9 @@ public class UserScreen {
         categoryC = new CategoryController();
         categoryC.getCategories().forEach(
                 category -> choiceBox.getItems().add(category.getName()));
-
+        userRegisteredController.addPlayList("pl1");
+        userRegisteredController.addPlayList("pl2");
+        userRegisteredController.addPlayList("pl3");
     }
 
     public void showMovieScene() {
@@ -89,7 +96,7 @@ public class UserScreen {
         tablaMovie = new TableView<>();
 
         // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-        ObservableList<Movie> grupos = FXCollections.observableArrayList(adminC.getMovies());
+        grupos = FXCollections.observableArrayList(adminC.getMovies());
 
         TableColumn<Movie, String> nameColumn = new TableColumn<>("Name");
         TableColumn<Movie, String> genreColumn = new TableColumn<>("Genre");
@@ -144,7 +151,7 @@ public class UserScreen {
     public class BotonCelda extends TableCell<Movie, Void> {
         Button btnWatch = new Button();
         Button btnDetails = new Button();
-        Button btnPlayList = new Button();
+        MenuButton btnPlayList = new MenuButton();
 
         public BotonCelda() {
             btnWatch.setCursor(Cursor.HAND);
@@ -169,20 +176,27 @@ public class UserScreen {
             btnDetails.setGraphic(iconoDetails);
             btnPlayList.setGraphic(iconoPlayList);
 
-            btnWatch.getStyleClass().add("seeButton");
-            btnDetails.getStyleClass().add("boton-modificar");
-            btnPlayList.getStyleClass().add("seeButton");
-
             btnWatch.setOnAction(event -> {
             });
 
             btnDetails.setOnAction(event -> seeMovieScreen(getTableView().getItems().get(getIndex())));
 
-            btnPlayList.setOnAction(event -> {
-                userRegisteredController.addPlayList("pl1");
-                userRegisteredController.addPlayList("pl2");
-                userRegisteredController.addPlayList("pl3");
-            });
+            for (PlayList playList : userRegisteredController.getPlayList()) {
+                // Adquiere la playList
+                MenuItem name = new MenuItem(playList.getName());
+                name.setUserData(playList.getName());
+                btnPlayList.getItems().add(name);
+
+                name.setOnAction(event -> {
+
+                    userRegisteredController.addMovieToPlayList(name.getText(),
+                            grupos.get(this.getIndex()).getId());
+                });
+            }
+
+            btnWatch.getStyleClass().add("seeButton");
+            btnDetails.getStyleClass().add("boton-modificar");
+            btnPlayList.getStyleClass().add("playListButton");
 
             // Configura el contenido de las celdas para mostrar los botones
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);

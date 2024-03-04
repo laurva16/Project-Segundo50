@@ -144,10 +144,8 @@ public class PlayListController {
                         break;
                     }
                 }
-
             }
         }
-
     }
 
     public void addSerieToPlayList(String namePlayList, int idSerie) {
