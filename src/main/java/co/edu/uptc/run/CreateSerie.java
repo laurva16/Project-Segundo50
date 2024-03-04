@@ -25,6 +25,7 @@ import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
+import co.edu.uptc.utilities.FileManagement;
 
 public class CreateSerie {
     private Scene Scene1, Scene2, Scene3, Scene4, Scene5;
@@ -46,10 +47,13 @@ public class CreateSerie {
     // Añade el ChoiceBox y la lista observable de temporadas
     ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
     ChoiceBox<String> additionalOptionsMultimediaContent = new ChoiceBox<>(multimediaContentList);
+    //file name Box
+    ChoiceBox <String> fileBox = new ChoiceBox<>();
 
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
     private AdminController ac;
     private CategoryController categoryC;
+    private FileManagement fm;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
@@ -528,7 +532,7 @@ public class CreateSerie {
         Label labelName = new Label("Chapter name:");
         Label labelDuration = new Label("Duration:");
         Label labelDescription = new Label("Description:");
-
+        Label labelFileName = new Label("File name Video");
         gridPane.setMaxWidth(600);
         gridPane.setMaxHeight(600);
         gridPane.setAlignment(Pos.CENTER);
@@ -544,8 +548,16 @@ public class CreateSerie {
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
+        //FILE Box
+        fm = new FileManagement();
+        fileBox = fm.getFileSeriesNames();
+        fileBox.setMaxSize(300, 20);
+        GridPane.setConstraints(labelFileName, 0, 3);
+        GridPane.setConstraints(fileBox, 1, 3);
+        //
+
         gridPane.getChildren().setAll(labelName, textNameChapter, labelDuration, textDurationChapter, labelDescription,
-                textDescriptionChapter);
+                textDescriptionChapter, fileBox, labelFileName);
         root3.setCenter(gridPane);
 
         root3.setStyle("-fx-background-color: #191919;");

@@ -57,8 +57,7 @@ public class EntryWindow {
 
     MovieScreen movieScreen;
     CreateSerie createSerie;
-    DisplayMultimediaScreen displayScreen;
-
+    
     public EntryWindow() {
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
@@ -128,14 +127,6 @@ public class EntryWindow {
         BorderPane.setMargin(addNewButton, new Insets(15));
         root.setBottom(addNewButton);
 
-        // TEMPORAL PARA REPRODUCCION
-
-        Button b = new Button();
-        root.setLeft(b);
-        b.setTranslateY(-60);
-        b.setOnAction(event -> switchReproductionScene());
-        //
-
         scene1 = new Scene(root, screenWidth, screenHeight);
 
         // Configurar la escena y mostrarla
@@ -148,11 +139,6 @@ public class EntryWindow {
         // Add new Movie scene
         addNewButton.setOnAction(event -> switchNewMovieScene());
 
-    }
-
-    void switchReproductionScene() {
-        displayScreen = new DisplayMultimediaScreen();
-        primaryStage.setScene(displayScreen.multimediaScene("M_001", true));
     }
 
     void switchNewMovieScene() {
