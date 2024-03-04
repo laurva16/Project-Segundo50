@@ -1,6 +1,5 @@
 package co.edu.uptc.run;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -27,8 +26,9 @@ import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 
-public class CreateSerie extends Application {
+public class CreateSerie {
     private Scene Scene1, Scene2, Scene3, Scene4, Scene5;
+    private Scene newSerieScene;
     private Stage primaryStage;
     private TextField text1 = new TextField();
     private TextField text2 = new TextField();
@@ -53,7 +53,8 @@ public class CreateSerie extends Application {
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
-    public CreateSerie() {
+    public CreateSerie(Stage primaryStage, AdminController adminC) {
+        this.primaryStage = primaryStage;
         ac = new AdminController();
         categoryC = new CategoryController();
         categoryC.getCategories().forEach(
@@ -61,9 +62,12 @@ public class CreateSerie extends Application {
 
     }
 
-    @Override
-    public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+    public void llamarEntryWindowSerie() {
+        EntryWindow entryWindow = new EntryWindow();
+        entryWindow.entryWindowSerie();
+    }
+
+    public Scene newSerieScene() {
         BorderPane root2 = new BorderPane();
         root2.setId("root2");
 
@@ -122,21 +126,20 @@ public class CreateSerie extends Application {
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
 
-        cancelButton.setOnAction(event -> cancelNewMovie());
+        cancelButton.setOnAction(event -> llamarEntryWindowSerie());
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
-        Scene1 = new Scene(root2, screenWidth, screenHeight);
+        newSerieScene = new Scene(root2, screenWidth, screenHeight);
         // aplicar CSS
-        Scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        newSerieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\serie.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
 
-        // Establecer la escena en la ventana
-        primaryStage.setScene(Scene1);
-        primaryStage.setMaximized(true);
         primaryStage.setTitle("New Serie Scene");
-        primaryStage.show();
+
+        return newSerieScene;
+
     }
 
     private void formularySeason() {
@@ -414,7 +417,33 @@ public class CreateSerie extends Application {
         acceptButton.setPrefWidth(150);
         cancelButton.setPrefWidth(150);
 
-        cancelButton.setOnAction(event -> cancelNewMovie());
+        acceptButton.setOnAction(event -> {
+
+            // Crear y mostrar la ventana emergente
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Se ha creado correctamente la serie.");
+            alert.showAndWait();
+
+            llamarEntryWindowSerie();
+
+        });
+
+        cancelButton.setOnAction(event -> {
+            // Crear una ventana de confirmación
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmación");
+            confirmationDialog.setHeaderText(null);
+            confirmationDialog.setContentText("¿Está seguro de que desea cancelar? Se eliminará toda la serie.");
+
+            confirmationDialog.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    ac.deleteSerie(ac.getCurrentSerie().getId());
+                    llamarEntryWindowSerie();
+                }
+            });
+        });
 
         // HBox para los botones
         HBox buttonPane = new HBox(10, acceptButton, cancelButton);
@@ -575,13 +604,13 @@ public class CreateSerie extends Application {
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
 
-        cancelButton.setOnAction(event -> cancelNewMovie());
+        cancelButton.setOnAction(event -> formularySeason());
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
         Scene3 = new Scene(root3, screenWidth, screenHeight);
         // aplicar CSS
-        Scene3.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        Scene3.getStylesheets().add(new File("src\\main\\java\\co\\styles\\serie.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
 
@@ -704,13 +733,15 @@ public class CreateSerie extends Application {
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
 
-        cancelButton.setOnAction(event -> cancelNewMovie());
+        cancelButton.setOnAction(event -> {
+            formularySeason();
+        });
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
         Scene4 = new Scene(root3, screenWidth, screenHeight);
         // aplicar CSS
-        Scene4.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        Scene4.getStylesheets().add(new File("src\\main\\java\\co\\styles\\serie.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
 
@@ -792,13 +823,17 @@ public class CreateSerie extends Application {
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
 
-        cancelButton.setOnAction(event -> cancelNewMovie());
+        cancelButton.setOnAction(event -> {
+            ac.deleteSerie(ac.getCurrentSerie().getId());
+            llamarEntryWindowSerie();
+        });
+
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
         Scene5 = new Scene(root2, screenWidth, screenHeight);
         // aplicar CSS
-        Scene5.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        Scene5.getStylesheets().add(new File("src\\main\\java\\co\\styles\\serie.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
 
@@ -858,10 +893,6 @@ public class CreateSerie extends Application {
             stage.setTitle("No Chapters");
             stage.show();
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
 }

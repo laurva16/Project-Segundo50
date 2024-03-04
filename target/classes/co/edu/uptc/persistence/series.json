@@ -41,13 +41,6 @@
     "category": "Action"
   },
   {
-    "seasons": [],
-    "id": 461,
-    "name": "Name1",
-    "duration": 0,
-    "author": "Author2"
-  },
-  {
     "seasons": [
       {
         "id": 1,
@@ -75,37 +68,12 @@
     "description": "angela"
   },
   {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "aver",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "creo uno",
-            "duration": 2312,
-            "description": "dfsdf"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "pailar",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "antohercuestion",
-            "duration": 343,
-            "description": "43"
-          }
-        ]
-      }
-    ],
+    "seasons": [],
     "category": "Action",
     "id": 463,
-    "name": "salsa",
+    "name": "safsf",
     "duration": 0,
-    "author": "dfsdf",
-    "description": "3434"
+    "author": "dsfsd",
+    "description": "3334"
   }
 ]
