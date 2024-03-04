@@ -56,6 +56,7 @@ public class EntryWindow {
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     MovieScreen movieScreen;
+    CreateSerie createSerie;
     DisplayMultimediaScreen displayScreen;
 
     public EntryWindow() {
@@ -127,7 +128,7 @@ public class EntryWindow {
         BorderPane.setMargin(addNewButton, new Insets(15));
         root.setBottom(addNewButton);
 
-        //TEMPORAL PARA REPRODUCCION
+        // TEMPORAL PARA REPRODUCCION
 
         Button b = new Button();
         root.setLeft(b);
@@ -149,7 +150,7 @@ public class EntryWindow {
 
     }
 
-    void switchReproductionScene(){
+    void switchReproductionScene() {
         displayScreen = new DisplayMultimediaScreen();
         primaryStage.setScene(displayScreen.multimediaScene("M_001", true));
     }
@@ -157,6 +158,11 @@ public class EntryWindow {
     void switchNewMovieScene() {
         movieScreen = new MovieScreen(primaryStage, adminC);
         primaryStage.setScene(movieScreen.newMovieScene());
+    }
+
+    void switchNewSerieScene() {
+        createSerie = new CreateSerie(primaryStage, adminC);
+        primaryStage.setScene(createSerie.newSerieScene());
     }
 
     void switchEditMovieScene(Movie movie) {
@@ -269,7 +275,7 @@ public class EntryWindow {
         return toolBar;
     }
 
-    private void entryWindowSerie() {
+    void entryWindowSerie() {
         if (scene2 == null) {
             BorderPane root2 = new BorderPane();
             ToolBar menuBar = createMenuBar();
@@ -335,10 +341,13 @@ public class EntryWindow {
 
             // Configurar la escena y mostrarla
             scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+
+            primaryStage.setScene(scene2);
+            primaryStage.setTitle("JavaFX series with CSS");
+            primaryStage.setMaximized(true);
+            // Add new Movie scene
+            addNewButton.setOnAction(event -> switchNewSerieScene());
         }
-        primaryStage.setScene(scene2);
-        primaryStage.setTitle("JavaFX series with CSS");
-        primaryStage.setMaximized(true);
     }
 
     public class BotonCeldaSerie extends TableCell<Serie, Void> {
@@ -475,5 +484,10 @@ public class EntryWindow {
     public Scene getScene1() {
         showMovieScene();
         return scene1;
+    }
+
+    public Scene getScene2() {
+        entryWindowSerie();
+        return scene2;
     }
 }
