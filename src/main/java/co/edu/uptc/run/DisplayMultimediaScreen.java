@@ -24,9 +24,9 @@ public class DisplayMultimediaScreen {
     public Scene multimediaScene(String nameFile, Boolean option) {        
         filePath = "src/multimediaVideos/";
         if(option){
-            filePath += "Movies/" + nameFile + ".mp4";
+            filePath += "Movies/" + nameFile ;
         }else{
-            filePath += "Series/" + nameFile + ".mp4";
+            filePath += "Series/" + nameFile ;
         }
     
         BorderPane root = new BorderPane(); 
@@ -79,7 +79,7 @@ public class DisplayMultimediaScreen {
         buttonBox.setAlignment(Pos.CENTER);
         
         //ajuste de tamano
-        mediaView.setFitHeight(650);//600
+        mediaView.setFitHeight(600);//600 
         //
 
         BorderPane.setAlignment(mediaView, Pos.TOP_CENTER);
@@ -101,7 +101,8 @@ public class DisplayMultimediaScreen {
     }
 
     private void returnScene() {
-        EntryWindow main = new EntryWindow();
-        main.getScene1();
+        UserScreen userScreen = new UserScreen();
+        userScreen.getScene1();
     }
 }
+

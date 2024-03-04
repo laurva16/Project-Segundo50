@@ -61,6 +61,7 @@ public class UserScreen {
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
+    DisplayMultimediaScreen displayScreen;
     MovieScreen movieScreen;
 
     Button movieButton = new Button("Movie");
@@ -176,7 +177,9 @@ public class UserScreen {
             btnPlayList.setGraphic(iconoPlayList);
 
             btnWatch.setOnAction(event -> {
+                switchReproductionScene(getTableView().getItems().get(getIndex()).getFileVideo());
             });
+ 
 
             btnDetails.setOnAction(event -> seeMovieScreen(getTableView().getItems().get(getIndex())));
 
@@ -209,6 +212,11 @@ public class UserScreen {
 
             // Configura el contenido de las celdas para mostrar los botones
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        }
+
+        void switchReproductionScene(String nameFile){
+            displayScreen = new DisplayMultimediaScreen();
+            primaryStage.setScene(displayScreen.multimediaScene(nameFile, true));
         }
 
         @Override
