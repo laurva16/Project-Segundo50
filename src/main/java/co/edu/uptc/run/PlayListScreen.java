@@ -2,10 +2,7 @@ package co.edu.uptc.run;
 
 import java.io.File;
 import co.edu.uptc.controller.AdminController;
-import co.edu.uptc.controller.CategoryController;
-import co.edu.uptc.controller.PlayListController;
 import co.edu.uptc.controller.UserRegisteredController;
-import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.PlayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +11,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableCell;
@@ -31,68 +27,53 @@ import javafx.stage.Stage;
 
 public class PlayListScreen {
     private UserScreen userScreen;
-    private TableView<Movie> tablePlayList;
+    private TableView<PlayList> tablePlayList;
     private Stage primaryStage;
     private AdminController adminC;
     private Scene scene1;
+    private UserRegisteredController userRegisteredController;
+    private ObservableList<PlayList> grupos;
 
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
-    ObservableList<Movie> grupos;
-
     public PlayListScreen() {
         primaryStage = LogInWindow.getPrimaryStage();
         adminC = new AdminController();
+        userRegisteredController = new UserRegisteredController();
+        userRegisteredController.addPlayList("pl1");
+        userRegisteredController.addPlayList("pl2");
+        userRegisteredController.addPlayList("pl3");
     }
 
     public void showPlayListScene() {
         BorderPane root = new BorderPane();
         userScreen = new UserScreen();
         root.setTop(userScreen.getMenuBar());
-
         tablePlayList = new TableView<>();
+        grupos = FXCollections.observableArrayList(userRegisteredController.getPlayList());
 
-        grupos = FXCollections.observableArrayList(adminC.getMovies());
-
-        TableColumn<Movie, String> nameColumn = new TableColumn<>("Name");
-        TableColumn<Movie, String> genreColumn = new TableColumn<>("Genre");
-        TableColumn<Movie, String> descriptionColumn = new TableColumn<>("Description");
-
+        TableColumn<PlayList, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        genreColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        nameColumn.prefWidthProperty().bind(tablePlayList.widthProperty().divide(4));
-        genreColumn.prefWidthProperty().bind(tablePlayList.widthProperty().divide(4));
-        descriptionColumn.prefWidthProperty().bind(tablePlayList.widthProperty().divide(4));
-
-        // Configurar estilo de las columnas
-        nameColumn.setStyle("-fx-alignment: CENTER;");
-        genreColumn.setStyle("-fx-alignment: CENTER;");
-        descriptionColumn.setStyle("-fx-alignment: CENTER;");
-
-        tablePlayList.getColumns().addAll(nameColumn, genreColumn, descriptionColumn);
-
-        // Establecer ancho máximo para la tabla
-        tablePlayList.setMaxWidth(600);
-
-        // Agregar columna de botones
-        TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Actions");
+        TableColumn<PlayList, Void> accionesColumna = new TableColumn<>("Actions");
         accionesColumna.setCellFactory(param -> new BotonCelda());
-        tablePlayList.getColumns().add(accionesColumna);
+        tablePlayList.getColumns().addAll(nameColumn, accionesColumna);
+
+        accionesColumna.prefWidthProperty().bind(tablePlayList.widthProperty().divide(2));
+        nameColumn.prefWidthProperty().bind(tablePlayList.widthProperty().divide(2));
+        nameColumn.setStyle("-fx-alignment: CENTER;");
+        accionesColumna.setStyle("-fx-alignment: CENTER;");
+        tablePlayList.setMaxWidth(600);
 
         tablePlayList.setItems(grupos);
         StackPane stackPane = new StackPane(tablePlayList);
-        stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
+        stackPane.setAlignment(Pos.CENTER);
         BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
 
-        // Agregar el StackPane que contiene la tabla al centro del BorderPane
         root.setCenter(stackPane);
-
         scene1 = new Scene(root, screenWidth, screenHeight);
 
-        // Configurar la escena y mostrarla
         scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         primaryStage.setScene(scene1);
         primaryStage.setTitle("PlayList");
@@ -100,40 +81,45 @@ public class PlayListScreen {
         primaryStage.show();
     }
 
-    public class BotonCelda extends TableCell<Movie, Void> {
-        Button btnWatch = new Button();
-        Button btnDetails = new Button();
-        MenuButton btnPlayList = new MenuButton();
+    public class BotonCelda extends TableCell<PlayList, Void> {
+        Button buttonDelete = new Button();
+        Button buttonDetails = new Button();
+        Button buttonMovies = new Button();
+        Button buttonSeries = new Button();
 
         public BotonCelda() {
-            btnWatch.setCursor(Cursor.HAND);
-            btnDetails.setCursor(Cursor.HAND);
-            btnPlayList.setCursor(Cursor.HAND);
+            buttonDelete.setCursor(Cursor.HAND);
+            buttonDetails.setCursor(Cursor.HAND);
+            buttonMovies.setCursor(Cursor.HAND);
+            buttonSeries.setCursor(Cursor.HAND);
 
             // Configura los íconos para los botones
-            ImageView iconoWatch = new ImageView(new Image("file:" + "src\\prograIconos\\play.png"));
-            ImageView iconoDetails = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
-            ImageView iconoPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\corazon.png"));
+            ImageView iconDelete = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
+            ImageView iconDetails = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
+            ImageView iconMovies = new ImageView(new Image("file:" + "src\\prograIconos\\letra-m.png"));
+            ImageView iconSeries = new ImageView(new Image("file:" + "src\\prograIconos\\letra-s.png"));
 
-            iconoWatch.setFitWidth(16);
-            iconoWatch.setFitHeight(16);
+            iconDelete.setFitWidth(16);
+            iconDelete.setFitHeight(16);
+            iconDetails.setFitWidth(16);
+            iconDetails.setFitHeight(16);
+            iconMovies.setFitWidth(16);
+            iconMovies.setFitHeight(16);
+            iconSeries.setFitWidth(16);
+            iconSeries.setFitHeight(16);
 
-            iconoDetails.setFitWidth(16);
-            iconoDetails.setFitHeight(16);
+            buttonDelete.setGraphic(iconDelete);
+            buttonDetails.setGraphic(iconDetails);
+            buttonMovies.setGraphic(iconMovies);
+            buttonSeries.setGraphic(iconSeries);
 
-            iconoPlayList.setFitWidth(16);
-            iconoPlayList.setFitHeight(16);
-
-            btnWatch.setGraphic(iconoWatch);
-            btnDetails.setGraphic(iconoDetails);
-            btnPlayList.setGraphic(iconoPlayList);
-
-            btnWatch.setOnAction(event -> {
+            buttonDelete.setOnAction(event -> {
             });
 
-            btnWatch.getStyleClass().add("seeButton");
-            btnDetails.getStyleClass().add("boton-modificar");
-            btnPlayList.getStyleClass().add("playListButton");
+            buttonDelete.getStyleClass().add("seeButton");
+            buttonDetails.getStyleClass().add("boton-modificar");
+            buttonMovies.getStyleClass().add("boton-modificar");
+            buttonSeries.getStyleClass().add("boton-modificar");
 
             // Configura el contenido de las celdas para mostrar los botones
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -145,7 +131,7 @@ public class PlayListScreen {
             if (empty) {
                 setGraphic(null);
             } else {
-                HBox botonesContainer = new HBox(btnWatch, btnDetails, btnPlayList);
+                HBox botonesContainer = new HBox(buttonDelete, buttonDetails, buttonMovies, buttonSeries);
                 botonesContainer.setSpacing(5);
                 setGraphic(botonesContainer);
             }

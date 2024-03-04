@@ -21,16 +21,16 @@ public class DisplayMultimediaScreen {
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
-    public Scene multimediaScene(String nameFile, Boolean option) {        
+    public Scene multimediaScene(String nameFile, Boolean option) {
         filePath = "src/multimediaVideos/";
-        if(option){
-            filePath += "Movies/" + nameFile ;
-        }else{
-            filePath += "Series/" + nameFile ;
+        if (option) {
+            filePath += "Movies/" + nameFile;
+        } else {
+            filePath += "Series/" + nameFile;
         }
-    
-        BorderPane root = new BorderPane(); 
-      
+
+        BorderPane root = new BorderPane();
+
         Media media = new Media(new File(filePath).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaView = new MediaView(mediaPlayer);
@@ -66,7 +66,7 @@ public class DisplayMultimediaScreen {
         rewindButton.setPrefWidth(100);
         fastForwardButton.setPrefWidth(100);
         homeButton.setPrefWidth(125);
-        
+
         ImageView homeIcon = new ImageView(new Image("file:" + "src/prograIconos/home2.png"));
         homeIcon.setFitWidth(22);
         homeIcon.setFitHeight(22);
@@ -77,17 +77,17 @@ public class DisplayMultimediaScreen {
         buttonBox.setSpacing(80);
         buttonBox.setMaxHeight(70);
         buttonBox.setAlignment(Pos.CENTER);
-        
-        //ajuste de tamano
-        mediaView.setFitHeight(600);//600 
+
+        // ajuste de tamano
+        mediaView.setFitHeight(600);// 600
         //
 
         BorderPane.setAlignment(mediaView, Pos.TOP_CENTER);
         root.setTop(mediaView);
         root.setCenter(buttonBox);
-        
+
         Scene displayScene = new Scene(root, screenWidth, screenHeight);
-        // CSS        
+        // CSS
         displayScene.getStylesheets().add(new File("src/main/java/co/styles/display.css").toURI().toString());
         playButton.setId("button");
         stopButton.setId("button");
@@ -105,4 +105,3 @@ public class DisplayMultimediaScreen {
         userScreen.getScene1();
     }
 }
-
