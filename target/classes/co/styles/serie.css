@@ -2,6 +2,11 @@
 .root {
     -fx-background-color: #191919;
 }
+
+#root {
+    -fx-background-color: #f0f0f0; /* Color de fondo gris claro */
+}
+
 #root2 {
     -fx-font-size: 16px;
     -fx-font-family: sans-serif;
@@ -12,57 +17,37 @@
     -fx-font-family: sans-serif;
     -fx-background-color: #191919;
 }
-.menubar {
-    -fx-background-color: #9C1428; /* Azul */
+
+
+.formPane {
+    -fx-background-color: white; /* Azul */
     -fx-font-family: sans-serif;
-    -fx-pref-height: 60px;
-}
-
-.menu {
-    -fx-pref-height: 60px;
-    -fx-pref-width: 90px;
-    -fx-background-color: #9C1428; /* Azul */
-    -fx-alignment: center; /* Centrar texto */
-    -fx-font-size: 16px; /* Tamaño de letra */
-    -fx-text-fill: white; 
+     -fx-font-size: 14px;
+ 
 }
 
 
-.boton-flotante {
-    -fx-background-color: #5c5c5c;
-    -fx-background-radius: 45%; /* Hace que el botón sea circular */
-    -fx-min-width: 45px; /* Ancho mínimo personalizado */
-    -fx-min-height: 45px; /* Altura mínima personalizada */
-    -fx-max-width: 45px; /* Ancho máximo personalizado, para mantenerlo circular */
-    -fx-max-height: 45px; /* Altura máxima personalizada, para mantenerlo circular */
-}
 
-.boton-flotante:hover {
+
+
+.boton-return:hover  {
     -fx-background-color: #9C1428;
-    -fx-background-radius: 45%; /* Hace que el botón sea circular */
-    -fx-min-width: 45px; /* Ancho mínimo personalizado */
-    -fx-min-height: 45px; /* Altura mínima personalizada */
-    -fx-max-width: 45px; /* Ancho máximo personalizado, para mantenerlo circular */
-    -fx-max-height: 45px; /* Altura máxima personalizada, para mantenerlo circular */
 }
 
-.seeButton {
-    -fx-background-color: rgb(112, 108, 108);
+.boton-return {
+    -fx-background-color: white;
 }
 
-/* Estilo normal para el botón de eliminar */
-.boton-eliminar {
-    -fx-background-color: rgb(112, 108, 108);
-}
-
-/* Estilo normal para el botón de modificar */
-.boton-modificar {
-    -fx-background-color: rgb(112, 108, 108);
-}
-
-.boton-flotante {
+.boton-add {
     -fx-background-color: green;
 }
+.boton-delete {
+    -fx-background-color: #9C1428;
+}
+.boton-modify{
+    -fx-background-color: #31149c;
+}
+
 #button {
     -fx-background-color: #9C1428;
     -fx-text-fill: white;

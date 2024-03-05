@@ -25,10 +25,9 @@ import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
-import co.edu.uptc.utilities.FileManagement;
 
-public class CreateSerie {
-    private Scene Scene2, Scene3, Scene4, Scene5;
+public class ModifySerie {
+    private Scene Scene2, Scene3, Scene4, Scene5, SceneReturn;
     private Scene newSerieScene;
     private Stage primaryStage;
     private TextField text1 = new TextField();
@@ -42,20 +41,17 @@ public class CreateSerie {
     ObservableList<String> seasonsList = FXCollections.observableArrayList();
     ObservableList<String> multimediaContentList = FXCollections.observableArrayList();
     ArrayList<MultimediaContent> chapterList = new ArrayList<>();
-
+    Serie serieModify;
     ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
     ChoiceBox<String> additionalOptionsMultimediaContent = new ChoiceBox<>(multimediaContentList);
-    //file name Box
-    ChoiceBox <String> fileBox = new ChoiceBox<>();
 
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
     private AdminController ac;
     private CategoryController categoryC;
-    private FileManagement fm;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
-    public CreateSerie(Stage primaryStage, AdminController adminC) {
+    public ModifySerie(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
         ac = new AdminController();
         categoryC = new CategoryController();
@@ -69,15 +65,19 @@ public class CreateSerie {
         entryWindow.entryWindowSerie();
     }
 
-    public Scene newSerieScene() {
+    public Scene newSerieScene(Serie serie) {
+        serieModify = serie;
+        TextField textModify1 = new TextField(serie.getName());
+        TextField textModify2 = new TextField(serie.getAuthor());
+        TextField textModify3 = new TextField(serie.getDescription());
         BorderPane root2 = new BorderPane();
         root2.setId("root2");
 
         GridPane gridPane = new GridPane();
 
-        text1.setPrefWidth(300);
-        text2.setPrefWidth(300);
-        text3.setPrefWidth(300);
+        textModify1.setPrefWidth(300);
+        textModify2.setPrefWidth(300);
+        textModify3.setPrefWidth(300);
 
         Label labelName = new Label("Serie name:");
         Label labelDirector = new Label("Director name:");
@@ -95,15 +95,16 @@ public class CreateSerie {
         GridPane.setConstraints(labelDescription, 0, 2);
         GridPane.setConstraints(labelCategory, 0, 4);
 
-        GridPane.setConstraints(text1, 1, 0);
-        GridPane.setConstraints(text2, 1, 1);
-        GridPane.setConstraints(text3, 1, 2);
+        GridPane.setConstraints(textModify1, 1, 0);
+        GridPane.setConstraints(textModify2, 1, 1);
+        GridPane.setConstraints(textModify3, 1, 2);
         GridPane.setConstraints(choiceBox, 1, 4);
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
-        gridPane.getChildren().setAll(labelName, text1, labelDirector, text2, labelDescription, text3, labelCategory,
+        gridPane.getChildren().setAll(labelName, textModify1, labelDirector, textModify2, labelDescription, textModify3,
+                labelCategory,
                 choiceBox);
         root2.setCenter(gridPane);
 
@@ -118,7 +119,13 @@ public class CreateSerie {
         acceptButton.setText("Next");
         acceptButton.setPrefWidth(150);
         GridPane.setHalignment(acceptButton, javafx.geometry.HPos.LEFT);
-        acceptButton.setOnAction(event -> addNewSerie());
+        acceptButton.setOnAction(event -> {
+            // Modificar la serie actual con los datos del formulario
+            ac.modifySeries(textModify3.getText(), textModify1.getText(), textModify2.getText(),
+                    serie.getId());
+
+            formularySeason();
+        });
 
         // Cancel buttton
         Button cancelButton = new Button();
@@ -128,7 +135,10 @@ public class CreateSerie {
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
 
-        cancelButton.setOnAction(event -> llamarEntryWindowSerie());
+        cancelButton.setOnAction(event -> {
+            llamarEntryWindowSerie();
+        });
+
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
@@ -159,8 +169,10 @@ public class CreateSerie {
         returnButton.setGraphic(iconoReturn);
         returnButton.getStyleClass().add("boton-return");
         returnButton.setOnAction(event -> {
-            modifySerie();
+            SceneReturn = newSerieScene(serieModify);
+            primaryStage.setScene(SceneReturn);
         });
+
         returnButton.setPrefWidth(100);
 
         // Crear un BorderPane
@@ -185,6 +197,7 @@ public class CreateSerie {
     }
 
     private VBox createFormPane() {
+        System.out.println(serieModify.toString());
         VBox formPane = new VBox();
         formPane.setAlignment(Pos.CENTER);
         formPane.setSpacing(20);
@@ -214,23 +227,18 @@ public class CreateSerie {
         additionalOptions.setPrefWidth(250);
         additionalOptionsMultimediaContent.setPrefWidth(250);
 
-        ArrayList<Season> seasonList = new ArrayList<>();
-        for (Season season : seasonList) {
+        for (Season season : serieModify.getSeasons()) {
             additionalOptions.getItems().add(season.getSeasonName());
-
         }
+
+        // Listener para actualizar los episodios cuando se selecciona una temporada
         additionalOptions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Obtener la serie actual
-                Serie currentSerie = ac.getCurrentSerie();
-
-                // Buscar la temporada seleccionada
-                Season selectedSeason = currentSerie.getSeasons().stream()
+                // Obtener la temporada seleccionada
+                Season selectedSeason = serieModify.getSeasons().stream()
                         .filter(season -> season.getSeasonName().equals(newValue))
                         .findFirst()
                         .orElse(null);
-
-                // Verificar si la temporada seleccionada no es nula y tiene capítulos
                 if (selectedSeason != null && selectedSeason.getchapters() != null) {
                     multimediaContentList.clear();
                     for (MultimediaContent chapter : selectedSeason.getchapters()) {
@@ -244,7 +252,7 @@ public class CreateSerie {
 
         addButton.setOnAction(event -> {
             String seasonName = seasonField.getText();
-            ac.addSeason(ac.getCurrentSerie().getId(), seasonName, null);
+            ac.addSeason(serieModify.getId(), seasonName, null);
             seasonsList.add(seasonName);
             seasonField.clear();
         });
@@ -290,7 +298,7 @@ public class CreateSerie {
                 confirmationDialog.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
                         // Eliminar la temporada del ChoiceBox y de la lista observable
-                        ac.deleteSeasonName(selectedSeason, ac.getCurrentSerie().getId());
+                        ac.deleteSeasonName(selectedSeason, serieModify.getId());
                         additionalOptions.getItems().remove(selectedSeason);
                         seasonsList.remove(selectedSeason);
 
@@ -329,7 +337,7 @@ public class CreateSerie {
                 confirmationDialog.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
                         // Eliminar el capítulo de la temporada seleccionada
-                        ac.deleteChapterName(selectedSeasonName, ac.getCurrentSerie().getId(), selectedChapterName);
+                        ac.deleteChapterName(selectedSeasonName, serieModify.getId(), selectedChapterName);
 
                         // Actualizar la lista observable de capítulos
                         additionalOptionsMultimediaContent.getItems().remove(selectedChapterName);
@@ -412,9 +420,9 @@ public class CreateSerie {
                 result.ifPresent(newName -> {
                     if (!newName.isEmpty()) {
                         // Actualizar la temporada con el nuevo nombre
-                        ac.modifySeasonName(newName, ac.getCurrentSerie().getId(), selectedSeason);
+                        ac.modifySeasonName(newName, serieModify.getId(), selectedSeason);
 
-                        // Actualizar el nombre de la temporada en la lista observable
+                        // Actualizar el nombre de la temporada en la ntSerie()lista observable
                         int selectedIndex = additionalOptions.getItems().indexOf(selectedSeason);
                         seasonsList.set(selectedIndex, newName);
 
@@ -437,7 +445,7 @@ public class CreateSerie {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Información");
             alert.setHeaderText(null);
-            alert.setContentText("Se ha creado correctamente la serie.");
+            alert.setContentText("Se ha modificado correctamente la serie.");
             alert.showAndWait();
 
             llamarEntryWindowSerie();
@@ -453,7 +461,9 @@ public class CreateSerie {
 
             confirmationDialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
-                    ac.deleteSerie(ac.getCurrentSerie().getId());
+
+                    // Problema
+
                     llamarEntryWindowSerie();
                 }
             });
@@ -544,7 +554,7 @@ public class CreateSerie {
         Label labelName = new Label("Chapter name:");
         Label labelDuration = new Label("Duration:");
         Label labelDescription = new Label("Description:");
-        Label labelFileName = new Label("File name Video");
+
         gridPane.setMaxWidth(600);
         gridPane.setMaxHeight(600);
         gridPane.setAlignment(Pos.CENTER);
@@ -560,16 +570,8 @@ public class CreateSerie {
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
-        //FILE Box
-        fm = new FileManagement();
-        fileBox = fm.getFileSeriesNames();
-        fileBox.setMaxSize(300, 20);
-        GridPane.setConstraints(labelFileName, 0, 3);
-        GridPane.setConstraints(fileBox, 1, 3);
-        //
-
         gridPane.getChildren().setAll(labelName, textNameChapter, labelDuration, textDurationChapter, labelDescription,
-                textDescriptionChapter, fileBox, labelFileName);
+                textDescriptionChapter);
         root3.setCenter(gridPane);
 
         root3.setStyle("-fx-background-color: #191919;");
@@ -583,14 +585,13 @@ public class CreateSerie {
         acceptButton.setText("Accept");
         acceptButton.setPrefWidth(150);
         GridPane.setHalignment(acceptButton, javafx.geometry.HPos.LEFT);
-        String selectedSeason = additionalOptions.getValue();
         acceptButton.setOnAction(event -> {
             // Obtener la temporada seleccionada del ChoiceBox
             String selectedSeasonName = additionalOptions.getValue();
             Season selectedSeasonObj = null;
 
             // Buscar la temporada seleccionada en la lista de temporadas
-            for (Season season : ac.getCurrentSerie().getSeasons()) {
+            for (Season season : serieModify.getSeasons()) {
                 if (season.getSeasonName().equals(selectedSeasonName)) {
                     selectedSeasonObj = season;
                     break;
@@ -601,7 +602,7 @@ public class CreateSerie {
             if (selectedSeasonObj != null) {
                 // Agregar el nuevo capítulo a la temporada seleccionada
                 ac.addChapterName(textNameChapter.getText(), textDescriptionChapter.getText(),
-                        Integer.parseInt(textDurationChapter.getText()), ac.getCurrentSerie().getId(),
+                        Integer.parseInt(textDurationChapter.getText()), serieModify.getId(),
                         selectedSeasonName);
 
                 // Actualizar el ChoiceBox de capítulos con los capítulos de la temporada
@@ -653,16 +654,16 @@ public class CreateSerie {
     private void modifyChapter(String selectedSeason, String selectedChapter) {
         BorderPane root3 = new BorderPane();
 
-        TextField textNameChapterModify = new TextField(ac.getCurrentSerie().getSeasons()
-                .get(ac.seasonNameFound(selectedSeason, ac.getCurrentSerie().getId())).getchapters()
-                .get(ac.chapterNameFound(selectedSeason, ac.getCurrentSerie().getId(), selectedChapter)).getName());
-        TextField textDurationChapterModify = new TextField(String.valueOf(ac.getCurrentSerie().getSeasons()
-                .get(ac.seasonNameFound(selectedSeason, ac.getCurrentSerie().getId())).getchapters()
-                .get(ac.chapterNameFound(selectedSeason, ac.getCurrentSerie().getId(), selectedChapter))
+        TextField textNameChapterModify = new TextField(serieModify.getSeasons()
+                .get(ac.seasonNameFound(selectedSeason, serieModify.getId())).getchapters()
+                .get(ac.chapterNameFound(selectedSeason, serieModify.getId(), selectedChapter)).getName());
+        TextField textDurationChapterModify = new TextField(String.valueOf(serieModify.getSeasons()
+                .get(ac.seasonNameFound(selectedSeason, serieModify.getId())).getchapters()
+                .get(ac.chapterNameFound(selectedSeason, serieModify.getId(), selectedChapter))
                 .getDuration()));
-        TextField textDescriptionChapterModify = new TextField(ac.getCurrentSerie().getSeasons()
-                .get(ac.seasonNameFound(selectedSeason, ac.getCurrentSerie().getId())).getchapters()
-                .get(ac.chapterNameFound(selectedSeason, ac.getCurrentSerie().getId(), selectedChapter))
+        TextField textDescriptionChapterModify = new TextField(serieModify.getSeasons()
+                .get(ac.seasonNameFound(selectedSeason, serieModify.getId())).getchapters()
+                .get(ac.chapterNameFound(selectedSeason, serieModify.getId(), selectedChapter))
                 .getDescription());
 
         root3.setId("root2");
@@ -714,7 +715,7 @@ public class CreateSerie {
             Season selectedSeasonObj = null;
 
             // Buscar la temporada seleccionada en la lista de temporadas
-            for (Season season : ac.getCurrentSerie().getSeasons()) {
+            for (Season season : serieModify.getSeasons()) {
                 if (season.getSeasonName().equals(selectedSeasonName)) {
                     selectedSeasonObj = season;
                     break;
@@ -730,7 +731,7 @@ public class CreateSerie {
                     duration = Integer.parseInt(textDurationChapterModify.getText());
                 }
                 ac.modifyChaptersName(textDescriptionChapterModify.getText(), textNameChapterModify.getText(),
-                        duration, ac.getCurrentSerie().getId(), selectedSeason,
+                        duration, serieModify.getId(), selectedSeason,
                         selectedChapter);
 
                 // Actualizar el ChoiceBox de capítulos con los capítulos de la temporada
@@ -870,8 +871,8 @@ public class CreateSerie {
     }
 
     private void tableChapters(String selectedSeasonName) {
-        Season selectedSeason = ac.getCurrentSerie().getSeasons()
-                .get(ac.seasonNameFound(selectedSeasonName, ac.getCurrentSerie().getId()));
+        Season selectedSeason = serieModify.getSeasons()
+                .get(ac.seasonNameFound(selectedSeasonName, serieModify.getId()));
 
         if (selectedSeason != null && selectedSeason.getchapters() != null && !selectedSeason.getchapters().isEmpty()) {
             // Si hay capítulos en la temporada, mostrar la tabla como antes

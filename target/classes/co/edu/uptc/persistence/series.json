@@ -68,77 +68,49 @@
     "description": "angela"
   },
   {
-    "seasons": [],
-    "category": "Action",
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "primera temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "Capitulo1",
+            "duration": 11111,
+            "description": "ahi vienen"
+          },
+          {
+            "id": 2,
+            "name": "cap 2-primera",
+            "duration": 23232,
+            "description": "robo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "segunda temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "primer cap- segunda",
+            "duration": 1212,
+            "description": "estafas"
+          },
+          {
+            "id": 2,
+            "name": "Segundo cap- 2 temporada",
+            "duration": 2324,
+            "description": "fg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
     "id": 463,
-    "name": "safsf",
+    "name": "Peaky Blinders",
     "duration": 0,
-    "author": "dsfsd",
-    "description": "3334"
-  },
-  {
-    "seasons": [],
-    "category": "Action",
-    "id": 464,
-    "name": "Juan",
-    "duration": 0,
-    "author": "JuanCa",
-    "description": "asd"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "nue"
-      }
-    ],
-    "category": "Action",
-    "id": 465,
-    "name": "jj",
-    "duration": 0,
-    "author": "jj",
-    "description": "22"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "a"
-      }
-    ],
-    "category": "Horror",
-    "id": 466,
-    "name": "asad",
-    "duration": 0,
-    "author": "asd",
-    "description": "22"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "D"
-      }
-    ],
-    "category": "Horror",
-    "id": 467,
-    "name": "22",
-    "duration": 0,
-    "author": "1",
-    "description": "1"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "JASD"
-      }
-    ],
-    "category": "Horror",
-    "id": 468,
-    "name": "ASD",
-    "duration": 0,
-    "author": "SAD",
-    "description": "ASD"
+    "author": "pablo pablito",
+    "description": "peligro!!! Disparos"
   }
 ]
