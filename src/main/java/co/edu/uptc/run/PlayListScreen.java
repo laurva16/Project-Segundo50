@@ -1,9 +1,10 @@
 package co.edu.uptc.run;
 
 import java.io.File;
-import co.edu.uptc.controller.AdminController;
+import java.util.Optional;
 import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.PlayList;
+import co.edu.uptc.model.UserRegistered;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -12,10 +13,10 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,53 +27,68 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class PlayListScreen {
-    private UserScreen userScreen;
-    private TableView<PlayList> tablePlayList;
-    private Stage primaryStage;
-    private AdminController adminC;
-    private Scene scene1;
-    private UserRegisteredController userRegisteredController;
-    private ObservableList<PlayList> grupos;
+    private static UserScreen userScreen;
+    private static TableView<PlayList> tablePlayList;
+    private static Stage primaryStage = LogInWindow.getPrimaryStage();
+    private static Scene scene1;
+    private static UserRegisteredController userRegisteredController;
+    private static UserRegistered userRegistered;
+    private static ObservableList<PlayList> grupos;
+    private static Button addNewButton;
 
-    double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
-    double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+    static double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+    static double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     public PlayListScreen() {
-        primaryStage = LogInWindow.getPrimaryStage();
-        adminC = new AdminController();
         userRegisteredController = new UserRegisteredController();
-        userRegisteredController.addPlayList("pl1");
-        userRegisteredController.addPlayList("pl2");
-        userRegisteredController.addPlayList("pl3");
+        userRegistered = new UserRegistered();
+        tablePlayList = new TableView<>();
+        userScreen = new UserScreen();
     }
 
-    public void showPlayListScene() {
-        BorderPane root = new BorderPane();
+    public static void setUserRegistered(UserRegistered userRegistered) {
+        PlayListScreen.userRegistered = userRegistered;
+        userRegisteredController = new UserRegisteredController();
+        userRegisteredController.setCurrentUser(userRegistered);
+    }
+
+    public static UserRegistered getUserRegistered() {
+        return userRegistered;
+    }
+
+    public static void showPlayListScene() {
         userScreen = new UserScreen();
-        root.setTop(userScreen.getMenuBar());
+
+        BorderPane root = new BorderPane();
         tablePlayList = new TableView<>();
         grupos = FXCollections.observableArrayList(userRegisteredController.getPlayList());
 
         TableColumn<PlayList, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<PlayList, Void> accionesColumna = new TableColumn<>("Actions");
-        accionesColumna.setCellFactory(param -> new BotonCelda());
-        tablePlayList.getColumns().addAll(nameColumn, accionesColumna);
-
-        accionesColumna.prefWidthProperty().bind(tablePlayList.widthProperty().divide(2));
         nameColumn.prefWidthProperty().bind(tablePlayList.widthProperty().divide(2));
         nameColumn.setStyle("-fx-alignment: CENTER;");
-        accionesColumna.setStyle("-fx-alignment: CENTER;");
         tablePlayList.setMaxWidth(600);
+
+        tablePlayList.getColumns().addAll(nameColumn);
+
+        TableColumn<PlayList, Void> accionesColumna = new TableColumn<>("Actions");
+        accionesColumna.setCellFactory(param -> new BotonCelda());
+        accionesColumna.prefWidthProperty().bind(tablePlayList.widthProperty().divide(2));
+        tablePlayList.getColumns().add(accionesColumna);
 
         tablePlayList.setItems(grupos);
         StackPane stackPane = new StackPane(tablePlayList);
         stackPane.setAlignment(Pos.CENTER);
         BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
 
+        buttonFloat();
+        root.setTop(userScreen.getMenuBar());
         root.setCenter(stackPane);
+        root.setBottom(addNewButton);
         scene1 = new Scene(root, screenWidth, screenHeight);
+
+        addNewButton.setOnAction(event -> addPlayList());
 
         scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         primaryStage.setScene(scene1);
@@ -81,7 +97,33 @@ public class PlayListScreen {
         primaryStage.show();
     }
 
-    public class BotonCelda extends TableCell<PlayList, Void> {
+    public static void buttonFloat() {
+        addNewButton = new Button();
+        ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
+        iconoAgregar.setFitWidth(22);
+        iconoAgregar.setFitHeight(22);
+        addNewButton.setTranslateY(-20);
+        addNewButton.getStyleClass().add("boton-flotante");
+        addNewButton.setGraphic(iconoAgregar);
+
+        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+        BorderPane.setMargin(addNewButton, new Insets(15));
+    }
+
+    public static void addPlayList() {
+        TextInputDialog addPlayList = new TextInputDialog();
+        addPlayList.setTitle("Add PlayList");
+        addPlayList.setHeaderText("Enter the name of the new PlayList");
+        addPlayList.setContentText("Name: ");
+
+        Optional<String> name = addPlayList.showAndWait();
+        name.ifPresent(namePlayList -> {
+            userRegisteredController.addPlayList(name.toString());
+            showPlayListScene();
+        });
+    }
+
+    public static class BotonCelda extends TableCell<PlayList, Void> {
         Button buttonDelete = new Button();
         Button buttonDetails = new Button();
         Button buttonMovies = new Button();
@@ -113,15 +155,10 @@ public class PlayListScreen {
             buttonMovies.setGraphic(iconMovies);
             buttonSeries.setGraphic(iconSeries);
 
-            buttonDelete.setOnAction(event -> {
-            });
-
             buttonDelete.getStyleClass().add("seeButton");
             buttonDetails.getStyleClass().add("boton-modificar");
             buttonMovies.getStyleClass().add("boton-modificar");
             buttonSeries.getStyleClass().add("boton-modificar");
-
-            // Configura el contenido de las celdas para mostrar los botones
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
 
@@ -132,7 +169,7 @@ public class PlayListScreen {
                 setGraphic(null);
             } else {
                 HBox botonesContainer = new HBox(buttonDelete, buttonDetails, buttonMovies, buttonSeries);
-                botonesContainer.setSpacing(5);
+                botonesContainer.setSpacing(10);
                 setGraphic(botonesContainer);
             }
         }
