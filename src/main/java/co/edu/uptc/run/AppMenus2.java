@@ -501,7 +501,7 @@ public class AppMenus2 {
 
                             if (confirmResult == JOptionPane.YES_OPTION) {
                                 // Agregar la película
-                                ac.addMovie(name, author, description, duration, selectedCategoryName);
+                           //     ac.addMovie(name, author, description, duration, selectedCategoryName);
                                 JOptionPane.showMessageDialog(null, "The movie was added successfully!");
                                 break;
                             } else {

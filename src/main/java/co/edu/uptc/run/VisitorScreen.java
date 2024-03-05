@@ -98,6 +98,7 @@ public class VisitorScreen {
 
         // Agregar columna de botones
         TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Actions");
+        accionesColumna.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
         accionesColumna.setCellFactory(param -> new BotonCelda());
         tablaMovie.getColumns().add(accionesColumna);
 
@@ -225,6 +226,7 @@ public class VisitorScreen {
 
             // Agregar columna de botones
             TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Actions");
+            accionesColumna.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
             accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
             tablaSerie.getColumns().add(accionesColumna);
 
@@ -283,7 +285,6 @@ public class VisitorScreen {
     }
 
     void seeMovieScreen(Movie movie) {
-
         Stage secundaryStage = new Stage();
         secundaryStage.initModality(Modality.APPLICATION_MODAL);
         secundaryStage.setTitle("Movie Information");

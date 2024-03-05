@@ -5,6 +5,8 @@ import java.io.File;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.Movie;
+import co.edu.uptc.utilities.FileManagement;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -28,22 +30,26 @@ public class MovieScreen {
     TextField directorField;
     TextField descriptionField;
     TextField durationField;
-    Button cancelButton = new Button();
-    ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
+    Button cancelButton = new Button();
+
+    ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    ChoiceBox <String> fileBox = new ChoiceBox<>();
     Label labelName = new Label("Movie name:");
     Label labelDirector = new Label("Director name:");
     Label labelDescription = new Label("Description:");
     Label labelDuration = new Label("Duration:");
     Label labelCategory = new Label("Category:");
-    Label labelWarning;
+    Label labelWarning;       
+    Label labelFileName = new Label("File Video:");
+
     //
     private Scene newMovieScene;
     private Scene editMovieScene;
     //
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-
+    FileManagement fm;
     AdminController adminC;
     CategoryController categoryC;
 
@@ -51,7 +57,7 @@ public class MovieScreen {
 
     public MovieScreen(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
-
+        //
         this.adminC = adminC;
         categoryC = new CategoryController();
         categoryC.getCategories().forEach(
@@ -82,7 +88,7 @@ public class MovieScreen {
         GridPane.setConstraints(labelDuration, 0, 3);
         GridPane.setConstraints(labelCategory, 0, 4);
 
-        GridPane.setConstraints(labelWarning, 1, 5);
+        GridPane.setConstraints(labelWarning, 1, 6);
         GridPane.setHalignment(labelWarning, javafx.geometry.HPos.RIGHT);
 
         GridPane.setConstraints(text1, 1, 0);
@@ -101,8 +107,8 @@ public class MovieScreen {
         // Save buttton
         Button acceptButton = new Button();
 
-        GridPane.setConstraints(acceptButton, 0, 5);
-        acceptButton.setTranslateY(100);
+        GridPane.setConstraints(acceptButton, 0, 7);
+        acceptButton.setTranslateY(60);
         acceptButton.setText("Save");
         acceptButton.setPrefWidth(150);
         acceptButton.setOnAction(event -> addNewMovie());
@@ -110,14 +116,25 @@ public class MovieScreen {
 
         // Cancel buttton
 
-        GridPane.setConstraints(cancelButton, 1, 5);
-        cancelButton.setTranslateY(100);
+        GridPane.setConstraints(cancelButton, 1, 7);
+        cancelButton.setTranslateY(60);
         cancelButton.setText("Cancel");
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
-
+        
         cancelButton.setOnAction(event -> returnScene());
         gridPane.getChildren().addAll(acceptButton, cancelButton);
+
+        //FILE Box
+        fm = new FileManagement();
+        fileBox = fm.getFileMoviesNames();
+        fileBox.setMaxSize(300, 20);
+
+        GridPane.setConstraints(labelFileName, 0, 5);
+        GridPane.setConstraints(fileBox, 1, 5);
+       
+        gridPane.getChildren().addAll(fileBox, labelFileName);
+        //
 
         // Crear la escena
         newMovieScene = new Scene(root3, screenWidth, screenHeight);
@@ -151,7 +168,7 @@ public class MovieScreen {
         } else {
             labelWarning.setText("* All fields must be filled!");
             if (text1.getText().isEmpty() || text2.getText().isEmpty() || text3.getText().isEmpty()
-                    || text4.getText().isEmpty() || (choiceBox.getValue() == null)) {
+                    || text4.getText().isEmpty() || (choiceBox.getValue() == null) || (fileBox.getValue() == null)) {
                 labelWarning.setVisible(true);
 
             } else {
@@ -164,10 +181,10 @@ public class MovieScreen {
 
                 alert.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
-
+                        System.out.println(fileBox.getValue());
                         adminC.addMovie(text1.getText(), text2.getText(), text3.getText(),
                                 Integer.parseInt(text4.getText()),
-                                choiceBox.getValue());
+                                choiceBox.getValue(), fileBox.getValue());
                         returnScene();
                     } else {
                     }
@@ -180,8 +197,7 @@ public class MovieScreen {
 
     public Scene editMovieScene(Movie movie) {
 
-        BorderPane root2 = new BorderPane();
-        root2.setId("root2");
+        BorderPane root3 = new BorderPane();
 
         GridPane gridPane = new GridPane();
         //
@@ -226,28 +242,25 @@ public class MovieScreen {
         choiceBox.setMaxSize(300, 20);
 
         gridPane.getChildren().setAll(nameField, directorField, descriptionField, durationField, labelName,
-                labelDirector, labelDescription, labelDuration, labelWarning, choiceBox);
+                labelDirector, labelDescription, labelDuration, labelCategory, labelWarning, choiceBox);
 
         gridPane.setMaxWidth(600);
         gridPane.setMaxHeight(600);
         gridPane.setAlignment(Pos.CENTER);
 
-        GridPane.setConstraints(labelWarning, 1, 5);
+        GridPane.setConstraints(labelWarning, 1, 6);
         GridPane.setHalignment(labelWarning, javafx.geometry.HPos.RIGHT);
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
-        root2.setCenter(gridPane);
-
-        root2.setStyle("-fx-background-color: #191919;");
-        gridPane.setStyle("-fx-background-color: white;");
+        root3.setCenter(gridPane);
 
         // Save buttton
         Button acceptButton = new Button();
 
-        GridPane.setConstraints(acceptButton, 0, 5);
-        acceptButton.setTranslateY(100);
+        GridPane.setConstraints(acceptButton, 0, 7);
+        acceptButton.setTranslateY(60);
         acceptButton.setText("Save");
         acceptButton.setPrefWidth(150);
 
@@ -257,8 +270,8 @@ public class MovieScreen {
         // Cancel buttton
         Button cancelButton = new Button();
 
-        GridPane.setConstraints(cancelButton, 1, 5);
-        cancelButton.setTranslateY(100);
+        GridPane.setConstraints(cancelButton, 1, 7);
+        cancelButton.setTranslateY(60);
         cancelButton.setText("Cancel");
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
@@ -266,14 +279,28 @@ public class MovieScreen {
         cancelButton.setOnAction(event -> returnScene());
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
+        //FILE Box
+        fm = new FileManagement();
+        fileBox = fm.getFileMoviesNames();
+        fileBox.setMaxSize(300, 20);
+
+        GridPane.setConstraints(labelFileName, 0, 5);
+        GridPane.setConstraints(fileBox, 1, 5);
+        
+        fileBox.setValue(movie.getFileVideo());
+        
+        gridPane.getChildren().addAll(fileBox, labelFileName);
+        //
+
         // Crear la escena
-        editMovieScene = new Scene(root2, screenWidth, screenHeight);
+        editMovieScene = new Scene(root3, screenWidth, screenHeight);
         // aplicar CSS
         editMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
         labelWarning.setId("warning");
-
+        root3.setId("root3");
+        gridPane.setId("gridPane");
         return editMovieScene;
     }
 
@@ -293,7 +320,7 @@ public class MovieScreen {
         } else {
             if (nameField.getText().isEmpty() || directorField.getText().isEmpty()
                     || descriptionField.getText().isEmpty() || durationField.getText().isEmpty()
-                    || (choiceBox.getValue() == null)) {
+                    || (choiceBox.getValue() == null) || (fileBox.getValue() == null) ){
                 labelWarning.setText("* All fields must be filled!");
                 labelWarning.setVisible(true);
             } else {
@@ -303,6 +330,7 @@ public class MovieScreen {
                 movie.setAuthor(directorField.getText());
                 movie.setDuration(Integer.parseInt(durationField.getText()));
                 movie.setCategory(choiceBox.getValue());
+                movie.setFileVideo(fileBox.getValue());
                 adminC.updateMovieInformation(movie);
                 returnScene();
             }

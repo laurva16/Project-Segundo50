@@ -483,7 +483,7 @@ public class AppMenus {
                                 JOptionPane.YES_NO_OPTION);
 
                         if (confirmResult == JOptionPane.YES_OPTION) {
-                            ac.addMovie(name, author, description, duration, null);
+                          //  ac.addMovie(name, author, description, duration, null);
 
                             JOptionPane.showMessageDialog(null, "The movie was added successfully!");
                             break;

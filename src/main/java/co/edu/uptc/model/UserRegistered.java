@@ -7,6 +7,7 @@ public class UserRegistered extends Person {
     private UserSubscription sub;
 
     public UserRegistered() {
+        playList = new ArrayList<>();
     }
 
     public UserRegistered(String firstName, String lastName, int id, String user, String password) {
@@ -53,9 +54,7 @@ public class UserRegistered extends Person {
 
     @Override
     public String toString() {
-        return "UserRegistered [playList=" + playList + ", sub=" + sub + "]"+ super.toString();
+        return "UserRegistered [playList=" + playList + ", sub=" + sub + "]" + super.toString();
     }
-
-    
 
 }

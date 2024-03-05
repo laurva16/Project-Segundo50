@@ -6,11 +6,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import javafx.scene.control.ChoiceBox;
 
 public class FileManagement {
 
@@ -113,4 +117,41 @@ public class FileManagement {
         return gson;
     }
 
+    public ChoiceBox <String>  getFileMoviesNames(){
+        ChoiceBox <String> listNames = new ChoiceBox<>();
+        File folder = new File("src/multimediaVideos/Movies");
+
+        File[] listFiles = folder.listFiles();
+
+        for(File file : listFiles){
+            listNames.getItems().add(file.getName());
+        }
+        return listNames;
+    }
+
+    public ChoiceBox <String>  getFileSeriesNames(){
+        ChoiceBox <String> listNames = new ChoiceBox<>();
+        File folder = new File("src/multimediaVideos/Series");
+
+        File[] listFiles = folder.listFiles();
+
+        for(File file : listFiles){
+            listNames.getItems().add(file.getName());
+        }
+        return listNames;
+    }
+
+    /*
+     * 
+    public ArrayList <String>  getFileVideoNames(){
+        ArrayList <String> listNames = new ArrayList<>();
+        File folder = new File("src/multimediaVideos");
+        File[] listFiles = folder.listFiles();
+
+        for(File file : listFiles){
+            listNames.add(file.getName());
+        }
+        return listNames;
+    }
+     */
 }

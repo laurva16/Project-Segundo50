@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
+import co.edu.uptc.model.PlayList;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
@@ -17,13 +18,17 @@ public class UserRegisteredController {
     private ArrayList<UserRegistered> listUsers = new ArrayList<>();
     private UserRegistered currentUser;
     private Admin admin;
+    private AdminController adminController;
     private ArrayList<Movie> movies = new ArrayList<>();
     private ArrayList<Serie> series = new ArrayList<>();
     private UserRegistered userCreated;
     public FileManagement fm = new FileManagement();
+    private PlayListController playListController;
 
     public UserRegisteredController() {
         readUserFile();
+        adminController = new AdminController();
+        playListController = new PlayListController();
     }
 
     public void readUserFile() {
@@ -296,6 +301,15 @@ public class UserRegisteredController {
         }
     }
 
+    public void setCurrentUser(String currentUserEmail) {
+        for (UserRegistered i : listUsers) {
+            if (i.getUser().equals(currentUserEmail)) {
+                this.currentUser = i;
+                setPlayListUser(i);
+            }
+        }
+    }
+
     public Admin getAdmin() {
         return admin;
     }
@@ -365,5 +379,35 @@ public class UserRegisteredController {
 
     public boolean verifyPassword(String password, String password2) {
         return password.equals(password2) ? true : false;
+    }
+
+    public void setPlayListUser(UserRegistered user) {
+        playListController.setCurrentUser(user);
+    }
+
+    public void addPlayList(String namePlayList) {
+        playListController.addPlayList(namePlayList);
+    }
+
+    public ArrayList<PlayList> getPlayList() {
+        return playListController.getPlayList();
+    }
+
+    public boolean addMovieToPlayList(String listName, int idMovie) {
+        try {
+            setMoviesPlay();
+            playListController.addMovieToPlayList(listName, idMovie);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public UserRegistered getCurrentUserPlay() {
+        return playListController.getCurrentUser();
+    }
+
+    public void setMoviesPlay() {
+        playListController.setMovies(adminController.getMovies());
     }
 }
