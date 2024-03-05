@@ -83,9 +83,6 @@ public class UserScreen {
         categoryC = new CategoryController();
         categoryC.getCategories().forEach(
                 category -> choiceBox.getItems().add(category.getName()));
-        // userRegisteredController.addPlayList("pl1");
-        // userRegisteredController.addPlayList("pl2");
-        // userRegisteredController.addPlayList("pl3");
     }
 
     public UserRegistered getUserRegistered() {
@@ -194,7 +191,7 @@ public class UserScreen {
             btnDetails.setOnAction(event -> seeMovieScreen(getTableView().getItems().get(getIndex())));
 
             if (!userRegisteredController.getPlayList().isEmpty()) {
-                for (PlayList playList : userRegisteredController.getPlayList()) {
+                for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
                     // Adquiere la playList
                     MenuItem name = new MenuItem(playList.getName());
                     name.setUserData(playList.getName());

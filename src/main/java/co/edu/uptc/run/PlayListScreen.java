@@ -118,7 +118,7 @@ public class PlayListScreen {
 
         Optional<String> name = addPlayList.showAndWait();
         name.ifPresent(namePlayList -> {
-            userRegisteredController.addPlayList(name.toString());
+            userRegisteredController.addPlayList(namePlayList);
             showPlayListScene();
         });
     }
