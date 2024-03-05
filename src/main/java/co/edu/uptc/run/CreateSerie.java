@@ -27,7 +27,7 @@ import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 
 public class CreateSerie {
-    private Scene Scene1, Scene2, Scene3, Scene4, Scene5;
+    private Scene Scene2, Scene3, Scene4, Scene5;
     private Scene newSerieScene;
     private Stage primaryStage;
     private TextField text1 = new TextField();
@@ -38,12 +38,10 @@ public class CreateSerie {
     private TextField textDescriptionChapter = new TextField();
     private TextField seasonField = new TextField();
     TableView<MultimediaContent> tablaChapters = new TableView<>();
-    // Declara un observable list para almacenar las temporadas
     ObservableList<String> seasonsList = FXCollections.observableArrayList();
     ObservableList<String> multimediaContentList = FXCollections.observableArrayList();
     ArrayList<MultimediaContent> chapterList = new ArrayList<>();
 
-    // Añade el ChoiceBox y la lista observable de temporadas
     ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
     ChoiceBox<String> additionalOptionsMultimediaContent = new ChoiceBox<>(multimediaContentList);
 
@@ -145,16 +143,25 @@ public class CreateSerie {
     private void formularySeason() {
         // Crear el formulario
         VBox formPane = createFormPane();
+        formPane.getStyleClass().add("formPane");
 
         // Botón de retorno
-        Button returnButton = new Button("Return");
+        ImageView iconoReturn = new ImageView(new Image("file:" + "src\\prograIconos\\volver.png"));
+        iconoReturn.setFitWidth(24);
+        iconoReturn.setFitHeight(24);
+
+        Button returnButton = new Button();
+
+        returnButton.setGraphic(iconoReturn);
+        returnButton.getStyleClass().add("boton-return");
         returnButton.setOnAction(event -> {
             modifySerie();
         });
-        returnButton.setPrefWidth(150);
+        returnButton.setPrefWidth(100);
 
         // Crear un BorderPane
         BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #191919;");
 
         // Colocar el botón de retorno en la esquina superior izquierda
         BorderPane.setAlignment(returnButton, Pos.TOP_LEFT);
@@ -165,6 +172,7 @@ public class CreateSerie {
 
         // Crear la escena
         Scene2 = new Scene(root, screenWidth, screenHeight);
+        Scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\serie.css").toURI().toString());
 
         // Establecer la escena en la ventana
         primaryStage.setScene(Scene2);
@@ -178,11 +186,10 @@ public class CreateSerie {
         formPane.setSpacing(20);
         formPane.setPadding(new Insets(20));
 
-        // GridPane para el formulario principal
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        formPane.setMaxWidth(500); // Establecer un ancho máximo
+        formPane.setMaxHeight(400); // Establecer una altura máxima
+        formPane.setMinWidth(500); // Establecer un ancho mínimo
+        formPane.setMinHeight(400); // Establecer una altura mínima
 
         // HBox para el campo de texto adicional y el botón "Agregar"
         HBox seasonBox = new HBox();
@@ -198,6 +205,7 @@ public class CreateSerie {
         Button addButton = new Button();
 
         addButton.setGraphic(iconoAddSeason);
+        addButton.getStyleClass().add("boton-add");
 
         additionalOptions.setPrefWidth(250);
         additionalOptionsMultimediaContent.setPrefWidth(250);
@@ -225,8 +233,6 @@ public class CreateSerie {
                         multimediaContentList.add(chapter.getName());
                     }
                 } else {
-                    // Si la temporada seleccionada no tiene capítulos, limpiar la lista de
-                    // capítulos
                     multimediaContentList.clear();
                 }
             }
@@ -262,8 +268,10 @@ public class CreateSerie {
         Button buttonDeleteSeason = new Button();
 
         buttonDeleteSeason.setGraphic(iconoDeleteSeason);
+        buttonDeleteSeason.getStyleClass().add("boton-delete");
         Button buttonModifySeason = new Button();
         buttonModifySeason.setGraphic(iconoModifySeason);
+        buttonModifySeason.getStyleClass().add("boton-modify");
 
         buttonDeleteSeason.setOnAction(event -> {
             String selectedSeason = additionalOptions.getValue(); // Obtener la temporada seleccionada
@@ -301,6 +309,7 @@ public class CreateSerie {
 
         Button buttonDeleteChapter = new Button();
         buttonDeleteChapter.setGraphic(iconoDeleteChapter);
+        buttonDeleteChapter.getStyleClass().add("boton-delete");
 
         buttonDeleteChapter.setOnAction(event -> {
             String selectedSeasonName = additionalOptions.getValue();
@@ -336,6 +345,7 @@ public class CreateSerie {
 
         Button buttonModifyChapter = new Button();
         buttonModifyChapter.setGraphic(iconoModifyChapter);
+        buttonModifyChapter.getStyleClass().add("boton-modify");
 
         buttonModifyChapter.setOnAction(event -> {
             String selectedSeasonName = additionalOptions.getValue();
@@ -476,9 +486,11 @@ public class CreateSerie {
         viewChapterBox.setAlignment(Pos.CENTER);
 
         // Agregar todos los elementos al VBox principal
-        formPane.getChildren().addAll(gridPane, seasonBox, additionalButtons, addChapterBox, additionalButtonsChapters,
+        formPane.getChildren().addAll(seasonBox, additionalButtons, addChapterBox, additionalButtonsChapters,
                 viewChapterBox,
                 buttonPane);
+        cancelButton.setId("button");
+        acceptButton.setId("button");
 
         return formPane;
     }

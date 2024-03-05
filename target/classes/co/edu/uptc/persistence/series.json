@@ -2,41 +2,6 @@
   {
     "seasons": [
       {
-        "id": 0,
-        "seasonName": "temp1"
-      }
-    ],
-    "id": 784,
-    "name": "prueba",
-    "duration": 0,
-    "author": "prueba",
-    "description": "prueba"
-  },
-  {
-    "seasons": [],
-    "id": 30,
-    "name": "prueba2",
-    "duration": 0,
-    "author": "prueba",
-    "description": "prueba"
-  },
-  {
-    "seasons": [],
-    "id": 459,
-    "name": "Name1",
-    "duration": 0,
-    "author": "Author1"
-  },
-  {
-    "seasons": [],
-    "id": 460,
-    "name": "Name2",
-    "duration": 0,
-    "author": "Author1"
-  },
-  {
-    "seasons": [
-      {
         "id": 1,
         "seasonName": "wendy",
         "chapters": [
@@ -60,14 +25,5 @@
     "duration": 0,
     "author": "laura",
     "description": "angela"
-  },
-  {
-    "seasons": [],
-    "category": "Action",
-    "id": 463,
-    "name": "safsf",
-    "duration": 0,
-    "author": "dsfsd",
-    "description": "3334"
   }
 ]
