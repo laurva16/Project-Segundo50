@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import co.edu.uptc.controller.UserRegisteredController;
+import co.edu.uptc.model.UserRegistered;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -180,6 +181,10 @@ public class RegisterWindow {
                     && passwordValidation2()) {
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
                         textPassword.getText());
+                UserRegistered userRegistered = getUserRegistered();
+                UserScreen userScreen = new UserScreen();
+                userScreen.setUserRegistered(userRegistered);
+                userScreen.showMovieScene();
                 setVisibleFalse();
             }
         });
@@ -196,7 +201,7 @@ public class RegisterWindow {
     }
 
     public static boolean existingEmaildValidation() {
-        if (userRegisteredController.searchEmail(textEmail.getText())) {
+        if (!userRegisteredController.searchEmail(textEmail.getText())) {
             return true;
         }
         setVisibleFalse();
@@ -231,6 +236,11 @@ public class RegisterWindow {
         return false;
     }
 
+    public static UserRegistered getUserRegistered() {
+        userRegisteredController.setCurrentUser(textEmail.getText());
+        return userRegisteredController.getCurrentUser();
+    }
+
     public void showSceneRegister() {
         gridPane1();
         gridPane2();
@@ -243,7 +253,7 @@ public class RegisterWindow {
         root.setCenter(stackPane);
         root.setBottom(vBoxImage);
 
-        sceneRegister = new Scene(root, screenWidth,screenHeight);
+        sceneRegister = new Scene(root, screenWidth, screenHeight);
         sceneRegister.getStylesheets().add(new File("src\\main\\java\\co\\styles\\register.css").toURI().toString());
     }
 
