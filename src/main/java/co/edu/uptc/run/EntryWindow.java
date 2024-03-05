@@ -62,6 +62,7 @@ public class EntryWindow {
     MovieScreen movieScreen;
     CreateSerie createSerie;
     DisplayMultimediaScreen displayScreen;
+    ModifySerie modifySerie;
 
     public EntryWindow() {
         logInWindow = new LogInWindow();
@@ -167,6 +168,11 @@ public class EntryWindow {
     void switchNewSerieScene() {
         createSerie = new CreateSerie(primaryStage, adminC);
         primaryStage.setScene(createSerie.newSerieScene());
+    }
+
+    void switchEditSerieScene(Serie serie) {
+        modifySerie = new ModifySerie(primaryStage, adminC);
+        primaryStage.setScene(modifySerie.newSerieScene(serie));
     }
 
     void switchEditMovieScene(Movie movie) {
@@ -405,6 +411,7 @@ public class EntryWindow {
             });
 
             btnModificar.setOnAction(event -> {
+                switchEditSerieScene(getTableView().getItems().get(getIndex()));
 
             });
 

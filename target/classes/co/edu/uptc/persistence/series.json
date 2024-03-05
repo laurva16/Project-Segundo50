@@ -55,6 +55,12 @@
             "name": "primer cap- segunda",
             "duration": 1212,
             "description": "estafas"
+          },
+          {
+            "id": 2,
+            "name": "Segundo cap- 2 temporada",
+            "duration": 2324,
+            "description": "fg"
           }
         ]
       }
@@ -63,7 +69,7 @@
     "id": 463,
     "name": "Peaky Blinders",
     "duration": 0,
-    "author": "paulo",
-    "description": "peligro!!!"
+    "author": "pablo pablito",
+    "description": "peligro!!! Disparos"
   }
 ]
