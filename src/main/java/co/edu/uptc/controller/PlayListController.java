@@ -128,7 +128,7 @@ public class PlayListController {
     public void addPlayList(String name) {
         PlayList p = new PlayList(name);
         currentUser.addplayList(p);
-
+        System.out.println("PlC name " + currentUser.getplayList().toString());
     }
 
     public ArrayList<PlayList> getPlayList() {

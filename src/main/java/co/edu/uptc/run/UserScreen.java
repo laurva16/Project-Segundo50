@@ -8,6 +8,7 @@ import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.PlayList;
 import co.edu.uptc.model.Serie;
+import co.edu.uptc.model.UserRegistered;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -49,6 +50,7 @@ public class UserScreen {
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
     private PlayListController playListController;
     private UserRegisteredController userRegisteredController;
+    private UserRegistered userRegistered;
 
     Label labelName = new Label("Movie name:");
     Label labelDirector = new Label("Director name:");
@@ -73,6 +75,7 @@ public class UserScreen {
 
     public UserScreen() {
         userRegisteredController = LogInWindow.getUserRegisteredController();
+        userRegistered = new UserRegistered();
         playListController = new PlayListController();
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
@@ -85,7 +88,17 @@ public class UserScreen {
         // userRegisteredController.addPlayList("pl3");
     }
 
+    public UserRegistered getUserRegistered() {
+        return userRegistered;
+    }
+
+    public void setUserRegistered(UserRegistered userRegistered) {
+        this.userRegistered = userRegistered;
+        PlayListScreen.setUserRegistered(userRegistered);
+    }
+
     public void showMovieScene() {
+
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
         root.setTop(menuBar);
@@ -136,7 +149,7 @@ public class UserScreen {
         // Configurar la escena y mostrarla
         scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         primaryStage.setScene(scene1);
-        primaryStage.setTitle("JavaFX MenuBar with CSS");
+        primaryStage.setTitle("Movies");
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
@@ -177,7 +190,6 @@ public class UserScreen {
             btnWatch.setOnAction(event -> {
                 switchReproductionScene(getTableView().getItems().get(getIndex()).getFileVideo());
             });
- 
 
             btnDetails.setOnAction(event -> seeMovieScreen(getTableView().getItems().get(getIndex())));
 
@@ -212,7 +224,7 @@ public class UserScreen {
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
 
-        void switchReproductionScene(String nameFile){
+        void switchReproductionScene(String nameFile) {
             displayScreen = new DisplayMultimediaScreen();
             primaryStage.setScene(displayScreen.multimediaScene(nameFile, true));
         }
@@ -249,11 +261,16 @@ public class UserScreen {
 
         // Asignar acciones a los botones
         movieButton.setOnAction(event -> {
-            cambiarAEscena1();
+            showMovieScene();
         });
 
         serieButton.setOnAction(event -> {
             entryWindowSerie();
+        });
+
+        playListButton.setOnAction(event -> {
+            playListButton.setStyle("-fx-text-fill: black;");
+            PlayListScreen.showPlayListScene();
         });
 
         returnButton.setOnAction(event -> {
@@ -323,7 +340,7 @@ public class UserScreen {
             scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         }
         primaryStage.setScene(scene2);
-        primaryStage.setTitle("JavaFX series with CSS");
+        primaryStage.setTitle("Serie");
         primaryStage.setMaximized(true);
     }
 
@@ -431,13 +448,13 @@ public class UserScreen {
         secundaryStage.showAndWait();
     }
 
-    public void cambiarAEscena1() {
-        primaryStage.setScene(scene1);
-    }
-
     public Scene getScene1() {
         showMovieScene();
         return scene1;
+    }
+
+    public ToolBar getMenuBar() {
+        return createMenuBar();
     }
 
     public void alertMovie(String playListName, String movieName) {

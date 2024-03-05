@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
+import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.UserRegistered;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -31,6 +32,8 @@ public class LogInWindow extends Application {
     private static Scene sceneLogIn;
     private static AdminController adminController;
     private static UserRegisteredController userRegisteredController;
+    private UserRegistered userRegistered;
+    private static Admin admin;
     private static BorderPane root;
     private static VBox vBoxImage;
     private static GridPane gridPane;
@@ -51,6 +54,8 @@ public class LogInWindow extends Application {
     public LogInWindow() {
         adminController = new AdminController();
         userRegisteredController = new UserRegisteredController();
+        userRegistered = new UserRegistered();
+        admin = new Admin();
         root = new BorderPane();
         vBoxImage = new VBox();
         gridPane = new GridPane();
@@ -170,7 +175,9 @@ public class LogInWindow extends Application {
                 entryWindow.showMovieScene();
                 setVisibleFalse();
             } else if (emailValidationUser() && passwordValidationUser()) {
+                UserRegistered userRegistered = getUserRegistered();
                 UserScreen userScreen = new UserScreen();
+                userScreen.setUserRegistered(userRegistered);
                 userScreen.showMovieScene();
                 setVisibleFalse();
             }
@@ -210,7 +217,6 @@ public class LogInWindow extends Application {
 
     public static boolean passwordValidationUser() {
         if (userRegisteredController.couldLogIn(textEmail.getText(), textPassword.getText())) {
-            userRegisteredController.setCurrentUser(textEmail.getText());
             return true;
         }
         setVisibleFalse();
@@ -270,6 +276,15 @@ public class LogInWindow extends Application {
 
     public static UserRegisteredController getUserRegisteredController() {
         return userRegisteredController;
+    }
+
+    public static UserRegistered getUserRegistered() {
+        userRegisteredController.setCurrentUser(textEmail.getText());
+        return userRegisteredController.getCurrentUser();
+    }
+
+    public void setUserRegistered(UserRegistered userRegistered) {
+        this.userRegistered = userRegistered;
     }
 
     public static void main(String[] args) {

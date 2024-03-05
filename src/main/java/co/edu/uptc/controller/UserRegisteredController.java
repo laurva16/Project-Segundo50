@@ -27,6 +27,7 @@ public class UserRegisteredController {
 
     public UserRegisteredController() {
         readUserFile();
+        currentUser = new UserRegistered();
         adminController = new AdminController();
         playListController = new PlayListController();
     }
@@ -310,6 +311,10 @@ public class UserRegisteredController {
         }
     }
 
+    public void setCurrentUser(UserRegistered currentUser) {
+        this.currentUser = currentUser;
+    }
+
     public Admin getAdmin() {
         return admin;
     }
@@ -371,10 +376,10 @@ public class UserRegisteredController {
     public boolean searchEmail(String email) {
         for (UserRegistered user : listUsers) {
             if (user.getUser().equals(email)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public boolean verifyPassword(String password, String password2) {
@@ -386,11 +391,18 @@ public class UserRegisteredController {
     }
 
     public void addPlayList(String namePlayList) {
-        playListController.addPlayList(namePlayList);
+        currentUser.addplayList(new PlayList(namePlayList));
+
+        for (int i = 0; i < listUsers.size(); i++) {
+            if (currentUser.getUser().equals(listUsers.get(i).getUser())) {
+                listUsers.get(i).addplayList(new PlayList(namePlayList));
+            }
+        }
+        fm.reWriteFile("users", listUsers);
     }
 
     public ArrayList<PlayList> getPlayList() {
-        return playListController.getPlayList();
+        return currentUser.getplayList();
     }
 
     public boolean addMovieToPlayList(String listName, int idMovie) {
