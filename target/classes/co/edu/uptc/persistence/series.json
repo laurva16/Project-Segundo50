@@ -25,5 +25,45 @@
     "duration": 0,
     "author": "laura",
     "description": "angela"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "primera temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "Capitulo1",
+            "duration": 11111,
+            "description": "ahi vienen"
+          },
+          {
+            "id": 2,
+            "name": "cap 2-primera",
+            "duration": 23232,
+            "description": "robo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "segunda temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "primer cap- segunda",
+            "duration": 1212,
+            "description": "estafas"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 463,
+    "name": "Peaky Blinders",
+    "duration": 0,
+    "author": "paulo",
+    "description": "peligro!!!"
   }
 ]
