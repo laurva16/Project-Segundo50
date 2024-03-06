@@ -61,7 +61,8 @@ public class AdminController {
         return false;
     }
 
-    public boolean addMovie(String name, String author, String description, int duration, String nameCategory, String fileVideo) {
+    public boolean addMovie(String name, String author, String description, int duration, String nameCategory,
+            String fileVideo) {
         if (addMultimediaValidation(name, author, 1)) {
             Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategory);
             newMovie.setFileVideo(fileVideo);
@@ -148,30 +149,30 @@ public class AdminController {
         return listMovies;
     }
 
-   /*
-    *  public ChoiceBox <String> getDisponibleFileVideoNames(){
-        ChoiceBox <String> choiceBox = new ChoiceBox<>();
-        ArrayList <String> fileNames = fm.getFileVideoNames();
-        ArrayList <String> usedNames = new ArrayList<>();
-
-        //movies
-        for(Movie movie: listMovies){
-            usedNames.add(movie.getFileVideo());        
-        }
-       // for(Serie serie: listSeries){
-        //    usedNames.add(serie.getFileVideo());        
-       // }
-        
-       for(String used: usedNames){
-            fileNames.remove(used);
-       }
-       for(String names: fileNames){
-            choiceBox.getItems().add(names);
-       }
-       return choiceBox;
-     
-    }
-    */
+    /*
+     * public ChoiceBox <String> getDisponibleFileVideoNames(){
+     * ChoiceBox <String> choiceBox = new ChoiceBox<>();
+     * ArrayList <String> fileNames = fm.getFileVideoNames();
+     * ArrayList <String> usedNames = new ArrayList<>();
+     * 
+     * //movies
+     * for(Movie movie: listMovies){
+     * usedNames.add(movie.getFileVideo());
+     * }
+     * // for(Serie serie: listSeries){
+     * // usedNames.add(serie.getFileVideo());
+     * // }
+     * 
+     * for(String used: usedNames){
+     * fileNames.remove(used);
+     * }
+     * for(String names: fileNames){
+     * choiceBox.getItems().add(names);
+     * }
+     * return choiceBox;
+     * 
+     * }
+     */
 
     public int movieFound(int id) {
         for (int i = 0; i < listMovies.size(); i++) {
@@ -603,9 +604,8 @@ public class AdminController {
     }
 
     public boolean validarSinCharacterSpecial(String input) {
-        String patron = "^[a-zA-Z0-9\\s]*$";
+        String patron = "^[a-zA-Z\\s]*$";
         return input.matches(patron);
-
     }
 
     public boolean validateNameSeason(String nameSeason, int idSerie) {
