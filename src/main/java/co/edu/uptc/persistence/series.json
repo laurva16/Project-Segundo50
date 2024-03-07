@@ -22,7 +22,7 @@
     "category": "Action",
     "id": 462,
     "name": "griselda",
-    "duration": 0,
+    "duration": 20,
     "author": "laura",
     "description": "angela"
   },
@@ -68,8 +68,21 @@
     "category": "Horror",
     "id": 463,
     "name": "Peaky Blinders",
-    "duration": 0,
+    "duration": 50,
     "author": "pablo pablito",
     "description": "peligro!!! Disparos"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "g"
+      }
+    ],
+    "id": 464,
+    "name": "",
+    "duration": 0,
+    "author": "",
+    "description": ""
   }
 ]

@@ -42,6 +42,10 @@ public class VisitorScreen {
     private Scene scene1, scene2;
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
 
+    Button movieButton = new Button("Movie");
+    Button serieButton = new Button("Serie");
+    Button returnButton = new Button("Return");
+
     Label labelName = new Label("Movie name:");
     Label labelDirector = new Label("Director name:");
     Label labelDescription = new Label("Description:");
@@ -68,36 +72,36 @@ public class VisitorScreen {
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
         root.setTop(menuBar);
-
+        movieButton.setStyle("-fx-text-fill: black;");
         tablaMovie = new TableView<>();
 
         // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
         ObservableList<Movie> grupos = FXCollections.observableArrayList(adminC.getMovies());
 
-        TableColumn<Movie, String> IdColumn = new TableColumn<>("Id");
         TableColumn<Movie, String> nameColumn = new TableColumn<>("Name");
-        TableColumn<Movie, String> directorColumn = new TableColumn<>("Director");
+        TableColumn<Movie, String> categoryColumn = new TableColumn<>("Category");
+        TableColumn<Movie, String> durationColumn = new TableColumn<>("Duration");
 
-        IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
-        IdColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
         nameColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
-        directorColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
+        categoryColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
+        durationColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
 
         // Configurar estilo de las columnas
-        IdColumn.setStyle("-fx-alignment: CENTER;");
+        categoryColumn.setStyle("-fx-alignment: CENTER;");
         nameColumn.setStyle("-fx-alignment: CENTER;");
-        directorColumn.setStyle("-fx-alignment: CENTER;");
+        durationColumn.setStyle("-fx-alignment: CENTER;");
 
-        tablaMovie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
+        tablaMovie.getColumns().addAll(categoryColumn, nameColumn, durationColumn);
 
         // Establecer ancho máximo para la tabla
         tablaMovie.setMaxWidth(600);
 
         // Agregar columna de botones
-        TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Actions");
+        TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Details");
         accionesColumna.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
         accionesColumna.setCellFactory(param -> new BotonCelda());
         tablaMovie.getColumns().add(accionesColumna);
@@ -115,7 +119,7 @@ public class VisitorScreen {
         // Configurar la escena y mostrarla
         scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         primaryStage.setScene(scene1);
-        primaryStage.setTitle("JavaFX MenuBar with CSS");
+        primaryStage.setTitle("Movies");
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
@@ -130,13 +134,13 @@ public class VisitorScreen {
 
         public BotonCelda() {
             // Configura los íconos para los botones
-            ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
+            ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
 
             iconover.setFitWidth(16);
             iconover.setFitHeight(16);
 
             seeButton.setGraphic(iconover);
-            seeButton.getStyleClass().add("seeButton");
+            seeButton.setStyle("-fx-background-color: #9C1428;");
 
             seeButton.setOnAction(event -> {
                 seeMovieScreen(getTableView().getItems().get(getIndex()));
@@ -161,9 +165,9 @@ public class VisitorScreen {
 
     private ToolBar createMenuBar() {
         Region spacer = new Region();
-        Button movieButton = new Button("Movie");
-        Button serieButton = new Button("Serie");
-        Button returnButton = new Button("Log Out");
+        movieButton = new Button("Movie");
+        serieButton = new Button("Serie");
+        returnButton = new Button("Log Out");
         movieButton.setCursor(Cursor.HAND);
         serieButton.setCursor(Cursor.HAND);
         returnButton.setCursor(Cursor.HAND);
@@ -171,17 +175,11 @@ public class VisitorScreen {
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
         // Asignar acciones a los botones
-        movieButton.setOnAction(event -> {
-            cambiarAEscena1();
-        });
+        movieButton.setOnAction(event -> showMovieScene());
 
-        serieButton.setOnAction(event -> {
-            entryWindowSerie();
-        });
+        serieButton.setOnAction(event -> entryWindowSerie());
 
-        returnButton.setOnAction(event -> {
-            LogInWindow.getSceneLogIn();
-        });
+        returnButton.setOnAction(event -> LogInWindow.getSceneLogIn());
 
         // Crear la barra de herramientas y agregar los botones
         ToolBar toolBar = new ToolBar(movieButton, serieButton, spacer, returnButton);
@@ -197,29 +195,30 @@ public class VisitorScreen {
         if (scene2 == null) {
             BorderPane root2 = new BorderPane();
             ToolBar menuBar = createMenuBar();
+            serieButton.setStyle("-fx-text-fill: black;");
             root2.setTop(menuBar);
 
             // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
             ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
 
-            TableColumn<Serie, String> IdColumn = new TableColumn<>("Id");
             TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
-            TableColumn<Serie, String> directorColumn = new TableColumn<>("Director");
+            TableColumn<Serie, String> categoryColumn = new TableColumn<>("Category");
+            TableColumn<Serie, String> directorColumn = new TableColumn<>("Duration");
 
-            IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+            categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+            directorColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
-            IdColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
             nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            categoryColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
             directorColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
 
             // Configurar estilo de las columnas
-            IdColumn.setStyle("-fx-alignment: CENTER;");
             nameColumn.setStyle("-fx-alignment: CENTER;");
+            categoryColumn.setStyle("-fx-alignment: CENTER;");
             directorColumn.setStyle("-fx-alignment: CENTER;");
 
-            tablaSerie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
+            tablaSerie.getColumns().addAll(categoryColumn, nameColumn, directorColumn);
 
             // Establecer ancho máximo para la tabla
             tablaSerie.setMaxWidth(600);
@@ -244,7 +243,7 @@ public class VisitorScreen {
             scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         }
         primaryStage.setScene(scene2);
-        primaryStage.setTitle("JavaFX series with CSS");
+        primaryStage.setTitle("Serie");
         primaryStage.setMaximized(true);
     }
 
