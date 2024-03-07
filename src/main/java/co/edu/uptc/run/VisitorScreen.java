@@ -96,7 +96,7 @@ public class VisitorScreen {
         nameColumn.setStyle("-fx-alignment: CENTER;");
         durationColumn.setStyle("-fx-alignment: CENTER;");
 
-        tablaMovie.getColumns().addAll(categoryColumn, nameColumn, durationColumn);
+        tablaMovie.getColumns().addAll(nameColumn, categoryColumn, durationColumn);
 
         // Establecer ancho máximo para la tabla
         tablaMovie.setMaxWidth(600);
@@ -221,13 +221,71 @@ public class VisitorScreen {
             categoryColumn.setStyle("-fx-alignment: CENTER;");
             seasonColumn.setStyle("-fx-alignment: CENTER;");
 
-            tablaSerie.getColumns().addAll(categoryColumn, nameColumn, seasonColumn);
+            tablaSerie.getColumns().addAll(nameColumn, categoryColumn, seasonColumn);
 
             // Establecer ancho máximo para la tabla
             tablaSerie.setMaxWidth(600);
 
             // Agregar columna de botones
-            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Details");
+            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Season list");
+            accionesColumna.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
+            tablaSerie.getColumns().add(accionesColumna);
+
+            tablaSerie.setItems(series);
+
+            StackPane stackPane = new StackPane(tablaSerie);
+            stackPane.setAlignment(Pos.CENTER);
+            BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
+
+            // Agregar el StackPane que contiene la tabla al centro del BorderPane
+            root2.setCenter(stackPane);
+            scene2 = new Scene(root2, screenWidth, screenHeight);
+
+            // Configurar la escena y mostrarla
+            scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        }
+        primaryStage.setScene(scene2);
+        primaryStage.setTitle("Serie");
+        primaryStage.setMaximized(true);
+    }
+
+    private void seasonWindow() {
+        if (scene2 == null) {
+            BorderPane root2 = new BorderPane();
+            ToolBar menuBar = createMenuBar();
+            serieButton.setStyle("-fx-text-fill: black;");
+            root2.setTop(menuBar);
+
+            // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
+            ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
+
+            TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
+            TableColumn<Serie, String> categoryColumn = new TableColumn<>("Category");
+            TableColumn<Serie, String> seasonColumn = new TableColumn<>("Seasons");
+
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+            // Seasons cant
+            seasonColumn.setCellValueFactory(
+                    data -> new SimpleStringProperty(Integer.toString(data.getValue().getSeasons().size())));
+
+            nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            categoryColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            seasonColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+
+            // Configurar estilo de las columnas
+            nameColumn.setStyle("-fx-alignment: CENTER;");
+            categoryColumn.setStyle("-fx-alignment: CENTER;");
+            seasonColumn.setStyle("-fx-alignment: CENTER;");
+
+            tablaSerie.getColumns().addAll(nameColumn, categoryColumn, seasonColumn);
+
+            // Establecer ancho máximo para la tabla
+            tablaSerie.setMaxWidth(600);
+
+            // Agregar columna de botones
+            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Season list");
             accionesColumna.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
             accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
             tablaSerie.getColumns().add(accionesColumna);
@@ -262,8 +320,7 @@ public class VisitorScreen {
             btnVer.setStyle("-fx-background-color: #9C1428;");
 
             btnVer.setOnAction(event -> {
-                // Serie serie = getTableView().getItems().get(getIndex());
-                // modifySerie modifySerieWindow = new modifySerie(gc, serie, serie.getId());
+                seasonWindow();
             });
 
             // Configura el contenido de las celdas para mostrar los botones
