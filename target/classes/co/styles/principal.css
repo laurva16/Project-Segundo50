@@ -112,3 +112,10 @@
     /* Alineación del contenido de la celda */
     /* Espaciado interno */
 }
+
+#videoButton {
+    -fx-background-color: #31149c;
+}
+#coverButton {
+    -fx-background-color: green;
+}

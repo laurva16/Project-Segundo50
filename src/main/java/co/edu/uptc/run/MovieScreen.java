@@ -14,8 +14,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -30,6 +33,7 @@ public class MovieScreen {
     Button cancelButton;
     Button acceptButton;
     Button fileButton;
+    Button coverButton;
 
     ChoiceBox<String> categoryBox = new ChoiceBox<>();
     Label labelName = new Label("Movie name:");
@@ -37,9 +41,13 @@ public class MovieScreen {
     Label labelDescription = new Label("Description:");
     Label labelDuration = new Label("Duration:");
     Label labelCategory = new Label("Category:");
-    Label labelWarning;       
-    Label labelFileName = new Label("File Video:");
+    Label labelWarning;
+    Label labelFileName = new Label("File video:");
+    Label labelImageCover = new Label("Image cover:");
+
     File selectedFile;
+    File selectedCover;
+
     //
     private Scene newMovieScene;
     private Scene editMovieScene;
@@ -69,7 +77,7 @@ public class MovieScreen {
         directorField = new TextField();
         descriptionField = new TextField();
         durationField = new TextField();
-        
+
         nameField.setPrefWidth(300);
         directorField.setPrefWidth(300);
         descriptionField.setPrefWidth(300);
@@ -102,7 +110,8 @@ public class MovieScreen {
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
-        gridPane.getChildren().setAll(labelName, nameField, labelDirector, directorField, labelDescription, descriptionField, labelDuration,
+        gridPane.getChildren().setAll(labelName, nameField, labelDirector, directorField, labelDescription,
+                descriptionField, labelDuration,
                 durationField, labelCategory, categoryBox, labelWarning);
         root3.setCenter(gridPane);
 
@@ -124,27 +133,57 @@ public class MovieScreen {
         cancelButton.setText("Cancel");
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
-        
         cancelButton.setOnAction(event -> returnScene());
-        //File Video buttton
-        Button fileButton = new Button();
+
+        // File Video buttton
+        fileButton = new Button();
 
         GridPane.setConstraints(fileButton, 1, 5);
-        fileButton.setTranslateY(60);
-        fileButton.setText("File Video");
-        fileButton.setPrefWidth(150);
-        
+        fileButton.setPrefWidth(50);
+
         fileButton.setOnAction(event -> chooseFileScreen());
-        gridPane.getChildren().addAll(acceptButton, cancelButton, fileButton);
-        // Crear la escena
+        // Cover image button
+        coverButton = new Button();
+
+        GridPane.setConstraints(coverButton, 3, 5);
+        coverButton.setPrefWidth(50);
+
+        coverButton.setOnAction(event -> chooseImageScreen());
+
+        ImageView fileIcon = new ImageView(new Image("file:" + "src/prograIconos/video.png"));
+        fileIcon.setFitWidth(22);
+        fileIcon.setFitHeight(22);
+        fileButton.setGraphic(fileIcon);
+
+        ImageView coverIcon = new ImageView(new Image("file:" + "src/prograIconos/cover.png"));
+        coverIcon.setFitWidth(22);
+        coverIcon.setFitHeight(22);
+        coverButton.setGraphic(coverIcon);
+
+        //
+        HBox chooserBox = new HBox(labelFileName, fileButton, labelImageCover, coverButton);
+        chooserBox.setSpacing(60);
+        chooserBox.setAlignment(Pos.CENTER);
+        chooserBox.setTranslateY(-300);
+
+        fileButton.setTranslateX(-30);
+        labelImageCover.setTranslateX(35);
+        // GridPane.setConstraints(chooserBox, 0, 5);
+        root3.setBottom(chooserBox);
+        // BorderPane.setAlignment(chooserBox, Pos.BOTTOM_CENTER);
+        gridPane.getChildren().addAll(acceptButton, cancelButton);
+
         newMovieScene = new Scene(root3, screenWidth, screenHeight);
-        // aplicar CSS
+        // CSS
         newMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
+        fileButton.setId("videoButton");
+        coverButton.setId("coverButton");
         labelWarning.setId("warning");
         root3.setId("root3");
         gridPane.setId("gridPane");
+
         return newMovieScene;
     }
 
@@ -167,7 +206,8 @@ public class MovieScreen {
             labelWarning.setVisible(true);
         } else {
             labelWarning.setText("* All fields must be filled!");
-            if (nameField.getText().isEmpty() || directorField.getText().isEmpty() || descriptionField.getText().isEmpty()
+            if (nameField.getText().isEmpty() || directorField.getText().isEmpty()
+                    || descriptionField.getText().isEmpty()
                     || durationField.getText().isEmpty() || (categoryBox.getValue() == null)) {
                 labelWarning.setVisible(true);
 
@@ -183,7 +223,7 @@ public class MovieScreen {
                     if (response == ButtonType.OK) {
                         adminC.addMovie(nameField.getText(), directorField.getText(), descriptionField.getText(),
                                 Integer.parseInt(durationField.getText()),
-                                categoryBox.getValue(), selectedFile.getName());
+                                categoryBox.getValue(), selectedFile.getName(), selectedCover.getName());
                         returnScene();
                     } else {
                     }
@@ -275,24 +315,53 @@ public class MovieScreen {
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
 
         cancelButton.setOnAction(event -> returnScene());
-       
-        //File Video buttton
+        // File Video buttton
         fileButton = new Button();
 
         GridPane.setConstraints(fileButton, 1, 5);
-        fileButton.setTranslateY(60);
-        fileButton.setText("File Video");
-        fileButton.setPrefWidth(150);
-        
+        fileButton.setPrefWidth(50);
+
         fileButton.setOnAction(event -> chooseFileScreen());
+        // Cover image button
+        coverButton = new Button();
+
+        GridPane.setConstraints(coverButton, 3, 5);
+        coverButton.setPrefWidth(50);
+
+        coverButton.setOnAction(event -> chooseImageScreen());
+
+        ImageView fileIcon = new ImageView(new Image("file:" + "src/prograIconos/video.png"));
+        fileIcon.setFitWidth(22);
+        fileIcon.setFitHeight(22);
+        fileButton.setGraphic(fileIcon);
+
+        ImageView coverIcon = new ImageView(new Image("file:" + "src/prograIconos/cover.png"));
+        coverIcon.setFitWidth(22);
+        coverIcon.setFitHeight(22);
+        coverButton.setGraphic(coverIcon);
         //
-        gridPane.getChildren().addAll(acceptButton, cancelButton, fileButton);
+        HBox chooserBox = new HBox(labelFileName, fileButton, labelImageCover, coverButton);
+        chooserBox.setSpacing(60);
+        chooserBox.setAlignment(Pos.CENTER);
+        chooserBox.setTranslateY(-300);
+
+        fileButton.setTranslateX(-30);
+        labelImageCover.setTranslateX(35);
+        root3.setBottom(chooserBox);
+        //
+        gridPane.getChildren().addAll(acceptButton, cancelButton);
+
+        selectedFile =  new File("src/multimediaCovers/Movies/" + movie.getFileVideo());
+        selectedCover =  new File("src/multimediaCovers/Movies/" + movie.getCoverImage());
+
         // Crear la escena
         editMovieScene = new Scene(root3, screenWidth, screenHeight);
-        // aplicar CSS
+        // CSS
         editMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         cancelButton.setId("button");
         acceptButton.setId("button");
+        fileButton.setId("videoButton");
+        coverButton.setId("coverButton");
         labelWarning.setId("warning");
         root3.setId("root3");
         gridPane.setId("gridPane");
@@ -315,32 +384,44 @@ public class MovieScreen {
         } else {
             if (nameField.getText().isEmpty() || directorField.getText().isEmpty()
                     || descriptionField.getText().isEmpty() || durationField.getText().isEmpty()
-                    || (categoryBox.getValue() == null) ){
+                    || (categoryBox.getValue() == null)) {
                 labelWarning.setText("* All fields must be filled!");
                 labelWarning.setVisible(true);
             } else {
                 labelWarning.setVisible(false);
+
                 movie.setName(nameField.getText());
                 movie.setDescription(descriptionField.getText());
                 movie.setAuthor(directorField.getText());
                 movie.setDuration(Integer.parseInt(durationField.getText()));
                 movie.setCategory(categoryBox.getValue());
                 movie.setFileVideo(selectedFile.getName());
+                movie.setCoverImage(selectedCover.getName());
                 adminC.updateMovieInformation(movie);
                 returnScene();
             }
         }
     }
 
-    public void chooseFileScreen(){
+    public void chooseFileScreen() {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP4 Files", "*.mp4"));
-        
+
         fileChooser.setTitle("Select the file Video");
         File initialDirectory = new File("src/multimediaVideos/Movies");
         fileChooser.setInitialDirectory(initialDirectory);
         selectedFile = fileChooser.showOpenDialog(primaryStage);
-        //selectedFile.getAbsolutePath());
+        // selectedFile.getAbsolutePath());
+    }
+
+    public void chooseImageScreen() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG Files", "*.jpg"));
+
+        fileChooser.setTitle("Select the cover image");
+        File initialDirectory = new File("src/multimediaCovers/Movies");
+        fileChooser.setInitialDirectory(initialDirectory);
+        selectedCover = fileChooser.showOpenDialog(primaryStage);
     }
 }
