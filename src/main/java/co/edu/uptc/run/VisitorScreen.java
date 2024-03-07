@@ -5,6 +5,7 @@ import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.Serie;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -203,28 +204,30 @@ public class VisitorScreen {
 
             TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
             TableColumn<Serie, String> categoryColumn = new TableColumn<>("Category");
-            TableColumn<Serie, String> directorColumn = new TableColumn<>("Duration");
+            TableColumn<Serie, String> seasonColumn = new TableColumn<>("Seasons");
 
             nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
             categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-            directorColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
+            // Seasons cant
+            seasonColumn.setCellValueFactory(
+                    data -> new SimpleStringProperty(Integer.toString(data.getValue().getSeasons().size())));
 
             nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
             categoryColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            directorColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+            seasonColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
 
             // Configurar estilo de las columnas
             nameColumn.setStyle("-fx-alignment: CENTER;");
             categoryColumn.setStyle("-fx-alignment: CENTER;");
-            directorColumn.setStyle("-fx-alignment: CENTER;");
+            seasonColumn.setStyle("-fx-alignment: CENTER;");
 
-            tablaSerie.getColumns().addAll(categoryColumn, nameColumn, directorColumn);
+            tablaSerie.getColumns().addAll(categoryColumn, nameColumn, seasonColumn);
 
             // Establecer ancho máximo para la tabla
             tablaSerie.setMaxWidth(600);
 
             // Agregar columna de botones
-            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Actions");
+            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Details");
             accionesColumna.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
             accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
             tablaSerie.getColumns().add(accionesColumna);
@@ -252,14 +255,11 @@ public class VisitorScreen {
 
         public BotonCeldaSerie() {
             // Configura los íconos para los botones
-            ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
-
+            ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
             iconover.setFitWidth(16);
             iconover.setFitHeight(16);
-
             btnVer.setGraphic(iconover);
-
-            btnVer.getStyleClass().add("boton-ver");
+            btnVer.setStyle("-fx-background-color: #9C1428;");
 
             btnVer.setOnAction(event -> {
                 // Serie serie = getTableView().getItems().get(getIndex());
