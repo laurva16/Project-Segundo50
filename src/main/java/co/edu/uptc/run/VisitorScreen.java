@@ -13,9 +13,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,19 +25,119 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class VisitorScreen {
 
+    private ScrollPane scrollPaneMovies;
+    private BorderPane root;
+    private double screenWidth, screenHeight;
+    private AdminController adminController;
+
+    // First screen of movies
+    private ImageView imageMovie;
+    private Label labelMoviesName;
+    private FlowPane flowPaneMovies;
+    private Scene moviesScene;
+
+    // Series atributes
+    private ImageView imageSeason, imageChapter;
+    private Label labelSeriesName, labelSeriesDescription, labelSeriesDirector, labelSeriesCategory,
+            labelSeriesNumber, labelChaptersName, labelChaptersDuration, labelChaptersDescription;
+    private CheckBox checkBoxSeason;
+    private VBox vBoxSeries;
+
+    public VisitorScreen() {
+        screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+        root = new BorderPane();
+        scrollPaneMovies = new ScrollPane();
+        adminController = new AdminController();
+        vBoxSeries = new VBox();
+        labelMoviesName = new Label();
+        flowPaneMovies = new FlowPane();
+
+        // _____________________________________________________________________________________________
+        logInWindow = new LogInWindow();
+        primaryStage = LogInWindow.getPrimaryStage();
+        adminC = new AdminController();
+        categoryC = new CategoryController();
+        categoryC.getCategories().forEach(
+                category -> choiceBox.getItems().add(category.getName()));
+
+    }
+
+    public void moviesPrincipalScene() {
+        root.setTop(createMenuBar());
+        VBox vBoxMovie = new VBox();
+
+        for (Movie movies : adminController.getMovies()) {
+            // Después se llama al método que obtiene la url de la película
+            imageMovie = new ImageView(new Image("file:C:\\Users\\Dani\\Downloads\\OIP.jpeg"));
+            // Cambio de imagen
+            labelMoviesName = new Label(movies.getName());
+            labelMoviesName.setId("labelMoviesName");
+            vBoxMovie = new VBox(labelMoviesName, imageMovie);
+
+            imageMovie.setFitWidth(180);
+            imageMovie.setFitHeight(270);
+            labelMoviesName.setMaxWidth(180);
+            FlowPane.setMargin(vBoxMovie, new Insets(20, 0, 20, 30));
+
+            flowPaneMovies.getChildren().add(vBoxMovie);
+        }
+
+        flowPaneMovies.setHgap(10);
+        flowPaneMovies.setAlignment(Pos.TOP_CENTER);
+        flowPaneMovies.setMinHeight(screenHeight);
+
+        scrollPaneMovies = new ScrollPane(flowPaneMovies);
+        scrollPaneMovies.setFitToWidth(true);
+
+        root.setCenter(scrollPaneMovies);
+        moviesScene = new Scene(root, screenWidth, screenHeight);
+        moviesScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+
+        flowPaneMovies.setStyle("-fx-background-color: #191919;");
+        scrollPaneMovies.setStyle("-fx-background-color: #191919;");
+
+        primaryStage.setScene(moviesScene);
+
+        // Establecer el título del escenario y mostrarlo
+        primaryStage.setTitle("Principal movies");
+        primaryStage.setMaximized(true);
+        primaryStage.show();
+    }
+
+    public void moviesScene(int idMovie) {
+        System.out.println("Id de la película: " + idMovie);
+    }
+
+    public void principalSeriesScene() {
+
+    }
+
+    public void seriesScene(int idSerie) {
+        // Llamar a la imágen
+        imageSeason = new ImageView(new Image("file:C:\\Users\\Dani\\Downloads\\OIP.jpeg"));
+        // labelSeriesName = adminController.serieFound(0)
+        vBoxSeries.getChildren().addAll(imageSeason, labelSeriesName, labelSeriesDescription, labelSeriesDirector,
+                labelSeriesCategory, labelSeriesNumber);
+    }
+
+    // __________________________________________________________________________________________________
+
     private TableView<Movie> tablaMovie;
-    private TableView<Serie> tablaSerie = new TableView<>();
     private Stage primaryStage;
     private LogInWindow logInWindow;
     private AdminController adminC;
@@ -54,20 +156,7 @@ public class VisitorScreen {
     Label labelCategory = new Label("Category:");
     Label labelWarning;
 
-    double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
-    double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-
     MovieScreen movieScreen;
-
-    public VisitorScreen() {
-        logInWindow = new LogInWindow();
-        primaryStage = LogInWindow.getPrimaryStage();
-        adminC = new AdminController();
-        categoryC = new CategoryController();
-        categoryC.getCategories().forEach(
-                category -> choiceBox.getItems().add(category.getName()));
-
-    }
 
     public void showMovieScene() {
         BorderPane root = new BorderPane();
@@ -123,6 +212,7 @@ public class VisitorScreen {
         primaryStage.setTitle("Movies");
         primaryStage.setMaximized(true);
         primaryStage.show();
+        moviesPrincipalScene();
     }
 
     void switchNewMovieScene() {
@@ -168,7 +258,7 @@ public class VisitorScreen {
         Region spacer = new Region();
         movieButton = new Button("Movie");
         serieButton = new Button("Serie");
-        returnButton = new Button("Log Out");
+        returnButton = new Button("Return");
         movieButton.setCursor(Cursor.HAND);
         serieButton.setCursor(Cursor.HAND);
         returnButton.setCursor(Cursor.HAND);
@@ -177,8 +267,6 @@ public class VisitorScreen {
 
         // Asignar acciones a los botones
         movieButton.setOnAction(event -> showMovieScene());
-
-        serieButton.setOnAction(event -> entryWindowSerie());
 
         returnButton.setOnAction(event -> LogInWindow.getSceneLogIn());
 
@@ -190,154 +278,6 @@ public class VisitorScreen {
         returnButton.getStyleClass().add("menu");
 
         return toolBar;
-    }
-
-    private void entryWindowSerie() {
-        if (scene2 == null) {
-            BorderPane root2 = new BorderPane();
-            ToolBar menuBar = createMenuBar();
-            serieButton.setStyle("-fx-text-fill: black;");
-            root2.setTop(menuBar);
-
-            // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-            ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
-
-            TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
-            TableColumn<Serie, String> categoryColumn = new TableColumn<>("Category");
-            TableColumn<Serie, String> seasonColumn = new TableColumn<>("Seasons");
-
-            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-            // Seasons cant
-            seasonColumn.setCellValueFactory(
-                    data -> new SimpleStringProperty(Integer.toString(data.getValue().getSeasons().size())));
-
-            nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            categoryColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            seasonColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-
-            // Configurar estilo de las columnas
-            nameColumn.setStyle("-fx-alignment: CENTER;");
-            categoryColumn.setStyle("-fx-alignment: CENTER;");
-            seasonColumn.setStyle("-fx-alignment: CENTER;");
-
-            tablaSerie.getColumns().addAll(nameColumn, categoryColumn, seasonColumn);
-
-            // Establecer ancho máximo para la tabla
-            tablaSerie.setMaxWidth(600);
-
-            // Agregar columna de botones
-            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Season list");
-            accionesColumna.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
-            tablaSerie.getColumns().add(accionesColumna);
-
-            tablaSerie.setItems(series);
-
-            StackPane stackPane = new StackPane(tablaSerie);
-            stackPane.setAlignment(Pos.CENTER);
-            BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
-
-            // Agregar el StackPane que contiene la tabla al centro del BorderPane
-            root2.setCenter(stackPane);
-            scene2 = new Scene(root2, screenWidth, screenHeight);
-
-            // Configurar la escena y mostrarla
-            scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        }
-        primaryStage.setScene(scene2);
-        primaryStage.setTitle("Serie");
-        primaryStage.setMaximized(true);
-    }
-
-    private void seasonWindow() {
-        if (scene2 == null) {
-            BorderPane root2 = new BorderPane();
-            ToolBar menuBar = createMenuBar();
-            serieButton.setStyle("-fx-text-fill: black;");
-            root2.setTop(menuBar);
-
-            // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-            ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
-
-            TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
-            TableColumn<Serie, String> categoryColumn = new TableColumn<>("Category");
-            TableColumn<Serie, String> seasonColumn = new TableColumn<>("Seasons");
-
-            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-            // Seasons cant
-            seasonColumn.setCellValueFactory(
-                    data -> new SimpleStringProperty(Integer.toString(data.getValue().getSeasons().size())));
-
-            nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            categoryColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            seasonColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-
-            // Configurar estilo de las columnas
-            nameColumn.setStyle("-fx-alignment: CENTER;");
-            categoryColumn.setStyle("-fx-alignment: CENTER;");
-            seasonColumn.setStyle("-fx-alignment: CENTER;");
-
-            tablaSerie.getColumns().addAll(nameColumn, categoryColumn, seasonColumn);
-
-            // Establecer ancho máximo para la tabla
-            tablaSerie.setMaxWidth(600);
-
-            // Agregar columna de botones
-            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Season list");
-            accionesColumna.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
-            tablaSerie.getColumns().add(accionesColumna);
-
-            tablaSerie.setItems(series);
-
-            StackPane stackPane = new StackPane(tablaSerie);
-            stackPane.setAlignment(Pos.CENTER);
-            BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
-
-            // Agregar el StackPane que contiene la tabla al centro del BorderPane
-            root2.setCenter(stackPane);
-            scene2 = new Scene(root2, screenWidth, screenHeight);
-
-            // Configurar la escena y mostrarla
-            scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        }
-        primaryStage.setScene(scene2);
-        primaryStage.setTitle("Serie");
-        primaryStage.setMaximized(true);
-    }
-
-    public class BotonCeldaSerie extends TableCell<Serie, Void> {
-        private final Button btnVer = new Button();
-
-        public BotonCeldaSerie() {
-            // Configura los íconos para los botones
-            ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
-            iconover.setFitWidth(16);
-            iconover.setFitHeight(16);
-            btnVer.setGraphic(iconover);
-            btnVer.setStyle("-fx-background-color: #9C1428;");
-
-            btnVer.setOnAction(event -> {
-                seasonWindow();
-            });
-
-            // Configura el contenido de las celdas para mostrar los botones
-            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        }
-
-        @Override
-        protected void updateItem(Void item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-            } else {
-                HBox botonesContainer = new HBox(btnVer);
-                botonesContainer.setSpacing(5);
-                setGraphic(botonesContainer);
-            }
-        }
     }
 
     void seeMovieScreen(Movie movie) {
