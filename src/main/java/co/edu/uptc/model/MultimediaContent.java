@@ -7,7 +7,8 @@ public class MultimediaContent {
     private String author;
     private String description;
     private String fileVideo;
-
+    private String coverImage;
+    
     public MultimediaContent() {
     }
 
@@ -93,5 +94,14 @@ public class MultimediaContent {
     public void setFileVideo(String fileVideo) {
         this.fileVideo = fileVideo;
     }
+
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
+    }
+
     
 }
