@@ -21,7 +21,7 @@
     "category": "Horror",
     "id": 7827,
     "name": "asd",
-    "duration": 22,
+    "duration": 224,
     "author": "asd",
     "description": "asd",
     "fileVideo": "M_003.mp4"
@@ -30,27 +30,27 @@
     "category": "Horror",
     "id": 7824,
     "name": "1",
-    "duration": 22,
-    "author": "asd",
-    "description": "asd",
+    "duration": 1,
+    "author": "1",
+    "description": "1",
     "fileVideo": "M_003.mp4"
   },
   {
     "category": "Horror",
     "id": 7817,
     "name": "2",
-    "duration": 22,
-    "author": "asd",
-    "description": "asd",
+    "duration": 2,
+    "author": "2",
+    "description": "2",
     "fileVideo": "M_003.mp4"
   },
   {
     "category": "Horror",
     "id": 7867,
     "name": "3",
-    "duration": 22,
-    "author": "asd",
-    "description": "asd",
+    "duration": 3,
+    "author": "3",
+    "description": "3",
     "fileVideo": "M_003.mp4"
   }
 ]

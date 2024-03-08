@@ -113,7 +113,7 @@
     /* Espaciado interno */
 }
 
-#labelMoviesName {
+#labelName {
     -fx-font-family: sans-serif;
     -fx-font-size: 16px;
     -fx-text-fill: white;
