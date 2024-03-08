@@ -1,13 +1,13 @@
 [
   {
-    "category": "Horror",
+    "category": "Action",
     "id": 7825,
     "name": "Planet of the apes new kingdom",
     "duration": 120,
     "author": "Wes Ball",
     "description": "Many years after the reign of Caesar, a young ape goes on a journey that will lead him to question everything he\u0027s been taught about the past and make choices that will define a future for apes and humans",
     "fileVideo": "M_001.mp4",
-    "coverImage": "Rise of the Planet - 0.jpg"
+    "coverImage": "Rise of the Planet.jpg"
   },
   {
     "category": "Action",
@@ -25,8 +25,8 @@
     "name": "Jugiot",
     "duration": 1,
     "author": "de",
-    "description": "mandarina",
+    "description": "asd",
     "fileVideo": "M_005.mp4",
-    "coverImage": "Rise of the Planet - 0.jpg"
+    "coverImage": "spaceman.jpg"
   }
 ]

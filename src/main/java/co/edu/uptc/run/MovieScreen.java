@@ -47,19 +47,17 @@ public class MovieScreen {
 
     File selectedFile;
     File selectedCover;
-
-    //
+    private Stage primaryStage;
     private Scene newMovieScene;
     private Scene editMovieScene;
-    //
+    
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+   
     FileManagement fm;
     AdminController adminC;
     CategoryController categoryC;
-
-    private Stage primaryStage;
-
+   
     public MovieScreen(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
         //
@@ -215,7 +213,7 @@ public class MovieScreen {
                 // ventana de confirmacion
                 labelWarning.setVisible(false);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmar");
+                alert.setTitle("Confirm changes");
                 alert.setHeaderText(null);
                 alert.setContentText("You want to save to changes?");
 
@@ -351,9 +349,6 @@ public class MovieScreen {
         //
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
-        selectedFile =  new File("src/multimediaCovers/Movies/" + movie.getFileVideo());
-        selectedCover =  new File("src/multimediaCovers/Movies/" + movie.getCoverImage());
-
         // Crear la escena
         editMovieScene = new Scene(root3, screenWidth, screenHeight);
         // CSS
@@ -395,8 +390,13 @@ public class MovieScreen {
                 movie.setAuthor(directorField.getText());
                 movie.setDuration(Integer.parseInt(durationField.getText()));
                 movie.setCategory(categoryBox.getValue());
-                movie.setFileVideo(selectedFile.getName());
-                movie.setCoverImage(selectedCover.getName());
+
+                if(selectedFile != null){
+                    movie.setFileVideo(selectedFile.getName());
+                }
+                if(selectedCover != null){
+                    movie.setCoverImage(selectedCover.getName());
+                }
                 adminC.updateMovieInformation(movie);
                 returnScene();
             }
@@ -412,7 +412,7 @@ public class MovieScreen {
         File initialDirectory = new File("src/multimediaVideos/Movies");
         fileChooser.setInitialDirectory(initialDirectory);
         selectedFile = fileChooser.showOpenDialog(primaryStage);
-        // selectedFile.getAbsolutePath());
+
     }
 
     public void chooseImageScreen() {
