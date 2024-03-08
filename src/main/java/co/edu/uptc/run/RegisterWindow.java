@@ -201,24 +201,27 @@ public class RegisterWindow {
     }
 
     public static boolean allValidation() {
+        boolean valName = false, valLastName = false, valEmail = false, valPassrord1 = false, valPassrord2 = false;
         if (nameEmptyValidation()) {
-            nameCharacterValidation();
+            valName = nameCharacterValidation();
         }
         if (lastNameEmptyValidation()) {
-            lastNameCharacterValidation();
+            valLastName = lastNameCharacterValidation();
         }
         if (emailEmptyValidation()) {
             if (emailDomainValidation()) {
-                existingEmaildValidation();
+                valEmail = existingEmaildValidation();
             }
         }
         if (passwordEmptyValidation()) {
-            passwordStringValidation();
+            valPassrord1 = passwordStringValidation();
         }
         if (password2EmptyValidation() && passwordStringValidation()) {
-            if (passwordSameValidation2()) {
-                return true;
-            }
+            valPassrord2 = passwordSameValidation2();
+        }
+        if (valName == true && valLastName == true && valEmail == true && valPassrord1 == true
+                && valPassrord2 == true) {
+            return true;
         }
         return false;
     }
