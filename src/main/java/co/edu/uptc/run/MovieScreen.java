@@ -166,9 +166,7 @@ public class MovieScreen {
 
         fileButton.setTranslateX(-30);
         labelImageCover.setTranslateX(35);
-        // GridPane.setConstraints(chooserBox, 0, 5);
         root3.setBottom(chooserBox);
-        // BorderPane.setAlignment(chooserBox, Pos.BOTTOM_CENTER);
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         newMovieScene = new Scene(root3, screenWidth, screenHeight);

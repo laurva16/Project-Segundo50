@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import co.edu.uptc.controller.UserRegisteredController;
+import co.edu.uptc.model.Payment;
 import co.edu.uptc.model.UserRegistered;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -21,7 +21,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 public class RegisterWindow {
 
@@ -111,6 +110,11 @@ public class RegisterWindow {
         gridPane.getChildren().addAll(labelFirstName, labelLastName, labelEmail, labelPassword, labelPassword2,
                 textFirstName, textLastName, textEmail, textPassword, textPassword2, buttonReturn, buttonSignUp);
 
+        //TEMPORAL 
+        Button a = new Button();
+        a.setOnAction(e -> paymentSimulation());
+        gridPane.getChildren().add(a);
+        //
         GridPane.setMargin(buttonSignUp, new Insets(15, 0, 20, 0));
         GridPane.setMargin(buttonReturn, new Insets(15, 0, 20, 0));
     }
@@ -179,8 +183,10 @@ public class RegisterWindow {
         buttonSignUp.setOnAction(event -> {
             if (emptyValidation() && existingEmaildValidation() && emailValidation() && passwordValidation()
                     && passwordValidation2()) {
+
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
-                        textPassword.getText());
+                       textPassword.getText(), paymentSimulation());
+  
                 UserRegistered userRegistered = getUserRegistered();
                 UserScreen userScreen = new UserScreen();
                 userScreen.setUserRegistered(userRegistered);
@@ -188,6 +194,12 @@ public class RegisterWindow {
                 setVisibleFalse();
             }
         });
+    }
+    
+    public static Payment paymentSimulation(){
+        PaymentScreen ps = new PaymentScreen();
+        ps.showPaymentScreen();
+        return ps.addPayment();
     }
 
     public static boolean emptyValidation() {

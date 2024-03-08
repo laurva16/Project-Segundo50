@@ -1,0 +1,35 @@
+/* principal.css */
+.root {
+    -fx-background-color: #191919;
+}
+
+#box {
+    -fx-font-size: 15px;
+    -fx-font-family: sans-serif;
+    -fx-background-color: white;
+}
+
+#acceptbutton {
+    -fx-background-color: green;
+    -fx-text-fill: white;
+}
+
+#acceptbutton:hover {
+    -fx-background-color: #c8c8c8;
+    -fx-text-fill: black;
+}
+
+#closebutton {
+    -fx-background-color: #9C1428;
+    -fx-text-fill: white;
+}
+
+#closebutton:hover {
+    -fx-background-color: #c8c8c8;
+    -fx-text-fill: black;
+}
+#warning {
+    -fx-text-fill: #9C1428;
+    -fx-font-size: 12px;
+    -fx-font-family: sans-serif;
+}

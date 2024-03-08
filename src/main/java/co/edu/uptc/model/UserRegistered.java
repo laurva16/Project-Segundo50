@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class UserRegistered extends Person {
     private ArrayList<PlayList> playList;
     private UserSubscription sub;
-
+    private Payment payment;
+    
     public UserRegistered() {
         playList = new ArrayList<>();
     }
@@ -50,6 +51,14 @@ public class UserRegistered extends Person {
             }
         }
         return false;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override
