@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import co.edu.uptc.model.Movie;
 import javafx.scene.control.ChoiceBox;
 
 public class FileManagement {
@@ -141,17 +142,4 @@ public class FileManagement {
         return listNames;
     }
 
-    /*
-     * 
-    public ArrayList <String>  getFileVideoNames(){
-        ArrayList <String> listNames = new ArrayList<>();
-        File folder = new File("src/multimediaVideos");
-        File[] listFiles = folder.listFiles();
-
-        for(File file : listFiles){
-            listNames.add(file.getName());
-        }
-        return listNames;
-    }
-     */
 }
