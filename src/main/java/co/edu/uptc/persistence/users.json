@@ -34,22 +34,32 @@
   {
     "playList": [
       {
-        "name": "Optional[xx]",
+        "name": "xx",
         "movies": [],
         "series": []
       },
       {
-        "name": "Optional[x]",
+        "name": "x",
         "movies": [],
         "series": []
       },
       {
-        "name": "Optional[vvv]",
+        "name": "vvv",
         "movies": [],
         "series": []
       },
       {
-        "name": "Optional[dd]",
+        "name": "dd",
+        "movies": [],
+        "series": []
+      },
+      {
+        "name": "ff",
+        "movies": [],
+        "series": []
+      },
+      {
+        "name": "dd",
         "movies": [],
         "series": []
       }
@@ -59,5 +69,13 @@
     "user": "2",
     "password": "2",
     "id": 2
+  },
+  {
+    "playList": [],
+    "firstName": "Dani",
+    "lastName": "Guevara",
+    "user": "daniG@gmail.com",
+    "password": "Dani2511..",
+    "id": 61246
   }
 ]

@@ -113,6 +113,14 @@
     /* Espaciado interno */
 }
 
+#videoButton {
+    -fx-background-color: #31149c;
+}
+
+#coverButton {
+    -fx-background-color: green;
+}
+
 #labelName {
     -fx-font-family: sans-serif;
     -fx-font-size: 16px;
