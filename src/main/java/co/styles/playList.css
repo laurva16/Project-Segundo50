@@ -21,3 +21,8 @@
     -fx-font-size: 16px;
     -fx-text-fill: black;
 }
+
+.hBoxPrincipal {
+    -fx-background-color: #191919;
+    -fx-background-radius: 10;
+}

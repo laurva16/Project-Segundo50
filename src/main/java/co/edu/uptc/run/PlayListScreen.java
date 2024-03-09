@@ -92,13 +92,14 @@ public class PlayListScreen {
     public static void showPlayListScene() {
         userScreen = new UserScreen();
         root = new BorderPane();
+        Rectangle rectangle = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
+        Rectangle rectangle2 = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
         addNewPlayList();
         principal();
 
-        root.setStyle("-fx-background-color: black;");
-
         root.setTop(userScreen.getMenuBar());
-        root.setLeft(buttonAddPlayList);
+        root.setLeft(rectangle);
+        root.setRight(rectangle2);
         root.setCenter(scrollPanePrincipal);
 
         scene = new Scene(root, screenWidth, screenHeight);
@@ -106,7 +107,6 @@ public class PlayListScreen {
         primaryStage.setScene(scene);
         primaryStage.setTitle("PlayList");
         primaryStage.setMaximized(true);
-
     }
 
     public static void addNewPlayList() {
@@ -132,30 +132,29 @@ public class PlayListScreen {
         hBoxActions = new HBox();
 
         scrollPanePrincipal.setContent(vBoxPrincipal);
-        scrollPanePrincipal.setStyle("-fx-background-color: #191919;");
+        scrollPanePrincipal.setStyle("-fx-background-color: #5c5c5c;");
+        System.out.println(screenWidth);
+        scrollPanePrincipal.setMaxSize(screenWidth, screenHeight);
 
         vBoxPrincipal.setPrefSize(screenWidth - 190, screenHeight);
-        vBoxPrincipal.setStyle("-fx-background-color: #191919;");
+        vBoxPrincipal.setStyle("-fx-background-color: #5c5c5c;");
 
-        namePlayList.setStyle("-fx-background-color: red;");
         for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
-            System.out.println(playList);
-
             namePlayList = new Label(playList.getName());
 
             buttonsActions();
             HBox hBoxPrincipalPlayList = new HBox(namePlayList, hBoxActions);
+            hBoxPrincipalPlayList.getStyleClass().add("hBoxPrincipal");
 
-            hBoxPrincipalPlayList.setStyle("-fx-background-color: red;");
             vBoxPrincipal.getChildren().add(hBoxPrincipalPlayList);
+            vBoxPrincipal.setAlignment(Pos.CENTER);
             hBoxPrincipalPlayList.setMaxWidth(500);
-            VBox.setMargin(hBoxPrincipalPlayList, new Insets(50, 10, 50, 5));
-            System.out.println("=)");
+            vBoxPrincipal.setMaxSize(screenWidth - 400, screenHeight);
+            VBox.setMargin(hBoxPrincipalPlayList, new Insets(5, 0, 5, 0));
         }
     }
 
     public static void buttonsActions() {
-        System.out.println("Jelpw");
         Region spacer = new Region();
         spacer.setPrefWidth(100);
 

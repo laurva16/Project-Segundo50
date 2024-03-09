@@ -63,7 +63,7 @@ public class VisitorScreen {
 
         flowPane.setStyle("-fx-background-color: #191919;");
         flowPane.setHgap(10);
-        flowPane.setAlignment(Pos.TOP_LEFT);
+        flowPane.setAlignment(Pos.CENTER);
         flowPane.setMinHeight(screenHeight);
 
         scrollPane = new ScrollPane(flowPane);
