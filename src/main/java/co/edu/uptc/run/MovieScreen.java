@@ -50,14 +50,14 @@ public class MovieScreen {
     private Stage primaryStage;
     private Scene newMovieScene;
     private Scene editMovieScene;
-    
+
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-   
+
     FileManagement fm;
     AdminController adminC;
     CategoryController categoryC;
-   
+
     public MovieScreen(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
         //
@@ -391,10 +391,10 @@ public class MovieScreen {
                 movie.setDuration(Integer.parseInt(durationField.getText()));
                 movie.setCategory(categoryBox.getValue());
 
-                if(selectedFile != null){
+                if (selectedFile != null) {
                     movie.setFileVideo(selectedFile.getName());
                 }
-                if(selectedCover != null){
+                if (selectedCover != null) {
                     movie.setCoverImage(selectedCover.getName());
                 }
                 adminC.updateMovieInformation(movie);
