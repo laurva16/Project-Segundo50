@@ -2,47 +2,6 @@
   {
     "seasons": [
       {
-        "id": 0,
-        "seasonName": "temp1"
-      }
-    ],
-    "category": "Action",
-    "id": 784,
-    "name": "prueba",
-    "duration": 0,
-    "author": "prueba",
-    "description": "prueba"
-  },
-  {
-    "seasons": [],
-    "category": "Action",
-    "id": 30,
-    "name": "prueba2",
-    "duration": 0,
-    "author": "prueba",
-    "description": "prueba"
-  },
-  {
-    "seasons": [],
-    "category": "Action",
-    "id": 459,
-    "name": "Name1",
-    "duration": 0,
-    "author": "Author1",
-    "description": "prueba"
-  },
-  {
-    "seasons": [],
-    "category": "Action",
-    "id": 460,
-    "name": "Name2",
-    "duration": 0,
-    "author": "Author1",
-    "description": "pruebaaa"
-  },
-  {
-    "seasons": [
-      {
         "id": 1,
         "seasonName": "wendy",
         "chapters": [
@@ -112,5 +71,27 @@
     "duration": 0,
     "author": "pablo pablito",
     "description": "peligro!!! Disparos"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "tomate",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "cris",
+            "duration": 34343,
+            "description": "dfdsfsd"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 465,
+    "name": "Hearstopped",
+    "duration": 0,
+    "author": "Laura",
+    "description": "sadasdasda"
   }
 ]

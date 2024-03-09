@@ -9,7 +9,16 @@ import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
 import co.edu.uptc.utilities.FileManagement;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class AdminController {
 
@@ -61,7 +70,8 @@ public class AdminController {
         return false;
     }
 
-    public boolean addMovie(String name, String author, String description, int duration, String nameCategory, String fileVideo) {
+    public boolean addMovie(String name, String author, String description, int duration, String nameCategory,
+            String fileVideo) {
         if (addMultimediaValidation(name, author, 1)) {
             Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategory);
             newMovie.setFileVideo(fileVideo);
@@ -148,30 +158,30 @@ public class AdminController {
         return listMovies;
     }
 
-   /*
-    *  public ChoiceBox <String> getDisponibleFileVideoNames(){
-        ChoiceBox <String> choiceBox = new ChoiceBox<>();
-        ArrayList <String> fileNames = fm.getFileVideoNames();
-        ArrayList <String> usedNames = new ArrayList<>();
-
-        //movies
-        for(Movie movie: listMovies){
-            usedNames.add(movie.getFileVideo());        
-        }
-       // for(Serie serie: listSeries){
-        //    usedNames.add(serie.getFileVideo());        
-       // }
-        
-       for(String used: usedNames){
-            fileNames.remove(used);
-       }
-       for(String names: fileNames){
-            choiceBox.getItems().add(names);
-       }
-       return choiceBox;
-     
-    }
-    */
+    /*
+     * public ChoiceBox <String> getDisponibleFileVideoNames(){
+     * ChoiceBox <String> choiceBox = new ChoiceBox<>();
+     * ArrayList <String> fileNames = fm.getFileVideoNames();
+     * ArrayList <String> usedNames = new ArrayList<>();
+     * 
+     * //movies
+     * for(Movie movie: listMovies){
+     * usedNames.add(movie.getFileVideo());
+     * }
+     * // for(Serie serie: listSeries){
+     * // usedNames.add(serie.getFileVideo());
+     * // }
+     * 
+     * for(String used: usedNames){
+     * fileNames.remove(used);
+     * }
+     * for(String names: fileNames){
+     * choiceBox.getItems().add(names);
+     * }
+     * return choiceBox;
+     * 
+     * }
+     */
 
     public int movieFound(int id) {
         for (int i = 0; i < listMovies.size(); i++) {
@@ -401,13 +411,14 @@ public class AdminController {
                 .getchapters().get(chapterFound(idSeason, idSerie, idChapter)).toString();
     }
 
-    public boolean modifySeries(String description, String name, String author, int Selected) {
+    public boolean modifySeries(String description, String name, String author, String category, int Selected) {
         int aux = serieFound(Selected);
 
         if (aux != -1) {
             listSeries.get(aux).setAuthor(author);
             listSeries.get(aux).setDescription(description);
             listSeries.get(aux).setName(name);
+            listSeries.get(aux).setCategory(category);
             admin.setSeries(listSeries);
             fm.reWriteFile("series", listSeries);
             return true;
@@ -578,6 +589,49 @@ public class AdminController {
         return (aux.length() > 2);
     }
 
+    public void showErrorTimeline(TextField textField, Label errorLabel, String mensaje) {
+        // Cambiar el color del texto del error a rojo
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);
+
+        // Aplicar un borde rojo al TextField
+        textField.setStyle("-fx-border-color: red");
+
+        // Definir la duración y acción para limpiar el mensaje de error después de un
+        // tiempo
+        Duration duration = Duration.seconds(6);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            // Restaurar el estilo y efecto del TextField
+            textField.setStyle("");
+            textField.setEffect(null);
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void showErrorTimelineChoiceBox(ChoiceBox<String> choiceBox, Label errorLabel, String mensaje) {
+        // Cambiar el color del texto del error a rojo
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);
+
+        // Cambiar el estilo del ChoiceBox para resaltar su importancia
+        choiceBox.setStyle("-fx-border-color: red;"); // Cambiar el color del borde a rojo
+
+        // Definir la duración y acción para limpiar el mensaje de error después de un
+        // tiempo
+        Duration duration = Duration.seconds(6);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            // Restaurar el estilo del ChoiceBox
+            choiceBox.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
     public boolean containCharacterSpecial(String str) {
         int x = 0;
         for (int i = 0; i < str.length(); i++) {
@@ -618,9 +672,6 @@ public class AdminController {
                 }
             }
         }
-        if (nameSeason.length() < 2) {
-            return false;
-        }
         return true;
     }
 
@@ -637,6 +688,32 @@ public class AdminController {
             return true;
         }
         return false;
+    }
+
+    public String validateHaveChapter(int idSerie) {
+        // Obtener la serie correspondiente al ID proporcionado
+        Serie serie = listSeries.get(serieFound(idSerie));
+
+        // Recorrer todas las temporadas de la serie
+        for (Season season : serie.getSeasons()) {
+            // Verificar si la temporada no tiene capítulos
+            if (season.getchapters() == null || season.getchapters().isEmpty()) {
+                return season.getSeasonName();
+            }
+        }
+
+        return null;
+    }
+
+    public boolean validateHaveSeason(int idSerie) {
+        Serie serie = listSeries.get(serieFound(idSerie));
+
+        // Verificar si la serie no tiene temporadas
+        if (serie.getSeasons().isEmpty()) {
+            return false; // No hay temporadas en la serie
+        }
+
+        return true; // La serie tiene al menos una temporada
     }
 
     public int assignidSeason(int idSerie) {

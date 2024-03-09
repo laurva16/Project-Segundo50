@@ -71,5 +71,27 @@
     "duration": 0,
     "author": "pablo pablito",
     "description": "peligro!!! Disparos"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "tomate",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "cris",
+            "duration": 34343,
+            "description": "dfdsfsd"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 465,
+    "name": "Hearstopped",
+    "duration": 0,
+    "author": "Laura",
+    "description": "sadasdasda"
   }
 ]
