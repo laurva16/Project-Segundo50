@@ -390,6 +390,7 @@ public class CreateSerie {
                 Optional<String> result = dialog.showAndWait();
                 result.ifPresent(newName -> {
                     if (!newName.isEmpty()) {
+
                         // Actualizar la temporada con el nuevo nombre
                         ac.modifySeasonName(newName, ac.getCurrentSerie().getId(), selectedSeason);
 
@@ -603,12 +604,12 @@ public class CreateSerie {
         } else if (text1.getText().isBlank() || !ac.validateName(text1.getText())
                 || !ac.validateCharacterSpecialAllowNumberSpaceBlank(text1.getText())) {
             ac.showErrorTimeline(text1, labelWarning,
-                    "Invalid name. Max 2 characters, no  numbers or special characters.");
+                    "Invalid name. Max 2 characters, no special characters.");
             return;
         } else if (text2.getText().isBlank() || !ac.validateName(text2.getText())
                 || !ac.validarSinCharacterSpecial(text2.getText())) {
             ac.showErrorTimeline(text2, labelWarning,
-                    "Invalid Director. Max 2 characters, no special characters.");
+                    "Invalid director. Max 2 characters, no  numbers or special characters.");
             return;
         } else if (text3.getText().isBlank() || !ac.validateDescription(text3.getText())) {
             ac.showErrorTimeline(text3, labelWarning,
@@ -874,7 +875,7 @@ public class CreateSerie {
                     ac.showErrorTimeline(textDescriptionChapterModify, labelWarning, "* All fields must be filled!");
                     return; // Salir del método si hay campos vacíos
                 } else if (textNameChapterModify.getText().isBlank()
-                        || !ac.validarSinCharacterSpecial(textNameChapterModify.getText())
+                        || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textNameChapterModify.getText())
                         || !ac.validateName(textNameChapterModify.getText())) {
                     ac.showErrorTimeline(textNameChapterModify, labelWarning,
                             "Invalid name. Max 2 characters, no special characters.");
@@ -889,6 +890,11 @@ public class CreateSerie {
                         || !ac.validateDescription(textDescriptionChapterModify.getText())) {
                     ac.showErrorTimeline(textDescriptionChapterModify, labelWarning,
                             "Invalid description. Max 5 characters.");
+                    return;
+                } else if (!(ac.validateNameChapter(selectedSeasonName, ac.getCurrentSerie().getId(),
+                        textNameChapterModify.getText()))) {
+                    ac.showErrorTimeline(textNameChapterModify, labelWarning,
+                            "Invalid name. Exist");
                     return;
                 }
                 ac.modifyChaptersName(textDescriptionChapterModify.getText(), textNameChapterModify.getText(),

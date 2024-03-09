@@ -112,13 +112,15 @@ public class ModifySerie {
         GridPane.setConstraints(textModify2, 1, 1);
         GridPane.setConstraints(textModify3, 1, 2);
         GridPane.setConstraints(choiceBox, 1, 4);
+        GridPane.setConstraints(labelWarning, 1, 5);
+        labelWarning.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
         gridPane.getChildren().setAll(labelName, textModify1, labelDirector, textModify2, labelDescription, textModify3,
                 labelCategory,
-                choiceBox);
+                choiceBox, labelWarning);
         root2.setCenter(gridPane);
 
         root2.setStyle("-fx-background-color: #191919;");

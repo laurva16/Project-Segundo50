@@ -16,6 +16,12 @@
             "name": "eren",
             "duration": 434,
             "description": "dfgdsg"
+          },
+          {
+            "id": 3,
+            "name": "sadsa",
+            "duration": 3423,
+            "description": "sdfdd"
           }
         ]
       },
@@ -38,7 +44,7 @@
         ]
       }
     ],
-    "category": "Adventure",
+    "category": "Action",
     "id": 462,
     "name": "griselda",
     "duration": 20,
@@ -63,6 +69,12 @@
             "name": "cap 2-primera",
             "duration": 23232,
             "description": "robo"
+          },
+          {
+            "id": 3,
+            "name": "sdfsd",
+            "duration": 543534,
+            "description": "gdfgd"
           }
         ]
       },
@@ -85,7 +97,7 @@
         ]
       }
     ],
-    "category": "Horror",
+    "category": "Drama",
     "id": 463,
     "name": "Peaky Blinders",
     "duration": 50,
@@ -97,15 +109,35 @@
     "seasons": [
       {
         "id": 1,
-        "seasonName": "g"
+        "seasonName": "g",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "dfsd",
+            "duration": 454,
+            "description": "dfsdf"
+          },
+          {
+            "id": 2,
+            "name": "dfsd",
+            "duration": 454,
+            "description": "dfsdf"
+          },
+          {
+            "id": 3,
+            "name": "dfsd",
+            "duration": 454,
+            "description": "dfsdf"
+          }
+        ]
       }
     ],
     "category": "Drama",
     "id": 464,
     "name": "Dickinson",
     "duration": 0,
-    "author": "",
-    "description": "Love",
+    "author": "dfdsf",
+    "description": "Loved",
     "coverImage": "Dickinson.jpeg"
   },
   {
@@ -591,129 +623,5 @@
     "duration": 0,
     "author": "laial lai ",
     "description": "dfd hg 34"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "sdfsd",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "yury",
-            "duration": 444,
-            "description": "jejeje"
-          },
-          {
-            "id": 2,
-            "name": "aaa",
-            "duration": 34324,
-            "description": "dfdgfd"
-          },
-          {
-            "id": 3,
-            "name": "quete",
-            "duration": 32423,
-            "description": "dsfsds"
-          },
-          {
-            "id": 4,
-            "name": "sadsfsd",
-            "duration": 342,
-            "description": "dsfdsfsd"
-          },
-          {
-            "id": 5,
-            "name": "qute123",
-            "duration": 4353,
-            "description": "fgdfdfg"
-          },
-          {
-            "id": 6,
-            "name": "aaaaaaaa",
-            "duration": 23423,
-            "description": "sdfsdfsdf"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "xxx",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "dsfs",
-            "duration": 5664,
-            "description": "fdgdf"
-          },
-          {
-            "id": 2,
-            "name": "sadas",
-            "duration": 4234,
-            "description": "sfddsf"
-          },
-          {
-            "id": 3,
-            "name": "sassa",
-            "duration": 35432,
-            "description": "dsfsdf"
-          },
-          {
-            "id": 4,
-            "name": "sds",
-            "duration": 3423,
-            "description": "dfsdsd"
-          },
-          {
-            "id": 5,
-            "name": "laura",
-            "duration": 2222,
-            "description": "ddddd"
-          },
-          {
-            "id": 6,
-            "name": "camilo",
-            "duration": 121,
-            "description": "sdssds"
-          },
-          {
-            "id": 7,
-            "name": "jose",
-            "duration": 23423,
-            "description": "dffdg"
-          },
-          {
-            "id": 8,
-            "name": "marly",
-            "duration": 32423,
-            "description": "dfsdfsd"
-          },
-          {
-            "id": 9,
-            "name": "dsfd",
-            "duration": 3434,
-            "description": "dfsdsfs"
-          },
-          {
-            "id": 10,
-            "name": "porbe",
-            "duration": 23423,
-            "description": "dfgdfgdfg"
-          },
-          {
-            "id": 11,
-            "name": "quisdf",
-            "duration": 21312,
-            "description": "dsfsd"
-          }
-        ]
-      }
-    ],
-    "category": "Horror",
-    "id": 466,
-    "name": "asda 2",
-    "duration": 0,
-    "author": "asdf",
-    "description": "ddfsdfsd"
   }
 ]
