@@ -181,6 +181,7 @@ public class PlayListScreen {
         stackPaneAddPlayList = new StackPane(rectangle2, buttonAddPlayList);
 
         buttonAddPlayList.setOnAction(event -> addPlayList());
+        buttonAddPlayList.setCursor(Cursor.HAND);
 
         tooltipAddPlayList = new Tooltip("Add new playList");
         Tooltip.install(buttonAddPlayList, tooltipAddPlayList);
@@ -195,22 +196,31 @@ public class PlayListScreen {
         Optional<String> name = addPlayList.showAndWait();
         name.ifPresent(namePlayList -> {
             boolean add = true;
-            for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
-                add = !playList.getName().equals(namePlayList);
-            }
-            if (add) {
-                userRegisteredController.addPlayList(namePlayList);
-                Alert confirmation = new Alert(AlertType.INFORMATION);
-                confirmation.setTitle("Confirmation");
-                confirmation.setHeaderText("PLayList '" + namePlayList + "' added correctly");
-                confirmation.show();
-                showPlayListScene();
-            } else {
+
+            if (namePlayList.length() > 24) {
                 Alert error = new Alert(AlertType.INFORMATION);
                 error.setTitle("Error");
-                error.setHeaderText("Existing PlayList");
-                error.setContentText(("Please enter another name"));
+                error.setHeaderText("Name too long");
+                error.setContentText(("Enter a name with a maximum of 25 characters"));
                 error.show();
+            } else {
+                for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
+                    add = !playList.getName().equals(namePlayList);
+                }
+                if (add) {
+                    userRegisteredController.addPlayList(namePlayList);
+                    Alert confirmation = new Alert(AlertType.INFORMATION);
+                    confirmation.setTitle("Confirmation");
+                    confirmation.setHeaderText("PLayList '" + namePlayList + "' added correctly");
+                    confirmation.show();
+                    showPlayListScene();
+                } else {
+                    Alert error = new Alert(AlertType.INFORMATION);
+                    error.setTitle("Error");
+                    error.setHeaderText("Existing PlayList");
+                    error.setContentText(("Please enter another name"));
+                    error.show();
+                }
             }
         });
     }
@@ -234,11 +244,17 @@ public class PlayListScreen {
         buttonDeletePlayList.setStyle("-fx-background-color: transparent;");
 
         hBoxActions = new HBox(spacer, buttonAddMultimedia, buttonDeletePlayList);
+        buttonAddMultimedia.setCursor(Cursor.HAND);
+        buttonDeletePlayList.setCursor(Cursor.HAND);
 
         tooltipMultimedia = new Tooltip("Add new movie or serie");
         Tooltip.install(buttonAddMultimedia, tooltipMultimedia);
         tooltipDelete = new Tooltip("Delete playList");
         Tooltip.install(buttonDeletePlayList, tooltipDelete);
+    }
+
+    public static void deletePlayList() {
+
     }
 
     public static void messages() {
