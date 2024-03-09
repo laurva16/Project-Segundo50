@@ -61,6 +61,7 @@ public class PlayListScreen {
     private static ImageView imageAddPlayList;
     private static StackPane stackPaneAddPlayList;
     private static Rectangle rectangle2;
+    private static Tooltip tooltipAddPlayList, tooltipMultimedia, tooltipDelete, tooltipName;
 
     // private static TableView<PlayList> tablePlayList;
     // private static ObservableList<PlayList> grupos;
@@ -101,6 +102,7 @@ public class PlayListScreen {
         Rectangle rectangle = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
         addNewPlayList();
         principal();
+        messages();
 
         root.setTop(userScreen.getMenuBar());
         root.setLeft(stackPaneAddPlayList);
@@ -129,6 +131,9 @@ public class PlayListScreen {
         BorderPane.setMargin(buttonAddPlayList,
                 new Insets(20, imageAddPlayList.getFitWidth(), 0, imageAddPlayList.getFitWidth()));
         stackPaneAddPlayList = new StackPane(rectangle2, buttonAddPlayList);
+
+        tooltipAddPlayList = new Tooltip("Add new playList");
+        Tooltip.install(buttonAddPlayList, tooltipAddPlayList);
     }
 
     public static void principal() {
@@ -171,6 +176,9 @@ public class PlayListScreen {
             BorderPane.setMargin(hBoxActions, new Insets(0, 50, 0, 10));
             BorderPane.setMargin(namePlayList, new Insets(0, 10, 0, 50));
             VBox.setMargin(borderPanePrincipalPlayList, new Insets(5, 0, 5, 0));
+
+            tooltipName = new Tooltip(namePlayList.getText());
+            Tooltip.install(namePlayList, tooltipName);
         }
     }
 
@@ -193,6 +201,34 @@ public class PlayListScreen {
         buttonDeletePlayList.setStyle("-fx-background-color: transparent;");
 
         hBoxActions = new HBox(spacer, buttonAddMultimedia, buttonDeletePlayList);
+
+        tooltipMultimedia = new Tooltip("Add new movie or serie");
+        Tooltip.install(buttonAddMultimedia, tooltipMultimedia);
+        tooltipDelete = new Tooltip("Delete playList");
+        Tooltip.install(buttonDeletePlayList, tooltipDelete);
+    }
+
+    public static void messages() {
+
+        // Add new PlayList
+        buttonAddPlayList.setOnMouseEntered(
+                event -> tooltipAddPlayList.show(buttonAddPlayList, event.getScreenX(), event.getScreenY() + 10));
+        buttonAddPlayList.setOnMouseExited(event -> tooltipAddPlayList.hide());
+
+        // Add multimadia
+        buttonAddMultimedia.setOnMouseEntered(
+                event -> tooltipMultimedia.show(buttonAddMultimedia, event.getScreenX(), event.getScreenY() + 10));
+        buttonAddMultimedia.setOnMouseExited(event -> tooltipMultimedia.hide());
+
+        // Delete playList
+        buttonDeletePlayList.setOnMouseEntered(
+                event -> tooltipDelete.show(buttonDeletePlayList, event.getScreenX(), event.getScreenY() + 10));
+        buttonDeletePlayList.setOnMouseExited(event -> tooltipDelete.hide());
+
+        // Delete playList
+        namePlayList.setOnMouseEntered(
+                event -> tooltipName.show(namePlayList, event.getScreenX(), event.getScreenY() + 10));
+        namePlayList.setOnMouseExited(event -> tooltipName.hide());
     }
 
     // public static void showPlayListScene2() {
