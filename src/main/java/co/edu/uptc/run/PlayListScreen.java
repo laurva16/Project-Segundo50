@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
@@ -21,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -116,26 +118,6 @@ public class PlayListScreen {
         primaryStage.setMaximized(true);
     }
 
-    public static void addNewPlayList() {
-        rectangle2 = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
-        buttonAddPlayList = new Button();
-        StackPane.setAlignment(buttonAddPlayList, Pos.TOP_LEFT);
-        StackPane.setMargin(buttonAddPlayList, new Insets(20, 0, 0, 20));
-
-        imageAddPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
-        imageAddPlayList.setFitHeight(50);
-        imageAddPlayList.setFitWidth(50);
-
-        buttonAddPlayList.setGraphic(imageAddPlayList);
-        buttonAddPlayList.setStyle("-fx-background-color: transparent;");
-        BorderPane.setMargin(buttonAddPlayList,
-                new Insets(20, imageAddPlayList.getFitWidth(), 0, imageAddPlayList.getFitWidth()));
-        stackPaneAddPlayList = new StackPane(rectangle2, buttonAddPlayList);
-
-        tooltipAddPlayList = new Tooltip("Add new playList");
-        Tooltip.install(buttonAddPlayList, tooltipAddPlayList);
-    }
-
     public static void principal() {
         namePlayList = new Label();
         scrollPanePrincipal = new ScrollPane();
@@ -182,6 +164,57 @@ public class PlayListScreen {
         }
     }
 
+    public static void addNewPlayList() {
+        rectangle2 = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
+        buttonAddPlayList = new Button();
+        StackPane.setAlignment(buttonAddPlayList, Pos.TOP_LEFT);
+        StackPane.setMargin(buttonAddPlayList, new Insets(20, 0, 0, 20));
+
+        imageAddPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
+        imageAddPlayList.setFitHeight(50);
+        imageAddPlayList.setFitWidth(50);
+
+        buttonAddPlayList.setGraphic(imageAddPlayList);
+        buttonAddPlayList.setStyle("-fx-background-color: transparent;");
+        BorderPane.setMargin(buttonAddPlayList,
+                new Insets(20, imageAddPlayList.getFitWidth(), 0, imageAddPlayList.getFitWidth()));
+        stackPaneAddPlayList = new StackPane(rectangle2, buttonAddPlayList);
+
+        buttonAddPlayList.setOnAction(event -> addPlayList());
+
+        tooltipAddPlayList = new Tooltip("Add new playList");
+        Tooltip.install(buttonAddPlayList, tooltipAddPlayList);
+    }
+
+    public static void addPlayList() {
+        TextInputDialog addPlayList = new TextInputDialog();
+        addPlayList.setTitle("Add PlayList");
+        addPlayList.setHeaderText("Enter the name of the new PlayList");
+        addPlayList.setContentText("Name: ");
+
+        Optional<String> name = addPlayList.showAndWait();
+        name.ifPresent(namePlayList -> {
+            boolean add = true;
+            for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
+                add = !playList.getName().equals(namePlayList);
+            }
+            if (add) {
+                userRegisteredController.addPlayList(namePlayList);
+                Alert confirmation = new Alert(AlertType.INFORMATION);
+                confirmation.setTitle("Confirmation");
+                confirmation.setHeaderText("PLayList '" + namePlayList + "' added correctly");
+                confirmation.show();
+                showPlayListScene();
+            } else {
+                Alert error = new Alert(AlertType.INFORMATION);
+                error.setTitle("Error");
+                error.setHeaderText("Existing PlayList");
+                error.setContentText(("Please enter another name"));
+                error.show();
+            }
+        });
+    }
+
     public static void buttonsActions() {
         Region spacer = new Region();
         spacer.setPrefWidth(100);
@@ -225,7 +258,7 @@ public class PlayListScreen {
                 event -> tooltipDelete.show(buttonDeletePlayList, event.getScreenX(), event.getScreenY() + 10));
         buttonDeletePlayList.setOnMouseExited(event -> tooltipDelete.hide());
 
-        // Delete playList
+        // PlayList Name
         namePlayList.setOnMouseEntered(
                 event -> tooltipName.show(namePlayList, event.getScreenX(), event.getScreenY() + 10));
         namePlayList.setOnMouseExited(event -> tooltipName.hide());
