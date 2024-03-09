@@ -266,8 +266,8 @@ public class UserScreen {
         });
 
         playListButton.setOnAction(event -> {
-            playListButton.setStyle("-fx-text-fill: black;");
             PlayListScreen.showPlayListScene();
+            PlayListScreen.setUserRegistered(userRegistered);
         });
 
         returnButton.setOnAction(event -> {
@@ -280,7 +280,7 @@ public class UserScreen {
         toolBar.getStyleClass().add("menubar");
         movieButton.getStyleClass().add("menu");
         serieButton.getStyleClass().add("menu");
-        playListButton.getStyleClass().add("menu");
+        playListButton.getStyleClass().add("playList");
         subscriptionButton.getStyleClass().add("menu");
         returnButton.getStyleClass().add("menu");
 

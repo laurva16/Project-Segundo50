@@ -40,6 +40,8 @@ public class VisitorScreen {
     private Label labelGenre;
     private FlowPane flowPane;
     private Scene scene;
+    private String pathMovies;
+    private String pathSeries;
     Button movieButton = new Button("Movie");
     Button serieButton = new Button("Serie");
     Button returnButton = new Button("Return");
@@ -53,12 +55,15 @@ public class VisitorScreen {
         flowPane = new FlowPane();
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
+        pathMovies = "src\\multimediaCovers\\Movies\\";
+        pathSeries = "src\\multimediaCovers\\Series\\";
     }
 
     public void principalScene() {
+
         flowPane.setStyle("-fx-background-color: #191919;");
         flowPane.setHgap(10);
-        flowPane.setAlignment(Pos.TOP_CENTER);
+        flowPane.setAlignment(Pos.TOP_LEFT);
         flowPane.setMinHeight(screenHeight);
 
         scrollPane = new ScrollPane(flowPane);
@@ -74,11 +79,7 @@ public class VisitorScreen {
 
     public void moviesList() {
         for (Movie movies : adminController.getMovies()) {
-            // Después se llama al método que obtiene la url de la película
-            image = new ImageView(new Image("file:C:\\Users\\Dani\\Downloads\\OIP.jpeg"));
-            // Cambio de imagen
-
-            // Accede a la pestaña de la película
+            image = new ImageView(new Image("file:" + pathMovies + movies.getCoverImage()));
             image.setOnMouseClicked(event -> moviesScreen(movies));
             labelName = new Label(movies.getName());
             labelName.setId("labelName");
@@ -87,18 +88,14 @@ public class VisitorScreen {
             image.setFitWidth(180);
             image.setFitHeight(270);
             labelName.setMaxWidth(180);
-            FlowPane.setMargin(vBox, new Insets(20, 0, 20, 30));
+            FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
             flowPane.getChildren().add(vBox);
         }
     }
 
     public void seriesList() {
         for (Serie serie : adminController.getListSeries()) {
-            // Después se llama al método que obtiene la url de la película
-            image = new ImageView(new Image("file:C:\\Users\\Dani\\Downloads\\OIP.jpeg"));
-            // Cambio de imagen
-
-            // Accede a la pestaña de la serie
+            image = new ImageView(new Image("file:" + pathSeries + serie.getCoverImage()));
             image.setOnMouseClicked(event -> seriesScreen(serie));
             labelName = new Label(serie.getName());
             labelName.setId("labelName");
@@ -107,7 +104,7 @@ public class VisitorScreen {
             image.setFitWidth(180);
             image.setFitHeight(270);
             labelName.setMaxWidth(180);
-            FlowPane.setMargin(vBox, new Insets(20, 0, 20, 30));
+            FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
             flowPane.getChildren().add(vBox);
         }
     }
@@ -148,10 +145,7 @@ public class VisitorScreen {
         BorderPane root = new BorderPane();
         VBox vBox = new VBox();
 
-        // Después se llama al método que obtiene la url de la película
-        image = new ImageView(new Image("file:C:\\Users\\Dani\\Downloads\\OIP.jpeg"));
-        // Cambio de imagen
-
+        image = new ImageView(new Image("file:" + pathMovies + movie.getCoverImage()));
         labelName = new Label(movie.getName());
         labelDesciption = new Label(movie.getDescription());
         labelDuration = new Label(String.valueOf(movie.getDuration()));

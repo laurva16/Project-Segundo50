@@ -24,7 +24,8 @@
     "name": "griselda",
     "duration": 20,
     "author": "laura",
-    "description": "angela"
+    "description": "angela",
+    "coverImage": "Griselda.jpeg"
   },
   {
     "seasons": [
@@ -70,6 +71,292 @@
     "name": "Peaky Blinders",
     "duration": 50,
     "author": "pablo pablito",
-    "description": "peligro!!! Disparos"
+    "description": "peligro!!! Disparos",
+    "coverImage": "peakyBlinders.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "g"
+      }
+    ],
+    "category": "Drama",
+    "id": 464,
+    "name": "Dickinson",
+    "duration": 0,
+    "author": "",
+    "description": "Love",
+    "coverImage": "Dickinson.jpeg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "wendy",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "valntina",
+            "duration": 100000,
+            "description": "chaooo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "wilmar",
+        "chapters": []
+      }
+    ],
+    "category": "Action",
+    "id": 462,
+    "name": "griselda",
+    "duration": 20,
+    "author": "laura",
+    "description": "angela",
+    "coverImage": "Griselda.jpeg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "primera temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "Capitulo1",
+            "duration": 11111,
+            "description": "ahi vienen"
+          },
+          {
+            "id": 2,
+            "name": "cap 2-primera",
+            "duration": 23232,
+            "description": "robo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "segunda temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "primer cap- segunda",
+            "duration": 1212,
+            "description": "estafas"
+          },
+          {
+            "id": 2,
+            "name": "Segundo cap- 2 temporada",
+            "duration": 2324,
+            "description": "fg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 463,
+    "name": "Peaky Blinders",
+    "duration": 50,
+    "author": "pablo pablito",
+    "description": "peligro!!! Disparos",
+    "coverImage": "peakyBlinders.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "g"
+      }
+    ],
+    "category": "Drama",
+    "id": 464,
+    "name": "Dickinson",
+    "duration": 0,
+    "author": "",
+    "description": "Love",
+    "coverImage": "Dickinson.jpeg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "wendy",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "valntina",
+            "duration": 100000,
+            "description": "chaooo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "wilmar",
+        "chapters": []
+      }
+    ],
+    "category": "Action",
+    "id": 462,
+    "name": "griselda",
+    "duration": 20,
+    "author": "laura",
+    "description": "angela",
+    "coverImage": "Griselda.jpeg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "primera temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "Capitulo1",
+            "duration": 11111,
+            "description": "ahi vienen"
+          },
+          {
+            "id": 2,
+            "name": "cap 2-primera",
+            "duration": 23232,
+            "description": "robo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "segunda temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "primer cap- segunda",
+            "duration": 1212,
+            "description": "estafas"
+          },
+          {
+            "id": 2,
+            "name": "Segundo cap- 2 temporada",
+            "duration": 2324,
+            "description": "fg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 463,
+    "name": "Peaky Blinders",
+    "duration": 50,
+    "author": "pablo pablito",
+    "description": "peligro!!! Disparos",
+    "coverImage": "peakyBlinders.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "g"
+      }
+    ],
+    "category": "Drama",
+    "id": 464,
+    "name": "Dickinson",
+    "duration": 0,
+    "author": "",
+    "description": "Love",
+    "coverImage": "Dickinson.jpeg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "wendy",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "valntina",
+            "duration": 100000,
+            "description": "chaooo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "wilmar",
+        "chapters": []
+      }
+    ],
+    "category": "Action",
+    "id": 462,
+    "name": "griselda",
+    "duration": 20,
+    "author": "laura",
+    "description": "angela",
+    "coverImage": "Griselda.jpeg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "primera temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "Capitulo1",
+            "duration": 11111,
+            "description": "ahi vienen"
+          },
+          {
+            "id": 2,
+            "name": "cap 2-primera",
+            "duration": 23232,
+            "description": "robo"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "segunda temporada",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "primer cap- segunda",
+            "duration": 1212,
+            "description": "estafas"
+          },
+          {
+            "id": 2,
+            "name": "Segundo cap- 2 temporada",
+            "duration": 2324,
+            "description": "fg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 463,
+    "name": "Peaky Blinders",
+    "duration": 50,
+    "author": "pablo pablito",
+    "description": "peligro!!! Disparos",
+    "coverImage": "peakyBlinders.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "g"
+      }
+    ],
+    "category": "Drama",
+    "id": 464,
+    "name": "Dickinson",
+    "duration": 0,
+    "author": "",
+    "description": "Love",
+    "coverImage": "Dickinson.jpeg"
   }
 ]
