@@ -286,7 +286,8 @@ public class CreateSerie {
         addButton.setOnAction(event -> {
             String seasonName = seasonField.getText();
             if (seasonField.getText().isBlank()
-                    || !ac.validarSinCharacterSpecial(text1.getText()) || !ac.validateName(seasonField.getText())) {
+                    || !ac.validateCharacterSpecialAllowNumberSpaceBlank(seasonField.getText())
+                    || !ac.validateName(seasonField.getText())) {
                 ac.showErrorTimeline(seasonField, labelWarning,
                         "Invalid name. Max 2 characters, no special characters.");
                 return;
@@ -600,9 +601,9 @@ public class CreateSerie {
             ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "* All fields must be filled!");
             return; // Salir del método si hay campos vacíos
         } else if (text1.getText().isBlank() || !ac.validateName(text1.getText())
-                || !ac.validarSinCharacterSpecial(text1.getText())) {
+                || !ac.validateCharacterSpecialAllowNumberSpaceBlank(text1.getText())) {
             ac.showErrorTimeline(text1, labelWarning,
-                    "Invalid name. Max 2 characters, no special characters.");
+                    "Invalid name. Max 2 characters, no  numbers or special characters.");
             return;
         } else if (text2.getText().isBlank() || !ac.validateName(text2.getText())
                 || !ac.validarSinCharacterSpecial(text2.getText())) {
@@ -664,6 +665,7 @@ public class CreateSerie {
         GridPane.setConstraints(textNameChapter, 1, 0);
         GridPane.setConstraints(textDurationChapter, 1, 1);
         GridPane.setConstraints(textDescriptionChapter, 1, 2);
+        GridPane.setConstraints(labelWarning, 1, 4);
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
@@ -721,7 +723,7 @@ public class CreateSerie {
                     ac.showErrorTimeline(textDescriptionChapter, labelWarning, "* All fields must be filled!");
                     return; // Salir del método si hay campos vacíos
                 } else if (textNameChapter.getText().isBlank()
-                        || !ac.validarSinCharacterSpecial(textNameChapter.getText())
+                        || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textNameChapter.getText())
                         || !ac.validateName(textNameChapter.getText())) {
                     ac.showErrorTimeline(textNameChapter, labelWarning,
                             "Invalid name. Max 2 characters, no special characters.");
@@ -901,8 +903,7 @@ public class CreateSerie {
                 }
 
             } else {
-                // Manejar el caso en el que no se encuentra la temporada seleccionada
-                System.out.println("La temporada seleccionada no se encontró en la lista.");
+
             }
 
             textNameChapterModify.clear();
@@ -1003,7 +1004,7 @@ public class CreateSerie {
                 ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "* All fields must be filled!");
                 return; // Salir del método si hay campos vacíos
             } else if (textModify1.getText().isBlank() || !ac.validateName(textModify1.getText())
-                    || !ac.validarSinCharacterSpecial(textModify1.getText())) {
+                    || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textModify1.getText())) {
                 ac.showErrorTimeline(textModify1, labelWarning,
                         "Invalid name. Max 2 characters, no special characters.");
                 return;

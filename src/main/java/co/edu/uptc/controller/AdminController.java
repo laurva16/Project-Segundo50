@@ -71,11 +71,7 @@ public class AdminController {
     }
 
     public boolean addMovie(String name, String author, String description, int duration, String nameCategory,
-<<<<<<< HEAD
-            String fileVideo) {
-=======
             String fileVideo, String coverImage) {
->>>>>>> 7407c166ff17a22fdf891991d3ef3503766d95ff
         if (addMultimediaValidation(name, author, 1)) {
             Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategory);
             newMovie.setFileVideo(fileVideo);
@@ -345,12 +341,11 @@ public class AdminController {
         return listSeasons;
     }
 
-    public ArrayList<MultimediaContent> createChapter(String name, String description, int duration) {
+    public MultimediaContent createChapter(String name, String description, int duration) {
         ArrayList<MultimediaContent> listchapters = new ArrayList<MultimediaContent>();
+        MultimediaContent mc = new MultimediaContent(assignidCreateChapter(listchapters), duration, name, description);
 
-        listchapters.add(new MultimediaContent(assignidCreateChapter(listchapters), duration, name, description));
-
-        return listchapters;
+        return mc;
     }
 
     public void deleteSeason(int idSeason, int idSerie) {
@@ -663,6 +658,11 @@ public class AdminController {
 
     public boolean validarSinCharacterSpecial(String input) {
         String patron = "^[a-zA-Z\\s]*$";
+        return input.matches(patron);
+    }
+
+    public boolean validateCharacterSpecialAllowNumberSpaceBlank(String input) {
+        String patron = "^[a-zA-Z0-9\\s]*$";
         return input.matches(patron);
     }
 

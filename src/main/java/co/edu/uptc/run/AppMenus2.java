@@ -824,11 +824,11 @@ public class AppMenus2 {
 
                                     if (selectedCategoryName != null) {
 
-                                        ac.addSerie(name, author, description,
-                                                ac.createSeasons(100, name,
-                                                        ac.createChapter(nameChapter, descriptionChapter,
-                                                                durationChapter)),
-                                                selectedCategoryName);
+                                        // ac.addSerie(name, author, description,
+                                        // ac.createSeasons(100, name,
+                                        // ac.createChapter(nameChapter, descriptionChapter,
+                                        // durationChapter)),
+                                        // selectedCategoryName);
 
                                         while (true) {
 
@@ -1460,9 +1460,9 @@ public class AppMenus2 {
                                                 // Agregar el primer capítulo a la temporada
                                                 // Solución provicional para agregar el autor
                                                 int durationChapter = Integer.parseInt(durationChapter1);
-                                                ac.addSeason(100, seasonName,
-                                                        ac.createChapter(nameChapter,
-                                                                descriptionChapter, durationChapter));
+                                                // ac.addSeason(100, seasonName,
+                                                // ac.createChapter(nameChapter,
+                                                // descriptionChapter, durationChapter));
                                                 JOptionPane.showMessageDialog(null, "Was created correctly");
                                                 while (true) {
 

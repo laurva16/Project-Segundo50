@@ -8,7 +8,7 @@ public class MultimediaContent {
     private String description;
     private String fileVideo;
     private String coverImage;
-    
+
     public MultimediaContent() {
     }
 
@@ -82,11 +82,6 @@ public class MultimediaContent {
         this.duration = duration;
     }
 
-    public Object getSeason() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSeason'");
-    }
-
     public String getFileVideo() {
         return fileVideo;
     }
@@ -103,5 +98,4 @@ public class MultimediaContent {
         this.coverImage = coverImage;
     }
 
-    
 }

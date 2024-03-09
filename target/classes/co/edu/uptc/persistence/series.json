@@ -7,19 +7,38 @@
         "chapters": [
           {
             "id": 1,
-            "name": "valntina",
+            "name": "valen",
             "duration": 100000,
             "description": "chaooo"
+          },
+          {
+            "id": 2,
+            "name": "eren",
+            "duration": 434,
+            "description": "dfgdsg"
           }
         ]
       },
       {
         "id": 2,
         "seasonName": "wilmar",
-        "chapters": []
+        "chapters": [
+          {
+            "id": 1,
+            "name": "primer ",
+            "duration": 21312,
+            "description": "fgdfgd"
+          },
+          {
+            "id": 2,
+            "name": "segun",
+            "duration": 23423,
+            "description": "dsfgd"
+          }
+        ]
       }
     ],
-    "category": "Action",
+    "category": "Adventure",
     "id": 462,
     "name": "griselda",
     "duration": 20,
@@ -43,6 +62,24 @@
             "name": "cap 2-primera",
             "duration": 23232,
             "description": "robo"
+          },
+          {
+            "id": 3,
+            "name": "capeee",
+            "duration": 2312,
+            "description": "sfdsfsd"
+          },
+          {
+            "id": 4,
+            "name": "caaa",
+            "duration": 3423,
+            "description": "gdfgd"
+          },
+          {
+            "id": 5,
+            "name": "657",
+            "duration": 56756,
+            "description": "hjghjgh"
           }
         ]
       },
@@ -58,9 +95,15 @@
           },
           {
             "id": 2,
-            "name": "Segundo cap- 2 temporada",
+            "name": "dos cap",
             "duration": 2324,
-            "description": "fg"
+            "description": "fgjkljkljk"
+          },
+          {
+            "id": 3,
+            "name": "se podra",
+            "duration": 34,
+            "description": "fgjkj"
           }
         ]
       }
@@ -71,5 +114,335 @@
     "duration": 50,
     "author": "pablo pablito",
     "description": "peligro!!! Disparos"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "rata",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "qwq",
+            "duration": 121232,
+            "description": "sadas"
+          },
+          {
+            "id": 2,
+            "name": "sssad",
+            "duration": 56676,
+            "description": "12121"
+          },
+          {
+            "id": 3,
+            "name": "sadas",
+            "duration": 2131,
+            "description": "sadasdas"
+          },
+          {
+            "id": 4,
+            "name": "sadas",
+            "duration": 34324,
+            "description": "sdfsf"
+          },
+          {
+            "id": 5,
+            "name": "trw",
+            "duration": 232,
+            "description": "dsfsdfs"
+          },
+          {
+            "id": 6,
+            "name": "wendy",
+            "duration": 2312,
+            "description": "dfsdfsd"
+          },
+          {
+            "id": 7,
+            "name": "sadas332",
+            "duration": 3423,
+            "description": "dfsfsds"
+          },
+          {
+            "id": 8,
+            "name": "112",
+            "duration": 23123,
+            "description": "dsfsd"
+          },
+          {
+            "id": 9,
+            "name": "qqqq",
+            "duration": 232,
+            "description": "qqqqqqq"
+          },
+          {
+            "id": 10,
+            "name": "wewe",
+            "duration": 34234,
+            "description": "sdfdsf"
+          },
+          {
+            "id": 11,
+            "name": "mafalsa",
+            "duration": 4343,
+            "description": "fdfdfdfd"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 464,
+    "name": "aaa  2",
+    "duration": 0,
+    "author": "aaaa aa",
+    "description": "uruena"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "sss",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "tiemblo",
+            "duration": 5555555,
+            "description": "vamos"
+          },
+          {
+            "id": 2,
+            "name": "nuevo",
+            "duration": 232,
+            "description": "fgdfg"
+          },
+          {
+            "id": 3,
+            "name": "asda",
+            "duration": 34,
+            "description": "sadasasda"
+          },
+          {
+            "id": 4,
+            "name": "yuty",
+            "duration": 324234,
+            "description": "23433"
+          },
+          {
+            "id": 5,
+            "name": "ter",
+            "duration": 23412,
+            "description": "dsfsdsd"
+          },
+          {
+            "id": 6,
+            "name": "SADA",
+            "duration": 231221,
+            "description": "SADASD"
+          },
+          {
+            "id": 7,
+            "name": "sadas",
+            "duration": 423,
+            "description": "sadas"
+          },
+          {
+            "id": 8,
+            "name": "asdasa12",
+            "duration": 3432,
+            "description": "sdsaas"
+          },
+          {
+            "id": 9,
+            "name": "porfs",
+            "duration": 232,
+            "description": "sfdfs"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "seasonName": "as 34",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "NUEFO",
+            "duration": 2132,
+            "description": "DSFSDDS"
+          },
+          {
+            "id": 2,
+            "name": "otro ",
+            "duration": 12321,
+            "description": "sadafda"
+          },
+          {
+            "id": 3,
+            "name": "dsfsd",
+            "duration": 3423,
+            "description": "dsfsd"
+          },
+          {
+            "id": 4,
+            "name": "sadas",
+            "duration": 32423,
+            "description": "sdafsdf"
+          },
+          {
+            "id": 5,
+            "name": "toe3",
+            "duration": 32423,
+            "description": "dfsdfs"
+          },
+          {
+            "id": 6,
+            "name": "wqeq",
+            "duration": 2324,
+            "description": "dsfsdf"
+          },
+          {
+            "id": 7,
+            "name": "sada",
+            "duration": 32423,
+            "description": "fsdfsdfsdf"
+          },
+          {
+            "id": 8,
+            "name": "sofia2",
+            "duration": 12312,
+            "description": "sadsada"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 465,
+    "name": "paula 3453",
+    "duration": 0,
+    "author": "laial lai ",
+    "description": "dfd hg 34"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "sdfsd",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "yury",
+            "duration": 444,
+            "description": "jejeje"
+          },
+          {
+            "id": 2,
+            "name": "aaa",
+            "duration": 34324,
+            "description": "dfdgfd"
+          },
+          {
+            "id": 3,
+            "name": "quete",
+            "duration": 32423,
+            "description": "dsfsds"
+          },
+          {
+            "id": 4,
+            "name": "sadsfsd",
+            "duration": 342,
+            "description": "dsfdsfsd"
+          },
+          {
+            "id": 5,
+            "name": "qute123",
+            "duration": 4353,
+            "description": "fgdfdfg"
+          },
+          {
+            "id": 6,
+            "name": "aaaaaaaa",
+            "duration": 23423,
+            "description": "sdfsdfsdf"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "seasonName": "xxx",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "dsfs",
+            "duration": 5664,
+            "description": "fdgdf"
+          },
+          {
+            "id": 2,
+            "name": "sadas",
+            "duration": 4234,
+            "description": "sfddsf"
+          },
+          {
+            "id": 3,
+            "name": "sassa",
+            "duration": 35432,
+            "description": "dsfsdf"
+          },
+          {
+            "id": 4,
+            "name": "sds",
+            "duration": 3423,
+            "description": "dfsdsd"
+          },
+          {
+            "id": 5,
+            "name": "laura",
+            "duration": 2222,
+            "description": "ddddd"
+          },
+          {
+            "id": 6,
+            "name": "camilo",
+            "duration": 121,
+            "description": "sdssds"
+          },
+          {
+            "id": 7,
+            "name": "jose",
+            "duration": 23423,
+            "description": "dffdg"
+          },
+          {
+            "id": 8,
+            "name": "marly",
+            "duration": 32423,
+            "description": "dfsdfsd"
+          },
+          {
+            "id": 9,
+            "name": "dsfd",
+            "duration": 3434,
+            "description": "dfsdsfs"
+          },
+          {
+            "id": 10,
+            "name": "porbe",
+            "duration": 23423,
+            "description": "dfgdfgdfg"
+          },
+          {
+            "id": 11,
+            "name": "quisdf",
+            "duration": 21312,
+            "description": "dsfsd"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 466,
+    "name": "asda 2",
+    "duration": 0,
+    "author": "asdf",
+    "description": "ddfsdfsd"
   }
 ]
