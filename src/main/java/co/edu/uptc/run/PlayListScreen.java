@@ -19,13 +19,17 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -46,26 +50,27 @@ public class PlayListScreen {
     private static BorderPane borderPanePrincipalPlayList;
     private static Image image;
     private static Label namePlayList;
+    private static HBox hBoxActions;
     private static Button buttonAddMultimedia;
     private static Button buttonDeletePlayList;
+    private static ImageView imageAddMultimedia;
+    private static ImageView imageDeletePlayList;
     private static Button buttonAddPlayList;
+    private static ImageView imageAddPlayList;
 
     // private static TableView<PlayList> tablePlayList;
     // private static ObservableList<PlayList> grupos;
 
     public PlayListScreen() {
-        userRegisteredController = new UserRegisteredController();
         userRegistered = new UserRegistered();
 
+        userRegisteredController = getUserRegisteredController();
         root = new BorderPane();
-        scrollPanePrincipal = new ScrollPane();
-        vBoxPrincipal = new VBox();
         hBoxPrincipalPlayList = new HBox();
         borderPanePrincipalPlayList = new BorderPane();
-        namePlayList = new Label();
-        buttonAddMultimedia = new Button();
-        buttonDeletePlayList = new Button();
-        buttonAddPlayList = new Button();
+        imageAddPlayList = new ImageView();
+        imageAddMultimedia = new ImageView();
+        imageDeletePlayList = new ImageView();
 
         // tablePlayList = new TableView<>();
     }
@@ -80,11 +85,21 @@ public class PlayListScreen {
         return userRegistered;
     }
 
+    public static UserRegisteredController getUserRegisteredController() {
+        return userRegisteredController;
+    }
+
     public static void showPlayListScene() {
         userScreen = new UserScreen();
         root = new BorderPane();
+        addNewPlayList();
+        principal();
+
+        root.setStyle("-fx-background-color: black;");
 
         root.setTop(userScreen.getMenuBar());
+        root.setLeft(buttonAddPlayList);
+        root.setCenter(scrollPanePrincipal);
 
         scene = new Scene(root, screenWidth, screenHeight);
         scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\playList.css").toURI().toString());
@@ -92,6 +107,71 @@ public class PlayListScreen {
         primaryStage.setTitle("PlayList");
         primaryStage.setMaximized(true);
 
+    }
+
+    public static void addNewPlayList() {
+        buttonAddPlayList = new Button();
+
+        imageAddPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
+        imageAddPlayList.setFitHeight(50);
+        imageAddPlayList.setFitWidth(50);
+
+        buttonAddPlayList.setGraphic(imageAddPlayList);
+        buttonAddPlayList.setStyle("-fx-background-color: transparent;");
+        BorderPane.setMargin(buttonAddPlayList,
+                new Insets(20, imageAddPlayList.getFitWidth(), 0, imageAddPlayList.getFitWidth()));
+    }
+
+    public static void principal() {
+        namePlayList = new Label();
+        scrollPanePrincipal = new ScrollPane();
+        vBoxPrincipal = new VBox();
+        hBoxPrincipalPlayList = new HBox();
+        buttonAddMultimedia = new Button();
+        buttonDeletePlayList = new Button();
+        hBoxActions = new HBox();
+
+        scrollPanePrincipal.setContent(vBoxPrincipal);
+        scrollPanePrincipal.setStyle("-fx-background-color: #191919;");
+
+        vBoxPrincipal.setPrefSize(screenWidth - 190, screenHeight);
+        vBoxPrincipal.setStyle("-fx-background-color: #191919;");
+
+        namePlayList.setStyle("-fx-background-color: red;");
+        for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
+            System.out.println(playList);
+
+            namePlayList = new Label(playList.getName());
+
+            buttonsActions();
+            HBox hBoxPrincipalPlayList = new HBox(namePlayList, hBoxActions);
+
+            hBoxPrincipalPlayList.setStyle("-fx-background-color: red;");
+            vBoxPrincipal.getChildren().add(hBoxPrincipalPlayList);
+            hBoxPrincipalPlayList.setMaxWidth(500);
+            VBox.setMargin(hBoxPrincipalPlayList, new Insets(50, 10, 50, 5));
+            System.out.println("=)");
+        }
+    }
+
+    public static void buttonsActions() {
+        System.out.println("Jelpw");
+        Region spacer = new Region();
+        spacer.setPrefWidth(100);
+
+        buttonAddMultimedia = new Button();
+        imageAddMultimedia = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
+        imageAddMultimedia.setFitHeight(30);
+        imageAddMultimedia.setFitWidth(30);
+        buttonAddMultimedia.setGraphic(imageAddMultimedia);
+
+        buttonDeletePlayList = new Button();
+        imageDeletePlayList = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
+        imageDeletePlayList.setFitHeight(30);
+        imageDeletePlayList.setFitWidth(30);
+        buttonDeletePlayList.setGraphic(imageDeletePlayList);
+
+        hBoxActions = new HBox(spacer, buttonAddMultimedia, buttonDeletePlayList);
     }
 
     // public static void showPlayListScene2() {

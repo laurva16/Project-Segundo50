@@ -267,6 +267,7 @@ public class UserScreen {
 
         playListButton.setOnAction(event -> {
             PlayListScreen.showPlayListScene();
+            PlayListScreen.setUserRegistered(userRegistered);
         });
 
         returnButton.setOnAction(event -> {
