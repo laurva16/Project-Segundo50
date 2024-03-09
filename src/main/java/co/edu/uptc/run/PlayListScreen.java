@@ -1,6 +1,7 @@
 package co.edu.uptc.run;
 
 import java.io.File;
+import java.net.http.HttpResponse.BodyHandler;
 import java.util.Optional;
 import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.PlayList;
@@ -23,6 +24,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -57,6 +59,8 @@ public class PlayListScreen {
     private static ImageView imageDeletePlayList;
     private static Button buttonAddPlayList;
     private static ImageView imageAddPlayList;
+    private static StackPane stackPaneAddPlayList;
+    private static Rectangle rectangle2;
 
     // private static TableView<PlayList> tablePlayList;
     // private static ObservableList<PlayList> grupos;
@@ -71,6 +75,7 @@ public class PlayListScreen {
         imageAddPlayList = new ImageView();
         imageAddMultimedia = new ImageView();
         imageDeletePlayList = new ImageView();
+        stackPaneAddPlayList = new StackPane();
 
         // tablePlayList = new TableView<>();
     }
@@ -92,14 +97,14 @@ public class PlayListScreen {
     public static void showPlayListScene() {
         userScreen = new UserScreen();
         root = new BorderPane();
+
         Rectangle rectangle = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
-        Rectangle rectangle2 = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
         addNewPlayList();
         principal();
 
         root.setTop(userScreen.getMenuBar());
-        root.setLeft(rectangle);
-        root.setRight(rectangle2);
+        root.setLeft(stackPaneAddPlayList);
+        root.setRight(rectangle);
         root.setCenter(scrollPanePrincipal);
 
         scene = new Scene(root, screenWidth, screenHeight);
@@ -110,7 +115,10 @@ public class PlayListScreen {
     }
 
     public static void addNewPlayList() {
+        rectangle2 = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
         buttonAddPlayList = new Button();
+        StackPane.setAlignment(buttonAddPlayList, Pos.TOP_LEFT);
+        StackPane.setMargin(buttonAddPlayList, new Insets(20, 0, 0, 20));
 
         imageAddPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
         imageAddPlayList.setFitHeight(50);
@@ -120,6 +128,7 @@ public class PlayListScreen {
         buttonAddPlayList.setStyle("-fx-background-color: transparent;");
         BorderPane.setMargin(buttonAddPlayList,
                 new Insets(20, imageAddPlayList.getFitWidth(), 0, imageAddPlayList.getFitWidth()));
+        stackPaneAddPlayList = new StackPane(rectangle2, buttonAddPlayList);
     }
 
     public static void principal() {
@@ -133,7 +142,7 @@ public class PlayListScreen {
 
         scrollPanePrincipal.setContent(vBoxPrincipal);
         scrollPanePrincipal.setStyle("-fx-background-color: #5c5c5c;");
-        System.out.println(screenWidth);
+        BorderPane.setMargin(scrollPanePrincipal, new Insets(0, 0, 80, 0));
         scrollPanePrincipal.setMaxSize(screenWidth, screenHeight);
 
         vBoxPrincipal.setPrefSize(screenWidth - 190, screenHeight);
@@ -143,14 +152,25 @@ public class PlayListScreen {
             namePlayList = new Label(playList.getName());
 
             buttonsActions();
-            HBox hBoxPrincipalPlayList = new HBox(namePlayList, hBoxActions);
-            hBoxPrincipalPlayList.getStyleClass().add("hBoxPrincipal");
+            BorderPane borderPanePrincipalPlayList = new BorderPane();
+            hBoxActions.setSpacing(50);
+            borderPanePrincipalPlayList.setRight(hBoxActions);
+            borderPanePrincipalPlayList.setLeft(namePlayList);
 
-            vBoxPrincipal.getChildren().add(hBoxPrincipalPlayList);
+            borderPanePrincipalPlayList.getStyleClass().add("hBoxPrincipal");
+            borderPanePrincipalPlayList.setMinHeight(100);
+            borderPanePrincipalPlayList.setMaxWidth(700);
+
+            vBoxPrincipal.getChildren().add(borderPanePrincipalPlayList);
             vBoxPrincipal.setAlignment(Pos.CENTER);
-            hBoxPrincipalPlayList.setMaxWidth(500);
             vBoxPrincipal.setMaxSize(screenWidth - 400, screenHeight);
-            VBox.setMargin(hBoxPrincipalPlayList, new Insets(5, 0, 5, 0));
+
+            hBoxActions.setAlignment(Pos.CENTER_RIGHT);
+            BorderPane.setAlignment(namePlayList, Pos.CENTER_LEFT);
+            namePlayList.setMaxWidth(290);
+            BorderPane.setMargin(hBoxActions, new Insets(0, 50, 0, 10));
+            BorderPane.setMargin(namePlayList, new Insets(0, 10, 0, 50));
+            VBox.setMargin(borderPanePrincipalPlayList, new Insets(5, 0, 5, 0));
         }
     }
 
@@ -159,16 +179,18 @@ public class PlayListScreen {
         spacer.setPrefWidth(100);
 
         buttonAddMultimedia = new Button();
-        imageAddMultimedia = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
+        imageAddMultimedia = new ImageView(new Image("file:" + "src\\prograIconos\\agregarVerde.png"));
         imageAddMultimedia.setFitHeight(30);
         imageAddMultimedia.setFitWidth(30);
         buttonAddMultimedia.setGraphic(imageAddMultimedia);
+        buttonAddMultimedia.setStyle("-fx-background-color: transparent;");
 
         buttonDeletePlayList = new Button();
-        imageDeletePlayList = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
+        imageDeletePlayList = new ImageView(new Image("file:" + "src\\prograIconos\\borrarRojo.png"));
         imageDeletePlayList.setFitHeight(30);
         imageDeletePlayList.setFitWidth(30);
         buttonDeletePlayList.setGraphic(imageDeletePlayList);
+        buttonDeletePlayList.setStyle("-fx-background-color: transparent;");
 
         hBoxActions = new HBox(spacer, buttonAddMultimedia, buttonDeletePlayList);
     }
