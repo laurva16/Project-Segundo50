@@ -3,9 +3,10 @@ package co.edu.uptc.run;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.UserRegistered;
-import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -21,7 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 public class RegisterWindow {
 
@@ -29,24 +29,15 @@ public class RegisterWindow {
     private static UserRegisteredController userRegisteredController;
     private BorderPane root;
     private static VBox vBoxImage;
-    private static GridPane gridPane;
-    private static GridPane gridPaneErrors;
+    private static GridPane gridPane, gridPaneErrors;
     private StackPane stackPane;
-    private static Button buttonSignUp;
-    private static Button buttonReturn;
-    private static Label labelTitle;
-    private static TextField textFirstName;
-    private static TextField textLastName;
-    private static TextField textEmail;
-    private static PasswordField textPassword;
-    private static PasswordField textPassword2;
-    private static Label labelEmptyError;
-    private static Label labelExixtingEmailError;
-    private static Label labelEmailError;
-    private static Label labelPasswordError;
-    private static Label labelPasswordError2;
-    private static double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
-    private static double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+    private static Button buttonSignUp, buttonReturn;
+    private static Label labelTitle, labelNameError, labelLastNameError, labelEmailError, labelPasswordError,
+            labelPasswordError2;
+    private static TextField textFirstName, textLastName, textEmail;
+    private static PasswordField textPassword, textPassword2;
+    private static double screenWidth = Screen.getPrimary().getVisualBounds().getWidth(),
+            screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     public RegisterWindow() {
         userRegisteredController = new UserRegisteredController();
@@ -63,6 +54,11 @@ public class RegisterWindow {
         textEmail = new TextField();
         textPassword = new PasswordField();
         textPassword2 = new PasswordField();
+        labelNameError = new Label();
+        labelLastNameError = new Label();
+        labelEmailError = new Label();
+        labelPasswordError = new Label();
+        labelPasswordError2 = new Label();
     }
 
     public static void gridPane1() {
@@ -118,41 +114,54 @@ public class RegisterWindow {
     public static void gridPane2() {
         gridPaneErrors.setId("gridpaneErrors");
 
-        labelEmptyError = new Label("* Complete all data");
-        labelExixtingEmailError = new Label("* This email is already recorded\n");
-        labelEmailError = new Label("* Enter one of the following domains: \n"
-                + "outlook.com, gmail.com, uptc.edu.co.");
-        labelPasswordError = new Label(
-                "* The password must have at least one number, one\n"
-                        + "upper case, one lower case and one special character.");
-        labelPasswordError2 = new Label("* Enter the same password.\n");
-
-        labelEmptyError.getStyleClass().add("error-label");
-        labelExixtingEmailError.getStyleClass().add("error-label");
+        labelNameError.getStyleClass().add("error-label");
+        labelLastNameError.getStyleClass().add("error-label");
         labelEmailError.getStyleClass().add("error-label");
         labelPasswordError.getStyleClass().add("error-label");
         labelPasswordError2.getStyleClass().add("error-label");
 
-        GridPane.setConstraints(labelEmptyError, 0, 0);
-        GridPane.setConstraints(labelEmptyError, 0, 1);
-        GridPane.setConstraints(labelExixtingEmailError, 0, 2);
+        GridPane.setConstraints(labelNameError, 0, 0);
+        GridPane.setConstraints(labelLastNameError, 0, 1);
         GridPane.setConstraints(labelEmailError, 0, 2);
         GridPane.setConstraints(labelPasswordError, 0, 3);
         GridPane.setConstraints(labelPasswordError2, 0, 4);
 
-        gridPaneErrors.getChildren().addAll(labelEmptyError, labelExixtingEmailError, labelEmailError,
-                labelPasswordError, labelPasswordError2);
-
-        gridPaneErrors.setAlignment(Pos.TOP_RIGHT);
-        GridPane.setMargin(labelEmptyError, new Insets(0, 0, 45, 0));
-        GridPane.setMargin(labelPasswordError, new Insets(0, 50, 0, 0));
+        textFieldAux();
+        gridPaneErrors.setAlignment(Pos.TOP_CENTER);
         gridPaneErrors.setVgap(30);
-        setVisibleFalse();
+
+        GridPane.setHalignment(labelNameError, HPos.LEFT);
+
+        labelNameError.setAlignment(Pos.BASELINE_LEFT);
+        // setVisibleFalse();
+    }
+
+    public static void textFieldAux() {
+        TextField aux = new TextField(), aux1 = new TextField(), aux2 = new TextField(),
+                aux3 = new TextField(), aux4 = new TextField();
+        aux.setMaxWidth(5);
+        aux1.setMaxWidth(5);
+        aux2.setMaxWidth(5);
+        aux3.setMaxWidth(5);
+        aux4.setMaxWidth(5);
+        GridPane.setConstraints(aux, 1, 0);
+        GridPane.setConstraints(aux1, 1, 1);
+        GridPane.setConstraints(aux2, 1, 2);
+        GridPane.setConstraints(aux3, 1, 3);
+        GridPane.setConstraints(aux4, 1, 4);
+        aux.setVisible(false);
+        aux1.setVisible(false);
+        aux2.setVisible(false);
+        aux3.setVisible(false);
+        aux4.setVisible(false);
+
+        gridPaneErrors.getChildren().addAll(labelNameError, labelLastNameError, labelEmailError,
+                labelPasswordError, labelPasswordError2, aux, aux1, aux2, aux3, aux4);
     }
 
     public static void setVisibleFalse() {
-        labelEmptyError.setVisible(false);
-        labelExixtingEmailError.setVisible(false);
+        labelNameError.setVisible(false);
+        labelLastNameError.setVisible(false);
         labelEmailError.setVisible(false);
         labelPasswordError.setVisible(false);
         labelPasswordError2.setVisible(false);
@@ -177,8 +186,9 @@ public class RegisterWindow {
 
     public static void signUp() {
         buttonSignUp.setOnAction(event -> {
-            if (emptyValidation() && existingEmaildValidation() && emailValidation() && passwordValidation()
-                    && passwordValidation2()) {
+            setVisibleFalse();
+            // Se deben poner las validadciones para cada label
+            if (allValidation()) {
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
                         textPassword.getText());
                 UserRegistered userRegistered = getUserRegistered();
@@ -190,13 +200,75 @@ public class RegisterWindow {
         });
     }
 
-    public static boolean emptyValidation() {
-        if (!textFirstName.getText().isEmpty() && !textLastName.getText().isEmpty() && !textEmail.getText().isEmpty()
-                && !textPassword.getText().isEmpty() && !textPassword2.getText().isEmpty()) {
+    public static boolean allValidation() {
+        boolean valName = false, valLastName = false, valEmail = false, valPassrord1 = false, valPassrord2 = false;
+        if (nameEmptyValidation()) {
+            valName = nameCharacterValidation();
+        }
+        if (lastNameEmptyValidation()) {
+            valLastName = lastNameCharacterValidation();
+        }
+        if (emailEmptyValidation()) {
+            if (emailDomainValidation()) {
+                valEmail = existingEmaildValidation();
+            }
+        }
+        if (passwordEmptyValidation()) {
+            valPassrord1 = passwordStringValidation();
+        }
+        if (password2EmptyValidation() && passwordStringValidation()) {
+            valPassrord2 = passwordSameValidation2();
+        }
+        if (valName == true && valLastName == true && valEmail == true && valPassrord1 == true
+                && valPassrord2 == true) {
             return true;
         }
-        setVisibleFalse();
-        labelEmptyError.setVisible(true);
+        return false;
+    }
+
+    public static boolean nameCharacterValidation() {
+        AdminController adminController = new AdminController();
+        if (adminController.validarSinCharacterSpecial(textFirstName.getText())) {
+            return true;
+        }
+        labelNameError.setText(
+                "* The name must have only letters                    ");
+        labelNameError.setVisible(true);
+        return false;
+    }
+
+    public static boolean lastNameCharacterValidation() {
+        AdminController adminController = new AdminController();
+        if (adminController.validarSinCharacterSpecial(textLastName.getText())) {
+            return true;
+        }
+        labelLastNameError.setText(
+                "* The last name must have only letters               ");
+        labelLastNameError.setVisible(true);
+        return false;
+    }
+
+    public static boolean nameEmptyValidation() {
+        if (emptyValidation(textFirstName, labelNameError,
+                "name                                                   ")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean lastNameEmptyValidation() {
+        if (emptyValidation(textLastName, labelLastNameError,
+                "last name                                            ")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean emailEmptyValidation() {
+        if (emptyValidation(textEmail, labelEmailError,
+                "email                                                ")) {
+            return true;
+        }
         return false;
     }
 
@@ -204,36 +276,73 @@ public class RegisterWindow {
         if (!userRegisteredController.searchEmail(textEmail.getText())) {
             return true;
         }
-        setVisibleFalse();
-        labelExixtingEmailError.setVisible(true);
-        return false;
-    }
-
-    public static boolean emailValidation() {
-        if (userRegisteredController.userValidation(textEmail.getText())) {
-            return true;
-        }
-        setVisibleFalse();
+        labelEmailError.setText(
+                "* This email is already recorded                     ");
         labelEmailError.setVisible(true);
         return false;
     }
 
-    public static boolean passwordValidation() {
-        if (userRegisteredController.validatePassword(textPassword.getText())) {
+    public static boolean emailDomainValidation() {
+        if (userRegisteredController.userValidation(textEmail.getText())) {
             return true;
         }
-        setVisibleFalse();
+        labelEmailError.setText(
+                "* Enter one of the following domains:              \n"
+                        + "outlook.com, gmail.com, uptc.edu.co.                 ");
+        labelEmailError.setVisible(true);
+        return false;
+    }
+
+    public static boolean passwordEmptyValidation() {
+        if (emptyValidation(textPassword, labelPasswordError,
+                "password                                             ")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean password2EmptyValidation() {
+        if (emptyValidation(textPassword2, labelPasswordError2,
+                "password                                             ")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean passwordStringValidation() {
+        if (userRegisteredController.validatePassword(textPassword.getText()))
+            return true;
+
+        labelPasswordError.setText(
+                "* The password must have at least one number, one\n"
+                        + "upper case, one lower case and one special character.");
+        // StackPane.setMargin(gridPaneErrors, new Insets(0, 0, 0, 800));
         labelPasswordError.setVisible(true);
         return false;
     }
 
-    public static boolean passwordValidation2() {
+    public static boolean passwordSameValidation2() {
         if (userRegisteredController.verifyPassword(textPassword.getText(), textPassword2.getText())) {
             return true;
         }
-        setVisibleFalse();
+        labelPasswordError2.setText(
+                "* Enter the same password.                           ");
         labelPasswordError2.setVisible(true);
         return false;
+    }
+
+    public static boolean emptyValidation(TextField textField, Label label, String data) {
+        String empty = "* Enter the ";
+        if (!textFirstName.getText().isEmpty() && !textLastName.getText().isEmpty() && !textEmail.getText().isEmpty()
+                && !textPassword.getText().isEmpty() && !textPassword2.getText().isEmpty()) {
+            return true;
+        }
+        if (textField.getText().isEmpty()) {
+            label.setText(empty + data);
+            label.setVisible(true);
+            return false;
+        }
+        return true;
     }
 
     public static UserRegistered getUserRegistered() {
@@ -248,6 +357,7 @@ public class RegisterWindow {
         signUp();
         returnButton();
 
+        StackPane.setMargin(gridPaneErrors, new Insets(0, 0, 0, 800));
         stackPane.getChildren().addAll(gridPaneErrors, gridPane);
         root.setTop(labelTitle);
         root.setCenter(stackPane);

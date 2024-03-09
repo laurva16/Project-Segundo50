@@ -71,10 +71,15 @@ public class AdminController {
     }
 
     public boolean addMovie(String name, String author, String description, int duration, String nameCategory,
+<<<<<<< HEAD
             String fileVideo) {
+=======
+            String fileVideo, String coverImage) {
+>>>>>>> 7407c166ff17a22fdf891991d3ef3503766d95ff
         if (addMultimediaValidation(name, author, 1)) {
             Movie newMovie = new Movie(assignid(), name, author, description, duration, nameCategory);
             newMovie.setFileVideo(fileVideo);
+            newMovie.setCoverImage(coverImage);
             listMovies.add(newMovie);
             // admin.setMovies(listMovies);
             return fm.writeFile("movies", newMovie);
@@ -657,9 +662,8 @@ public class AdminController {
     }
 
     public boolean validarSinCharacterSpecial(String input) {
-        String patron = "^[a-zA-Z0-9\\s]*$";
+        String patron = "^[a-zA-Z\\s]*$";
         return input.matches(patron);
-
     }
 
     public boolean validateNameSeason(String nameSeason, int idSerie) {
