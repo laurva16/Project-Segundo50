@@ -1,0 +1,23 @@
+.menubar {
+    -fx-background-color: #9C1428;
+    -fx-font-family: sans-serif;
+    -fx-pref-height: 60px;
+}
+
+.menu {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+.playList {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+    -fx-text-fill: black;
+}
