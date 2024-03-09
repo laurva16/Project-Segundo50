@@ -262,7 +262,10 @@ public class LogInWindow extends Application {
 
     public static void showSceneVisitor() {
         VisitorScreen visitorScreen = new VisitorScreen();
-        visitorScreen.showMovieScene();
+        primaryStage.setScene(visitorScreen.getSceneMovie());
+        primaryStage.setTitle("Principal movies");
+        primaryStage.setMaximized(true);
+        primaryStage.show();
     }
 
     public static Stage getPrimaryStage() {

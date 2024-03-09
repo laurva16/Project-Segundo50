@@ -135,17 +135,12 @@ public class MovieScreen {
 
         // File Video buttton
         fileButton = new Button();
-
-        GridPane.setConstraints(fileButton, 1, 5);
         fileButton.setPrefWidth(50);
-
         fileButton.setOnAction(event -> chooseFileScreen());
+        
         // Cover image button
         coverButton = new Button();
-
-        GridPane.setConstraints(coverButton, 3, 5);
         coverButton.setPrefWidth(50);
-
         coverButton.setOnAction(event -> chooseImageScreen());
 
         ImageView fileIcon = new ImageView(new Image("file:" + "src/prograIconos/video.png"));
@@ -159,23 +154,23 @@ public class MovieScreen {
         coverButton.setGraphic(coverIcon);
 
         //
-        HBox chooserBox = new HBox(labelFileName, fileButton, labelImageCover, coverButton);
-        chooserBox.setSpacing(60);
-        chooserBox.setAlignment(Pos.CENTER);
-        chooserBox.setTranslateY(-300);
-
-        fileButton.setTranslateX(-30);
-        labelImageCover.setTranslateX(35);
-        root3.setBottom(chooserBox);
-        gridPane.getChildren().addAll(acceptButton, cancelButton);
+        HBox fileHBox = new HBox(labelFileName, fileButton);
+        HBox coverHBox = new HBox(labelImageCover, coverButton);
+        fileHBox.setSpacing(25);
+        coverHBox.setSpacing(25);
+        GridPane.setConstraints(fileHBox, 0, 5);
+        GridPane.setConstraints(coverHBox, 1, 5);
+        
+        coverHBox.setTranslateX(130);
+        gridPane.getChildren().addAll(acceptButton, cancelButton, fileHBox,coverHBox);
 
         newMovieScene = new Scene(root3, screenWidth, screenHeight);
         // CSS
         newMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         cancelButton.setId("button");
-        acceptButton.setId("button");
+        acceptButton.setId("acceptbutton");
         fileButton.setId("videoButton");
-        coverButton.setId("coverButton");
+        coverButton.setId("videoButton");
         labelWarning.setId("warning");
         root3.setId("root3");
         gridPane.setId("gridPane");

@@ -1,6 +1,7 @@
 /* principal.css */
 .root {
     -fx-background-color: #191919;
+    -fx-font-size: 16px;
 }
 
 #root {
@@ -26,8 +27,17 @@
  
 }
 
+.leftForm {
+    -fx-background-color: rgb(255, 255, 255); /* Color para la primera VBox */
+    -fx-padding: 10px 20px 10px 20px; /* Padding: arriba derecha abajo izquierda */
+    -fx-margin: 10px; /* Añade un margen */
+}
 
-
+.rightForm {
+    -fx-background-color: rgb(255, 255, 255); /* Color para la segunda VBox */
+    -fx-padding: 10px 20px 10px 20px; /* Padding: arriba derecha abajo izquierda */
+    -fx-margin: 10px; /* Añade un margen */
+}
 
 
 .boton-return:hover  {
@@ -51,10 +61,12 @@
 #button {
     -fx-background-color: #9C1428;
     -fx-text-fill: white;
+    -fx-font-size: 16px;
 }
 #button:hover {
     -fx-background-color: #c8c8c8; /* Color de fondo */
     -fx-text-fill: black; /* Color del texto */
+    -fx-font-size: 16px;
 }
 #warning {
     -fx-text-fill: #9C1428; /* Color del texto */

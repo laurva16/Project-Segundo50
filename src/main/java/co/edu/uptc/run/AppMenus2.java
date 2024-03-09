@@ -68,8 +68,8 @@ public class AppMenus2 {
         ac.setAdmin(admin);
         userRegisteredC.setMovies(admin.getMovies());
         userRegisteredC.setSeries(admin.getSeries());
-        //ac.setListMovies(admin.getMovies());
-        //ac.setListSeries(admin.getSeries());
+        // ac.setListMovies(admin.getMovies());
+        // ac.setListSeries(admin.getSeries());
         playListC.setMovies(admin.getMovies());
         playListC.setSeries(admin.getSeries());
         categoryC.setMovies(admin.getMovies());
@@ -501,7 +501,7 @@ public class AppMenus2 {
 
                             if (confirmResult == JOptionPane.YES_OPTION) {
                                 // Agregar la película
-                           //     ac.addMovie(name, author, description, duration, selectedCategoryName);
+                                // ac.addMovie(name, author, description, duration, selectedCategoryName);
                                 JOptionPane.showMessageDialog(null, "The movie was added successfully!");
                                 break;
                             } else {
@@ -2117,7 +2117,8 @@ public class AppMenus2 {
 
                                         // The "Duration" para|meter in this method is 0 because we consider that series
                                         // dont have a duration excatly. Check it out
-                                        ac.modifySeries(newDescription, newName, newAuthor, Integer.parseInt(names[1]));
+                                        // ac.modifySeries(newDescription, newName, newAuthor,
+                                        // Integer.parseInt(names[1]));
 
                                         JOptionPane.showMessageDialog(null, "The serie was modified successfully!");
                                         return 10;
