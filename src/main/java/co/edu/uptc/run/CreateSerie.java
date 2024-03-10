@@ -58,6 +58,8 @@ public class CreateSerie {
     private AdminController ac;
     private CategoryController categoryC;
     private FileManagement fm;
+    private Scene modifySerie2;
+    private Scene formularySeason2;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
@@ -1107,6 +1109,555 @@ public class CreateSerie {
             stage.setTitle("No Chapters");
             stage.show();
         }
+    }
+
+    public Scene modifySeries2(Serie serie) {
+        TextField textModify1 = new TextField(serie.getName());
+        TextField textModify2 = new TextField(serie.getAuthor());
+        TextField textModify3 = new TextField(serie.getDescription());
+        BorderPane root2 = new BorderPane();
+        root2.setId("root2");
+
+        GridPane gridPane = new GridPane();
+
+        textModify1.setPrefWidth(300);
+        textModify2.setPrefWidth(300);
+        textModify3.setPrefWidth(300);
+
+        Label labelName = new Label("Serie name:");
+        Label labelDirector = new Label("Director name:");
+        Label labelDescription = new Label("Description:");
+        Label labelCategory = new Label("Category:");
+
+        choiceBox.setMaxSize(300, 20);
+
+        gridPane.setMaxWidth(600);
+        gridPane.setMaxHeight(600);
+        gridPane.setAlignment(Pos.CENTER);
+
+        GridPane.setConstraints(labelName, 0, 0);
+        GridPane.setConstraints(labelDirector, 0, 1);
+        GridPane.setConstraints(labelDescription, 0, 2);
+        GridPane.setConstraints(labelCategory, 0, 3);
+
+        GridPane.setConstraints(textModify1, 1, 0);
+        GridPane.setConstraints(textModify2, 1, 1);
+        GridPane.setConstraints(textModify3, 1, 2);
+        GridPane.setConstraints(choiceBox, 1, 3);
+        GridPane.setConstraints(labelWarning, 1, 4);
+
+        gridPane.setVgap(20);
+        gridPane.setHgap(0);
+
+        gridPane.getChildren().setAll(labelName, textModify1, labelDirector, textModify2, labelDescription, textModify3,
+                labelCategory,
+                choiceBox, labelWarning);
+        root2.setCenter(gridPane);
+
+        root2.setStyle("-fx-background-color: #191919;");
+        gridPane.setStyle("-fx-background-color: white;");
+
+        // Save buttton
+        Button acceptButton = new Button();
+
+        GridPane.setConstraints(acceptButton, 0, 5);
+        acceptButton.setTranslateY(100);
+        acceptButton.setText("Next");
+        acceptButton.setPrefWidth(150);
+        GridPane.setHalignment(acceptButton, javafx.geometry.HPos.LEFT);
+        acceptButton.setOnAction(event -> {
+            // Modificar la serie actual con los datos del formulario
+
+            if (textModify1.getText().isBlank() && textModify2.getText().isBlank() && textModify3.getText().isBlank()
+                    && choiceBox.getValue() == null) {
+                ac.showErrorTimeline(textModify1, labelWarning,
+                        "* All fields must be filled!");
+                ac.showErrorTimeline(textModify2, labelWarning, "* All fields must be filled!");
+                ac.showErrorTimeline(textModify3, labelWarning, "* All fields must be filled!");
+                ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "* All fields must be filled!");
+                return; // Salir del método si hay campos vacíos
+            } else if (textModify1.getText().isBlank() || !ac.validateName(textModify1.getText())
+                    || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textModify1.getText())) {
+                ac.showErrorTimeline(textModify1, labelWarning,
+                        "Invalid name. Max 2 characters, no special characters.");
+                return;
+            } else if (textModify2.getText().isBlank() || !ac.validateName(textModify2.getText())
+                    || !ac.validarSinCharacterSpecial(textModify2.getText())) {
+                ac.showErrorTimeline(textModify2, labelWarning,
+                        "Invalid Director. Max 2 characters, no special characters.");
+                return;
+            } else if (textModify3.getText().isBlank() || !ac.validateDescription(textModify3.getText())) {
+                ac.showErrorTimeline(textModify3, labelWarning,
+                        "Invalid description. Max 5 characters.");
+                return;
+            } else if (choiceBox.getValue() == null) {
+                ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "Please select a category.");
+                return;
+            }
+
+            ac.modifySeries(textModify3.getText(), textModify1.getText(), textModify2.getText(), choiceBox.getValue(),
+                    serie.getId());
+
+            // Cambiar a la escena anterior
+            formularySeason2(serie);
+        });
+
+        // Cancel buttton
+        Button cancelButton = new Button();
+        GridPane.setConstraints(cancelButton, 1, 5);
+        cancelButton.setTranslateY(100);
+        cancelButton.setText("Cancel");
+        cancelButton.setPrefWidth(150);
+        GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
+
+        cancelButton.setOnAction(event -> {
+            llamarEntryWindowSerie();
+        });
+
+        gridPane.getChildren().addAll(acceptButton, cancelButton);
+
+        // Crear la escena
+        modifySerie2 = new Scene(root2, screenWidth, screenHeight);
+        // aplicar CSS
+        modifySerie2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\serie.css").toURI().toString());
+        cancelButton.setId("button");
+        acceptButton.setId("button");
+
+        return modifySerie2;
+
+    }
+
+    private void formularySeason2(Serie serie) {
+        // Crear el formulario
+        GridPane formGrid = new GridPane();
+        formGrid.getStyleClass().add("formPane");
+        formGrid.setStyle("-fx-background-color: #191919;");
+        formGrid.setHgap(20); // Espacio horizontal entre las columnas
+        formGrid.setVgap(20); // Espacio vertical entre las filas
+        formGrid.setPadding(new Insets(20)); // Margen alrededor del GridPane
+
+        // Botón de retorno
+        ImageView iconoReturn = new ImageView(new Image("file:" + "src\\prograIconos\\volver.png"));
+        iconoReturn.setFitWidth(24);
+        iconoReturn.setFitHeight(24);
+
+        Button returnButton = new Button();
+        returnButton.setGraphic(iconoReturn);
+        returnButton.setId("button");
+        returnButton.setOnAction(event -> {
+            modifySeries2(serie);
+        });
+        returnButton.setPrefWidth(100);
+
+        // Crear un BorderPane
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #191919;");
+
+        // HBox para los botones
+
+        // Botones "Guardar" y "Cancelar"
+        Button acceptButton = new Button("Save");
+        Button cancelButton = new Button("Cancel");
+
+        acceptButton.setOnAction(event -> {
+            String missingChapterSeason = ac.validateHaveChapter(serie.getId());
+
+            if (!ac.validateHaveSeason(serie.getId())) {
+                ac.showErrorTimeline(text1, labelWarning, " must have at least one season.");
+                return;
+            } else if (missingChapterSeason != null) {
+                ac.showErrorTimeline(text1, labelWarning, "The selected season '" + missingChapterSeason
+                        + "' must have at least one chapter.");
+                return;
+            }
+
+            // Si la validación pasa, continuar con la lógica para guardar la serie y
+            // mostrar la ventana emergente
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Se ha creado correctamente la serie.");
+            alert.showAndWait();
+
+            llamarEntryWindowSerie();
+        });
+
+        cancelButton.setOnAction(event -> {
+            // Crear una ventana de confirmación
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmación");
+            confirmationDialog.setHeaderText(null);
+            confirmationDialog.setContentText("¿Está seguro de que desea cancelar? Se eliminará toda la serie.");
+
+            confirmationDialog.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    ac.deleteSerie(serie.getId());
+                    llamarEntryWindowSerie();
+                }
+            });
+        });
+
+        cancelButton.setId("button");
+        acceptButton.setId("button");
+        cancelButton.setPrefWidth(150);
+        cancelButton.setPrefHeight(30);
+        acceptButton.setPrefWidth(150);
+        acceptButton.setPrefHeight(30);
+
+        Insets returnButtonMargin = new Insets(15); // Ajusta el tamaño del margen según tus preferencias
+        BorderPane.setMargin(returnButton, returnButtonMargin);
+
+        BorderPane.setAlignment(returnButton, Pos.TOP_LEFT);
+        root.setTop(returnButton);
+
+        // Crear la escena
+        formularySeason2 = new Scene(root, screenWidth, screenHeight);
+        formularySeason2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\serie.css").toURI().toString());
+
+        // Establecer la escena en la ventana
+        primaryStage.setScene(formularySeason2);
+        primaryStage.setTitle("New Movie Scene");
+        primaryStage.show();
+
+        // Crear secciones izquierda y derecha del formulario
+        VBox leftForm = createLeftFormSection2(serie);
+        leftForm.getStyleClass().add("leftForm"); // Aplicar clase CSS para el color
+        VBox rightForm = createRightFormSection2(serie);
+        rightForm.getStyleClass().add("rightForm"); // Aplicar clase CSS para el color
+
+        // Añadir secciones al GridPane
+        formGrid.add(leftForm, 0, 0);
+        formGrid.add(rightForm, 1, 0);
+        formGrid.add(acceptButton, 0, 1); // Agrega el buttonPane en la columna 0 y la fila 1 del GridPane
+        formGrid.add(cancelButton, 1, 1); // Agrega el buttonPane en la columna 0 y la fila 1 del GridPane
+        GridPane.setHalignment(acceptButton, HPos.RIGHT);
+
+        // Ajustar alineación del GridPane
+        formGrid.setAlignment(Pos.CENTER);
+
+        // Colocar el formulario en el centro del BorderPane
+        root.setCenter(formGrid);
+    }
+
+    private VBox createLeftFormSection2(Serie serie) {
+        VBox leftFormSection = new VBox();
+        leftFormSection.setAlignment(Pos.CENTER);
+        leftFormSection.setSpacing(25);
+        leftFormSection.setPadding(new Insets(20));
+
+        leftFormSection.setMaxWidth(500); // Establecer un ancho máximo
+        leftFormSection.setMaxHeight(350); // Establecer una altura máxima
+        leftFormSection.setMinWidth(500); // Establecer un ancho mínimo
+        leftFormSection.setMinHeight(350); // Establecer una altura mínima
+
+        // HBox para el campo de texto adicional y el botón "Agregar"
+        HBox seasonBox = new HBox();
+        seasonBox.setAlignment(Pos.CENTER);
+        seasonBox.setSpacing(10);
+
+        for (Season season : serie.getSeasons()) {
+            additionalOptions.getItems().add(season.getSeasonName());
+        }
+
+        Button addButton = new Button("Add Season");
+        additionalOptions.setPrefWidth(260);
+        addButton.setPrefWidth(380);
+        addButton.setOnAction(event -> {
+            String seasonName = seasonField.getText();
+            if (seasonField.getText().isBlank()
+                    || !ac.validateCharacterSpecialAllowNumberSpaceBlank(seasonField.getText())
+                    || !ac.validateName(seasonField.getText())) {
+                ac.showErrorTimeline(seasonField, labelWarning,
+                        "Invalid name. Max 2 characters, no special characters.");
+                return;
+
+            } else if (!ac.validateNameSeason(seasonName, serie.getId())) {
+                ac.showErrorTimeline(seasonField, labelWarning,
+                        "Invalid name,the name of this season already exists. Please enter another name.");
+                return;
+            }
+
+            ac.addSeason(serie.getId(), seasonName, null);
+            seasonsList.add(seasonName);
+            seasonField.clear();
+        });
+
+        Button buttonDeleteSeason = new Button();
+
+        ImageView iconoDeleteSeason = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
+        ImageView iconoModifySeason = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
+
+        iconoDeleteSeason.setFitWidth(16);
+        iconoDeleteSeason.setFitHeight(16);
+
+        iconoModifySeason.setFitWidth(16);
+        iconoModifySeason.setFitHeight(16);
+
+        buttonDeleteSeason.setGraphic(iconoDeleteSeason);
+        buttonDeleteSeason.getStyleClass().add("boton-delete");
+        Button buttonModifySeason = new Button();
+        buttonModifySeason.setGraphic(iconoModifySeason);
+        buttonModifySeason.getStyleClass().add("boton-modify");
+
+        buttonDeleteSeason.setOnAction(event -> {
+            String selectedSeason = additionalOptions.getValue(); // Obtener la temporada seleccionada
+            if (selectedSeason != null) {
+                // Mostrar un cuadro de diálogo de confirmación
+                Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationDialog.setTitle("Confirmation");
+                confirmationDialog.setHeaderText("Delete Season");
+                confirmationDialog.setContentText("Are you sure you want to delete this season?");
+
+                // Obtener la respuesta del usuario
+                confirmationDialog.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        // Eliminar la temporada del ChoiceBox y de la lista observable
+                        ac.deleteSeasonName(selectedSeason, serie.getId());
+                        additionalOptions.getItems().remove(selectedSeason);
+                        seasonsList.remove(selectedSeason);
+
+                        // Después de eliminar, selecciona la primera temporada (o cualquier otra
+                        // lógica)
+                        if (!additionalOptions.getItems().isEmpty()) {
+                            additionalOptions.getSelectionModel().selectFirst();
+                        }
+                    }
+                });
+            } else {
+                ac.showErrorTimelineChoiceBox(additionalOptions, labelWarning, "Select a season");
+            }
+        });
+
+        buttonModifySeason.setOnAction(event -> {
+            String selectedSeason = additionalOptions.getValue(); // Obtener la temporada seleccionada
+            if (selectedSeason != null) {
+                // Crear un cuadro de diálogo para modificar la temporada
+                Dialog<String> dialog = new Dialog<>();
+                dialog.setTitle("Modify Season Name");
+
+                // Crear el contenido del cuadro de diálogo
+                VBox dialogContent = new VBox();
+                dialogContent.setSpacing(10);
+
+                // Campo de texto para introducir el nuevo nombre de la temporada
+                TextField newNameField = new TextField();
+                newNameField.setPromptText("New Season Name");
+
+                // Mensaje de confirmación
+                Label confirmationLabel = new Label("Are you sure you want to make these changes?");
+
+                dialogContent.getChildren().addAll(new Label("Change the name of the season '" + selectedSeason + "'"),
+                        newNameField,
+                        confirmationLabel);
+
+                dialog.getDialogPane().setContent(dialogContent);
+
+                // Botones de OK y Cancelar
+                ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                ButtonType cancelButton2 = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                dialog.getDialogPane().getButtonTypes().addAll(okButton, cancelButton2);
+
+                // Manejar la acción del botón OK
+                dialog.setResultConverter(buttonType -> {
+                    if (buttonType == okButton) {
+                        return newNameField.getText();
+                    }
+                    return null;
+                });
+
+                // Mostrar el diálogo y manejar la respuesta
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(newName -> {
+                    if (!newName.isEmpty()) {
+                        // Actualizar la temporada con el nuevo nombre
+                        ac.modifySeasonName(newName, serie.getId(), selectedSeason);
+
+                        // Actualizar el nombre de la temporada en la lista observable
+                        int selectedIndex = additionalOptions.getItems().indexOf(selectedSeason);
+                        seasonsList.set(selectedIndex, newName);
+
+                        // Actualizar el ChoiceBox con la lista actualizada
+                        additionalOptions.setItems(seasonsList);
+
+                        // Volver a seleccionar la temporada modificada
+                        additionalOptions.getSelectionModel().select(newName);
+                    }
+                });
+            } else {
+                ac.showErrorTimelineChoiceBox(additionalOptions, labelWarning, "Select a season");
+
+            }
+        });
+
+        buttonDeleteSeason.setPrefWidth(50);
+        buttonModifySeason.setPrefWidth(50);
+
+        // Añade los elementos a la vista
+        seasonBox.getChildren().addAll(new Label("Name season:"), seasonField, additionalOptions);
+        seasonField.setPrefWidth(280);
+
+        // Botones adicionales
+        HBox additionalButtons = new HBox(10, additionalOptions, buttonDeleteSeason, buttonModifySeason);
+        additionalButtons.setAlignment(Pos.CENTER);
+
+        // Agregar los elementos al VBox principal
+        leftFormSection.getChildren().addAll(seasonBox, addButton, additionalButtons, labelWarning);
+
+        return leftFormSection;
+    }
+
+    private VBox createRightFormSection2(Serie serie) {
+        VBox rightFormSection = new VBox();
+        rightFormSection.setAlignment(Pos.CENTER);
+        rightFormSection.setSpacing(25);
+        rightFormSection.setPadding(new Insets(20));
+
+        rightFormSection.setMaxWidth(500); // Establecer un ancho máximo
+        rightFormSection.setMaxHeight(350); // Establecer una altura máxima
+        rightFormSection.setMinWidth(500); // Establecer un ancho mínimo
+        rightFormSection.setMinHeight(350); // Establecer una altura mínima
+
+        ImageView iconoDeleteChapter = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
+        ImageView iconoModifyChapter = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
+
+        iconoDeleteChapter.setFitWidth(16);
+        iconoDeleteChapter.setFitHeight(16);
+
+        iconoModifyChapter.setFitWidth(16);
+        iconoModifyChapter.setFitHeight(16);
+        // Crear un Label
+        Label labelSelect = new Label("Select a Season:");
+
+        // Configurar el ChoiceBox
+        additionalOptionsChooseChapters.setPrefWidth(250);
+
+        // Crear el HBox con el Label y el ChoiceBox
+        HBox chooseOption = new HBox(10, labelSelect, additionalOptionsChooseChapters);
+        chooseOption.setAlignment(Pos.CENTER);
+        chooseOption.setPrefWidth(400); // Ajusta el ancho según tus necesidades
+        additionalOptionsMultimediaContent.setPrefWidth(250);
+        additionalOptionsChooseChapters.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        // Obtener la serie actual
+                        Serie currentSerie = serie;
+
+                        // Buscar la temporada seleccionada
+                        Season selectedSeason = currentSerie.getSeasons().stream()
+                                .filter(season -> season.getSeasonName().equals(newValue))
+                                .findFirst()
+                                .orElse(null);
+
+                        // Verificar si la temporada seleccionada no es nula y tiene capítulos
+                        if (selectedSeason != null && selectedSeason.getchapters() != null) {
+                            multimediaContentList.clear();
+                            // Agregar los capítulos de la temporada seleccionada si no están ya presentes
+                            // en multimediaContentList
+                            for (MultimediaContent chapter : selectedSeason.getchapters()) {
+                                if (!multimediaContentList.contains(chapter.getName())) {
+                                    multimediaContentList.add(chapter.getName());
+                                }
+                            }
+                        } else {
+                            multimediaContentList.clear();
+                        }
+                    }
+                });
+
+        Button addChapterButton = new Button("Add Chapter");
+        addChapterButton.setOnAction(event -> {
+            String selectedSeasonName = additionalOptionsChooseChapters.getValue();
+            if (selectedSeasonName != null) {
+                formularyChapter();
+            } else {
+                ac.showErrorTimelineChoiceBox(additionalOptionsChooseChapters, labelWarning, "Select a season");
+            }
+
+        });
+        addChapterButton.setPrefWidth(370);
+
+        // VBox para el botón "Add Chapter"
+        VBox addChapterBox = new VBox(addChapterButton);
+        addChapterBox.setAlignment(Pos.CENTER);
+
+        Button viewChapterButton = new Button("View Chapters");
+
+        viewChapterButton.setOnAction(event -> {
+            String selectedSeasonName = additionalOptionsChooseChapters.getValue();
+            if (selectedSeasonName != null) {
+                tableChapters(selectedSeasonName);
+            } else {
+                ac.showErrorTimelineChoiceBox(additionalOptionsChooseChapters, labelWarning, "Select a season");
+            }
+        });
+
+        viewChapterButton.setPrefWidth(370);
+        // VBox para el botón "Add Chapter"
+        VBox viewChapterBox = new VBox(viewChapterButton);
+        viewChapterBox.setAlignment(Pos.CENTER);
+
+        Button buttonDeleteChapter = new Button();
+        buttonDeleteChapter.setGraphic(iconoDeleteChapter);
+        buttonDeleteChapter.getStyleClass().add("boton-delete");
+
+        buttonDeleteChapter.setOnAction(event -> {
+            String selectedSeasonName = additionalOptionsChooseChapters.getValue();
+            String selectedChapterName = additionalOptionsMultimediaContent.getValue();
+            if (selectedSeasonName != null && selectedChapterName != null) {
+                // Mostrar un cuadro de diálogo de confirmación
+                Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationDialog.setTitle("Confirmation");
+                confirmationDialog.setHeaderText("Delete Chapter");
+                confirmationDialog.setContentText("Are you sure you want to delete this chapter?");
+
+                // Obtener la respuesta del usuario
+                confirmationDialog.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        // Eliminar el capítulo de la temporada seleccionada
+                        ac.deleteChapterName(selectedSeasonName, serie.getId(), selectedChapterName);
+
+                        // Actualizar la lista observable de capítulos
+                        additionalOptionsMultimediaContent.getItems().remove(selectedChapterName);
+
+                        // Después de eliminar, selecciona la primera temporada (o cualquier otra
+
+                    }
+                });
+            } else {
+                ac.showErrorTimelineChoiceBox(additionalOptionsMultimediaContent, labelWarning, "Select a chapter");
+
+            }
+        });
+
+        Button buttonModifyChapter = new Button();
+        buttonModifyChapter.setGraphic(iconoModifyChapter);
+        buttonModifyChapter.getStyleClass().add("boton-modify");
+
+        buttonModifyChapter.setOnAction(event -> {
+            String selectedSeasonName = additionalOptionsChooseChapters.getValue();
+            String selectedChapterName = additionalOptionsMultimediaContent.getValue();
+            if (selectedChapterName == null) {
+                ac.showErrorTimelineChoiceBox(additionalOptionsMultimediaContent, labelWarning, "Select a chapter");
+                return;
+            }
+            modifyChapter(selectedSeasonName, selectedChapterName);
+
+        });
+
+        buttonDeleteChapter.setPrefWidth(50);
+        buttonModifyChapter.setPrefWidth(50);
+
+        // HBox para los botones adicionales
+        HBox additionalButtonsChapters = new HBox(10, additionalOptionsMultimediaContent, buttonDeleteChapter,
+                buttonModifyChapter);
+        additionalButtonsChapters.setAlignment(Pos.CENTER);
+
+        // Agregar todos los elementos al VBox principal
+        rightFormSection.getChildren().addAll(chooseOption, addChapterBox,
+                additionalButtonsChapters,
+                viewChapterBox, labelWarning);
+
+        return rightFormSection;
     }
 
 }

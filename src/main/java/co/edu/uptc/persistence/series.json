@@ -38,12 +38,12 @@
         ]
       }
     ],
-    "category": "Adventure",
+    "category": "Action",
     "id": 462,
-    "name": "griselda",
+    "name": "griseld",
     "duration": 20,
-    "author": "laura",
-    "description": "angela"
+    "author": "laur",
+    "description": "angel"
   },
   {
     "seasons": [
@@ -328,24 +328,6 @@
         "seasonName": "sdfsd",
         "chapters": [
           {
-            "id": 1,
-            "name": "yury",
-            "duration": 444,
-            "description": "jejeje"
-          },
-          {
-            "id": 2,
-            "name": "aaa",
-            "duration": 34324,
-            "description": "dfdgfd"
-          },
-          {
-            "id": 3,
-            "name": "quete",
-            "duration": 32423,
-            "description": "dsfsds"
-          },
-          {
             "id": 4,
             "name": "sadsfsd",
             "duration": 342,
@@ -370,48 +352,6 @@
         "seasonName": "xxx",
         "chapters": [
           {
-            "id": 1,
-            "name": "dsfs",
-            "duration": 5664,
-            "description": "fdgdf"
-          },
-          {
-            "id": 2,
-            "name": "sadas",
-            "duration": 4234,
-            "description": "sfddsf"
-          },
-          {
-            "id": 3,
-            "name": "sassa",
-            "duration": 35432,
-            "description": "dsfsdf"
-          },
-          {
-            "id": 4,
-            "name": "sds",
-            "duration": 3423,
-            "description": "dfsdsd"
-          },
-          {
-            "id": 5,
-            "name": "laura",
-            "duration": 2222,
-            "description": "ddddd"
-          },
-          {
-            "id": 6,
-            "name": "camilo",
-            "duration": 121,
-            "description": "sdssds"
-          },
-          {
-            "id": 7,
-            "name": "jose",
-            "duration": 23423,
-            "description": "dffdg"
-          },
-          {
             "id": 8,
             "name": "marly",
             "duration": 32423,
@@ -424,21 +364,49 @@
             "description": "dfsdsfs"
           },
           {
-            "id": 10,
-            "name": "porbe",
-            "duration": 23423,
-            "description": "dfgdfgdfg"
-          },
-          {
             "id": 11,
             "name": "quisdf",
             "duration": 21312,
             "description": "dsfsd"
           }
         ]
+      },
+      {
+        "id": 3,
+        "seasonName": "fghfghf",
+        "chapters": [
+          {
+            "id": 3,
+            "name": "dfsd",
+            "duration": 45435,
+            "description": "dfsdfs"
+          },
+          {
+            "id": 4,
+            "name": "dfsd",
+            "duration": 45435,
+            "description": "dfsdfs"
+          },
+          {
+            "id": 5,
+            "name": "dfsd",
+            "duration": 45435,
+            "description": "dfsdfs"
+          },
+          {
+            "id": 6,
+            "name": "dfsd",
+            "duration": 45435,
+            "description": "dfsdfs"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "seasonName": "adss"
       }
     ],
-    "category": "Horror",
+    "category": "Action",
     "id": 466,
     "name": "asda 2",
     "duration": 0,

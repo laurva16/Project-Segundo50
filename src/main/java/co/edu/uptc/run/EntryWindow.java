@@ -157,8 +157,8 @@ public class EntryWindow {
     }
 
     void switchEditSerieScene(Serie serie) {
-        modifySerie = new ModifySerie(primaryStage, adminC);
-        primaryStage.setScene(modifySerie.newSerieScene(serie));
+        createSerie = new CreateSerie(primaryStage, adminC);
+        primaryStage.setScene(createSerie.modifySeries2(serie));
     }
 
     void switchEditMovieScene(Movie movie) {
