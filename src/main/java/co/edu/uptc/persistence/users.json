@@ -72,10 +72,25 @@
   },
   {
     "playList": [],
-    "firstName": "Dani",
-    "lastName": "Guevara",
-    "user": "daniG@gmail.com",
-    "password": "Dani2511..",
-    "id": 61246
+    "payment": {
+      "nameCard": "Jhon Camilo Vallejo",
+      "cardNumber": 92712881,
+      "securityCode": "Juh002yo",
+      "expirationYear": 2021,
+      "expirationMonth": "December"
+    },
+    "firstName": "Jhon",
+    "lastName": "Vallejo",
+    "user": "vallejo_personal002@gmail.com",
+    "password": "Uy_Socio441@",
+    "id": 13598
+  },
+  {
+    "playList": [],
+    "firstName": "asdasd",
+    "lastName": "asdsad",
+    "user": "juan2@gmail.com",
+    "password": "Jdgo1123@",
+    "id": 25892
   }
 ]

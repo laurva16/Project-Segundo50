@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,7 +13,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import co.edu.uptc.model.Movie;
 import javafx.scene.control.ChoiceBox;
 
 public class FileManagement {
@@ -60,9 +58,6 @@ public class FileManagement {
         fileArray.add(jElement);
         try {
             pw = new PrintWriter(new FileWriter(filePath + fileName + fileExtension, false));
-            // pw.println(gson.toJson(fileArray)) es usado para utilizar el
-            // setPrettyPrinting()
-            // pw.println(fileArray) todo en una linea
             pw.println(gson.toJson(fileArray));
             pw.close();
             return true;
