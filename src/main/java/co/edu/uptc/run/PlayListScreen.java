@@ -70,21 +70,6 @@ public class PlayListScreen {
     // private static TableView<PlayList> tablePlayList;
     // private static ObservableList<PlayList> grupos;
 
-    public PlayListScreen() {
-        userRegistered = new UserRegistered();
-
-        userRegisteredController = getUserRegisteredController();
-        root = new BorderPane();
-        hBoxPrincipalPlayList = new HBox();
-        borderPanePrincipalPlayList = new BorderPane();
-        imageAddPlayList = new ImageView();
-        imageAddMultimedia = new ImageView();
-        imageDeletePlayList = new ImageView();
-        stackPaneAddPlayList = new StackPane();
-
-        // tablePlayList = new TableView<>();
-    }
-
     public static void setUserRegistered(UserRegistered userRegistered) {
         PlayListScreen.userRegistered = userRegistered;
         userRegisteredController = new UserRegisteredController();
@@ -315,13 +300,25 @@ public class PlayListScreen {
     }
 
     public static void changeToScene2(BorderPane borderPane, String playListName) {
-        borderPane.setOnMouseClicked(event -> {
-            showPlayListScene2(playListName);
-        });
+        borderPane.setOnMouseClicked(event -> showPlayListScene2(playListName));
     }
 
-    public static void changeToScene1(Rectangle rectangle2) {
+    // _______________________________________________________________________________________________________________________
+    private static Rectangle rectangle2Content;
+    private static StackPane stackPaneContent;
+    private static Button buttonReturn;
 
+    public PlayListScreen() {
+        userRegistered = new UserRegistered();
+
+        userRegisteredController = getUserRegisteredController();
+        root = new BorderPane();
+        hBoxPrincipalPlayList = new HBox();
+        borderPanePrincipalPlayList = new BorderPane();
+        imageAddPlayList = new ImageView();
+        imageAddMultimedia = new ImageView();
+        imageDeletePlayList = new ImageView();
+        stackPaneAddPlayList = new StackPane();
     }
 
     public static void showPlayListScene2(String playListName) {
@@ -329,13 +326,12 @@ public class PlayListScreen {
         root2 = new BorderPane();
 
         Rectangle rectangle = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
-        Rectangle rectangle2 = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
 
         changeToScene1(rectangle2);
 
         root2.setTop(userScreen.getMenuBar());
         root2.setLeft(rectangle);
-        root2.setRight(rectangle2);
+        root2.setRight(stackPaneContent);
         root2.setCenter(scrollPane2);
 
         scene2 = new Scene(root2, screenWidth, screenHeight);
@@ -345,6 +341,19 @@ public class PlayListScreen {
         primaryStage.setMaximized(true);
     }
 
+    public static void changeToScene1(Rectangle rectangle2) {
+        rectangle2Content = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
+        stackPaneContent = new StackPane();
+
+        buttonReturn = new Button("Return");
+        buttonReturn.setId("return");
+        buttonReturn.setCursor(Cursor.HAND);
+        StackPane.setAlignment(buttonReturn, Pos.TOP_CENTER);
+        StackPane.setMargin(buttonReturn, new Insets(20, 0, 0, 0));
+        buttonReturn.setOnMouseClicked(event -> showPlayListScene());
+
+        stackPaneContent.getChildren().addAll(rectangle2Content, buttonReturn);
+    }
     // public static void showPlayListScene2() {
     // userScreen = new UserScreen();
 

@@ -32,3 +32,15 @@
     -fx-font-size: 30px;
     -fx-text-fill: white;
 }
+
+#return:hover {
+    -fx-background-color: #9C1428;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+#return {
+    -fx-background-color: #c8c8c8;
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+}
