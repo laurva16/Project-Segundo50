@@ -7,17 +7,14 @@ import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
-import co.edu.uptc.model.UserRegistered;
 import co.edu.uptc.utilities.FileManagement;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class AdminController {
@@ -586,6 +583,12 @@ public class AdminController {
         return true;
     }
 
+    public boolean validateNumbersDigits(String digit) {
+        if (digit.length() < 6) {
+            return true;
+        }
+        return false;
+    }
     public boolean validateName(String aux) {
         return (aux.length() > 2);
     }
@@ -600,7 +603,7 @@ public class AdminController {
 
         // Definir la duración y acción para limpiar el mensaje de error después de un
         // tiempo
-        Duration duration = Duration.seconds(6);
+        Duration duration = Duration.seconds(4);
         KeyFrame keyFrame = new KeyFrame(duration, event -> {
             errorLabel.setText("");
             // Restaurar el estilo y efecto del TextField
@@ -622,11 +625,53 @@ public class AdminController {
 
         // Definir la duración y acción para limpiar el mensaje de error después de un
         // tiempo
-        Duration duration = Duration.seconds(6);
+        Duration duration = Duration.seconds(4);
         KeyFrame keyFrame = new KeyFrame(duration, event -> {
             errorLabel.setText("");
             // Restaurar el estilo del ChoiceBox
             choiceBox.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void showErrorTimelineIntComboBox(ComboBox<Integer> intBox, Label errorLabel, String mensaje) {
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);    
+        intBox.setStyle("-fx-border-color: red;"); 
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            intBox.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void showErrorTimelineFile(Button selected, Label errorLabel, String mensaje) {
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);    
+        selected.setStyle("-fx-border-color: red;"); 
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            selected.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void showErrorTimelineStringComboBox(ComboBox<String> stringBox, Label errorLabel, String mensaje) {
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);    
+        stringBox.setStyle("-fx-border-color: red;"); 
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            stringBox.setStyle("");
         });
         Timeline timeline = new Timeline(keyFrame);
         timeline.setCycleCount(1);
@@ -667,6 +712,17 @@ public class AdminController {
         return input.matches(patron);
     }
 
+    public boolean validateWithoutSpecialCharacter(String input) {
+        String patron = "^[a-zA-Z\\s,.:;]*$";
+        return input.matches(patron);
+    }
+
+    public boolean validateWithNumber(String input) {
+        String patron = "^[a-zA-Z0-9\\s]*$";
+        return input.matches(patron);
+    }
+
+    
     public boolean validateNameSeason(String nameSeason, int idSerie) {
         for (Serie serie : listSeries) {
             if (serie.getId() == idSerie) {

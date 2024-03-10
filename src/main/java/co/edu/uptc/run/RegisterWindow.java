@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
+import co.edu.uptc.model.Payment;
 import co.edu.uptc.model.UserRegistered;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -106,7 +107,6 @@ public class RegisterWindow {
 
         gridPane.getChildren().addAll(labelFirstName, labelLastName, labelEmail, labelPassword, labelPassword2,
                 textFirstName, textLastName, textEmail, textPassword, textPassword2, buttonReturn, buttonSignUp);
-
         GridPane.setMargin(buttonSignUp, new Insets(15, 0, 20, 0));
         GridPane.setMargin(buttonReturn, new Insets(15, 0, 20, 0));
     }
@@ -188,9 +188,11 @@ public class RegisterWindow {
         buttonSignUp.setOnAction(event -> {
             setVisibleFalse();
             // Se deben poner las validadciones para cada label
-            if (allValidation()) {
+            Payment newPayment;
+            if (allValidation() && (newPayment = paymentSimulation()) != null) {
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
-                        textPassword.getText());
+                       textPassword.getText(), newPayment);
+  
                 UserRegistered userRegistered = getUserRegistered();
                 UserScreen userScreen = new UserScreen();
                 userScreen.setUserRegistered(userRegistered);
@@ -199,7 +201,13 @@ public class RegisterWindow {
             }
         });
     }
-
+    
+    public static Payment paymentSimulation(){
+        PaymentScreen ps = new PaymentScreen();
+        ps.showPaymentScreen();
+        return ps.addPayment();
+    } 
+    
     public static boolean allValidation() {
         boolean valName = false, valLastName = false, valEmail = false, valPassrord1 = false, valPassrord2 = false;
         if (nameEmptyValidation()) {

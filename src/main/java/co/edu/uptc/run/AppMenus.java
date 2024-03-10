@@ -183,7 +183,7 @@ public class AppMenus {
         }
 
         if (userRegisteredC.addUser(firstName.getText(), lastName.getText(), user.getText(),
-                password.getText())) {
+                password.getText(), null)) {
             JOptionPane.showMessageDialog(null, "User registered successfully!" +
                     "\n User: " + user.getText() + "\nPassword: "
                     + password.getText());

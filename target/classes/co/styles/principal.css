@@ -97,7 +97,17 @@
     -fx-text-fill: black;
     /* Color del texto */
 }
+#acceptbutton {
+    -fx-background-color: green;
+    -fx-text-fill: white;
+}
 
+#acceptbutton:hover {
+    -fx-background-color: #c8c8c8;
+    /* Color de fondo */
+    -fx-text-fill: black;
+    /* Color del texto */
+}
 #warning {
     -fx-text-fill: #9C1428;
     /* Color del texto */
