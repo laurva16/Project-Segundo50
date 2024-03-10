@@ -432,59 +432,101 @@ public class EntryWindow {
     }
 
     void seeMovieScreen(Movie movie) {
+        Stage secondaryStage = new Stage();
+        secondaryStage.initModality(Modality.APPLICATION_MODAL);
+        secondaryStage.setTitle("Movie Information");
 
-        Stage secundaryStage = new Stage();
-        secundaryStage.initModality(Modality.APPLICATION_MODAL);
-        secundaryStage.setTitle("Movie Information");
+        VBox rootPane = new VBox();
+        rootPane.setId("root2");
+        rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        rootPane.setAlignment(Pos.CENTER);
+        rootPane.setSpacing(10);
 
-        GridPane gridPane = new GridPane();
-        gridPane.setId("root2");
-        gridPane.setMaxWidth(600);
-        gridPane.setMaxHeight(600);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setVgap(20);
-        gridPane.setHgap(50);
+        ImageView imageView = new ImageView(
+                new Image("file:" + "src\\multimediaCovers\\Movies\\" + movie.getCoverImage()));
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(820);
+        imageView.setFitHeight(400);
+
+        StackPane gradientPane = new StackPane();
+        LinearGradient gradient = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
+                new Stop(0, Color.TRANSPARENT), new Stop(1, Color.BLACK));
+        Region gradientRegion = new Region();
+        gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
+        gradientPane.getChildren().add(gradientRegion);
+
+        Button playButton = new Button("Reproducir");
+        playButton.setAlignment(Pos.BOTTOM_LEFT);
+        playButton.setPadding(new Insets(5));
+        VBox.setMargin(playButton, new Insets(15));
+
+        playButton.setId("button");
+        playButton.setOnAction(event -> {
+            // Lógica para reproducir la película
+        });
+
+        StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
+        StackPane.setMargin(playButton, new Insets(0, 35, 15, 25));
+        gradientPane.getChildren().add(playButton);
+
+        StackPane imageStackPane = new StackPane();
+        imageStackPane.getChildren().addAll(imageView, gradientPane);
+
+        rootPane.getChildren().add(imageStackPane);
+
+        GridPane movieInfoGrid = new GridPane();
+        movieInfoGrid.setHgap(10);
+        movieInfoGrid.setVgap(5);
+        movieInfoGrid.setPadding(new Insets(10));
+        movieInfoGrid.setStyle("-fx-text-fill: white;");
+
+        Label nameLabel = new Label("Name:");
+        nameLabel.setTextFill(Color.WHITE);
+        Label directorLabel = new Label("Director:");
+        directorLabel.setTextFill(Color.WHITE);
+        Label descriptionLabel = new Label("Description:");
+        descriptionLabel.setTextFill(Color.WHITE);
+        Label categoryLabel = new Label("Category:");
+        categoryLabel.setTextFill(Color.WHITE);
+        Label durationLabel = new Label("Duration:");
+        durationLabel.setTextFill(Color.WHITE);
 
         Label name = new Label(movie.getName());
-        Label director = new Label(movie.getAuthor());
-        Label description = new Label(movie.getDescription());
-        Label duration = new Label(String.valueOf(movie.getDuration()));
+        name.setTextFill(Color.WHITE);
+        Text director = new Text(movie.getAuthor());
+        director.setFill(Color.WHITE);
+        Text description = new Text(movie.getDescription());
+        description.setFill(Color.WHITE);
         Label category = new Label(movie.getCategory());
-        Label fileVideo = new Label(movie.getFileVideo());
+        category.setTextFill(Color.WHITE);
+        Label duration = new Label(String.valueOf(movie.getDuration()));
+        duration.setTextFill(Color.WHITE);
 
-        GridPane.setConstraints(labelName, 0, 0);
-        GridPane.setConstraints(labelDirector, 0, 1);
-        GridPane.setConstraints(labelDescription, 0, 2);
-        GridPane.setConstraints(labelDuration, 0, 3);
-        GridPane.setConstraints(labelCategory, 0, 4);
-        GridPane.setConstraints(labelFileVideo, 0, 5);
+        description.setWrappingWidth(400);
+        description.maxWidth(400);
+        description.maxHeight(60);
 
-        GridPane.setConstraints(name, 1, 0);
-        GridPane.setConstraints(director, 1, 1);
-        GridPane.setConstraints(description, 1, 2);
-        GridPane.setConstraints(duration, 1, 3);
-        GridPane.setConstraints(category, 1, 4);
-        GridPane.setConstraints(fileVideo, 1, 5);
+        director.setWrappingWidth(200);
+        director.maxWidth(200);
+        director.maxHeight(60);
 
-        Button closeButton = new Button();
-        closeButton.setTranslateY(50);
-        closeButton.setText("Close");
-        closeButton.setPrefWidth(100);
-        GridPane.setConstraints(closeButton, 1, 6);
-        closeButton.setOnAction(event -> secundaryStage.close());
-        closeButton.setId("button");
+        movieInfoGrid.add(nameLabel, 0, 0);
+        movieInfoGrid.add(name, 1, 0);
+        movieInfoGrid.add(durationLabel, 2, 0);
+        movieInfoGrid.add(duration, 3, 0);
+        movieInfoGrid.add(directorLabel, 2, 1);
+        movieInfoGrid.add(director, 3, 1);
+        movieInfoGrid.add(descriptionLabel, 0, 1);
+        movieInfoGrid.add(description, 1, 1);
+        movieInfoGrid.add(categoryLabel, 2, 2);
+        movieInfoGrid.add(category, 3, 2);
+        rootPane.getChildren().add(movieInfoGrid);
+        rootPane.setId("rootPane");
 
-        gridPane.getChildren().setAll(labelName, labelDirector, labelDescription, labelDuration, labelCategory, name,
-                director, description, duration, category, closeButton, fileVideo, labelFileVideo);
-
-        // Configurar tamano description
-        description.setMaxWidth(200);
-        description.setWrapText(true);
-
-        Scene seeMovieScene = new Scene(gridPane, 500, 550);
-        seeMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        secundaryStage.setScene(seeMovieScene);
-        secundaryStage.showAndWait();
+        Scene seeMovieScene = new Scene(rootPane, 820, 600);
+        seeMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\see.css").toURI().toString());
+        secondaryStage.setScene(seeMovieScene);
+        secondaryStage.showAndWait();
     }
 
     public void seeSerieScreen(Stage secundaryStage, Serie serie) {
@@ -515,7 +557,7 @@ public class EntryWindow {
 
         playButton.setId("button");
         playButton.setOnAction(event -> {
-            // Lógica para reproducir la serie
+            // Lógica para reproducir la película
         });
 
         StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
@@ -533,18 +575,23 @@ public class EntryWindow {
         serieInfoGrid.setHgap(10);
         serieInfoGrid.setVgap(5);
 
-        Label nameLabel = new Label("Nombre:");
+        Label nameLabel = new Label("Name:");
+        nameLabel.setTextFill(Color.WHITE);
         Label directorLabel = new Label("Director:");
-        Label descriptionLabel = new Label("Descripción:");
-        Label categoryLabel = new Label("Categoría:");
+        directorLabel.setTextFill(Color.WHITE);
+        Label descriptionLabel = new Label("Description:");
+        descriptionLabel.setTextFill(Color.WHITE);
+        Label categoryLabel = new Label("Category:");
+        categoryLabel.setTextFill(Color.WHITE);
 
         Label name = new Label(serie.getName());
-        name.getStyleClass().add("name");
+        name.setTextFill(Color.WHITE);
         Text director = new Text(serie.getAuthor());
         director.setFill(Color.WHITE);
         Text description = new Text(serie.getDescription());
         description.setFill(Color.WHITE);
         Label category = new Label(serie.getCategory());
+        category.setTextFill(Color.WHITE);
 
         description.setWrappingWidth(400);
         description.maxWidth(400);
