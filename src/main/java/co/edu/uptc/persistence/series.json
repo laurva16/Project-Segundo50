@@ -505,14 +505,20 @@
         "chapters": [
           {
             "id": 2,
-            "name": "dsfsd",
+            "name": "fffff",
             "duration": 325,
             "description": "dsfsds"
+          },
+          {
+            "id": 3,
+            "name": "aaaaaa",
+            "duration": 2443,
+            "description": "sdasas"
           }
         ]
       }
     ],
-    "category": "Horror",
+    "category": "Action",
     "id": 465,
     "name": "paula 3453",
     "duration": 0,
@@ -548,6 +554,12 @@
             "name": "sadas",
             "duration": 3432,
             "description": "sasdf"
+          },
+          {
+            "id": 6,
+            "name": "sadas",
+            "duration": 4544,
+            "description": "asdas"
           }
         ]
       },

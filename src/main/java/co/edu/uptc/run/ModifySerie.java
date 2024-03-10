@@ -756,7 +756,7 @@ public class ModifySerie {
                 // Actualizar el ChoiceBox con la nueva lista de capítulos
                 additionalOptionsMultimediaContent.setItems(multimediaContentList);
 
-                formularySeason();
+                cambiarAEscena1();
 
                 textNameChapter.clear();
                 textDurationChapter.clear();
@@ -775,7 +775,14 @@ public class ModifySerie {
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
 
-        cancelButton.setOnAction(event -> formularySeason());
+        cancelButton.setOnAction(event -> {
+            textNameChapter.clear();
+            textDurationChapter.clear();
+            textDescriptionChapter.clear();
+            cambiarAEscena1();
+
+        });
+
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
