@@ -27,9 +27,23 @@
     /* Azul */
     -fx-alignment: center;
     /* Centrar texto */
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
     /* Tamaño de letra */
     -fx-text-fill: white;
+}
+
+.menu:hover {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    /* Azul */
+    -fx-alignment: center;
+    /* Centrar texto */
+    -fx-font-size: 18px;
+    /* Tamaño de letra */
+    -fx-text-fill: white;
+    -fx-font-weight: bold; /* Negrita */
+
 }
 
 

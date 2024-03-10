@@ -104,9 +104,9 @@ public class EntryWindow {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
-        IdColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.8));
-        nameColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.8));
-        directorColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.58));
+        IdColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.6));
+        nameColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.6));
+        directorColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.6));
 
         // Configurar estilo de las columnas
         IdColumn.setStyle("-fx-alignment: CENTER;");
