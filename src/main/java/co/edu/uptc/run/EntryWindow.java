@@ -104,9 +104,9 @@ public class EntryWindow {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
-        IdColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
-        nameColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
-        directorColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
+        IdColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.8));
+        nameColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.8));
+        directorColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.58));
 
         // Configurar estilo de las columnas
         IdColumn.setStyle("-fx-alignment: CENTER;");
@@ -116,7 +116,7 @@ public class EntryWindow {
         tablaMovie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
 
         // Establecer ancho máximo para la tabla
-        tablaMovie.setMaxWidth(600);
+        tablaMovie.setMaxWidth(900);
 
         // Agregar columna de botones
         TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Actions");
@@ -126,17 +126,17 @@ public class EntryWindow {
         tablaMovie.setItems(grupos);
         StackPane stackPane = new StackPane(tablaMovie);
         stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
-        StackPane.setMargin(tablaMovie, new Insets(20)); // Agregar margen a la tabla
+        StackPane.setMargin(tablaMovie, new Insets(30)); // Agregar margen a la tabla
 
         // Agregar el StackPane que contiene la tabla al centro del BorderPane
         root.setCenter(stackPane);
 
         // Crear un botón flotante
         ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
-        iconoAgregar.setFitWidth(22);
-        iconoAgregar.setFitHeight(22);
+        iconoAgregar.setFitWidth(32);
+        iconoAgregar.setFitHeight(32);
         Button addNewButton = new Button();
-        addNewButton.setTranslateY(-20);
+        addNewButton.setTranslateY(-30);
         addNewButton.getStyleClass().add("boton-flotante");
         addNewButton.setGraphic(iconoAgregar);
 
@@ -263,7 +263,7 @@ public class EntryWindow {
         // Asignar acciones a los botones
         movieButton.setOnAction(event -> {
             // Aquí va la lógica para mostrar la ventana de películas
-            cambiarAEscena1();
+            showMovieScene();
         });
 
         serieButton.setOnAction(event -> {
@@ -284,79 +284,79 @@ public class EntryWindow {
         return toolBar;
     }
 
-    void entryWindowSerie() {
-        if (scene2 == null) {
-            BorderPane root2 = new BorderPane();
-            ToolBar menuBar = createMenuBar();
-            root2.setTop(menuBar);
+    public void entryWindowSerie() {
 
-            // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-            ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
+        BorderPane root2 = new BorderPane();
+        ToolBar menuBar = createMenuBar();
+        root2.setTop(menuBar);
 
-            TableColumn<Serie, String> IdColumn = new TableColumn<>("Id");
-            TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
-            TableColumn<Serie, String> directorColumn = new TableColumn<>("Director");
+        // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
+        ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
 
-            IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        TableColumn<Serie, String> IdColumn = new TableColumn<>("Id");
+        TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<Serie, String> directorColumn = new TableColumn<>("Director");
 
-            IdColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            directorColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+        IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
 
-            // Configurar estilo de las columnas
-            IdColumn.setStyle("-fx-alignment: CENTER;");
-            nameColumn.setStyle("-fx-alignment: CENTER;");
-            directorColumn.setStyle("-fx-alignment: CENTER;");
+        IdColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(3.6));
+        nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(3.6));
+        directorColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(3.6));
 
-            tablaSerie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
+        // Configurar estilo de las columnas
+        IdColumn.setStyle("-fx-alignment: CENTER;");
+        nameColumn.setStyle("-fx-alignment: CENTER;");
+        directorColumn.setStyle("-fx-alignment: CENTER;");
 
-            // Establecer ancho máximo para la tabla
-            tablaSerie.setMaxWidth(600);
+        tablaSerie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
 
-            // Agregar columna de botones
-            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Actions");
-            accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
-            tablaSerie.getColumns().add(accionesColumna);
+        // Establecer ancho máximo para la tabla
+        tablaSerie.setMaxWidth(900);
 
-            tablaSerie.setItems(series);
+        // Agregar columna de botones
+        TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Actions");
+        accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
+        tablaSerie.getColumns().add(accionesColumna);
 
-            StackPane stackPane = new StackPane(tablaSerie);
-            stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
-            StackPane.setMargin(tablaSerie, new Insets(20)); // Agregar margen a la tabla
+        tablaSerie.setItems(series);
 
-            // Agregar el StackPane que contiene la tabla al centro del BorderPane
-            root2.setCenter(stackPane);
+        StackPane stackPane = new StackPane(tablaSerie);
+        stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
+        StackPane.setMargin(tablaSerie, new Insets(30)); // Agregar margen a la tabla
 
-            // Crear un botón flotante
-            ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
-            iconoAgregar.setFitWidth(22);
-            iconoAgregar.setFitHeight(22);
-            Button addNewButton = new Button();
-            addNewButton.setTranslateY(-20);
-            addNewButton.getStyleClass().add("boton-flotante");
-            addNewButton.setGraphic(iconoAgregar);
+        // Agregar el StackPane que contiene la tabla al centro del BorderPane
+        root2.setCenter(stackPane);
 
-            // Agregar el botón flotante en la esquina inferior derecha
-            BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
-            BorderPane.setMargin(addNewButton, new Insets(15));
-            root2.setBottom(addNewButton);
+        // Crear un botón flotante
+        ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
+        iconoAgregar.setFitWidth(32);
+        iconoAgregar.setFitHeight(32);
+        Button addNewButton = new Button();
+        addNewButton.setTranslateY(-20);
+        addNewButton.getStyleClass().add("boton-flotante");
+        addNewButton.setGraphic(iconoAgregar);
 
-            // Agregar el StackPane que contiene la tabla al centro del BorderPane
-            root2.setCenter(stackPane);
+        // Agregar el botón flotante en la esquina inferior derecha
+        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+        BorderPane.setMargin(addNewButton, new Insets(15));
+        root2.setBottom(addNewButton);
 
-            scene2 = new Scene(root2, screenWidth, screenHeight);
+        // Agregar el StackPane que contiene la tabla al centro del BorderPane
+        root2.setCenter(stackPane);
 
-            // Configurar la escena y mostrarla
-            scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        scene2 = new Scene(root2, screenWidth, screenHeight);
 
-            primaryStage.setScene(scene2);
-            primaryStage.setTitle("JavaFX series with CSS");
-            primaryStage.setMaximized(true);
-            // Add new Movie scene
-            addNewButton.setOnAction(event -> switchNewSerieScene());
-        }
+        // Configurar la escena y mostrarla
+        scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+
+        primaryStage.setScene(scene2);
+        primaryStage.setTitle("JavaFX series with CSS");
+        primaryStage.setMaximized(true);
+        // Add new Movie scene
+        addNewButton.setOnAction(event -> switchNewSerieScene());
+
     }
 
     public class BotonCeldaSerie extends TableCell<Serie, Void> {
@@ -663,6 +663,10 @@ public class EntryWindow {
 
     public void cambiarAEscena1() {
         primaryStage.setScene(scene1);
+    }
+
+    public void cambiarAEscena2() {
+        primaryStage.setScene(scene2);
     }
 
     public Scene getScene1() {

@@ -3,319 +3,6 @@
     "seasons": [
       {
         "id": 1,
-        "seasonName": "wendyy",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "valen",
-            "duration": 100000,
-            "description": "chaooo"
-          },
-          {
-            "id": 2,
-            "name": "eren",
-            "duration": 434,
-            "description": "dfgdsg"
-          },
-          {
-            "id": 3,
-            "name": "sadsa",
-            "duration": 3423,
-            "description": "sdfdd"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "wilmar",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "primer ",
-            "duration": 21312,
-            "description": "fgdfgd"
-          },
-          {
-            "id": 2,
-            "name": "segun",
-            "duration": 23423,
-            "description": "dsfgd"
-          }
-        ]
-      }
-    ],
-    "category": "Drama",
-    "id": 462,
-    "name": "griselda",
-    "duration": 20,
-    "author": "Griselda Blanco Catherine Zeta Jones Roco ",
-    "description": "A través de su historia, se exploran temas como la violencia, la ambición desmedida y las complejidades de las relaciones familiares.",
-    "coverImage": "Griselda.jpeg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "primera temporada",
-        "chapters": [
-          {
-            "id": 3,
-            "name": "sdfsd",
-            "duration": 543534,
-            "description": "gdfgd"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "segunda temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "primer cap- segunda",
-            "duration": 1212,
-            "description": "estafas"
-          },
-          {
-            "id": 2,
-            "name": "Segundo cap- 2 temporada",
-            "duration": 2324,
-            "description": "fg"
-          }
-        ]
-      }
-    ],
-    "category": "Horror",
-    "id": 463,
-    "name": "Peaky Blinders",
-    "duration": 50,
-    "author": "pablo pablito",
-    "description": "peligro!!! Disparos",
-    "coverImage": "peakyBlinders.jpg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "g",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "dfsd",
-            "duration": 454,
-            "description": "dfsdf"
-          },
-          {
-            "id": 2,
-            "name": "dfsd",
-            "duration": 454,
-            "description": "dfsdf"
-          },
-          {
-            "id": 3,
-            "name": "dfsd",
-            "duration": 454,
-            "description": "dfsdf"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "drtte"
-      }
-    ],
-    "category": "Horror",
-    "id": 464,
-    "name": "aaa  2",
-    "duration": 0,
-    "author": "aaaa aa",
-    "description": "uruena",
-    "coverImage": "Dickinson.jpeg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "wendy",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "valntina",
-            "duration": 100000,
-            "description": "chaooo"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "wilmar",
-        "chapters": []
-      }
-    ],
-    "category": "Action",
-    "id": 462,
-    "name": "griselda",
-    "duration": 20,
-    "author": "laura",
-    "description": "angela",
-    "coverImage": "Griselda.jpeg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "primera temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "Capitulo1",
-            "duration": 11111,
-            "description": "ahi vienen"
-          },
-          {
-            "id": 2,
-            "name": "cap 2-primera",
-            "duration": 23232,
-            "description": "robo"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "segunda temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "primer cap- segunda",
-            "duration": 1212,
-            "description": "estafas"
-          },
-          {
-            "id": 2,
-            "name": "Segundo cap- 2 temporada",
-            "duration": 2324,
-            "description": "fg"
-          }
-        ]
-      }
-    ],
-    "category": "Horror",
-    "id": 463,
-    "name": "Peaky Blinders",
-    "duration": 50,
-    "author": "pablo pablito",
-    "description": "peligro!!! Disparos",
-    "coverImage": "peakyBlinders.jpg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "g"
-      }
-    ],
-    "category": "Drama",
-    "id": 464,
-    "name": "Dickinson",
-    "duration": 0,
-    "author": "",
-    "description": "Love",
-    "coverImage": "Dickinson.jpeg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "wendy",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "valntina",
-            "duration": 100000,
-            "description": "chaooo"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "wilmar",
-        "chapters": []
-      }
-    ],
-    "category": "Action",
-    "id": 462,
-    "name": "griselda",
-    "duration": 20,
-    "author": "laura",
-    "description": "angela",
-    "coverImage": "Griselda.jpeg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "primera temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "Capitulo1",
-            "duration": 11111,
-            "description": "ahi vienen"
-          },
-          {
-            "id": 2,
-            "name": "cap 2-primera",
-            "duration": 23232,
-            "description": "robo"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "segunda temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "primer cap- segunda",
-            "duration": 1212,
-            "description": "estafas"
-          },
-          {
-            "id": 2,
-            "name": "Segundo cap- 2 temporada",
-            "duration": 2324,
-            "description": "fg"
-          }
-        ]
-      }
-    ],
-    "category": "Horror",
-    "id": 463,
-    "name": "Peaky Blinders",
-    "duration": 50,
-    "author": "pablo pablito",
-    "description": "peligro!!! Disparos",
-    "coverImage": "peakyBlinders.jpg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "g"
-      }
-    ],
-    "category": "Drama",
-    "id": 464,
-    "name": "Dickinson",
-    "duration": 0,
-    "author": "",
-    "description": "Love",
-    "coverImage": "Dickinson.jpeg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
         "seasonName": "wendy",
         "chapters": [
           {
@@ -504,16 +191,16 @@
         "seasonName": "as 34",
         "chapters": [
           {
-            "id": 2,
-            "name": "fffff",
-            "duration": 325,
-            "description": "dsfsds"
-          },
-          {
             "id": 3,
-            "name": "aaaaaa",
+            "name": "aaaaaaggg",
             "duration": 2443,
             "description": "sdasas"
+          },
+          {
+            "id": 4,
+            "name": "ddd",
+            "duration": 4546,
+            "description": "dfsdfsd"
           }
         ]
       }
@@ -546,31 +233,31 @@
   {
     "seasons": [
       {
-        "id": 1,
-        "seasonName": "aaa",
+        "id": 2,
+        "seasonName": "asa",
         "chapters": [
           {
-            "id": 5,
-            "name": "sadas",
-            "duration": 3432,
-            "description": "sasdf"
+            "id": 1,
+            "name": "ertererrrrrrrrrrfgdf",
+            "duration": 3454,
+            "description": "dfgdfgd"
           },
           {
-            "id": 6,
-            "name": "sadas",
-            "duration": 4544,
-            "description": "asdas"
+            "id": 2,
+            "name": "ertereuip",
+            "duration": 3454,
+            "description": "dfgdfgd"
           }
         ]
       },
       {
-        "id": 2,
-        "seasonName": "asa"
+        "id": 3,
+        "seasonName": "wer"
       }
     ],
     "category": "Action",
     "id": 467,
-    "name": "asda",
+    "name": "sasda",
     "duration": 0,
     "author": "asdas",
     "description": "asdasdas"
