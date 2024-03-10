@@ -422,7 +422,7 @@ public class UserRegisteredController {
         return currentUser.getplayList();
     }
 
-    public boolean addMovieToPlayList(String listName, int idMovie) {
+    public boolean addMovieToPlayList2(String listName, int idMovie) {
         try {
             setMoviesPlay();
             playListController.addMovieToPlayList(listName, idMovie);
@@ -438,5 +438,73 @@ public class UserRegisteredController {
 
     public void setMoviesPlay() {
         playListController.setMovies(adminController.getMovies());
+    }
+
+    public boolean addMovieToPlayList(String playListName, int idMovie) {
+        for (int i = 0; i < listUsers.size(); i++) {
+            if (currentUser.getUser().equals(listUsers.get(i).getUser())) {
+                for (PlayList playList : listUsers.get(i).getplayList()) {
+                    if (playList.getName().equals(playListName)) {
+                        for (Movie movie : playList.getMovies()) {
+                            if (movie.getId() == idMovie) {
+                                return false;
+                            }
+                        }
+                        setCurrentUser(listUsers.get(i));
+                        playList.addMovie(findMovie(idMovie));
+                        fm.reWriteFile("users", listUsers);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean addSerieToPlayList(String playListName, int idSerie) {
+        for (int i = 0; i < listUsers.size(); i++) {
+            if (currentUser.getUser().equals(listUsers.get(i).getUser())) {
+                for (PlayList playList : listUsers.get(i).getplayList()) {
+                    if (playList.getName().equals(playListName)) {
+                        for (Serie serie : playList.getSeries()) {
+                            if (serie.getId() == idSerie) {
+                                return false;
+                            }
+                        }
+                        setCurrentUser(listUsers.get(i));
+                        playList.addSerie(findSerie(idSerie));
+                        fm.reWriteFile("users", listUsers);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<Movie> getMoviesAdmin() {
+        return adminController.getMovies();
+    }
+
+    public ArrayList<Serie> getSeriesAdmin() {
+        return adminController.getListSeries();
+    }
+
+    public Movie findMovie(int idMovie) {
+        for (Movie movie : adminController.getMovies()) {
+            if (movie.getId() == idMovie) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
+    public Serie findSerie(int idSerie) {
+        for (Serie serie : adminController.getListSeries()) {
+            if (serie.getId() == idSerie) {
+                return serie;
+            }
+        }
+        return null;
     }
 }

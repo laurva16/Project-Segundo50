@@ -259,7 +259,6 @@ public class PlayListScreen {
     }
 
     public static void deletePlayList(String playListName) {
-
         buttonDeletePlayList.setOnAction(event -> {
             Alert delete = new Alert(AlertType.CONFIRMATION);
             delete.setTitle("Delete");
