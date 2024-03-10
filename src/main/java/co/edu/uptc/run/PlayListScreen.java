@@ -315,6 +315,10 @@ public class PlayListScreen {
     private static ScrollPane scrollPaneContent;
     private static ImageView imageMovie, imageSerie;
     private static String pathMovie, pathSerie;
+    private static HBox hBoxMovieCurrent, hBoxSerieCurrent;
+    private static ImageView delete;
+    private static ImageView play;
+    static DisplayMultimediaScreen displayScreen;;
 
     public PlayListScreen() {
         userRegistered = new UserRegistered();
@@ -337,8 +341,8 @@ public class PlayListScreen {
         principalContent(playList);
 
         root2.setTop(userScreen.getMenuBar());
-        root2.setLeft(rectangle);
-        root2.setRight(stackPaneContent);
+        root2.setLeft(stackPaneContent);
+        root2.setRight(rectangle);
         root2.setCenter(vBoxContent);
 
         scene2 = new Scene(root2, screenWidth, screenHeight);
@@ -355,8 +359,8 @@ public class PlayListScreen {
         buttonReturn = new Button("Return");
         buttonReturn.setId("return");
         buttonReturn.setCursor(Cursor.HAND);
-        StackPane.setAlignment(buttonReturn, Pos.TOP_CENTER);
-        StackPane.setMargin(buttonReturn, new Insets(20, 0, 0, 0));
+        StackPane.setAlignment(buttonReturn, Pos.TOP_LEFT);
+        StackPane.setMargin(buttonReturn, new Insets(20, 0, 0, 20));
         buttonReturn.setOnMouseClicked(event -> showPlayListScene());
 
         stackPaneContent.getChildren().addAll(rectangle2Content, buttonReturn);
@@ -370,6 +374,11 @@ public class PlayListScreen {
         hBoxMultimedia = new HBox();
         scrollPaneContent = new ScrollPane();
         scrollPaneContent.setStyle("-fx-background-color: #191919;");
+
+        playListNameContent.getStyleClass().add("playListNameContent");
+        vBoxContent.setAlignment(Pos.TOP_CENTER);
+        scrollPaneContent.setMinHeight(screenHeight - 150);
+        VBox.setMargin(playListNameContent, new Insets(20, 0, 20, 0));
 
         vBoxContent.setId("vBoxContent");
         vBoxContent.getChildren().addAll(playListNameContent, scrollPaneContent);
@@ -386,30 +395,105 @@ public class PlayListScreen {
         vBoxMovies.getChildren().add(labelMovie);
         vBoxSeries.getChildren().add(labelSerie);
 
+        labelMovie.getStyleClass().add("nameMultimedia");
+        labelSerie.getStyleClass().add("nameMultimedia");
+
+        scrollPaneContent.setMaxSize(screenWidth - 300, screenHeight);
+        vBoxSeries.setAlignment(Pos.TOP_CENTER);
+        vBoxMovies.setAlignment(Pos.TOP_CENTER);
+        vBoxMovies.setMaxWidth(scrollPaneContent.getMaxWidth() / 2);
+        vBoxSeries.setMaxWidth(scrollPaneContent.getMaxWidth() / 2);
+        vBoxMovies.setMinWidth(scrollPaneContent.getMaxWidth() / 2);
+        vBoxSeries.setMinWidth(scrollPaneContent.getMaxWidth() / 2);
+        vBoxMovies.setMinHeight(screenHeight - 150);
+        vBoxSeries.setMinHeight(screenHeight - 150);
+        vBoxMovies.setStyle("-fx-background-color: #191919;");
+        vBoxSeries.setStyle("-fx-background-color: #191919;");
+        vBoxMovies.setSpacing(20);
+        vBoxSeries.setSpacing(20);
+
         for (Movie movie : playList.getMovies()) {
-            vBoxMovies.setStyle("-fx-background-color: #191919;");
             vBoxCurrentMovie = new VBox();
+            vBoxCurrentMovie.setAlignment(Pos.CENTER);
+
             labelName = new Label(movie.getName());
             labelName.getStyleClass().add("labelMultimedia2");
 
             imageMovie = new ImageView(new Image("file:" + pathMovie + movie.getCoverImage()));
-            vBoxCurrentMovie.getChildren().addAll(imageMovie, labelName);
+            imageMovie.setFitWidth((vBoxMovies.getMaxWidth() / 2) - 5);
+            imageMovie.setFitHeight(imageMovie.getFitWidth() * 0.50);
+
+            hBoxCurrentMovie();
+            playMultimediaMovie(movie.getFileVideo());
+            vBoxCurrentMovie.getChildren().addAll(labelName, imageMovie, hBoxMovieCurrent);
             vBoxMovies.getChildren().add(vBoxCurrentMovie);
         }
 
         for (Serie serie : playList.getSeries()) {
-            vBoxSeries.setStyle("-fx-background-color: #191919;");
             vBoxCurrentSerie = new VBox();
+            vBoxCurrentSerie.setAlignment(Pos.CENTER);
+
             labelName = new Label(serie.getName());
             labelName.getStyleClass().add("labelMultimedia2");
 
             imageSerie = new ImageView(new Image("file:" + pathSerie + serie.getCoverImage()));
-            vBoxCurrentSerie.getChildren().addAll(imageSerie, labelName);
+            imageSerie.setFitWidth((vBoxSeries.getMaxWidth() / 2) - 5);
+            imageSerie.setFitHeight(imageSerie.getFitWidth() * 0.50);
+
+            hBoxCurrentSerie();
+            playMultimediaMovie(serie.getFileVideo());
+            vBoxCurrentSerie.getChildren().addAll(labelName, imageSerie, hBoxSerieCurrent);
             vBoxSeries.getChildren().add(vBoxCurrentSerie);
         }
         hBoxMultimedia.getChildren().addAll(vBoxMovies, vBoxSeries);
         scrollPaneContent.setContent(hBoxMultimedia);
     }
+
+    public static void icons() {
+        delete = new ImageView(new Image("file:" + "src\\prograIconos\\borrarRojo.png"));
+        play = new ImageView(new Image("file:" + "src\\prograIconos\\play.png"));
+        hBoxMovieCurrent = new HBox();
+        hBoxSerieCurrent = new HBox();
+
+        delete.setCursor(Cursor.HAND);
+        play.setCursor(Cursor.HAND);
+
+        delete.setFitHeight(30);
+        delete.setFitWidth(30);
+        play.setFitHeight(30);
+        play.setFitWidth(30);
+        HBox.setMargin(play, new Insets(5, 0, 5, 0));
+    }
+
+    public static void hBoxCurrentMovie() {
+        icons();
+        hBoxMovieCurrent.getStyleClass().add("hBoxCurrentMultimedia");
+        hBoxMovieCurrent.setSpacing(100);
+        hBoxMovieCurrent.setAlignment(Pos.CENTER);
+        hBoxMovieCurrent.setPrefWidth(imageMovie.getFitWidth());
+        hBoxMovieCurrent.getChildren().addAll(play, delete);
+    }
+
+    public static void hBoxCurrentSerie() {
+        icons();
+        hBoxSerieCurrent.getStyleClass().add("hBoxCurrentMultimedia");
+        hBoxSerieCurrent.setSpacing(100);
+        hBoxSerieCurrent.setAlignment(Pos.CENTER);
+        hBoxSerieCurrent.setPrefWidth(imageMovie.getFitWidth());
+        hBoxSerieCurrent.getChildren().addAll(play, delete);
+    }
+
+    public static void playMultimediaMovie(String nameFile) {
+        play.setOnMouseClicked(event -> {
+            switchReproductionScene(nameFile);
+        });
+    }
+
+    public static void switchReproductionScene(String nameFile) {
+        displayScreen = new DisplayMultimediaScreen();
+        primaryStage.setScene(displayScreen.multimediaScene(nameFile, true));
+    }
+
     // public static void showPlayListScene2() {
     // userScreen = new UserScreen();
 
