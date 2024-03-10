@@ -266,8 +266,13 @@ public class UserScreen {
         });
 
         playListButton.setOnAction(event -> {
+            // Evita que el usuario registrado se vuelva null
+            if (PlayListScreen.getUserRegistered() != null) {
+                userRegistered = PlayListScreen.getUserRegistered();
+            } else {
+                PlayListScreen.setUserRegistered(userRegistered);
+            }
             PlayListScreen.showPlayListScene();
-            PlayListScreen.setUserRegistered(userRegistered);
         });
 
         returnButton.setOnAction(event -> {

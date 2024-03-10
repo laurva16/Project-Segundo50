@@ -43,23 +43,22 @@ import javafx.stage.Stage;
 public class PlayListScreen {
     private static UserScreen userScreen;
     private static Stage primaryStage = LogInWindow.getPrimaryStage();
-    private static Scene scene;
+    private static Scene scene, scene2;
     private static UserRegisteredController userRegisteredController;
     private static UserRegistered userRegistered;
     private static Button addNewButton;
     static double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     static double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
-    private static BorderPane root;
-    private static ScrollPane scrollPanePrincipal;
+    private static BorderPane root, root2;
+    private static ScrollPane scrollPanePrincipal, scrollPane2;
     private static VBox vBoxPrincipal;
     private static HBox hBoxPrincipalPlayList;
     private static BorderPane borderPanePrincipalPlayList;
     private static Image image;
     private static Label namePlayList;
     private static HBox hBoxActions;
-    private static Button buttonAddMultimedia;
-    private static Button buttonDeletePlayList;
+    private static Button buttonAddMultimedia, buttonDeletePlayList, buttonChangeScene;
     private static ImageView imageAddMultimedia;
     private static ImageView imageDeletePlayList;
     private static Button buttonAddPlayList;
@@ -119,6 +118,7 @@ public class PlayListScreen {
         primaryStage.setScene(scene);
         primaryStage.setTitle("PlayList");
         primaryStage.setMaximized(true);
+        userScreen.setUserRegistered(userRegistered);
     }
 
     public static void principal() {
@@ -140,7 +140,6 @@ public class PlayListScreen {
 
         for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
             namePlayList = new Label(playList.getName());
-
             buttonsActions();
             BorderPane borderPanePrincipalPlayList = new BorderPane();
             hBoxActions.setSpacing(50);
@@ -150,6 +149,7 @@ public class PlayListScreen {
             borderPanePrincipalPlayList.getStyleClass().add("hBoxPrincipal");
             borderPanePrincipalPlayList.setMinHeight(100);
             borderPanePrincipalPlayList.setMaxWidth(700);
+            borderPanePrincipalPlayList.setCursor(Cursor.HAND);
 
             vBoxPrincipal.getChildren().add(borderPanePrincipalPlayList);
             vBoxPrincipal.setAlignment(Pos.CENTER);
@@ -166,6 +166,7 @@ public class PlayListScreen {
             Tooltip.install(namePlayList, tooltipName);
 
             deletePlayList(namePlayList.getText());
+            changeToScene2(borderPanePrincipalPlayList, namePlayList.getText());
         }
     }
 
@@ -311,6 +312,37 @@ public class PlayListScreen {
         namePlayList.setOnMouseEntered(
                 event -> tooltipName.show(namePlayList, event.getScreenX(), event.getScreenY() + 10));
         namePlayList.setOnMouseExited(event -> tooltipName.hide());
+    }
+
+    public static void changeToScene2(BorderPane borderPane, String playListName) {
+        borderPane.setOnMouseClicked(event -> {
+            showPlayListScene2(playListName);
+        });
+    }
+
+    public static void changeToScene1(Rectangle rectangle2) {
+
+    }
+
+    public static void showPlayListScene2(String playListName) {
+        userScreen = new UserScreen();
+        root2 = new BorderPane();
+
+        Rectangle rectangle = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
+        Rectangle rectangle2 = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
+
+        changeToScene1(rectangle2);
+
+        root2.setTop(userScreen.getMenuBar());
+        root2.setLeft(rectangle);
+        root2.setRight(rectangle2);
+        root2.setCenter(scrollPane2);
+
+        scene2 = new Scene(root2, screenWidth, screenHeight);
+        scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\playList.css").toURI().toString());
+        primaryStage.setScene(scene2);
+        primaryStage.setTitle("PlayListContent");
+        primaryStage.setMaximized(true);
     }
 
     // public static void showPlayListScene2() {
