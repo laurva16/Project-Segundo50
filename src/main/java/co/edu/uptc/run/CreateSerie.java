@@ -199,9 +199,9 @@ public class CreateSerie {
             // Si la validación pasa, continuar con la lógica para guardar la serie y
             // mostrar la ventana emergente
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Información");
+            alert.setTitle("Information");
             alert.setHeaderText(null);
-            alert.setContentText("Se ha creado correctamente la serie.");
+            alert.setContentText("The series has been successfully created.");
             alert.showAndWait();
 
             llamarEntryWindowSerie();
@@ -210,9 +210,9 @@ public class CreateSerie {
         cancelButton.setOnAction(event -> {
             // Crear una ventana de confirmación
             Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationDialog.setTitle("Confirmación");
+            confirmationDialog.setTitle("Confirmation");
             confirmationDialog.setHeaderText(null);
-            confirmationDialog.setContentText("¿Está seguro de que desea cancelar? Se eliminará toda la serie.");
+            confirmationDialog.setContentText("Are you sure you want to cancel? The entire series will be deleted.");
 
             confirmationDialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {

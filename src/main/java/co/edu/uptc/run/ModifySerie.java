@@ -51,6 +51,7 @@ public class ModifySerie {
     ObservableList<String> seasonsList = FXCollections.observableArrayList();
     ObservableList<String> multimediaContentList = FXCollections.observableArrayList();
     ArrayList<MultimediaContent> chapterList = new ArrayList<>();
+    private AdminController ac;
     Serie serieModify;
     ChoiceBox<String> fileBox = new ChoiceBox<>();
     ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
@@ -58,7 +59,6 @@ public class ModifySerie {
     ChoiceBox<String> additionalOptionsMultimediaContent = new ChoiceBox<>(multimediaContentList);
 
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
-    private AdminController ac;
     private FileManagement fm;
     private CategoryController categoryC;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
@@ -83,6 +83,7 @@ public class ModifySerie {
         TextField textModify1 = new TextField(serie.getName());
         TextField textModify2 = new TextField(serie.getAuthor());
         TextField textModify3 = new TextField(serie.getDescription());
+        choiceBox.setValue(serie.getCategory());
         BorderPane root2 = new BorderPane();
         root2.setId("root2");
 
@@ -246,9 +247,9 @@ public class ModifySerie {
             // Si la validación pasa, continuar con la lógica para guardar la serie y
             // mostrar la ventana emergente
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Información");
+            alert.setTitle("Information");
             alert.setHeaderText(null);
-            alert.setContentText("Se ha creado correctamente la serie.");
+            alert.setContentText("The series has been successfully modified.");
             alert.showAndWait();
 
             llamarEntryWindowSerie();
@@ -257,9 +258,9 @@ public class ModifySerie {
         cancelButton.setOnAction(event -> {
             // Crear una ventana de confirmación
             Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationDialog.setTitle("Confirmación");
+            confirmationDialog.setTitle("Confirmation");
             confirmationDialog.setHeaderText(null);
-            confirmationDialog.setContentText("¿Está seguro de que desea cancelar? Se eliminará toda la serie.");
+            confirmationDialog.setContentText("Are you sure you want to cancel? The changes made will be saved.");
 
             confirmationDialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
@@ -568,7 +569,6 @@ public class ModifySerie {
         Button buttonDeleteChapter = new Button();
         buttonDeleteChapter.setGraphic(iconoDeleteChapter);
         buttonDeleteChapter.getStyleClass().add("boton-delete");
-
         buttonDeleteChapter.setOnAction(event -> {
             String selectedSeasonName = additionalOptionsChooseChapters.getValue();
             String selectedChapterName = additionalOptionsMultimediaContent.getValue();
@@ -587,6 +587,9 @@ public class ModifySerie {
 
                         // Actualizar la lista observable de capítulos
                         additionalOptionsMultimediaContent.getItems().remove(selectedChapterName);
+
+                        // Eliminar el capítulo de la lista observable
+                        multimediaContentList.remove(selectedChapterName);
 
                         // Limpiar la lista de capítulos local
                         chapterList.removeIf(chapter -> chapter.getName().equals(selectedChapterName));
@@ -941,7 +944,7 @@ public class ModifySerie {
         GridPane.setHalignment(cancelButton, HPos.RIGHT);
 
         cancelButton.setOnAction(event -> {
-            formularySeason();
+            cambiarAEscena1();
         });
 
         gridPane.getChildren().addAll(acceptButton, cancelButton);
@@ -965,7 +968,7 @@ public class ModifySerie {
                 .get(ac.seasonNameFound(selectedSeasonName, serieModify.getId()));
 
         if (selectedSeason != null && selectedSeason.getchapters() != null && !selectedSeason.getchapters().isEmpty()) {
-            // Si hay capítulos en la temporada, mostrar la tabla como antes
+
             ObservableList<MultimediaContent> chapters = FXCollections
                     .observableArrayList(selectedSeason.getchapters());
 

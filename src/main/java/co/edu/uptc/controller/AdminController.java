@@ -421,6 +421,7 @@ public class AdminController {
             listSeries.get(aux).setCategory(category);
             admin.setSeries(listSeries);
             fm.reWriteFile("series", listSeries);
+            currentSerie = new Serie(aux, name, author, description, null, category);
             return true;
         }
         return false;

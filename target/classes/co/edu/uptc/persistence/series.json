@@ -3,7 +3,7 @@
     "seasons": [
       {
         "id": 1,
-        "seasonName": "wendy",
+        "seasonName": "wendyy",
         "chapters": [
           {
             "id": 1,
@@ -44,12 +44,12 @@
         ]
       }
     ],
-    "category": "Action",
+    "category": "Drama",
     "id": 462,
     "name": "griselda",
     "duration": 20,
-    "author": "laura",
-    "description": "angela",
+    "author": "Griselda Blanco Catherine Zeta Jones Roco ",
+    "description": "A través de su historia, se exploran temas como la violencia, la ambición desmedida y las complejidades de las relaciones familiares.",
     "coverImage": "Griselda.jpeg"
   },
   {
@@ -130,14 +130,18 @@
             "description": "dfsdf"
           }
         ]
+      },
+      {
+        "id": 2,
+        "seasonName": "drtte"
       }
     ],
-    "category": "Drama",
+    "category": "Horror",
     "id": 464,
-    "name": "Dickinson",
+    "name": "aaa  2",
     "duration": 0,
-    "author": "dfdsf",
-    "description": "Loved",
+    "author": "aaaa aa",
+    "description": "uruena",
     "coverImage": "Dickinson.jpeg"
   },
   {
@@ -507,58 +511,10 @@
         "seasonName": "sss",
         "chapters": [
           {
-            "id": 1,
-            "name": "tiemblo",
-            "duration": 5555555,
-            "description": "vamos"
-          },
-          {
-            "id": 2,
-            "name": "nuevo",
-            "duration": 232,
-            "description": "fgdfg"
-          },
-          {
-            "id": 3,
-            "name": "asda",
-            "duration": 34,
-            "description": "sadasasda"
-          },
-          {
-            "id": 4,
-            "name": "yuty",
-            "duration": 324234,
-            "description": "23433"
-          },
-          {
             "id": 5,
             "name": "ter",
             "duration": 23412,
             "description": "dsfsdsd"
-          },
-          {
-            "id": 6,
-            "name": "SADA",
-            "duration": 231221,
-            "description": "SADASD"
-          },
-          {
-            "id": 7,
-            "name": "sadas",
-            "duration": 423,
-            "description": "sadas"
-          },
-          {
-            "id": 8,
-            "name": "asdasa12",
-            "duration": 3432,
-            "description": "sdsaas"
-          },
-          {
-            "id": 9,
-            "name": "porfs",
-            "duration": 232,
-            "description": "sfdfs"
           }
         ]
       },
@@ -567,52 +523,10 @@
         "seasonName": "as 34",
         "chapters": [
           {
-            "id": 1,
-            "name": "NUEFO",
-            "duration": 2132,
-            "description": "DSFSDDS"
-          },
-          {
             "id": 2,
             "name": "otro ",
             "duration": 12321,
             "description": "sadafda"
-          },
-          {
-            "id": 3,
-            "name": "dsfsd",
-            "duration": 3423,
-            "description": "dsfsd"
-          },
-          {
-            "id": 4,
-            "name": "sadas",
-            "duration": 32423,
-            "description": "sdafsdf"
-          },
-          {
-            "id": 5,
-            "name": "toe3",
-            "duration": 32423,
-            "description": "dfsdfs"
-          },
-          {
-            "id": 6,
-            "name": "wqeq",
-            "duration": 2324,
-            "description": "dsfsdf"
-          },
-          {
-            "id": 7,
-            "name": "sada",
-            "duration": 32423,
-            "description": "fsdfsdfsdf"
-          },
-          {
-            "id": 8,
-            "name": "sofia2",
-            "duration": 12312,
-            "description": "sadsada"
           }
         ]
       }

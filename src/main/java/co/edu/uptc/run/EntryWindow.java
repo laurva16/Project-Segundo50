@@ -3,6 +3,8 @@ package co.edu.uptc.run;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.Movie;
@@ -21,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,11 +32,21 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -475,143 +488,130 @@ public class EntryWindow {
     }
 
     public void seeSerieScreen(Stage secundaryStage, Serie serie) {
-
         this.secundaryStage = secundaryStage;
         secundaryStage.initModality(Modality.APPLICATION_MODAL);
         secundaryStage.setTitle("Serie Information");
 
-        GridPane gridPane = new GridPane();
-        gridPane.setId("root2");
-        gridPane.setMaxWidth(600);
-        gridPane.setMaxHeight(600);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setVgap(20);
-        gridPane.setHgap(50);
+        VBox rootPane = new VBox();
+        rootPane.setId("root2");
+        rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Label nameLabel = new Label("Name:");
+        ImageView imageView = new ImageView(new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg"));
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(820);
+        imageView.setFitHeight(400);
+
+        StackPane gradientPane = new StackPane();
+        LinearGradient gradient = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
+                new Stop(0, Color.TRANSPARENT), new Stop(1, Color.BLACK));
+        Region gradientRegion = new Region();
+        gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
+        gradientPane.getChildren().add(gradientRegion);
+
+        Button playButton = new Button("Reproducir");
+        playButton.setAlignment(Pos.BOTTOM_LEFT);
+        playButton.setPadding(new Insets(5));
+        VBox.setMargin(playButton, new Insets(15));
+
+        playButton.setId("button");
+        playButton.setOnAction(event -> {
+            // Lógica para reproducir la serie
+        });
+
+        StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
+        StackPane.setMargin(playButton, new Insets(0, 35, 15, 25));
+        gradientPane.getChildren().add(playButton);
+
+        StackPane imageStackPane = new StackPane();
+        imageStackPane.getChildren().addAll(imageView, gradientPane);
+        VBox infoPane = new VBox();
+        infoPane.setSpacing(10);
+        infoPane.setPadding(new Insets(10));
+        infoPane.setStyle("-fx-text-fill: white;");
+
+        GridPane serieInfoGrid = new GridPane();
+        serieInfoGrid.setHgap(10);
+        serieInfoGrid.setVgap(5);
+
+        Label nameLabel = new Label("Nombre:");
         Label directorLabel = new Label("Director:");
-        Label descriptionLabel = new Label("Description:");
-        Label categoryLabel = new Label("Category:");
+        Label descriptionLabel = new Label("Descripción:");
+        Label categoryLabel = new Label("Categoría:");
 
         Label name = new Label(serie.getName());
-        Label director = new Label(serie.getAuthor());
-        Label description = new Label(serie.getDescription());
+        name.getStyleClass().add("name");
+        Text director = new Text(serie.getAuthor());
+        director.setFill(Color.WHITE);
+        Text description = new Text(serie.getDescription());
+        description.setFill(Color.WHITE);
         Label category = new Label(serie.getCategory());
 
-        Button closeButton = new Button();
-        closeButton.setTranslateY(50);
-        closeButton.setText("Close");
-        closeButton.setPrefWidth(100);
-        GridPane.setConstraints(closeButton, 1, 6);
-        closeButton.setOnAction(event -> secundaryStage.close());
-        closeButton.setId("button");
+        description.setWrappingWidth(400);
+        description.maxWidth(400);
+        description.maxHeight(60);
 
-        gridPane.add(nameLabel, 0, 0);
-        gridPane.add(name, 1, 0);
-        gridPane.add(directorLabel, 0, 1);
-        gridPane.add(director, 1, 1);
-        gridPane.add(descriptionLabel, 0, 2);
-        gridPane.add(description, 1, 2);
-        gridPane.add(categoryLabel, 0, 3);
-        gridPane.add(category, 1, 3);
-        gridPane.add(closeButton, 1, 6);
+        director.setWrappingWidth(200);
+        director.maxWidth(200);
+        director.maxHeight(60);
 
-        ObservableList<String> seasonsList = FXCollections.observableArrayList();
-        ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
-        additionalOptions.setPrefWidth(250);
-        gridPane.add(new Label("Season:"), 0, 4);
-        gridPane.add(additionalOptions, 1, 4);
+        serieInfoGrid.add(nameLabel, 0, 0);
+        serieInfoGrid.add(name, 1, 0);
+        serieInfoGrid.add(directorLabel, 2, 1);
+        serieInfoGrid.add(director, 3, 1);
+        serieInfoGrid.add(descriptionLabel, 0, 1);
+        serieInfoGrid.add(description, 1, 1);
+        serieInfoGrid.add(categoryLabel, 2, 2);
+        serieInfoGrid.add(category, 3, 2);
 
-        ObservableList<String> multimediaContentList = FXCollections.observableArrayList();
-        ChoiceBox<String> additionalOptionsMultimediaContent = new ChoiceBox<>(multimediaContentList);
-        additionalOptionsMultimediaContent.setPrefWidth(250);
-        gridPane.add(new Label("Episode:"), 0, 5);
-        gridPane.add(additionalOptionsMultimediaContent, 1, 5);
+        infoPane.getChildren().add(serieInfoGrid);
 
-        for (Season season : serie.getSeasons()) {
-            seasonsList.add(season.getSeasonName());
-        }
+        HBox seasonsPane = new HBox();
+        seasonsPane.setSpacing(10);
+        seasonsPane.setPadding(new Insets(10));
+        seasonsPane.setStyle("-fx-text-fill: white;");
 
-        additionalOptions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                multimediaContentList.clear();
-                Season selectedSeason = serie.getSeasons().stream()
-                        .filter(season -> season.getSeasonName().equals(newValue))
-                        .findFirst()
-                        .orElse(null);
-                if (selectedSeason != null && selectedSeason.getchapters() != null) {
-                    for (MultimediaContent chapter : selectedSeason.getchapters()) {
-                        multimediaContentList.add(chapter.getName());
-                    }
-                }
+        Label seasonsLabel = new Label("Temporadas");
+        seasonsLabel.setTextFill(Color.WHITE);
+        ChoiceBox<String> seasonsChoiceBox = new ChoiceBox<>();
+        seasonsChoiceBox.getItems()
+                .addAll(serie.getSeasons().stream().map(Season::getSeasonName).collect(Collectors.toList()));
+
+        TableView<MultimediaContent> episodesTable = new TableView<>();
+        // Crear la columna para el nombre del episodio
+        TableColumn<MultimediaContent, String> episodeNameColumn = new TableColumn<>("Name");
+        episodeNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        // Crear la columna para la descripción del episodio
+        TableColumn<MultimediaContent, String> episodeDescriptionColumn = new TableColumn<>("Description");
+        episodeDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        // Agregar las columnas a la tabla
+        episodesTable.getColumns().addAll(episodeNameColumn, episodeDescriptionColumn);
+
+        // Escuchar cambios en la selección del ChoiceBox de temporadas
+        seasonsChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            Season selectedSeason = serie.getSeasons().stream()
+                    .filter(season -> season.getSeasonName().equals(newValue))
+                    .findFirst()
+                    .orElse(null);
+            if (selectedSeason != null) {
+                // Limpiar y agregar los episodios de la temporada seleccionada a la tabla
+                episodesTable.getItems().clear();
+                episodesTable.getItems().addAll(selectedSeason.getchapters());
             }
         });
 
-        additionalOptionsMultimediaContent.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    if (newValue != null) {
-                        Season selectedSeason = serie.getSeasons().stream()
-                                .filter(season -> season.getSeasonName().equals(additionalOptions.getValue()))
-                                .findFirst()
-                                .orElse(null);
-                        if (selectedSeason != null && selectedSeason.getchapters() != null) {
-                            MultimediaContent selectedChapter = selectedSeason.getchapters().stream()
-                                    .filter(chapter -> chapter.getName().equals(newValue))
-                                    .findFirst()
-                                    .orElse(null);
-                            if (selectedChapter != null) {
-                                displayEpisodeInfo(selectedChapter);
-                            }
-                        }
-                    }
-                });
+        seasonsPane.getChildren().addAll(seasonsLabel, seasonsChoiceBox);
 
-        Scene seeSerieScene = new Scene(gridPane, 500, 550);
-        seeSerieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        rootPane.getChildren().addAll(imageStackPane, infoPane, seasonsPane, episodesTable);
+        rootPane.setId("rootPane");
+
+        ScrollPane scrollPane = new ScrollPane(rootPane);
+
+        Scene seeSerieScene = new Scene(scrollPane, 820, 600);
+        seeSerieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\see.css").toURI().toString());
         secundaryStage.setScene(seeSerieScene);
         secundaryStage.showAndWait();
-    }
-
-    private void displayEpisodeInfo(MultimediaContent episode) {
-        Stage episodeStage = new Stage();
-        episodeStage.setTitle("Episode Information");
-
-        GridPane episodeGridPane = new GridPane();
-        episodeGridPane.setId("root2");
-        episodeGridPane.setMaxWidth(600);
-        episodeGridPane.setMaxHeight(600);
-        episodeGridPane.setAlignment(Pos.CENTER);
-        episodeGridPane.setVgap(20);
-        episodeGridPane.setHgap(50);
-
-        Label nameLabel = new Label("Name:");
-        Label descriptionLabel = new Label("Description:");
-        Label durationLabel = new Label("Duration:");
-
-        Button closeButton = new Button();
-        closeButton.setTranslateY(50);
-        closeButton.setText("Close");
-        closeButton.setPrefWidth(100);
-        GridPane.setConstraints(closeButton, 1, 6);
-        closeButton.setOnAction(event -> episodeStage.close()); // Cambio aquí
-        closeButton.setId("button");
-
-        Label name = new Label(episode.getName());
-        Label description = new Label(episode.getDescription());
-        Label duration = new Label(String.valueOf(episode.getDuration()));
-
-        episodeGridPane.add(nameLabel, 0, 0);
-        episodeGridPane.add(name, 1, 0);
-        episodeGridPane.add(descriptionLabel, 0, 1);
-        episodeGridPane.add(description, 1, 1);
-        episodeGridPane.add(durationLabel, 0, 2);
-        episodeGridPane.add(duration, 1, 2);
-        episodeGridPane.add(closeButton, 1, 3);
-
-        Scene episodeScene = new Scene(episodeGridPane, 500, 550);
-        episodeScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        episodeStage.setScene(episodeScene);
-        episodeStage.show();
     }
 
     public void cambiarAEscena1() {
