@@ -51,7 +51,6 @@ public class ModifySerie {
     ObservableList<String> seasonsList = FXCollections.observableArrayList();
     ObservableList<String> multimediaContentList = FXCollections.observableArrayList();
     ArrayList<MultimediaContent> chapterList = new ArrayList<>();
-    private AdminController ac;
     Serie serieModify;
     ChoiceBox<String> fileBox = new ChoiceBox<>();
     ChoiceBox<String> additionalOptions = new ChoiceBox<>(seasonsList);
@@ -59,6 +58,7 @@ public class ModifySerie {
     ChoiceBox<String> additionalOptionsMultimediaContent = new ChoiceBox<>(multimediaContentList);
 
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    private AdminController ac;
     private FileManagement fm;
     private CategoryController categoryC;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
@@ -83,7 +83,6 @@ public class ModifySerie {
         TextField textModify1 = new TextField(serie.getName());
         TextField textModify2 = new TextField(serie.getAuthor());
         TextField textModify3 = new TextField(serie.getDescription());
-        choiceBox.setValue(serie.getCategory());
         BorderPane root2 = new BorderPane();
         root2.setId("root2");
 
@@ -113,15 +112,13 @@ public class ModifySerie {
         GridPane.setConstraints(textModify2, 1, 1);
         GridPane.setConstraints(textModify3, 1, 2);
         GridPane.setConstraints(choiceBox, 1, 4);
-        GridPane.setConstraints(labelWarning, 1, 5);
-        labelWarning.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
         gridPane.getChildren().setAll(labelName, textModify1, labelDirector, textModify2, labelDescription, textModify3,
                 labelCategory,
-                choiceBox, labelWarning);
+                choiceBox);
         root2.setCenter(gridPane);
 
         root2.setStyle("-fx-background-color: #191919;");
@@ -247,9 +244,9 @@ public class ModifySerie {
             // Si la validación pasa, continuar con la lógica para guardar la serie y
             // mostrar la ventana emergente
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
+            alert.setTitle("Información");
             alert.setHeaderText(null);
-            alert.setContentText("The series has been successfully modified.");
+            alert.setContentText("Se ha creado correctamente la serie.");
             alert.showAndWait();
 
             llamarEntryWindowSerie();
@@ -258,9 +255,9 @@ public class ModifySerie {
         cancelButton.setOnAction(event -> {
             // Crear una ventana de confirmación
             Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationDialog.setTitle("Confirmation");
+            confirmationDialog.setTitle("Confirmación");
             confirmationDialog.setHeaderText(null);
-            confirmationDialog.setContentText("Are you sure you want to cancel? The changes made will be saved.");
+            confirmationDialog.setContentText("¿Está seguro de que desea cancelar? Se eliminará toda la serie.");
 
             confirmationDialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
@@ -569,6 +566,7 @@ public class ModifySerie {
         Button buttonDeleteChapter = new Button();
         buttonDeleteChapter.setGraphic(iconoDeleteChapter);
         buttonDeleteChapter.getStyleClass().add("boton-delete");
+
         buttonDeleteChapter.setOnAction(event -> {
             String selectedSeasonName = additionalOptionsChooseChapters.getValue();
             String selectedChapterName = additionalOptionsMultimediaContent.getValue();
@@ -587,9 +585,6 @@ public class ModifySerie {
 
                         // Actualizar la lista observable de capítulos
                         additionalOptionsMultimediaContent.getItems().remove(selectedChapterName);
-
-                        // Eliminar el capítulo de la lista observable
-                        multimediaContentList.remove(selectedChapterName);
 
                         // Limpiar la lista de capítulos local
                         chapterList.removeIf(chapter -> chapter.getName().equals(selectedChapterName));
@@ -749,18 +744,19 @@ public class ModifySerie {
                 // Imprimir el último capítulo agregado
                 MultimediaContent lastAddedChapter = selectedSeasonObj.getchapters()
                         .get(selectedSeasonObj.getchapters().size() - 1);
+                System.out.println("Last added chapter: " + lastAddedChapter);
 
                 // Limpiar y volver a llenar la lista de capítulos
                 multimediaContentList.clear();
                 for (MultimediaContent chapter : selectedSeasonObj.getchapters()) {
                     multimediaContentList.add(chapter.getName());
+                    System.out.println(chapter.toString());
                 }
 
                 // Actualizar el ChoiceBox con la nueva lista de capítulos
-
                 additionalOptionsMultimediaContent.setItems(multimediaContentList);
 
-                cambiarAEscena1();
+                formularySeason();
 
                 textNameChapter.clear();
                 textDurationChapter.clear();
@@ -860,7 +856,6 @@ public class ModifySerie {
 
         acceptButton.setOnAction(event -> {
             String selectedSeasonName = additionalOptionsChooseChapters.getValue();
-            String selectedChapterName = additionalOptionsMultimediaContent.getValue();
             Season selectedSeasonObj = null;
 
             for (Season season : serieModify.getSeasons()) {
@@ -907,25 +902,12 @@ public class ModifySerie {
                         Integer.parseInt(textDurationChapterModify.getText()), serieModify.getId(),
                         selectedSeason, selectedChapter);
 
-                for (int i = 0; i < selectedSeasonObj.getchapters().size(); i++) {
-                    if (selectedSeasonObj.getchapters().get(i).getName().equals(selectedChapterName)) {
-                        selectedSeasonObj.getchapters().get(i).setName(textNameChapterModify.getText());
-                    }
-
-                }
-
-                if (selectedSeasonObj != null) {
-                    // Limpiar y volver a llenar la lista de capítulos
-                    multimediaContentList.clear();
-                    for (MultimediaContent chapter : selectedSeasonObj.getchapters()) {
-                        multimediaContentList.add(chapter.getName());
-                    }
-
-                    // Actualizar el ChoiceBox con la nueva lista de capítulos
-                    additionalOptionsMultimediaContent.setItems(multimediaContentList);
-                }
-
                 cambiarAEscena1();
+
+                // Update the items in the ChoiceBox
+                additionalOptionsMultimediaContent.getItems().setAll(multimediaContentList);
+                // Select the modified chapter
+                additionalOptionsMultimediaContent.getSelectionModel().select(textNameChapterModify.getText());
 
             } else {
 
@@ -944,7 +926,7 @@ public class ModifySerie {
         GridPane.setHalignment(cancelButton, HPos.RIGHT);
 
         cancelButton.setOnAction(event -> {
-            cambiarAEscena1();
+            formularySeason();
         });
 
         gridPane.getChildren().addAll(acceptButton, cancelButton);
@@ -963,12 +945,133 @@ public class ModifySerie {
         primaryStage.show();
     }
 
+    private void modifySerie() {
+        TextField textModify1 = new TextField(serieModify.getName());
+        TextField textModify2 = new TextField(serieModify.getAuthor());
+        TextField textModify3 = new TextField(serieModify.getDescription());
+        BorderPane root2 = new BorderPane();
+        root2.setId("root2");
+
+        GridPane gridPane = new GridPane();
+
+        textModify1.setPrefWidth(300);
+        textModify2.setPrefWidth(300);
+        textModify3.setPrefWidth(300);
+
+        Label labelName = new Label("Serie name:");
+        Label labelDirector = new Label("Director name:");
+        Label labelDescription = new Label("Description:");
+        Label labelCategory = new Label("Category:");
+
+        choiceBox.setMaxSize(300, 20);
+
+        gridPane.setMaxWidth(600);
+        gridPane.setMaxHeight(600);
+        gridPane.setAlignment(Pos.CENTER);
+
+        GridPane.setConstraints(labelName, 0, 0);
+        GridPane.setConstraints(labelDirector, 0, 1);
+        GridPane.setConstraints(labelDescription, 0, 2);
+        GridPane.setConstraints(labelCategory, 0, 3);
+
+        GridPane.setConstraints(textModify1, 1, 0);
+        GridPane.setConstraints(textModify2, 1, 1);
+        GridPane.setConstraints(textModify3, 1, 2);
+        GridPane.setConstraints(choiceBox, 1, 3);
+        GridPane.setConstraints(labelWarning, 1, 4);
+
+        gridPane.setVgap(20);
+        gridPane.setHgap(0);
+
+        gridPane.getChildren().setAll(labelName, textModify1, labelDirector, textModify2, labelDescription, textModify3,
+                labelCategory,
+                choiceBox, labelWarning);
+        root2.setCenter(gridPane);
+
+        root2.setStyle("-fx-background-color: #191919;");
+        gridPane.setStyle("-fx-background-color: white;");
+
+        // Save buttton
+        Button acceptButton = new Button();
+
+        GridPane.setConstraints(acceptButton, 0, 5);
+        acceptButton.setTranslateY(100);
+        acceptButton.setText("Next");
+        acceptButton.setPrefWidth(150);
+        GridPane.setHalignment(acceptButton, javafx.geometry.HPos.LEFT);
+        acceptButton.setOnAction(event -> {
+            // Modificar la serie actual con los datos del formulario
+
+            if (textModify1.getText().isBlank() && textModify2.getText().isBlank() && textModify3.getText().isBlank()
+                    && choiceBox.getValue() == null) {
+                ac.showErrorTimeline(textModify1, labelWarning,
+                        "* All fields must be filled!");
+                ac.showErrorTimeline(textModify2, labelWarning, "* All fields must be filled!");
+                ac.showErrorTimeline(textModify3, labelWarning, "* All fields must be filled!");
+                ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "* All fields must be filled!");
+                return; // Salir del método si hay campos vacíos
+            } else if (textModify1.getText().isBlank() || !ac.validateName(textModify1.getText())
+                    || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textModify1.getText())) {
+                ac.showErrorTimeline(textModify1, labelWarning,
+                        "Invalid name. Max 2 characters, no special characters.");
+                return;
+            } else if (textModify2.getText().isBlank() || !ac.validateName(textModify2.getText())
+                    || !ac.validarSinCharacterSpecial(textModify2.getText())) {
+                ac.showErrorTimeline(textModify2, labelWarning,
+                        "Invalid Director. Max 2 characters, no special characters.");
+                return;
+            } else if (textModify3.getText().isBlank() || !ac.validateDescription(textModify3.getText())) {
+                ac.showErrorTimeline(textModify3, labelWarning,
+                        "Invalid description. Max 5 characters.");
+                return;
+            } else if (choiceBox.getValue() == null) {
+                ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "Please select a category.");
+                return;
+            }
+
+            ac.modifySeries(textModify3.getText(), textModify1.getText(), textModify2.getText(), choiceBox.getValue(),
+                    serieModify.getId());
+
+            // Cambiar a la escena anterior
+            formularySeason();
+        });
+
+        // Cancel buttton
+        Button cancelButton = new Button();
+        GridPane.setConstraints(cancelButton, 1, 5);
+        cancelButton.setTranslateY(100);
+        cancelButton.setText("Cancel");
+        cancelButton.setPrefWidth(150);
+        GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
+
+        cancelButton.setOnAction(event -> {
+            ac.deleteSerie(serieModify.getId());
+            llamarEntryWindowSerie();
+        });
+
+        gridPane.getChildren().addAll(acceptButton, cancelButton);
+
+        // Crear la escena
+        Scene5 = new Scene(root2, screenWidth, screenHeight);
+        // aplicar CSS
+        Scene5.getStylesheets().add(new File("src\\main\\java\\co\\styles\\serie.css").toURI().toString());
+        cancelButton.setId("button");
+        acceptButton.setId("button");
+
+        // Establecer la escena en la ventana
+        primaryStage.setScene(Scene5);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle("New Serie Scene");
+        primaryStage.show();
+
+    }
+
     private void tableChapters(String selectedSeasonName) {
         Season selectedSeason = serieModify.getSeasons()
                 .get(ac.seasonNameFound(selectedSeasonName, serieModify.getId()));
 
         if (selectedSeason != null && selectedSeason.getchapters() != null && !selectedSeason.getchapters().isEmpty()) {
-
+            // Si hay capítulos en la temporada, mostrar la tabla como antes
             ObservableList<MultimediaContent> chapters = FXCollections
                     .observableArrayList(selectedSeason.getchapters());
 

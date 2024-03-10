@@ -541,14 +541,22 @@
     "seasons": [
       {
         "id": 1,
-        "seasonName": "aaa"
+        "seasonName": "aaa",
+        "chapters": [
+          {
+            "id": 5,
+            "name": "sadas",
+            "duration": 3432,
+            "description": "sasdf"
+          }
+        ]
       },
       {
         "id": 2,
         "seasonName": "asa"
       }
     ],
-    "category": "Horror",
+    "category": "Action",
     "id": 467,
     "name": "asda",
     "duration": 0,
