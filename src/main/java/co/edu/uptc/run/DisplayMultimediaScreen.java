@@ -13,15 +13,18 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Screen;
 import java.io.File;
 
+import co.edu.uptc.model.PlayList;
+
 public class DisplayMultimediaScreen {
 
     private MediaPlayer mediaPlayer;
     private MediaView mediaView;
     private String filePath;
+    private PlayList playList = new PlayList();
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
-    public Scene multimediaScene(String nameFile, Boolean option) {
+    public Scene multimediaScene(String nameFile, Boolean option, String className) {
         filePath = "src/multimediaVideos/";
         if (option) {
             filePath += "Movies/" + nameFile;
@@ -57,7 +60,11 @@ public class DisplayMultimediaScreen {
 
         homeButton.setOnAction(event -> {
             mediaPlayer.stop();
-            returnScene();
+            if (className.equals("UserScreen")) {
+                returnScene();
+            } else if (className.equals("PlayListScreen")) {
+                returnScenePlayList();
+            }
         });
 
         playButton.setPrefWidth(100);
@@ -103,5 +110,18 @@ public class DisplayMultimediaScreen {
     private void returnScene() {
         UserScreen userScreen = new UserScreen();
         userScreen.getScene1();
+    }
+
+    // PlayList Screen
+    private void returnScenePlayList() {
+        PlayListScreen.getScene(getPlayList());
+    }
+
+    public PlayList getPlayList() {
+        return playList;
+    }
+
+    public void setPlayList(PlayList playList) {
+        this.playList = playList;
     }
 }

@@ -333,12 +333,12 @@ public class PlayListScreen {
     }
 
     public static void showPlayListScene2(PlayList playList) {
+        changeToScene1(rectangle2);
+        principalContent(playList);
+
         userScreen = new UserScreen();
         root2 = new BorderPane();
         Rectangle rectangle = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
-
-        changeToScene1(rectangle2);
-        principalContent(playList);
 
         root2.setTop(userScreen.getMenuBar());
         root2.setLeft(stackPaneContent);
@@ -350,6 +350,10 @@ public class PlayListScreen {
         primaryStage.setScene(scene2);
         primaryStage.setTitle("PlayListContent");
         primaryStage.setMaximized(true);
+    }
+
+    public static void runScene2() {
+
     }
 
     public static void changeToScene1(Rectangle rectangle2) {
@@ -424,7 +428,7 @@ public class PlayListScreen {
             imageMovie.setFitHeight(imageMovie.getFitWidth() * 0.50);
 
             hBoxCurrentMovie();
-            playMultimediaMovie(movie.getFileVideo());
+            playMultimediaMovie(movie.getFileVideo(), playList);
             vBoxCurrentMovie.getChildren().addAll(labelName, imageMovie, hBoxMovieCurrent);
             vBoxMovies.getChildren().add(vBoxCurrentMovie);
         }
@@ -441,7 +445,7 @@ public class PlayListScreen {
             imageSerie.setFitHeight(imageSerie.getFitWidth() * 0.50);
 
             hBoxCurrentSerie();
-            playMultimediaMovie(serie.getFileVideo());
+            playMultimediaMovie(serie.getFileVideo(), playList);
             vBoxCurrentSerie.getChildren().addAll(labelName, imageSerie, hBoxSerieCurrent);
             vBoxSeries.getChildren().add(vBoxCurrentSerie);
         }
@@ -483,15 +487,21 @@ public class PlayListScreen {
         hBoxSerieCurrent.getChildren().addAll(play, delete);
     }
 
-    public static void playMultimediaMovie(String nameFile) {
+    public static void playMultimediaMovie(String nameFile, PlayList playList) {
         play.setOnMouseClicked(event -> {
-            switchReproductionScene(nameFile);
+            switchReproductionScene(nameFile, playList);
         });
     }
 
-    public static void switchReproductionScene(String nameFile) {
+    public static void switchReproductionScene(String nameFile, PlayList playList) {
         displayScreen = new DisplayMultimediaScreen();
-        primaryStage.setScene(displayScreen.multimediaScene(nameFile, true));
+        displayScreen.setPlayList(playList);
+        primaryStage.setScene(displayScreen.multimediaScene(nameFile, true, "PlayListScreen"));
+    }
+
+    public static Scene getScene(PlayList playList) {
+        showPlayListScene2(playList);
+        return scene2;
     }
 
     // public static void showPlayListScene2() {

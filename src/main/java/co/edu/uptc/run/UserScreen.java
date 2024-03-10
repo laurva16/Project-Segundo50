@@ -223,7 +223,7 @@ public class UserScreen {
 
         void switchReproductionScene(String nameFile) {
             displayScreen = new DisplayMultimediaScreen();
-            primaryStage.setScene(displayScreen.multimediaScene(nameFile, true));
+            primaryStage.setScene(displayScreen.multimediaScene(nameFile, true, "UserScreen"));
         }
 
         @Override
