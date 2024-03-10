@@ -19,9 +19,8 @@ public class AppTest {
     public void MoviesPersistence() {
         AdminController ac = new AdminController();
         // ac.addMovie("prueba", "prueba", "prueba", 122);
-        System.out.println("delete");
         ac.deleteMovie(0);
-        ac.getMovies().forEach(System.out::println);
+
     }
 
     @Test
@@ -33,7 +32,6 @@ public class AppTest {
         // ac.addChapter("cap2", "des", 60, 784, "temp1");
         // ac.deleteChapter("temp1", 783, "cap2");
         // ac.addSerie("prueba2", "prueba", "prueba", new ArrayList<Season>());
-        // ac.getMovies().forEach(System.out::println);
         ac.addSerie("Serie1", "Su papa", "asdfasdf", new ArrayList<Season>(), "Jum");
         ac.addSeason(459, "Season1", null);
         ac.addSeason(459, "Season2", null);
@@ -57,10 +55,10 @@ public class AppTest {
     public void addMultimediaValidation() {
         AdminController ac = new AdminController();
 
-        //ac.addMovie("Name1", "Author1", null, 0, null);
-        //ac.addMovie("Name2", "Author1", null, 0, null);
-       // ac.addMovie("Name1", "Author2", null, 0, null);
-       // ac.addMovie("Name1", "Author1", null, 0, null);
+        // ac.addMovie("Name1", "Author1", null, 0, null);
+        // ac.addMovie("Name2", "Author1", null, 0, null);
+        // ac.addMovie("Name1", "Author2", null, 0, null);
+        // ac.addMovie("Name1", "Author1", null, 0, null);
 
         ac.addSerie("Name1", "Author1", null, new ArrayList<Season>(), null);
         ac.addSerie("Name2", "Author1", null, new ArrayList<Season>(), null);
@@ -75,19 +73,15 @@ public class AppTest {
         uc.addUser("yovani ", "basquez", 1234, "jusad");
         uc.getListUsers();
     }
+
     @Test
     public void MultimediaListInUsersLogin() {
         UserRegisteredController uc = new UserRegisteredController();
         AdminController ac = new AdminController();
-        System.out.println("entro");
-        if(uc.couldLogIn("yovani1234@uptc.edu.co", "jusad")){
-            System.out.println(uc.getCurrentUser().getFirstName());
+        if (uc.couldLogIn("yovani1234@uptc.edu.co", "jusad")) {
 
-            ac.getListSeries().forEach(System.out::println);
-           // ac.getListMovies().forEach(System.out::println);
         }
-        
-    
+
     }
 
 }

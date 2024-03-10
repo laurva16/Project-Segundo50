@@ -139,7 +139,6 @@ public class PlayListScreen {
 
         namePlayList.setStyle("-fx-background-color: red;");
         for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
-            System.out.println(playList);
 
             namePlayList = new Label(playList.getName());
 
@@ -150,12 +149,11 @@ public class PlayListScreen {
             vBoxPrincipal.getChildren().add(hBoxPrincipalPlayList);
             hBoxPrincipalPlayList.setMaxWidth(500);
             VBox.setMargin(hBoxPrincipalPlayList, new Insets(50, 10, 50, 5));
-            System.out.println("=)");
+
         }
     }
 
     public static void buttonsActions() {
-        System.out.println("Jelpw");
         Region spacer = new Region();
         spacer.setPrefWidth(100);
 

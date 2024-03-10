@@ -623,5 +623,41 @@
     "duration": 0,
     "author": "laial lai ",
     "description": "dfd hg 34"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "aaa"
+      },
+      {
+        "id": 2,
+        "seasonName": "sds"
+      }
+    ],
+    "category": "Horror",
+    "id": 466,
+    "name": "sada",
+    "duration": 0,
+    "author": "asdas",
+    "description": "asdasd"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "aaa"
+      },
+      {
+        "id": 2,
+        "seasonName": "asa"
+      }
+    ],
+    "category": "Horror",
+    "id": 467,
+    "name": "asda",
+    "duration": 0,
+    "author": "asdas",
+    "description": "asdasdas"
   }
 ]

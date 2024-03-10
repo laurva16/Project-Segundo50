@@ -142,24 +142,22 @@ public class UserRegisteredController {
     }
 
     public void playMovie(int duracionMilisegundos, String movieName) {
-        System.out.println("Reproduciendo la película " + movieName + "...");
+
         try {
             Thread.sleep(duracionMilisegundos);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Película Finalizada");
 
     }
 
     public void playSerie(int duracionMilisegundos, String serieName) {
-        System.out.println("Reproduciendo la serie " + serieName + "...");
+
         try {
             Thread.sleep(duracionMilisegundos);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Serie Finalizada");
 
     }
 
