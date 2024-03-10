@@ -188,9 +188,10 @@ public class RegisterWindow {
         buttonSignUp.setOnAction(event -> {
             setVisibleFalse();
             // Se deben poner las validadciones para cada label
-            if (allValidation()) {
+            Payment newPayment;
+            if (allValidation() && (newPayment = paymentSimulation()) != null) {
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
-                       textPassword.getText(), paymentSimulation());
+                       textPassword.getText(), newPayment);
   
                 UserRegistered userRegistered = getUserRegistered();
                 UserScreen userScreen = new UserScreen();

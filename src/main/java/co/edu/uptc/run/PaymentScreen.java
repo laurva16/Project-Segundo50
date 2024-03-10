@@ -38,6 +38,7 @@ public class PaymentScreen {
     AdminController ac = new AdminController();
 
     Stage secundaryStage;
+
     public void showPaymentScreen() {
         secundaryStage = new Stage();
         secundaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -85,7 +86,7 @@ public class PaymentScreen {
         acceptButton.setTranslateY(50);
         acceptButton.setText("Finish");
         acceptButton.setPrefWidth(100);
-        acceptButton.setOnAction(event -> validationPayment());
+        acceptButton.setOnAction(event -> addPayment());
         acceptButton.setId("button");
 
         HBox boxButton = new HBox(acceptButton, closeButton);
@@ -120,12 +121,16 @@ public class PaymentScreen {
     }
 
     public Payment addPayment() {
-        UserRegisteredController urc = new UserRegisteredController();
-        return urc.addPayment(nameCard.getText(), Integer.parseInt(cardNumber.getText()), securityCode.getText(),
-                Integer.parseInt(yearComboBox.getValue().toString()), monthComboBox.getValue());
+        if(validationPayment()){
+            UserRegisteredController urc = new UserRegisteredController();
+            return urc.addPayment(nameCard.getText(), Integer.parseInt(cardNumber.getText()), securityCode.getText(),
+                    Integer.parseInt(yearComboBox.getValue().toString()), monthComboBox.getValue());
+        } else{
+            return null;
+        }
     }
 
-    public void validationPayment() {
+    public Boolean validationPayment() {
         if (nameCard.getText().isBlank() && cardNumber.getText().isBlank() && securityCode.getText().isBlank()
                 && yearComboBox.getValue() == null && monthComboBox.getValue() == null) {
             ac.showErrorTimeline(nameCard, labelWarning, "* All fields must be filled!");
@@ -133,30 +138,32 @@ public class PaymentScreen {
             ac.showErrorTimeline(securityCode, labelWarning, "* All fields must be filled!");
             ac.showErrorTimelineIntComboBox(yearComboBox, labelWarning, "* All fields must be filled!");
             ac.showErrorTimelineStringComboBox(monthComboBox, labelWarning, "* All fields must be filled!");
-            return;
+            return false;
 
-        } else if (nameCard.getText().isBlank() || !ac.validateName(nameCard.getText()) 
+        } else if (nameCard.getText().isBlank() || !ac.validateName(nameCard.getText())
                 || !ac.validarSinCharacterSpecial(nameCard.getText())) {
             ac.showErrorTimeline(nameCard, labelWarning,
                     "* Invalid name on card. Min. 6 letters, no numbers or special characters.");
-            return;
+            return false;
 
-        } else if (cardNumber.getText().isBlank() || !ac.validateNumbers(cardNumber.getText()) || ac.validateNumbersDigits(cardNumber.getText())) {
+        } else if (cardNumber.getText().isBlank() || !ac.validateNumbers(cardNumber.getText())
+                || ac.validateNumbersDigits(cardNumber.getText())) {
             ac.showErrorTimeline(cardNumber, labelWarning,
                     "* Invalid card number. Min. 6 digits, no characters.");
-            return;
+            return false;
         } else if (securityCode.getText().isBlank() || !ac.validateDescription(securityCode.getText())
                 || !ac.validarSinCharacterSpecial(nameCard.getText())) {
             ac.showErrorTimeline(securityCode, labelWarning,
                     "* Invalid security code. Min. 5 characters.");
-            return;
+            return false;          
         } else if (yearComboBox.getValue() == null) {
             ac.showErrorTimelineIntComboBox(yearComboBox, labelWarning, "* Select the expiration year.");
-            return;
+            return false;        
         } else if (monthComboBox.getValue() == null) {
             ac.showErrorTimelineStringComboBox(monthComboBox, labelWarning, "* Select the expiration  month.");
-            return;
+            return false;
         }
         secundaryStage.close();
+        return true;
     }
 }
