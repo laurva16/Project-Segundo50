@@ -7,18 +7,14 @@ import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
-import co.edu.uptc.model.UserRegistered;
 import co.edu.uptc.utilities.FileManagement;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class AdminController {
@@ -588,7 +584,6 @@ public class AdminController {
     }
 
     public boolean validateNumbersDigits(String digit) {
-
         if (digit.length() < 6) {
             return true;
         }
@@ -655,6 +650,20 @@ public class AdminController {
         timeline.play();
     }
 
+    public void showErrorTimelineFile(Button selected, Label errorLabel, String mensaje) {
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);    
+        selected.setStyle("-fx-border-color: red;"); 
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            selected.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
     public void showErrorTimelineStringComboBox(ComboBox<String> stringBox, Label errorLabel, String mensaje) {
         errorLabel.setTextFill(javafx.scene.paint.Color.RED);
         errorLabel.setText(mensaje);    
@@ -698,6 +707,17 @@ public class AdminController {
         return input.matches(patron);
     }
 
+    public boolean validateWithoutSpecialCharacter(String input) {
+        String patron = "^[a-zA-Z\\s,.:;]*$";
+        return input.matches(patron);
+    }
+
+    public boolean validateWithNumber(String input) {
+        String patron = "^[a-zA-Z0-9\\s]*$";
+        return input.matches(patron);
+    }
+
+    
     public boolean validateNameSeason(String nameSeason, int idSerie) {
         for (Serie serie : listSeries) {
             if (serie.getId() == idSerie) {

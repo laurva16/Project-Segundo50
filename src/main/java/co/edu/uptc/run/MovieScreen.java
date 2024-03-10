@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -41,7 +42,7 @@ public class MovieScreen {
     Label labelDescription = new Label("Description:");
     Label labelDuration = new Label("Duration:");
     Label labelCategory = new Label("Category:");
-    Label labelWarning;
+    Label labelWarning = new Label();
     Label labelFileName = new Label("File video:");
     Label labelImageCover = new Label("Image cover:");
 
@@ -50,14 +51,14 @@ public class MovieScreen {
     private Stage primaryStage;
     private Scene newMovieScene;
     private Scene editMovieScene;
-    
+
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-   
+
     FileManagement fm;
     AdminController adminC;
     CategoryController categoryC;
-   
+
     public MovieScreen(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
         //
@@ -68,7 +69,7 @@ public class MovieScreen {
     }
 
     public Scene newMovieScene() {
-        BorderPane root3 = new BorderPane();
+        BorderPane root = new BorderPane();
         GridPane gridPane = new GridPane();
 
         nameField = new TextField();
@@ -81,13 +82,7 @@ public class MovieScreen {
         descriptionField.setPrefWidth(300);
         durationField.setPrefWidth(300);
 
-        labelWarning = new Label("* All fields must be filled!");
-        labelWarning.setVisible(false);
-
         categoryBox.setMaxSize(300, 20);
-
-        gridPane.setMaxWidth(600);
-        gridPane.setMaxHeight(600);
         gridPane.setAlignment(Pos.CENTER);
 
         GridPane.setConstraints(labelName, 0, 0);
@@ -95,9 +90,6 @@ public class MovieScreen {
         GridPane.setConstraints(labelDescription, 0, 2);
         GridPane.setConstraints(labelDuration, 0, 3);
         GridPane.setConstraints(labelCategory, 0, 4);
-
-        GridPane.setConstraints(labelWarning, 1, 6);
-        GridPane.setHalignment(labelWarning, javafx.geometry.HPos.RIGHT);
 
         GridPane.setConstraints(nameField, 1, 0);
         GridPane.setConstraints(directorField, 1, 1);
@@ -109,9 +101,7 @@ public class MovieScreen {
         gridPane.setHgap(0);
 
         gridPane.getChildren().setAll(labelName, nameField, labelDirector, directorField, labelDescription,
-                descriptionField, labelDuration,
-                durationField, labelCategory, categoryBox, labelWarning);
-        root3.setCenter(gridPane);
+                descriptionField, labelDuration, durationField, labelCategory, categoryBox);
 
         // Save buttton
         acceptButton = new Button();
@@ -137,7 +127,7 @@ public class MovieScreen {
         fileButton = new Button();
         fileButton.setPrefWidth(50);
         fileButton.setOnAction(event -> chooseFileScreen());
-        
+
         // Cover image button
         coverButton = new Button();
         coverButton.setPrefWidth(50);
@@ -160,11 +150,22 @@ public class MovieScreen {
         coverHBox.setSpacing(25);
         GridPane.setConstraints(fileHBox, 0, 5);
         GridPane.setConstraints(coverHBox, 1, 5);
-        
-        coverHBox.setTranslateX(130);
-        gridPane.getChildren().addAll(acceptButton, cancelButton, fileHBox,coverHBox);
 
-        newMovieScene = new Scene(root3, screenWidth, screenHeight);
+        coverHBox.setTranslateX(130);
+
+        //
+        gridPane.getChildren().addAll(acceptButton, cancelButton, fileHBox, coverHBox);
+
+        VBox container = new VBox(gridPane, labelWarning);
+        container.setAlignment(Pos.CENTER_LEFT);
+        root.setCenter(container);
+        labelWarning.setTranslateY(-50);
+        labelWarning.setTranslateX(75);
+
+        container.setMaxWidth(600);
+        container.setMaxHeight(600);
+        //
+        newMovieScene = new Scene(root, screenWidth, screenHeight);
         // CSS
         newMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         cancelButton.setId("button");
@@ -172,8 +173,9 @@ public class MovieScreen {
         fileButton.setId("videoButton");
         coverButton.setId("videoButton");
         labelWarning.setId("warning");
-        root3.setId("root3");
+        root.setId("root3");
         gridPane.setId("gridPane");
+        container.setId("gridPane");
 
         return newMovieScene;
     }
@@ -184,50 +186,79 @@ public class MovieScreen {
     }
 
     public void addNewMovie() {
-        Boolean numberValid;
-        try {
-            Integer.parseInt(durationField.getText());
-            numberValid = true;
-        } catch (Exception e) {
-            numberValid = false;
-        }
+        if (validation()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm changes");
+            alert.setHeaderText(null);
+            alert.setContentText("You want to save to changes?");
 
-        if (!numberValid && (!durationField.getText().isEmpty())) {
-            labelWarning.setText("* Duration format is invalid !");
-            labelWarning.setVisible(true);
-        } else {
-            labelWarning.setText("* All fields must be filled!");
-            if (nameField.getText().isEmpty() || directorField.getText().isEmpty()
-                    || descriptionField.getText().isEmpty()
-                    || durationField.getText().isEmpty() || (categoryBox.getValue() == null)) {
-                labelWarning.setVisible(true);
-
-            } else {
-                // ventana de confirmacion
-                labelWarning.setVisible(false);
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirm changes");
-                alert.setHeaderText(null);
-                alert.setContentText("You want to save to changes?");
-
-                alert.showAndWait().ifPresent(response -> {
-                    if (response == ButtonType.OK) {
-                        adminC.addMovie(nameField.getText(), directorField.getText(), descriptionField.getText(),
-                                Integer.parseInt(durationField.getText()),
-                                categoryBox.getValue(), selectedFile.getName(), selectedCover.getName());
-                        returnScene();
-                    } else {
-                    }
-                });
-            }
+            // cambio de texto predet. en Alert
+            Button buttonOK = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            Button buttonCancel = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+            buttonOK.setText("Accept");
+            buttonCancel.setText("Return");
+            //
+            
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    adminC.addMovie(nameField.getText(), directorField.getText(), descriptionField.getText(),
+                            Integer.parseInt(durationField.getText()),
+                            categoryBox.getValue(), selectedFile.getName(), selectedCover.getName());
+                    returnScene();
+                } else {
+                }
+            });
         }
     }
 
+    public Boolean validation() {
+        if (nameField.getText().isBlank() && directorField.getText().isBlank() && descriptionField.getText().isBlank()
+                && durationField.getText().isBlank()
+                && (categoryBox.getValue() == null) && (selectedFile == null) && (selectedCover == null)) {
+
+            adminC.showErrorTimeline(nameField, labelWarning, "* All fields must be filled!");
+            adminC.showErrorTimeline(directorField, labelWarning, "* All fields must be filled!");
+            adminC.showErrorTimeline(descriptionField, labelWarning, "* All fields must be filled!");
+            adminC.showErrorTimeline(durationField, labelWarning, "* All fields must be filled!");
+            adminC.showErrorTimelineChoiceBox(categoryBox, labelWarning, "* All fields must be filled!");
+            adminC.showErrorTimelineFile(fileButton, labelWarning, "* All fields must be filled!");
+            adminC.showErrorTimelineFile(coverButton, labelWarning, "* All fields must be filled!");
+            return false;
+
+        } else if (nameField.getText().isBlank() || !adminC.validateName(nameField.getText())
+                || !adminC.validateWithNumber(nameField.getText())) {
+            adminC.showErrorTimeline(nameField, labelWarning, "* Invalid name. Min. 3 digits, no special characters.");
+            return false;
+        } else if (directorField.getText().isBlank() || !adminC.validateName(directorField.getText())
+                || !adminC.validarSinCharacterSpecial(directorField.getText())) {
+            adminC.showErrorTimeline(directorField, labelWarning,
+                    "* Invalid director. Min. 3 digits, no numbers or special characters.");
+            return false;
+        } else if (descriptionField.getText().isBlank() || !adminC.validateName(descriptionField.getText())
+                || !adminC.validateWithoutSpecialCharacter(descriptionField.getText())) {
+            adminC.showErrorTimeline(descriptionField, labelWarning,
+                    "* Invalid description. Min. 3 digits, no numbers or special characters.");
+            return false;
+        } else if (durationField.getText().isBlank() || !adminC.validateNumbers(durationField.getText())) {
+            adminC.showErrorTimeline(durationField, labelWarning, "* Invalid duration. No characters.");
+            return false;
+        } else if (categoryBox.getValue() == null) {
+            adminC.showErrorTimelineChoiceBox(categoryBox, labelWarning, "* Select the category.");
+            return false;
+        } else if (selectedFile == null) {
+            adminC.showErrorTimelineFile(fileButton, labelWarning, "* Select the file video.");
+            return false;
+        } else if (selectedCover == null) {
+            adminC.showErrorTimelineFile(coverButton, labelWarning, "* Select the cover image.");
+            return false;
+        }
+        return true;
+    }
     // EDIT
 
     public Scene editMovieScene(Movie movie) {
 
-        BorderPane root3 = new BorderPane();
+        BorderPane root = new BorderPane();
         GridPane gridPane = new GridPane();
         //
         nameField = new TextField();
@@ -264,26 +295,16 @@ public class MovieScreen {
         GridPane.setConstraints(labelDuration, 0, 3);
         GridPane.setConstraints(labelCategory, 0, 4);
 
-        labelWarning = new Label("* All fields must be filled!");
-        labelWarning.setVisible(false);
-
         categoryBox.setValue(movie.getCategory());
         categoryBox.setMaxSize(300, 20);
 
         gridPane.getChildren().setAll(nameField, directorField, descriptionField, durationField, labelName,
-                labelDirector, labelDescription, labelDuration, labelCategory, labelWarning, categoryBox);
+                labelDirector, labelDescription, labelDuration, labelCategory, categoryBox);
 
-        gridPane.setMaxWidth(600);
-        gridPane.setMaxHeight(600);
         gridPane.setAlignment(Pos.CENTER);
-
-        GridPane.setConstraints(labelWarning, 1, 6);
-        GridPane.setHalignment(labelWarning, javafx.geometry.HPos.RIGHT);
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
-
-        root3.setCenter(gridPane);
 
         // Save button
         acceptButton = new Button();
@@ -304,21 +325,16 @@ public class MovieScreen {
         cancelButton.setText("Cancel");
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
-
         cancelButton.setOnAction(event -> returnScene());
+
         // File Video buttton
         fileButton = new Button();
-
-        GridPane.setConstraints(fileButton, 1, 5);
         fileButton.setPrefWidth(50);
-
         fileButton.setOnAction(event -> chooseFileScreen());
+
         // Cover image button
         coverButton = new Button();
-
-        GridPane.setConstraints(coverButton, 3, 5);
         coverButton.setPrefWidth(50);
-
         coverButton.setOnAction(event -> chooseImageScreen());
 
         ImageView fileIcon = new ImageView(new Image("file:" + "src/prograIconos/video.png"));
@@ -330,70 +346,78 @@ public class MovieScreen {
         coverIcon.setFitWidth(22);
         coverIcon.setFitHeight(22);
         coverButton.setGraphic(coverIcon);
-        //
-        HBox chooserBox = new HBox(labelFileName, fileButton, labelImageCover, coverButton);
-        chooserBox.setSpacing(60);
-        chooserBox.setAlignment(Pos.CENTER);
-        chooserBox.setTranslateY(-300);
 
-        fileButton.setTranslateX(-30);
-        labelImageCover.setTranslateX(35);
-        root3.setBottom(chooserBox);
+        HBox fileHBox = new HBox(labelFileName, fileButton);
+        HBox coverHBox = new HBox(labelImageCover, coverButton);
+        fileHBox.setSpacing(25);
+        coverHBox.setSpacing(25);
+        GridPane.setConstraints(fileHBox, 0, 5);
+        GridPane.setConstraints(coverHBox, 1, 5);
+        coverHBox.setTranslateX(130);
         //
-        gridPane.getChildren().addAll(acceptButton, cancelButton);
+        selectedFile = new File("src/multimediaVideos/Movies/" + movie.getFileVideo());
+        selectedCover = new File("src/multimediaCovers/Movies/" + movie.getCoverImage());
+        //
+        gridPane.getChildren().addAll(acceptButton, cancelButton, fileHBox, coverHBox);
 
-        // Crear la escena
-        editMovieScene = new Scene(root3, screenWidth, screenHeight);
+        VBox container = new VBox(gridPane, labelWarning);
+        container.setAlignment(Pos.CENTER_LEFT);
+        root.setCenter(container);
+        labelWarning.setTranslateY(-50);
+        labelWarning.setTranslateX(75);
+
+        container.setMaxWidth(600);
+        container.setMaxHeight(600);
+
+        //
+        editMovieScene = new Scene(root, screenWidth, screenHeight);
         // CSS
         editMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         cancelButton.setId("button");
-        acceptButton.setId("button");
+        acceptButton.setId("acceptbutton");
         fileButton.setId("videoButton");
-        coverButton.setId("coverButton");
+        coverButton.setId("videoButton");
         labelWarning.setId("warning");
-        root3.setId("root3");
+        root.setId("root3");
         gridPane.setId("gridPane");
+        container.setId("gridPane");
+
         return editMovieScene;
     }
 
     public void editMovie(Movie movie) {
-        Boolean numberValid;
-        try {
-            Integer.parseInt(durationField.getText());
-            numberValid = true;
-        } catch (Exception e) {
-            numberValid = false;
+        if (validation()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm changes");
+            alert.setHeaderText(null);
+            alert.setContentText("You want to save to changes?");
+
+            // cambio de texto predet. en Alert
+            Button buttonOK = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            Button buttonCancel = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+            buttonOK.setText("Accept");
+            buttonCancel.setText("Return");
+            //
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    movie.setName(nameField.getText());
+                    movie.setDescription(descriptionField.getText());
+                    movie.setAuthor(directorField.getText());
+                    movie.setDuration(Integer.parseInt(durationField.getText()));
+                    movie.setCategory(categoryBox.getValue());
+
+                    if (selectedFile != null) {
+                        movie.setFileVideo(selectedFile.getName());
+                    }
+                    if (selectedCover != null) {
+                        movie.setCoverImage(selectedCover.getName());
+                    }
+                    adminC.updateMovieInformation(movie);
+                    returnScene();
+                }
+            });
         }
 
-        labelWarning.setVisible(false);
-        if (!numberValid && (!durationField.getText().isEmpty())) {
-            labelWarning.setText("* Duration format is invalid !");
-            labelWarning.setVisible(true);
-        } else {
-            if (nameField.getText().isEmpty() || directorField.getText().isEmpty()
-                    || descriptionField.getText().isEmpty() || durationField.getText().isEmpty()
-                    || (categoryBox.getValue() == null)) {
-                labelWarning.setText("* All fields must be filled!");
-                labelWarning.setVisible(true);
-            } else {
-                labelWarning.setVisible(false);
-
-                movie.setName(nameField.getText());
-                movie.setDescription(descriptionField.getText());
-                movie.setAuthor(directorField.getText());
-                movie.setDuration(Integer.parseInt(durationField.getText()));
-                movie.setCategory(categoryBox.getValue());
-
-                if(selectedFile != null){
-                    movie.setFileVideo(selectedFile.getName());
-                }
-                if(selectedCover != null){
-                    movie.setCoverImage(selectedCover.getName());
-                }
-                adminC.updateMovieInformation(movie);
-                returnScene();
-            }
-        }
     }
 
     public void chooseFileScreen() {

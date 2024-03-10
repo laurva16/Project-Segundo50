@@ -92,20 +92,5 @@
     "user": "juan2@gmail.com",
     "password": "Jdgo1123@",
     "id": 25892
-  },
-  {
-    "playList": [],
-    "payment": {
-      "nameCard": "Junasd asd ",
-      "cardNumber": 3123124,
-      "securityCode": "asdsa221",
-      "expirationYear": 2024,
-      "expirationMonth": "March"
-    },
-    "firstName": "Junasd",
-    "lastName": "Junasd",
-    "user": "Junasd@gmail.com",
-    "password": "Jdgo1123@",
-    "id": 67977
   }
 ]

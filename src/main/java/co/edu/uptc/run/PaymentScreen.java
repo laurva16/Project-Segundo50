@@ -143,7 +143,7 @@ public class PaymentScreen {
 
         } else if (cardNumber.getText().isBlank() || !ac.validateNumbers(cardNumber.getText()) || ac.validateNumbersDigits(cardNumber.getText())) {
             ac.showErrorTimeline(cardNumber, labelWarning,
-                    "* Invalid card number. Min. 6 digits, no special characters.");
+                    "* Invalid card number. Min. 6 digits, no characters.");
             return;
         } else if (securityCode.getText().isBlank() || !ac.validateDescription(securityCode.getText())
                 || !ac.validarSinCharacterSpecial(nameCard.getText())) {
