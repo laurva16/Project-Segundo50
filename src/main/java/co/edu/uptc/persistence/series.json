@@ -59,18 +59,6 @@
         "seasonName": "primera temporada",
         "chapters": [
           {
-            "id": 1,
-            "name": "Capitulo1",
-            "duration": 11111,
-            "description": "ahi vienen"
-          },
-          {
-            "id": 2,
-            "name": "cap 2-primera",
-            "duration": 23232,
-            "description": "robo"
-          },
-          {
             "id": 3,
             "name": "sdfsd",
             "duration": 543534,
@@ -97,7 +85,7 @@
         ]
       }
     ],
-    "category": "Drama",
+    "category": "Horror",
     "id": 463,
     "name": "Peaky Blinders",
     "duration": 50,
@@ -509,14 +497,7 @@
       {
         "id": 1,
         "seasonName": "sss",
-        "chapters": [
-          {
-            "id": 5,
-            "name": "ter",
-            "duration": 23412,
-            "description": "dsfsdsd"
-          }
-        ]
+        "chapters": []
       },
       {
         "id": 3,
@@ -524,9 +505,9 @@
         "chapters": [
           {
             "id": 2,
-            "name": "otro ",
-            "duration": 12321,
-            "description": "sadafda"
+            "name": "dsfsd",
+            "duration": 325,
+            "description": "dsfsds"
           }
         ]
       }
