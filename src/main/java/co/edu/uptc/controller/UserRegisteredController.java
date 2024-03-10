@@ -401,6 +401,23 @@ public class UserRegisteredController {
         fm.reWriteFile("users", listUsers);
     }
 
+    public boolean removeplayList(String namePlayList) {
+        for (int i = 0; i < listUsers.size(); i++) {
+            if (currentUser.getUser().equals(listUsers.get(i).getUser())) {
+                for (PlayList playList : listUsers.get(i).getplayList()) {
+                    if (playList.getName().equals(namePlayList)) {
+                        currentUser.getplayList().remove(playList);
+                        listUsers.get(i).removeplayList(playList);
+                        setCurrentUser(listUsers.get(i));
+                        fm.reWriteFile("users", listUsers);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public ArrayList<PlayList> getPlayList() {
         return currentUser.getplayList();
     }

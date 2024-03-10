@@ -1,6 +1,7 @@
 package co.edu.uptc.run;
 
 import java.io.File;
+import java.lang.ProcessBuilder.Redirect.Type;
 import java.net.http.HttpResponse.BodyHandler;
 import java.util.Optional;
 import co.edu.uptc.controller.UserRegisteredController;
@@ -14,6 +15,8 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -161,6 +164,8 @@ public class PlayListScreen {
 
             tooltipName = new Tooltip(namePlayList.getText());
             Tooltip.install(namePlayList, tooltipName);
+
+            deletePlayList(namePlayList.getText());
         }
     }
 
@@ -253,8 +258,37 @@ public class PlayListScreen {
         Tooltip.install(buttonDeletePlayList, tooltipDelete);
     }
 
-    public static void deletePlayList() {
+    public static void deletePlayList(String playListName) {
 
+        buttonDeletePlayList.setOnAction(event -> {
+            Alert delete = new Alert(AlertType.CONFIRMATION);
+            delete.setTitle("Delete");
+            delete.setHeaderText("Delete playList '" + playListName + "'?");
+            delete.setContentText(("Are you sure you want to delete the playList"));
+
+            ButtonType buttonTypeOK = new ButtonType("OK");
+            ButtonType buttonCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            delete.getButtonTypes().setAll(buttonTypeOK, buttonCancel);
+
+            delete.showAndWait().ifPresent(response -> {
+                if (response == buttonTypeOK) {
+                    if (userRegisteredController.removeplayList(playListName)) {
+                        Alert correct = new Alert(AlertType.INFORMATION);
+                        correct.setTitle("Delete playList");
+                        correct.setHeaderText("PLayList removed '" + playListName + "'");
+                        correct.setContentText(("The playList has been successfully deleted"));
+                        correct.show();
+                        showPlayListScene();
+                    } else {
+                        Alert error = new Alert(AlertType.INFORMATION);
+                        error.setTitle("Error");
+                        error.setHeaderText("Some error ocurred");
+                        error.setContentText(("Please try again"));
+                        error.show();
+                    }
+                }
+            });
+        });
     }
 
     public static void messages() {

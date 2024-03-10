@@ -29,7 +29,9 @@ public class UserRegistered extends Person {
     }
 
     public void removeplayList(PlayList playList) {
-        this.playList.remove(playList);
+        if (this.playList.contains(playList)) {
+            this.playList.remove(playList);
+        }
     }
 
     public UserSubscription getSub() {
