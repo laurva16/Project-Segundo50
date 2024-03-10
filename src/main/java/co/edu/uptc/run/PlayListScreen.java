@@ -5,7 +5,9 @@ import java.lang.ProcessBuilder.Redirect.Type;
 import java.net.http.HttpResponse.BodyHandler;
 import java.util.Optional;
 import co.edu.uptc.controller.UserRegisteredController;
+import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.PlayList;
+import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +33,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -51,14 +54,14 @@ public class PlayListScreen {
     static double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
     private static BorderPane root, root2;
-    private static ScrollPane scrollPanePrincipal, scrollPane2;
+    private static ScrollPane scrollPanePrincipal;
     private static VBox vBoxPrincipal;
     private static HBox hBoxPrincipalPlayList;
     private static BorderPane borderPanePrincipalPlayList;
     private static Image image;
     private static Label namePlayList;
     private static HBox hBoxActions;
-    private static Button buttonAddMultimedia, buttonDeletePlayList, buttonChangeScene;
+    private static Button buttonAddMultimedia, buttonDeletePlayList;
     private static ImageView imageAddMultimedia;
     private static ImageView imageDeletePlayList;
     private static Button buttonAddPlayList;
@@ -151,15 +154,15 @@ public class PlayListScreen {
             Tooltip.install(namePlayList, tooltipName);
 
             deletePlayList(namePlayList.getText());
-            changeToScene2(borderPanePrincipalPlayList, namePlayList.getText());
+            changeToScene2(borderPanePrincipalPlayList, playList);
         }
     }
 
     public static void addNewPlayList() {
         rectangle2 = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
         buttonAddPlayList = new Button();
-        StackPane.setAlignment(buttonAddPlayList, Pos.TOP_LEFT);
-        StackPane.setMargin(buttonAddPlayList, new Insets(20, 0, 0, 20));
+        StackPane.setAlignment(buttonAddPlayList, Pos.TOP_CENTER);
+        StackPane.setMargin(buttonAddPlayList, new Insets(20, 0, 0, 0));
 
         imageAddPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
         imageAddPlayList.setFitHeight(50);
@@ -299,18 +302,22 @@ public class PlayListScreen {
         namePlayList.setOnMouseExited(event -> tooltipName.hide());
     }
 
-    public static void changeToScene2(BorderPane borderPane, String playListName) {
-        borderPane.setOnMouseClicked(event -> showPlayListScene2(playListName));
+    public static void changeToScene2(BorderPane borderPane, PlayList playList) {
+        borderPane.setOnMouseClicked(event -> showPlayListScene2(playList));
     }
 
     // _______________________________________________________________________________________________________________________
     private static Rectangle rectangle2Content;
     private static StackPane stackPaneContent;
     private static Button buttonReturn;
+    private static VBox vBoxContent, vBoxMovies, vBoxSeries, vBoxCurrentMovie, vBoxCurrentSerie;
+    private static HBox hBoxMultimedia;
+    private static ScrollPane scrollPaneContent;
+    private static ImageView imageMovie, imageSerie;
+    private static String pathMovie, pathSerie;
 
     public PlayListScreen() {
         userRegistered = new UserRegistered();
-
         userRegisteredController = getUserRegisteredController();
         root = new BorderPane();
         hBoxPrincipalPlayList = new HBox();
@@ -321,18 +328,18 @@ public class PlayListScreen {
         stackPaneAddPlayList = new StackPane();
     }
 
-    public static void showPlayListScene2(String playListName) {
+    public static void showPlayListScene2(PlayList playList) {
         userScreen = new UserScreen();
         root2 = new BorderPane();
-
         Rectangle rectangle = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
 
         changeToScene1(rectangle2);
+        principalContent(playList);
 
         root2.setTop(userScreen.getMenuBar());
         root2.setLeft(rectangle);
         root2.setRight(stackPaneContent);
-        root2.setCenter(scrollPane2);
+        root2.setCenter(vBoxContent);
 
         scene2 = new Scene(root2, screenWidth, screenHeight);
         scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\playList.css").toURI().toString());
@@ -353,6 +360,55 @@ public class PlayListScreen {
         buttonReturn.setOnMouseClicked(event -> showPlayListScene());
 
         stackPaneContent.getChildren().addAll(rectangle2Content, buttonReturn);
+    }
+
+    public static void principalContent(PlayList playList) {
+        Label playListNameContent = new Label(playList.getName());
+        vBoxContent = new VBox();
+        vBoxMovies = new VBox();
+        vBoxSeries = new VBox();
+        hBoxMultimedia = new HBox();
+        scrollPaneContent = new ScrollPane();
+        scrollPaneContent.setStyle("-fx-background-color: #191919;");
+
+        vBoxContent.setId("vBoxContent");
+        vBoxContent.getChildren().addAll(playListNameContent, scrollPaneContent);
+
+        playListContent(playList);
+    }
+
+    public static void playListContent(PlayList playList) {
+        Label labelMovie = new Label("Movies"), labelSerie = new Label("Series"), labelName;
+        labelMovie.getStyleClass().add("labelMultimedia");
+        labelSerie.getStyleClass().add("labelMultimedia");
+        pathMovie = "src\\multimediaCovers\\Movies\\";
+        pathSerie = "src\\multimediaCovers\\Series\\";
+        vBoxMovies.getChildren().add(labelMovie);
+        vBoxSeries.getChildren().add(labelSerie);
+
+        for (Movie movie : playList.getMovies()) {
+            vBoxMovies.setStyle("-fx-background-color: #191919;");
+            vBoxCurrentMovie = new VBox();
+            labelName = new Label(movie.getName());
+            labelName.getStyleClass().add("labelMultimedia2");
+
+            imageMovie = new ImageView(new Image("file:" + pathMovie + movie.getCoverImage()));
+            vBoxCurrentMovie.getChildren().addAll(imageMovie, labelName);
+            vBoxMovies.getChildren().add(vBoxCurrentMovie);
+        }
+
+        for (Serie serie : playList.getSeries()) {
+            vBoxSeries.setStyle("-fx-background-color: #191919;");
+            vBoxCurrentSerie = new VBox();
+            labelName = new Label(serie.getName());
+            labelName.getStyleClass().add("labelMultimedia2");
+
+            imageSerie = new ImageView(new Image("file:" + pathSerie + serie.getCoverImage()));
+            vBoxCurrentSerie.getChildren().addAll(imageSerie, labelName);
+            vBoxSeries.getChildren().add(vBoxCurrentSerie);
+        }
+        hBoxMultimedia.getChildren().addAll(vBoxMovies, vBoxSeries);
+        scrollPaneContent.setContent(hBoxMultimedia);
     }
     // public static void showPlayListScene2() {
     // userScreen = new UserScreen();

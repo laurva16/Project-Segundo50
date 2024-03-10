@@ -72,7 +72,7 @@
     "duration": 50,
     "author": "pablo pablito",
     "description": "peligro!!! Disparos",
-    "coverImage": "peakyBlinders.jpg"
+    "coverImage": "peakyBlinders.png"
   },
   {
     "seasons": [
@@ -87,7 +87,7 @@
     "duration": 0,
     "author": "",
     "description": "Love",
-    "coverImage": "Dickinson.jpeg"
+    "coverImage": "Dickinson.jpg"
   },
   {
     "seasons": [
@@ -162,7 +162,7 @@
     "duration": 50,
     "author": "pablo pablito",
     "description": "peligro!!! Disparos",
-    "coverImage": "peakyBlinders.jpg"
+    "coverImage": "peakyBlinders.png"
   },
   {
     "seasons": [
@@ -177,7 +177,7 @@
     "duration": 0,
     "author": "",
     "description": "Love",
-    "coverImage": "Dickinson.jpeg"
+    "coverImage": "Dickinson.jpg"
   },
   {
     "seasons": [
@@ -252,7 +252,7 @@
     "duration": 50,
     "author": "pablo pablito",
     "description": "peligro!!! Disparos",
-    "coverImage": "peakyBlinders.jpg"
+    "coverImage": "peakyBlinders.png"
   },
   {
     "seasons": [
@@ -267,7 +267,7 @@
     "duration": 0,
     "author": "",
     "description": "Love",
-    "coverImage": "Dickinson.jpeg"
+    "coverImage": "Dickinson.jpg"
   },
   {
     "seasons": [
@@ -342,7 +342,7 @@
     "duration": 50,
     "author": "pablo pablito",
     "description": "peligro!!! Disparos",
-    "coverImage": "peakyBlinders.jpg"
+    "coverImage": "peakyBlinders.png"
   },
   {
     "seasons": [
@@ -357,6 +357,6 @@
     "duration": 0,
     "author": "",
     "description": "Love",
-    "coverImage": "Dickinson.jpeg"
+    "coverImage": "Dickinson.jpg"
   }
 ]
