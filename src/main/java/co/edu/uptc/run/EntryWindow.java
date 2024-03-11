@@ -459,7 +459,7 @@ public class EntryWindow {
         gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
         gradientPane.getChildren().add(gradientRegion);
 
-        Button playButton = new Button("Reproducir");
+        Button playButton = new Button("Play");
         playButton.setAlignment(Pos.BOTTOM_LEFT);
         playButton.setPadding(new Insets(5));
         VBox.setMargin(playButton, new Insets(15));
@@ -554,7 +554,7 @@ public class EntryWindow {
         gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
         gradientPane.getChildren().add(gradientRegion);
 
-        Button playButton = new Button("Reproducir");
+        Button playButton = new Button("Play");
         playButton.setAlignment(Pos.BOTTOM_LEFT);
         playButton.setPadding(new Insets(5));
         VBox.setMargin(playButton, new Insets(15));

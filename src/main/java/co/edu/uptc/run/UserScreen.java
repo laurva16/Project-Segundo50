@@ -82,6 +82,7 @@ public class UserScreen {
     Button playListButton = new Button("PlayList");
     Button subscriptionButton = new Button("Subscription");
     Button returnButton = new Button("Log Out");
+    MenuButton btnPlayList;
 
     public UserScreen() {
         screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
@@ -279,6 +280,50 @@ public class UserScreen {
         gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
         gradientPane.getChildren().add(gradientRegion);
 
+        Button playButton = new Button("Play");
+        playButton.setAlignment(Pos.BOTTOM_LEFT);
+        playButton.setPadding(new Insets(5));
+        VBox.setMargin(playButton, new Insets(15));
+
+        playButton.setId("button");
+        playButton.setOnAction(event -> {
+            // Lógica para reproducir la película
+        });
+
+        StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
+        StackPane.setMargin(playButton, new Insets(0, 35, 15, 25));
+        gradientPane.getChildren().add(playButton);
+
+        // PlayList
+        btnPlayList = new MenuButton();
+        if (!userRegisteredController.getPlayList().isEmpty()) {
+            for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
+                // Adquiere la playList
+                MenuItem name = new MenuItem(playList.getName());
+                name.setUserData(playList.getName());
+                btnPlayList.getItems().add(name);
+
+                name.setOnAction(event -> {
+                    if (userRegisteredController.addMovieToPlayList(name.getText(),
+                            movie.getId())) {
+                        alertMovie(name.getText(), movie.getName());
+                    }
+                });
+            }
+        } else {
+            // Accede al botón como tal del btnPlaylist
+            btnPlayList.showingProperty().addListener((obs, wasShowing, isNowShowing) -> {
+                if (!isNowShowing) {
+                    alertNonExistentPlayList();
+                }
+            });
+        }
+        btnPlayList.getStyleClass().add("playListButton");
+
+        StackPane.setAlignment(btnPlayList, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(btnPlayList, new Insets(0, 25, 15, 35));
+        gradientPane.getChildren().add(btnPlayList);
+
         StackPane imageStackPane = new StackPane();
         imageStackPane.getChildren().addAll(imageView, gradientPane);
 
@@ -359,6 +404,50 @@ public class UserScreen {
         Region gradientRegion = new Region();
         gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
         gradientPane.getChildren().add(gradientRegion);
+
+        Button playButton = new Button("Play");
+        playButton.setAlignment(Pos.BOTTOM_LEFT);
+        playButton.setPadding(new Insets(5));
+        VBox.setMargin(playButton, new Insets(15));
+
+        playButton.setId("button");
+        playButton.setOnAction(event -> {
+            // Lógica para reproducir la película
+        });
+
+        StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
+        StackPane.setMargin(playButton, new Insets(0, 35, 15, 25));
+        gradientPane.getChildren().add(playButton);
+
+        // PlayList
+        btnPlayList = new MenuButton();
+        if (!userRegisteredController.getPlayList().isEmpty()) {
+            for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
+                // Adquiere la playList
+                MenuItem name = new MenuItem(playList.getName());
+                name.setUserData(playList.getName());
+                btnPlayList.getItems().add(name);
+
+                name.setOnAction(event -> {
+                    if (userRegisteredController.addMovieToPlayList(name.getText(),
+                            serie.getId())) {
+                        alertMovie(name.getText(), serie.getName());
+                    }
+                });
+            }
+        } else {
+            // Accede al botón como tal del btnPlaylist
+            btnPlayList.showingProperty().addListener((obs, wasShowing, isNowShowing) -> {
+                if (!isNowShowing) {
+                    alertNonExistentPlayList();
+                }
+            });
+        }
+        btnPlayList.getStyleClass().add("playListButton");
+
+        StackPane.setAlignment(btnPlayList, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(btnPlayList, new Insets(0, 25, 15, 35));
+        gradientPane.getChildren().add(btnPlayList);
 
         StackPane imageStackPane = new StackPane();
         imageStackPane.getChildren().addAll(imageView, gradientPane);
@@ -530,38 +619,13 @@ public class UserScreen {
         comprobation.showAndWait();
     }
 
-    // MenuButton btnPlayList = new MenuButton();
-    // btnPlayList.setCursor(Cursor.HAND);
-    // ImageView iconoPlayList = new ImageView(new Image("file:" +
-    // "src\\prograIconos\\corazon.png"));
-    // iconoPlayList.setFitWidth(16);
-    // iconoPlayList.setFitHeight(16);
-    // btnPlayList.setGraphic(iconoPlayList);
-
-    // if (!userRegisteredController.getPlayList().isEmpty()) {
-    // for (PlayList playList :
-    // userRegisteredController.getCurrentUser().getplayList()) {
-    // // Adquiere la playList
-    // MenuItem name = new MenuItem(playList.getName());
-    // name.setUserData(playList.getName());
-    // btnPlayList.getItems().add(name);
-
-    // name.setOnAction(event -> {
-    // if (userRegisteredController.addMovieToPlayList(name.getText(),
-    // grupos.get(this.getIndex()).getId())) {
-    // alertMovie(name.getText(), grupos.get(this.getIndex()).getName());
-    // }
-    // });
-    // }
-    // } else {
-    // // Accede al botón como tal del btnPlaylist
-    // btnPlayList.showingProperty().addListener((obs, wasShowing, isNowShowing) ->
-    // {
-    // if (!isNowShowing) {
-    // alertNonExistentPlayList();
-    // }
-    // });
-    // }
-
-    // btnPlayList.getStyleClass().add("playListButton");
+    public void playListButton() {
+        btnPlayList = new MenuButton();
+        btnPlayList.setCursor(Cursor.HAND);
+        ImageView iconoPlayList = new ImageView(new Image("file:" +
+                "src\\prograIconos\\corazon.png"));
+        iconoPlayList.setFitWidth(16);
+        iconoPlayList.setFitHeight(16);
+        btnPlayList.setGraphic(iconoPlayList);
+    }
 }
