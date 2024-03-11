@@ -3,8 +3,6 @@ package co.edu.uptc.run;
 import java.io.File;
 import java.util.stream.Collectors;
 import co.edu.uptc.controller.AdminController;
-import co.edu.uptc.controller.CategoryController;
-import co.edu.uptc.controller.PlayListController;
 import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
@@ -12,10 +10,7 @@ import co.edu.uptc.model.PlayList;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
-import co.edu.uptc.run.EntryWindow.ImageTableCell;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -23,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -58,7 +52,6 @@ import javafx.stage.Stage;
 
 public class UserScreen {
 
-    private PlayListController playListController;
     private UserRegisteredController userRegisteredController;
     private UserRegistered userRegistered;
 
@@ -95,10 +88,7 @@ public class UserScreen {
         primaryStage = LogInWindow.getPrimaryStage();
         pathMovies = "src\\multimediaCovers\\Movies\\";
         pathSeries = "src\\multimediaCovers\\Series\\";
-
-        userRegisteredController = LogInWindow.getUserRegisteredController();
         userRegistered = new UserRegistered();
-        playListController = new PlayListController();
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
     }
@@ -109,6 +99,8 @@ public class UserScreen {
 
     public void setUserRegistered(UserRegistered userRegistered) {
         this.userRegistered = userRegistered;
+        userRegisteredController = new UserRegisteredController();
+        userRegisteredController.setCurrentUser(userRegistered);
         PlayListScreen.setUserRegistered(userRegistered);
     }
 
@@ -296,7 +288,8 @@ public class UserScreen {
 
         // PlayList
         btnPlayList = new MenuButton();
-        if (!userRegisteredController.getPlayList().isEmpty()) {
+        System.out.println("llegaaa: " + userRegistered);
+        if (!userRegisteredController.getCurrentUser().getplayList().isEmpty()) {
             for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
                 // Adquiere la playList
                 MenuItem name = new MenuItem(playList.getName());
@@ -421,7 +414,7 @@ public class UserScreen {
 
         // PlayList
         btnPlayList = new MenuButton();
-        if (!userRegisteredController.getPlayList().isEmpty()) {
+        if (!userRegisteredController.getCurrentUser().getplayList().isEmpty()) {
             for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
                 // Adquiere la playList
                 MenuItem name = new MenuItem(playList.getName());
