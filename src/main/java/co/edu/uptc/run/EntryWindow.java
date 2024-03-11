@@ -11,6 +11,8 @@ import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -61,6 +63,7 @@ public class EntryWindow {
     private Scene scene1, scene2;
     private Serie serieReturn;
     private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    private boolean tableInitialized = false;
 
     Label labelName = new Label("Movie name:");
     Label labelDirector = new Label("Director name:");
@@ -355,7 +358,10 @@ public class EntryWindow {
         primaryStage.setTitle("JavaFX series with CSS");
         primaryStage.setMaximized(true);
         // Add new Movie scene
+
         addNewButton.setOnAction(event -> switchNewSerieScene());
+        // Bandera para indicar que la tabla ya se ha inicializado
+        tableInitialized = true;
 
     }
 
@@ -620,20 +626,36 @@ public class EntryWindow {
         Label seasonsLabel = new Label("Temporadas");
         seasonsLabel.setTextFill(Color.WHITE);
         ChoiceBox<String> seasonsChoiceBox = new ChoiceBox<>();
+        seasonsChoiceBox.setPrefWidth(200);
         seasonsChoiceBox.getItems()
                 .addAll(serie.getSeasons().stream().map(Season::getSeasonName).collect(Collectors.toList()));
 
         TableView<MultimediaContent> episodesTable = new TableView<>();
+        episodesTable.setStyle("-fx-background-color: black;");
+        episodesTable.setStyle("-fx-text-fill: white;");
         // Crear la columna para el nombre del episodio
         TableColumn<MultimediaContent, String> episodeNameColumn = new TableColumn<>("Name");
-        episodeNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        // Crear la columna para la descripción del episodio
+        episodeNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<MultimediaContent, String> episodeDescriptionColumn = new TableColumn<>("Description");
         episodeDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
+        TableColumn<MultimediaContent, Image> episodeImageColumn = new TableColumn<>("Image");
+        episodeImageColumn.setCellValueFactory(cellData -> {
+            // Aquí creas una propiedad observable que contiene la imagen
+            Image image = new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg");
+            return new SimpleObjectProperty<>(image);
+        });
+
+        // Especificar el ancho predeterminado para la columna de imagen
+        episodeImageColumn.setPrefWidth(300); // Ajusta el valor según tus necesidades
+        episodeNameColumn.setPrefWidth(200);
+        episodeDescriptionColumn.setPrefWidth(300);
+
+        episodeImageColumn.setCellFactory(param -> new ImageTableCell<>());
+
         // Agregar las columnas a la tabla
-        episodesTable.getColumns().addAll(episodeNameColumn, episodeDescriptionColumn);
+        episodesTable.getColumns().addAll(episodeImageColumn, episodeNameColumn, episodeDescriptionColumn);
 
         // Escuchar cambios en la selección del ChoiceBox de temporadas
         seasonsChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -656,9 +678,32 @@ public class EntryWindow {
         ScrollPane scrollPane = new ScrollPane(rootPane);
 
         Scene seeSerieScene = new Scene(scrollPane, 820, 600);
+
         seeSerieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\see.css").toURI().toString());
         secundaryStage.setScene(seeSerieScene);
         secundaryStage.showAndWait();
+    }
+
+    public class ImageTableCell<S, T> extends TableCell<S, Image> {
+        private final ImageView imageView;
+
+        public ImageTableCell() {
+            this.imageView = new ImageView();
+            this.imageView.setFitWidth(300); // ajusta el ancho de la imagen según sea necesario
+            this.imageView.setFitHeight(300);
+            this.imageView.setPreserveRatio(true); // conserva la relación de aspecto de la imagen
+            setGraphic(imageView);
+        }
+
+        @Override
+        protected void updateItem(Image item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty || item == null) {
+                imageView.setImage(null); // si la celda está vacía, elimina la imagen
+            } else {
+                imageView.setImage(item); // establece la imagen en la celda
+            }
+        }
     }
 
     public void cambiarAEscena1() {

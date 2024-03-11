@@ -778,8 +778,13 @@ public class ModifySerie {
         cancelButton.setText("Cancel");
         cancelButton.setPrefWidth(150);
         GridPane.setHalignment(cancelButton, javafx.geometry.HPos.RIGHT);
+        cancelButton.setOnAction(event -> {
+            textNameChapter.clear();
+            textDurationChapter.clear();
+            textDescriptionChapter.clear();
+            cambiarAEscena1();
+        });
 
-        cancelButton.setOnAction(event -> formularySeason());
         gridPane.getChildren().addAll(acceptButton, cancelButton);
 
         // Crear la escena
