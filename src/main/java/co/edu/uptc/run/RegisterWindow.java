@@ -7,6 +7,7 @@ import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.Payment;
 import co.edu.uptc.model.UserRegistered;
+import co.edu.uptc.utilities.FileManagement;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -192,8 +193,11 @@ public class RegisterWindow {
             if (allValidation() && (newPayment = paymentSimulation()) != null) {
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
                         textPassword.getText(), newPayment);
-
                 UserRegistered userRegistered = getUserRegistered();
+                // PDF
+                FileManagement fm = new FileManagement();
+                fm.generatePaymentPdf(userRegistered);
+                //
                 UserScreen userScreen = new UserScreen();
                 userScreen.setUserRegistered(userRegistered);
                 userScreen.getScene1();
