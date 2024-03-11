@@ -22,7 +22,7 @@
 
 .menu {
     -fx-pref-height: 60px;
-    -fx-pref-width: 90px;
+    -fx-pref-width: 100px;
     -fx-background-color: #9C1428;
     -fx-alignment: center;
     /* Centrar texto */
@@ -33,7 +33,7 @@
 
 .menu:hover {
     -fx-pref-height: 60px;
-    -fx-pref-width: 90px;
+    -fx-pref-width: 100px;
     -fx-background-color: #9C1428;
     -fx-alignment: center;
     /* Centrar texto */
@@ -151,7 +151,7 @@
 
 .playList {
     -fx-pref-height: 60px;
-    -fx-pref-width: 90px;
+    -fx-pref-width: 100px;
     -fx-background-color: #9C1428;
     -fx-alignment: center;
     -fx-font-size: 16px;
@@ -160,7 +160,7 @@
 
 .playList:hover {
     -fx-pref-height: 60px;
-    -fx-pref-width: 90px;
+    -fx-pref-width: 100px;
     -fx-background-color: #9C1428;
     -fx-alignment: center;
     -fx-font-size: 18px;

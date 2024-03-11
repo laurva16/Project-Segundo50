@@ -69,7 +69,7 @@ public class UserScreen {
     private Scene scene, scene2;
     private String pathMovies;
     private String pathSeries;
-    private Tooltip tooltipName;
+    private Tooltip tooltipName, tooltipPlayList;
     Button movieButton = new Button("Movie");
     Button serieButton = new Button("Serie");
     Button playListButton = new Button("PlayList");
@@ -201,6 +201,12 @@ public class UserScreen {
         labelName.setOnMouseExited(event -> tooltipName.hide());
     }
 
+    public void messagesPl() {
+        btnPlayList.setOnMouseEntered(
+                event -> tooltipPlayList.show(btnPlayList, event.getScreenX(), event.getScreenY() + 10));
+        btnPlayList.setOnMouseExited(event -> tooltipPlayList.hide());
+    }
+
     private ToolBar createMenuBar() {
         Region spacer = new Region();
         movieButton = new Button("Movie");
@@ -217,7 +223,7 @@ public class UserScreen {
         toolBar.getStyleClass().add("menubar");
         movieButton.getStyleClass().add("menu");
         serieButton.getStyleClass().add("menu");
-        playListButton.getStyleClass().add("menu");
+        playListButton.getStyleClass().add("playList");
         returnButton.getStyleClass().add("menu");
 
         // Asignar acciones a los botones
@@ -287,20 +293,30 @@ public class UserScreen {
         gradientPane.getChildren().add(playButton);
 
         // PlayList
-        btnPlayList = new MenuButton();
+        playListButtonStyle();
         if (!userRegisteredController.getCurrentUser().getplayList().isEmpty()) {
             for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
-                // Adquiere la playList
-                MenuItem name = new MenuItem(playList.getName());
-                name.setUserData(playList.getName());
-                btnPlayList.getItems().add(name);
+                if (validationPlayListMovie(playList, movie.getName())) {
+                    // Adquiere la playList
+                    MenuItem namePlayList = new MenuItem(playList.getName());
+                    namePlayList.setUserData(playList.getName());
+                    btnPlayList.getItems().add(namePlayList);
 
-                name.setOnAction(event -> {
-                    if (userRegisteredController.addMovieToPlayList(name.getText(),
-                            movie.getId())) {
-                        PlayListScreen.setUserRegistered(userRegisteredController.getCurrentUser());
-                        alertMovie(name.getText(), movie.getName());
-                    }
+                    namePlayList.setOnAction(event -> {
+                        if (userRegisteredController.addMovieToPlayList(playList.getName(),
+                                movie.getId())) {
+                            PlayListScreen.setUserRegistered(userRegisteredController.getCurrentUser());
+                            alertMovie(playList.getName(), movie.getName());
+                        }
+                    });
+                }
+            }
+            if (btnPlayList.getItems().isEmpty()) {
+                MenuItem nullPl = new MenuItem("It is found in all playList, \nadd a new one");
+                btnPlayList.getItems().add(nullPl);
+                nullPl.setOnAction(event -> {
+                    PlayListScreen.showPlayListScene();
+                    secondaryStage.close();
                 });
             }
         } else {
@@ -413,20 +429,31 @@ public class UserScreen {
         gradientPane.getChildren().add(playButton);
 
         // PlayList
-        btnPlayList = new MenuButton();
+        playListButtonStyle();
         if (!userRegisteredController.getCurrentUser().getplayList().isEmpty()) {
             for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
-                // Adquiere la playList
-                MenuItem name = new MenuItem(playList.getName());
-                name.setUserData(playList.getName());
-                btnPlayList.getItems().add(name);
+                if (validationPlayListSerie(playList, serie.getName())) {
+                    // Adquiere la playList
+                    MenuItem namePlayList = new MenuItem(playList.getName());
+                    namePlayList.setUserData(playList.getName());
+                    btnPlayList.getItems().add(namePlayList);
 
-                name.setOnAction(event -> {
-                    if (userRegisteredController.addSerieToPlayList(name.getText(),
-                            serie.getId())) {
-                        PlayListScreen.setUserRegistered(userRegisteredController.getCurrentUser());
-                        alertMovie(name.getText(), serie.getName());
-                    }
+                    namePlayList.setOnAction(event -> {
+                        if (userRegisteredController.addSerieToPlayList(playList.getName(),
+                                serie.getId())) {
+                            PlayListScreen.setUserRegistered(userRegisteredController.getCurrentUser());
+                            alertSerie(playList.getName(), serie.getName());
+                        }
+                    });
+
+                }
+            }
+            if (btnPlayList.getItems().isEmpty()) {
+                MenuItem nullPl = new MenuItem("It is found in all playList, \nadd a new one");
+                btnPlayList.getItems().add(nullPl);
+                nullPl.setOnAction(event -> {
+                    PlayListScreen.showPlayListScene();
+                    secundaryStage.close();
                 });
             }
         } else {
@@ -608,6 +635,15 @@ public class UserScreen {
         comprobation.showAndWait();
     }
 
+    public void alertSerie(String playList, String serieName) {
+        Alert comprobation = new Alert(AlertType.INFORMATION);
+        comprobation.setTitle("PlayList");
+        comprobation.setHeaderText("Successfully added to the playList");
+        comprobation.setContentText("The serie " + serieName
+                + " was added to PlayList " + playList);
+        comprobation.showAndWait();
+    }
+
     public void alertNonExistentPlayList() {
         Alert comprobation = new Alert(AlertType.INFORMATION);
         comprobation.setTitle("PlayList");
@@ -616,13 +652,35 @@ public class UserScreen {
         comprobation.showAndWait();
     }
 
-    public void playListButton() {
+    public boolean validationPlayListMovie(PlayList playList, String name) {
+        for (Movie movie : playList.getMovies()) {
+            if (movie.getName().equals(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean validationPlayListSerie(PlayList playList, String nameSerie) {
+        for (Serie serie : playList.getSeries()) {
+            if (serie.getName().equals(nameSerie)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void playListButtonStyle() {
         btnPlayList = new MenuButton();
         btnPlayList.setCursor(Cursor.HAND);
+        btnPlayList.setStyle("-fx-background-color: transparent;");
         ImageView iconoPlayList = new ImageView(new Image("file:" +
-                "src\\prograIconos\\corazon.png"));
-        iconoPlayList.setFitWidth(16);
-        iconoPlayList.setFitHeight(16);
+                "src\\prograIconos\\agregarVerde.png"));
+        iconoPlayList.setFitWidth(30);
+        iconoPlayList.setFitHeight(30);
         btnPlayList.setGraphic(iconoPlayList);
+        tooltipPlayList = new Tooltip("Add to playList");
+        Tooltip.install(btnPlayList, tooltipPlayList);
+        messagesPl();
     }
 }

@@ -99,6 +99,8 @@ public class PlayListScreen {
 
     public static void showPlayListScene() {
         userScreen = new UserScreen();
+        userScreen.getMenuBar().getStylesheets()
+                .add(new File("src\\main\\java\\co\\styles\\playList.css").toURI().toString());
         root = new BorderPane();
 
         Rectangle rectangle = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
