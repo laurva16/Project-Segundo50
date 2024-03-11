@@ -78,7 +78,7 @@ public class CreateSerie {
 
     public void llamarEntryWindowSerie() {
         EntryWindow entryWindow = new EntryWindow();
-        entryWindow.entryWindowSerie();
+        entryWindow.getScene2();
     }
 
     public Scene newSerieScene() {

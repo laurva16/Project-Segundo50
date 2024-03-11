@@ -1,18 +1,17 @@
 package co.edu.uptc.run;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
+import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
+import co.edu.uptc.model.UserRegistered;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -25,11 +24,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -38,9 +40,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -54,385 +56,170 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class EntryWindow {
-    private TableView<Movie> tablaMovie;
-    private TableView<Serie> tablaSerie = new TableView<>();
-    private Stage primaryStage, secundaryStage;
+
+    private ScrollPane scrollPane;
+    private BorderPane root;
+    private double screenWidth, screenHeight;
+    private AdminController adminController;
     private LogInWindow logInWindow;
-    private AdminController adminC;
-    private CategoryController categoryC;
-    private Scene scene1, scene2;
-    private Serie serieReturn;
-    private ChoiceBox<String> choiceBox = new ChoiceBox<>();
-    private boolean tableInitialized = false;
+    private Stage primaryStage, secundaryStage;
 
-    Label labelName = new Label("Movie name:");
-    Label labelDirector = new Label("Director name:");
-    Label labelDescription = new Label("Description:");
-    Label labelDuration = new Label("Duration:");
-    Label labelCategory = new Label("Category:");
-    Label labelFileVideo = new Label("File Video:");
-    double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
-    double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-
-    MovieScreen movieScreen;
-    CreateSerie createSerie;
-    DisplayMultimediaScreen displayScreen;
-    ModifySerie modifySerie;
+    // First screen
+    private ImageView image;
+    private Label labelNameF;
+    private FlowPane flowPane;
+    private Scene sceneF, scene2F;
+    private String pathMovies;
+    private String pathSeries;
+    private Tooltip tooltipName;
+    Button movieButton = new Button("Movie");
+    Button serieButton = new Button("Serie");
+    Button subscriptionButton = new Button("Subscription");
+    Button returnButton = new Button("Log Out");
 
     public EntryWindow() {
+        screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+        scrollPane = new ScrollPane();
+        adminController = new AdminController();
+        labelNameF = new Label();
+        flowPane = new FlowPane();
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
-        adminC = new AdminController();
-        categoryC = new CategoryController();
-        categoryC.getCategories().forEach(
-                category -> choiceBox.getItems().add(category.getName()));
-
+        pathMovies = "src\\multimediaCovers\\Movies\\";
+        pathSeries = "src\\multimediaCovers\\Series\\";
+        logInWindow = new LogInWindow();
+        primaryStage = LogInWindow.getPrimaryStage();
     }
 
-    public void showMovieScene() {
+    public void principalScene() {
+        messages();
+        flowPane.setStyle("-fx-background-color: #191919;");
+        flowPane.setHgap(10);
+        flowPane.setAlignment(Pos.CENTER_LEFT);
+        flowPane.setMaxHeight(screenHeight);
+        flowPane.setPadding(new Insets(0, 90, 0, 90));
+
+        scrollPane = new ScrollPane(flowPane);
+        scrollPane.setStyle("-fx-background-color: #191919;");
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+    }
+
+    public void scene1() {
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
+        movieButton.setStyle("-fx-text-fill: black;");
+
         root.setTop(menuBar);
+        root.setCenter(scrollPane);
 
-        tablaMovie = new TableView<>();
-
-        // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-        ObservableList<Movie> grupos = FXCollections.observableArrayList(adminC.getMovies());
-
-        TableColumn<Movie, String> IdColumn = new TableColumn<>("Id");
-        TableColumn<Movie, String> nameColumn = new TableColumn<>("Name");
-        TableColumn<Movie, String> directorColumn = new TableColumn<>("Director");
-
-        IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-
-        IdColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.6));
-        nameColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.6));
-        directorColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(3.6));
-
-        // Configurar estilo de las columnas
-        IdColumn.setStyle("-fx-alignment: CENTER;");
-        nameColumn.setStyle("-fx-alignment: CENTER;");
-        directorColumn.setStyle("-fx-alignment: CENTER;");
-
-        tablaMovie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
-
-        // Establecer ancho máximo para la tabla
-        tablaMovie.setMaxWidth(900);
-
-        // Agregar columna de botones
-        TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Actions");
-        accionesColumna.setCellFactory(param -> new BotonCelda());
-        tablaMovie.getColumns().add(accionesColumna);
-
-        tablaMovie.setItems(grupos);
-        StackPane stackPane = new StackPane(tablaMovie);
-        stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
-        StackPane.setMargin(tablaMovie, new Insets(30)); // Agregar margen a la tabla
-
-        // Agregar el StackPane que contiene la tabla al centro del BorderPane
-        root.setCenter(stackPane);
-
-        // Crear un botón flotante
-        ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
-        iconoAgregar.setFitWidth(32);
-        iconoAgregar.setFitHeight(32);
-        Button addNewButton = new Button();
-        addNewButton.setTranslateY(-30);
-        addNewButton.getStyleClass().add("boton-flotante");
-        addNewButton.setGraphic(iconoAgregar);
-
-        // Agregar el botón flotante en la esquina inferior derecha
-        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
-        BorderPane.setMargin(addNewButton, new Insets(15));
-        root.setBottom(addNewButton);
-
-        scene1 = new Scene(root, screenWidth, screenHeight);
-
-        // Configurar la escena y mostrarla
-        scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        primaryStage.setScene(scene1);
-        primaryStage.setTitle("JavaFX MenuBar with CSS");
+        sceneF = new Scene(root, screenWidth, screenHeight);
+        sceneF.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        primaryStage.setScene(sceneF);
+        primaryStage.setTitle("Movies");
         primaryStage.setMaximized(true);
         primaryStage.show();
-
-        // Add new Movie scene
-        addNewButton.setOnAction(event -> switchNewMovieScene());
-
     }
 
-    void switchNewMovieScene() {
-        movieScreen = new MovieScreen(primaryStage, adminC);
-        primaryStage.setScene(movieScreen.newMovieScene());
+    public void scene2() {
+        BorderPane root = new BorderPane();
+        ToolBar menuBar = createMenuBar();
+        serieButton.setStyle("-fx-text-fill: black;");
+
+        root.setTop(menuBar);
+        root.setCenter(scrollPane);
+
+        scene2F = new Scene(root, screenWidth, screenHeight);
+        scene2F.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        primaryStage.setScene(scene2F);
+        primaryStage.setTitle("Series");
+        primaryStage.setMaximized(true);
+        primaryStage.show();
     }
 
-    void switchNewSerieScene() {
-        createSerie = new CreateSerie(primaryStage, adminC);
-        primaryStage.setScene(createSerie.newSerieScene());
-    }
-
-    void switchEditSerieScene(Serie serie) {
-        modifySerie = new ModifySerie(primaryStage, adminC);
-        primaryStage.setScene(modifySerie.newSerieScene(serie));
-    }
-
-    void switchEditMovieScene(Movie movie) {
-        movieScreen = new MovieScreen(primaryStage, adminC);
-        primaryStage.setScene(movieScreen.editMovieScene(movie));
-    }
-
-    public class BotonCelda extends TableCell<Movie, Void> {
-        private final Button btnEliminar = new Button();
-        private final Button btnModificar = new Button();
-        private final Button seeButton = new Button();
-
-        public BotonCelda() {
-            // Configura los íconos para los botones
-
-            ImageView iconoEliminar = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
-            ImageView iconoModificar = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
-            ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
-
-            iconoEliminar.setFitWidth(16);
-            iconoEliminar.setFitHeight(16);
-
-            iconoModificar.setFitWidth(16);
-            iconoModificar.setFitHeight(16);
-
-            iconover.setFitWidth(16);
-            iconover.setFitHeight(16);
-
-            btnEliminar.setGraphic(iconoEliminar);
-            btnModificar.setGraphic(iconoModificar);
-            seeButton.setGraphic(iconover);
-
-            btnEliminar.getStyleClass().add("boton-eliminar");
-            btnModificar.getStyleClass().add("boton-modificar");
-            seeButton.getStyleClass().add("seeButton");
-
-            btnEliminar.setOnAction(event -> {
-                Movie grupo = getTableView().getItems().get(getIndex());
-                // Mostrar una ventana emergente de confirmación
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Confirm deletion");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to delete this movie?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    adminC.deleteMovie(grupo.getId());
-
-                    tablaMovie.getItems().remove(grupo);
-                }
+    public void moviesList() {
+        for (Movie movies : adminController.getMovies()) {
+            image = new ImageView(new Image("file:" + pathMovies + movies.getCoverImage()));
+            image.setCursor(Cursor.HAND);
+            image.setOnMouseClicked(event -> {
+                seeMovieScreen(movies);
             });
+            labelNameF = new Label(movies.getName());
+            labelNameF.setId("labelName");
+            VBox vBox = new VBox(labelNameF, image);
 
-            seeButton.setOnAction(event -> {
-                seeMovieScreen(getTableView().getItems().get(getIndex()));
-            });
+            image.setFitWidth(240);
+            image.setFitHeight(120);
+            labelNameF.setMaxWidth(180);
+            FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
+            flowPane.getChildren().add(vBox);
 
-            btnModificar.setOnAction(event -> {
-                switchEditMovieScene(getTableView().getItems().get(getIndex()));
-            });
-
-            // Configura el contenido de las celdas para mostrar los botones
-            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            tooltipName = new Tooltip(movies.getName());
+            Tooltip.install(labelNameF, tooltipName);
         }
+    }
 
-        @Override
-        protected void updateItem(Void item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-            } else {
-                HBox botonesContainer = new HBox(seeButton, btnEliminar, btnModificar);
-                botonesContainer.setSpacing(5);
-                setGraphic(botonesContainer);
-            }
+    public void seriesList() {
+        for (Serie serie : adminController.getListSeries()) {
+            image = new ImageView(new Image("file:" + pathSeries + serie.getCoverImage()));
+            image.setCursor(Cursor.HAND);
+            image.setOnMouseClicked(event -> {
+                Stage secundaryStage = new Stage();
+                seeSerieScreen(secundaryStage, serie);
+            });
+            labelNameF = new Label(serie.getName());
+            labelNameF.setId("labelName");
+            VBox vBox = new VBox(labelNameF, image);
+
+            image.setFitWidth(240);
+            image.setFitHeight(120);
+            labelNameF.setMaxWidth(180);
+            FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
+            flowPane.getChildren().add(vBox);
+
+            tooltipName = new Tooltip(serie.getName());
+            Tooltip.install(labelNameF, tooltipName);
         }
+    }
+
+    public void messages() {
+        labelNameF.setOnMouseEntered(
+                event -> tooltipName.show(labelNameF, event.getScreenX(), event.getScreenY() + 10));
+        labelNameF.setOnMouseExited(event -> tooltipName.hide());
     }
 
     private ToolBar createMenuBar() {
         Region spacer = new Region();
-        Button movieButton = new Button("Movie");
-        Button serieButton = new Button("Serie");
-        Button returnButton = new Button("Log Out");
+        movieButton = new Button("Movie");
+        serieButton = new Button("Serie");
+        returnButton = new Button("Return");
         movieButton.setCursor(Cursor.HAND);
         serieButton.setCursor(Cursor.HAND);
         returnButton.setCursor(Cursor.HAND);
-
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
 
-        // Asignar acciones a los botones
-        movieButton.setOnAction(event -> {
-            // Aquí va la lógica para mostrar la ventana de películas
-            showMovieScene();
-        });
-
-        serieButton.setOnAction(event -> {
-            entryWindowSerie();
-        });
-
-        returnButton.setOnAction(event -> {
-            LogInWindow.getSceneLogIn();
-        });
-
-        // Crear la barra de herramientas y agregar los botones
         ToolBar toolBar = new ToolBar(movieButton, serieButton, spacer, returnButton);
         toolBar.getStyleClass().add("menubar");
         movieButton.getStyleClass().add("menu");
         serieButton.getStyleClass().add("menu");
         returnButton.getStyleClass().add("menu");
 
+        // Asignar acciones a los botones
+        movieButton.setOnAction(event -> {
+            flowPane.getChildren().clear();
+            moviesList();
+            principalScene();
+            scene1();
+        });
+        serieButton.setOnAction(event -> {
+            flowPane.getChildren().clear();
+            seriesList();
+            principalScene();
+            scene2();
+        });
+        returnButton.setOnAction(event -> LogInWindow.getSceneLogIn());
         return toolBar;
-    }
-
-    public void entryWindowSerie() {
-
-        BorderPane root2 = new BorderPane();
-        ToolBar menuBar = createMenuBar();
-        root2.setTop(menuBar);
-
-        // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-        ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
-
-        TableColumn<Serie, String> IdColumn = new TableColumn<>("Id");
-        TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
-        TableColumn<Serie, String> directorColumn = new TableColumn<>("Director");
-
-        IdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        directorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-
-        IdColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(3.6));
-        nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(3.6));
-        directorColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(3.6));
-
-        // Configurar estilo de las columnas
-        IdColumn.setStyle("-fx-alignment: CENTER;");
-        nameColumn.setStyle("-fx-alignment: CENTER;");
-        directorColumn.setStyle("-fx-alignment: CENTER;");
-
-        tablaSerie.getColumns().addAll(IdColumn, nameColumn, directorColumn);
-
-        // Establecer ancho máximo para la tabla
-        tablaSerie.setMaxWidth(900);
-
-        // Agregar columna de botones
-        TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Actions");
-        accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
-        tablaSerie.getColumns().add(accionesColumna);
-
-        tablaSerie.setItems(series);
-
-        StackPane stackPane = new StackPane(tablaSerie);
-        stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
-        StackPane.setMargin(tablaSerie, new Insets(30)); // Agregar margen a la tabla
-
-        // Agregar el StackPane que contiene la tabla al centro del BorderPane
-        root2.setCenter(stackPane);
-
-        // Crear un botón flotante
-        ImageView iconoAgregar = new ImageView(new Image("file:" + "src\\prograIconos\\anadir.png"));
-        iconoAgregar.setFitWidth(32);
-        iconoAgregar.setFitHeight(32);
-        Button addNewButton = new Button();
-        addNewButton.setTranslateY(-20);
-        addNewButton.getStyleClass().add("boton-flotante");
-        addNewButton.setGraphic(iconoAgregar);
-
-        // Agregar el botón flotante en la esquina inferior derecha
-        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
-        BorderPane.setMargin(addNewButton, new Insets(15));
-        root2.setBottom(addNewButton);
-
-        // Agregar el StackPane que contiene la tabla al centro del BorderPane
-        root2.setCenter(stackPane);
-
-        scene2 = new Scene(root2, screenWidth, screenHeight);
-
-        // Configurar la escena y mostrarla
-        scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-
-        primaryStage.setScene(scene2);
-        primaryStage.setTitle("JavaFX series with CSS");
-        primaryStage.setMaximized(true);
-        // Add new Movie scene
-
-        addNewButton.setOnAction(event -> switchNewSerieScene());
-
-    }
-
-    public class BotonCeldaSerie extends TableCell<Serie, Void> {
-        private final Button btnEliminar = new Button();
-        private final Button btnModificar = new Button();
-        private final Button btnVer = new Button();
-
-        public BotonCeldaSerie() {
-            // Configura los íconos para los botones
-
-            ImageView iconoEliminar = new ImageView(new Image("file:" + "src\\prograIconos\\eliminar.png"));
-            ImageView iconoModificar = new ImageView(new Image("file:" + "src\\prograIconos\\editarB.png"));
-            ImageView iconover = new ImageView(new Image("file:" + "src\\prograIconos\\ver.png"));
-
-            iconoEliminar.setFitWidth(16);
-            iconoEliminar.setFitHeight(16);
-
-            iconoModificar.setFitWidth(16);
-            iconoModificar.setFitHeight(16);
-
-            iconover.setFitWidth(16);
-            iconover.setFitHeight(16);
-
-            btnEliminar.setGraphic(iconoEliminar);
-            btnModificar.setGraphic(iconoModificar);
-            btnVer.setGraphic(iconover);
-
-            btnEliminar.getStyleClass().add("boton-eliminar");
-            btnModificar.getStyleClass().add("boton-modificar");
-            btnVer.getStyleClass().add("seeButton");
-
-            btnEliminar.setOnAction(event -> {
-                Serie serie = getTableView().getItems().get(getIndex());
-                // Mostrar una ventana emergente de confirmación
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirm deletion");
-                alert.setHeaderText(null);
-                alert.setContentText("Are you sure you want to delete this serie?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    adminC.deleteSerie(serie.getId());
-                    tablaSerie.getItems().remove(serie);
-                }
-            });
-
-            btnVer.setOnAction(event -> {
-                Stage secundaryStage = new Stage();
-                seeSerieScreen(secundaryStage, getTableView().getItems().get(getIndex()));
-                serieReturn = getTableView().getItems().get(getIndex());
-            });
-
-            btnModificar.setOnAction(event -> {
-                switchEditSerieScene(getTableView().getItems().get(getIndex()));
-
-            });
-
-            // Configura el contenido de las celdas para mostrar los botones
-            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-        }
-
-        @Override
-        protected void updateItem(Void item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-            } else {
-                HBox botonesContainer = new HBox(btnVer, btnEliminar, btnModificar);
-                botonesContainer.setSpacing(5);
-                setGraphic(botonesContainer);
-            }
-        }
     }
 
     void seeMovieScreen(Movie movie) {
@@ -704,21 +491,102 @@ public class EntryWindow {
         }
     }
 
-    public void cambiarAEscena1() {
-        primaryStage.setScene(scene1);
-    }
-
-    public void cambiarAEscena2() {
-        primaryStage.setScene(scene2);
-    }
-
     public Scene getScene1() {
-        showMovieScene();
-        return scene1;
+        flowPane.getChildren().clear();
+        moviesList();
+        principalScene();
+        scene1();
+        return sceneF;
     }
 
     public Scene getScene2() {
-        entryWindowSerie();
-        return scene2;
+        flowPane.getChildren().clear();
+        seriesList();
+        principalScene();
+        scene2();
+        return scene2F;
     }
+
+    public ToolBar getMenuBar() {
+        return createMenuBar();
+    }
+    // btnEliminar.setOnAction(event -> {
+    // Serie serie = getTableView().getItems().get(getIndex());
+    // // Mostrar una ventana emergente de confirmación
+    // Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    // alert.setTitle("Confirm deletion");
+    // alert.setHeaderText(null);
+    // alert.setContentText("Are you sure you want to delete this serie?");
+
+    // Optional<ButtonType> result = alert.showAndWait();
+    // if (result.isPresent() && result.get() == ButtonType.OK) {
+    // adminC.deleteSerie(serie.getId());
+    // tablaSerie.getItems().remove(serie);
+    // }
+    // });
+
+    // btnVer.setOnAction(event -> {
+    // Stage secundaryStage = new Stage();
+    // seeSerieScreen(secundaryStage, getTableView().getItems().get(getIndex()));
+    // serieReturn = getTableView().getItems().get(getIndex());
+    // });
+
+    // btnModificar.setOnAction(event -> {
+    // switchEditSerieScene(getTableView().getItems().get(getIndex()));
+
+    // });
+
+    // Botomn flotante
+    // ImageView iconoAgregar = new ImageView(new Image("file:" +
+    // "src\\prograIconos\\anadir.png"));
+    // iconoAgregar.setFitWidth(32);
+    // iconoAgregar.setFitHeight(32);
+    // Button addNewButton = new Button();
+    // addNewButton.setTranslateY(-20);
+    // addNewButton.getStyleClass().add("boton-flotante");
+    // addNewButton.setGraphic(iconoAgregar);
+
+    // // Agregar el botón flotante en la esquina inferior derecha
+    // BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+    // BorderPane.setMargin(addNewButton, new Insets(15));
+
+    // Botones para movie
+    // btnEliminar.setOnAction(event -> {
+    // Movie grupo = getTableView().getItems().get(getIndex());
+    // // Mostrar una ventana emergente de confirmación
+    // Alert alert = new Alert(AlertType.CONFIRMATION);
+    // alert.setTitle("Confirm deletion");
+    // alert.setHeaderText(null);
+    // alert.setContentText("Are you sure you want to delete this movie?");
+
+    // Optional<ButtonType> result = alert.showAndWait();
+    // if (result.isPresent() && result.get() == ButtonType.OK) {
+    // adminC.deleteMovie(grupo.getId());
+
+    // tablaMovie.getItems().remove(grupo);
+    // }
+    // });
+
+    // seeButton.setOnAction(event -> {
+    // seeMovieScreen(getTableView().getItems().get(getIndex()));
+    // });
+
+    // btnModificar.setOnAction(event -> {
+    // switchEditMovieScene(getTableView().getItems().get(getIndex()));
+    // });
+
+    // Flotante movie
+    // Crear un botón flotante
+    // ImageView iconoAgregar = new ImageView(new Image("file:" +
+    // "src\\prograIconos\\anadir.png"));
+    // iconoAgregar.setFitWidth(32);
+    // iconoAgregar.setFitHeight(32);
+    // Button addNewButton = new Button();
+    // addNewButton.setTranslateY(-30);
+    // addNewButton.getStyleClass().add("boton-flotante");
+    // addNewButton.setGraphic(iconoAgregar);
+
+    // // Agregar el botón flotante en la esquina inferior derecha
+    // BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+    // BorderPane.setMargin(addNewButton, new Insets(15));
 }

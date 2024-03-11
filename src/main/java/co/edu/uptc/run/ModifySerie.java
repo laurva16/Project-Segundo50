@@ -79,7 +79,7 @@ public class ModifySerie {
 
     public void llamarEntryWindowSerie() {
         EntryWindow entryWindow = new EntryWindow();
-        entryWindow.entryWindowSerie();
+        entryWindow.scene2();
     }
 
     public Scene newSerieScene(Serie serie) {

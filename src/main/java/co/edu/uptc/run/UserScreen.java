@@ -64,9 +64,9 @@ public class UserScreen {
 
     // First screen
     private ImageView image;
-    private Label labelName;
+    private Label labelNameF;
     private FlowPane flowPane;
-    private Scene scene, scene2;
+    private Scene sceneF, scene2F;
     private String pathMovies;
     private String pathSeries;
     private Tooltip tooltipName, tooltipPlayList;
@@ -82,7 +82,7 @@ public class UserScreen {
         screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
         scrollPane = new ScrollPane();
         adminController = new AdminController();
-        labelName = new Label();
+        labelNameF = new Label();
         flowPane = new FlowPane();
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
@@ -126,9 +126,9 @@ public class UserScreen {
         root.setTop(menuBar);
         root.setCenter(scrollPane);
 
-        scene = new Scene(root, screenWidth, screenHeight);
-        scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        primaryStage.setScene(scene);
+        sceneF = new Scene(root, screenWidth, screenHeight);
+        sceneF.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        primaryStage.setScene(sceneF);
         primaryStage.setTitle("Movies");
         primaryStage.setMaximized(true);
         primaryStage.show();
@@ -142,9 +142,9 @@ public class UserScreen {
         root.setTop(menuBar);
         root.setCenter(scrollPane);
 
-        scene2 = new Scene(root, screenWidth, screenHeight);
-        scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        primaryStage.setScene(scene2);
+        scene2F = new Scene(root, screenWidth, screenHeight);
+        scene2F.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        primaryStage.setScene(scene2F);
         primaryStage.setTitle("Series");
         primaryStage.setMaximized(true);
         primaryStage.show();
@@ -157,18 +157,18 @@ public class UserScreen {
             image.setOnMouseClicked(event -> {
                 seeMovieScreen(movies);
             });
-            labelName = new Label(movies.getName());
-            labelName.setId("labelName");
-            VBox vBox = new VBox(labelName, image);
+            labelNameF = new Label(movies.getName());
+            labelNameF.setId("labelName");
+            VBox vBox = new VBox(labelNameF, image);
 
             image.setFitWidth(240);
             image.setFitHeight(120);
-            labelName.setMaxWidth(180);
+            labelNameF.setMaxWidth(180);
             FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
             flowPane.getChildren().add(vBox);
 
             tooltipName = new Tooltip(movies.getName());
-            Tooltip.install(labelName, tooltipName);
+            Tooltip.install(labelNameF, tooltipName);
         }
     }
 
@@ -180,25 +180,25 @@ public class UserScreen {
                 Stage secundaryStage = new Stage();
                 seeSerieScreen(secundaryStage, serie);
             });
-            labelName = new Label(serie.getName());
-            labelName.setId("labelName");
-            VBox vBox = new VBox(labelName, image);
+            labelNameF = new Label(serie.getName());
+            labelNameF.setId("labelName");
+            VBox vBox = new VBox(labelNameF, image);
 
             image.setFitWidth(240);
             image.setFitHeight(120);
-            labelName.setMaxWidth(180);
+            labelNameF.setMaxWidth(180);
             FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
             flowPane.getChildren().add(vBox);
 
             tooltipName = new Tooltip(serie.getName());
-            Tooltip.install(labelName, tooltipName);
+            Tooltip.install(labelNameF, tooltipName);
         }
     }
 
     public void messages() {
-        labelName.setOnMouseEntered(
-                event -> tooltipName.show(labelName, event.getScreenX(), event.getScreenY() + 10));
-        labelName.setOnMouseExited(event -> tooltipName.hide());
+        labelNameF.setOnMouseEntered(
+                event -> tooltipName.show(labelNameF, event.getScreenX(), event.getScreenY() + 10));
+        labelNameF.setOnMouseExited(event -> tooltipName.hide());
     }
 
     public void messagesPl() {
@@ -611,7 +611,7 @@ public class UserScreen {
         moviesList();
         principalScene();
         scene1();
-        return scene;
+        return sceneF;
     }
 
     public Scene getScene2() {
@@ -619,7 +619,7 @@ public class UserScreen {
         seriesList();
         principalScene();
         scene2();
-        return scene2;
+        return scene2F;
     }
 
     public ToolBar getMenuBar() {
