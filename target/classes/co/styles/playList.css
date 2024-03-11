@@ -20,6 +20,17 @@
     -fx-alignment: center;
     -fx-font-size: 16px;
     -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.playList:hover {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
 }
 
 .hBoxPrincipal {

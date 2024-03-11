@@ -1,0 +1,51 @@
+.menubar {
+    -fx-background-color: #9C1428;
+    -fx-pref-height: 60px;
+}
+
+.menu {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.multi {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.multi:hover {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.multi2 {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+    -fx-text-fill: black;
+}
+
+.multi2:hover {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
