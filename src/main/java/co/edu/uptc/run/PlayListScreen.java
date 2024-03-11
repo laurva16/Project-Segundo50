@@ -369,7 +369,7 @@ public class PlayListScreen {
 
         userScreen = new UserScreen();
         root2 = new BorderPane();
-        Rectangle rectangle = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
+        Rectangle rectangle = new Rectangle(150, screenHeight, Color.valueOf("black"));
 
         root2.setTop(userScreen.getMenuBar());
         root2.setLeft(stackPaneContent);
@@ -388,7 +388,7 @@ public class PlayListScreen {
     }
 
     public static void changeToScene1(Rectangle rectangle2) {
-        rectangle2Content = new Rectangle(150, screenHeight, Color.valueOf("#191919"));
+        rectangle2Content = new Rectangle(150, screenHeight, Color.valueOf("black"));
         stackPaneContent = new StackPane();
 
         buttonReturn = new Button("Return");
