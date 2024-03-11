@@ -43,16 +43,6 @@
         "movies": [
           {
             "category": "Action",
-            "id": 7825,
-            "name": "Planet of the apes new kingdom",
-            "duration": 120,
-            "author": "Wes Ball",
-            "description": "Many years after the reign of Caesar, a young ape goes on a journey that will lead him to question everything he\u0027s been taught about the past and make choices that will define a future for apes and humans",
-            "fileVideo": "M_001.mp4",
-            "coverImage": "PlanetaDeLosSimios.jpg"
-          },
-          {
-            "category": "Action",
             "id": 7826,
             "name": "The astronaut",
             "duration": 108,
@@ -66,11 +56,6 @@
       },
       {
         "name": "Hola qué hace",
-        "movies": [],
-        "series": []
-      },
-      {
-        "name": "JUmmmmmm",
         "movies": [],
         "series": []
       }
