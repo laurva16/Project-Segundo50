@@ -78,3 +78,6 @@
 .table-row-cell {
     -fx-alignment: center-left; /* Alineación del contenido de la celda *//* Espaciado interno */
 }
+#filebutton {
+    -fx-background-color: #31149c;
+}

@@ -18,6 +18,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 
 import java.io.File;
@@ -60,6 +61,9 @@ public class CreateSerie {
     private FileManagement fm;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+    File selectedFile;
+    File selectedCover;
 
     public CreateSerie(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
@@ -654,7 +658,9 @@ public class CreateSerie {
         Label labelName = new Label("Chapter name:");
         Label labelDuration = new Label("Duration:");
         Label labelDescription = new Label("Description:");
-        Label labelFileName = new Label("File name Video");
+        Label labelFileName = new Label("File Video");
+        Label labelImageCover = new Label("Image cover");
+
         gridPane.setMaxWidth(600);
         gridPane.setMaxHeight(600);
         gridPane.setAlignment(Pos.CENTER);
@@ -666,27 +672,54 @@ public class CreateSerie {
         GridPane.setConstraints(textNameChapter, 1, 0);
         GridPane.setConstraints(textDurationChapter, 1, 1);
         GridPane.setConstraints(textDescriptionChapter, 1, 2);
-        GridPane.setConstraints(labelWarning, 1, 4);
+        GridPane.setConstraints(labelWarning, 1, 5);
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
-        // FILE Box
-        fm = new FileManagement();
-        fileBox = fm.getFileSeriesNames();
-        fileBox.setMaxSize(340, 20);
-        GridPane.setConstraints(labelFileName, 0, 3);
-        GridPane.setConstraints(fileBox, 1, 3);
+        gridPane.getChildren().setAll(labelName, textNameChapter, labelDuration, textDurationChapter, labelDescription,
+                textDescriptionChapter, labelFileName, labelWarning);
+        // FILE CHOOSER
+      
+        // File Video buttton
+        Button fileButton = new Button();
+        fileButton.setPrefWidth(50);
+        fileButton.setOnAction(event -> chooseFileScreen());
+
+        // Cover image button
+        Button coverButton = new Button();
+        coverButton.setPrefWidth(50);
+        coverButton.setOnAction(event -> chooseImageScreen());
+
+        ImageView fileIcon = new ImageView(new Image("file:" + "src/prograIconos/video.png"));
+        fileIcon.setFitWidth(22);
+        fileIcon.setFitHeight(22);
+        fileButton.setGraphic(fileIcon);
+        fileButton.setId("filebutton");
+
+        ImageView coverIcon = new ImageView(new Image("file:" + "src/prograIconos/cover.png"));
+        coverIcon.setFitWidth(22);
+        coverIcon.setFitHeight(22);
+        coverButton.setGraphic(coverIcon);
+        coverButton.setId("filebutton");
+
+        HBox fileHBox = new HBox(labelFileName, fileButton);
+        HBox coverHBox = new HBox(labelImageCover, coverButton);
+        fileHBox.setSpacing(25);
+        coverHBox.setSpacing(25);
+        GridPane.setConstraints(fileHBox, 0, 4);
+        GridPane.setConstraints(coverHBox, 1, 4);
+        coverHBox.setTranslateX(175);
+
+        gridPane.getChildren().addAll(fileHBox, coverHBox);
         //
 
-        gridPane.getChildren().setAll(labelName, textNameChapter, labelDuration, textDurationChapter, labelDescription,
-                textDescriptionChapter, fileBox, labelFileName, labelWarning);
         root3.setCenter(gridPane);
 
         root3.setStyle("-fx-background-color: #191919;");
         gridPane.setStyle("-fx-background-color: white;");
 
-        // Save buttton
+        // Save button
         Button acceptButton = new Button();
 
         GridPane.setConstraints(acceptButton, 0, 5);
@@ -717,11 +750,12 @@ public class CreateSerie {
                     numberValid = false;
                 }
                 if (textNameChapter.getText().isBlank() && textDurationChapter.getText().isBlank()
-                        && textDescriptionChapter.getText().isBlank()) {
+                        && textDescriptionChapter.getText().isBlank() && (selectedFile == null) && (selectedCover == null)) {
                     ac.showErrorTimeline(textNameChapter, labelWarning,
                             "* All fields must be filled!");
                     ac.showErrorTimeline(textDurationChapter, labelWarning, "* All fields must be filled!");
                     ac.showErrorTimeline(textDescriptionChapter, labelWarning, "* All fields must be filled!");
+                   
                     return; // Salir del método si hay campos vacíos
                 } else if (textNameChapter.getText().isBlank()
                         || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textNameChapter.getText())
@@ -740,10 +774,16 @@ public class CreateSerie {
                     ac.showErrorTimeline(textDescriptionChapter, labelWarning,
                             "Invalid description. Max 5 characters.");
                     return;
+                }  else if (selectedFile == null) {
+                    ac.showErrorTimelineFile(fileButton, labelWarning, "* Select the file video.");
+                    return;
+                } else if (selectedCover == null) {
+                    ac.showErrorTimelineFile(coverButton, labelWarning, "* Select the cover image.");
+                    return;
                 }
                 ac.addChapterName(textNameChapter.getText(), textDescriptionChapter.getText(),
                         Integer.parseInt(textDurationChapter.getText()), ac.getCurrentSerie().getId(),
-                        selectedSeasonName);
+                        selectedSeasonName, selectedFile.getName(), selectedCover.getName());
 
                 cambiarAEscena1();
 
@@ -785,6 +825,24 @@ public class CreateSerie {
         primaryStage.setTitle("New chapter Scene");
         primaryStage.show();
 
+    }
+
+    public void chooseFileScreen() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP4 Files", "*.mp4"));
+        fileChooser.setTitle("Select the file Video");
+        File initialDirectory = new File("src/multimediaVideos/Series");
+        fileChooser.setInitialDirectory(initialDirectory);
+        selectedFile = fileChooser.showOpenDialog(primaryStage);
+    }
+
+    public void chooseImageScreen() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG Files", "*.jpg"));
+        fileChooser.setTitle("Select the cover image");
+        File initialDirectory = new File("src/multimediaCovers/Series");
+        fileChooser.setInitialDirectory(initialDirectory);
+        selectedCover = fileChooser.showOpenDialog(primaryStage);
     }
 
     private void cambiarAEscena1() {

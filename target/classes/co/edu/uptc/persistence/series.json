@@ -527,8 +527,22 @@
             "name": "otro ",
             "duration": 12321,
             "description": "sadafda"
+          },
+          {
+            "id": 3,
+            "name": "uno",
+            "duration": 22,
+            "description": "asdsa"
           }
         ]
+      },
+      {
+        "id": 4,
+        "seasonName": "Tercerp"
+      },
+      {
+        "id": 5,
+        "seasonName": "cuata"
       }
     ],
     "category": "Horror",
@@ -542,36 +556,46 @@
     "seasons": [
       {
         "id": 1,
-        "seasonName": "aaa"
+        "seasonName": "Temp1",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "aads",
+            "duration": 22,
+            "description": "asdsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          }
+        ]
       },
       {
         "id": 2,
-        "seasonName": "sds"
+        "seasonName": "Temp2",
+        "chapters": [
+          {
+            "id": 5,
+            "name": "prueba",
+            "duration": 222,
+            "description": "adssa",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          },
+          {
+            "id": 6,
+            "name": "pri",
+            "duration": 22,
+            "description": "asdsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          }
+        ]
       }
     ],
-    "category": "Horror",
+    "category": "Drama",
     "id": 466,
-    "name": "sada",
+    "name": "Nueva",
     "duration": 0,
-    "author": "asdas",
-    "description": "asdasd"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "aaa"
-      },
-      {
-        "id": 2,
-        "seasonName": "asa"
-      }
-    ],
-    "category": "Horror",
-    "id": 467,
-    "name": "asda",
-    "duration": 0,
-    "author": "asdas",
-    "description": "asdasdas"
+    "author": "asdadsa",
+    "description": "descaa"
   }
 ]
