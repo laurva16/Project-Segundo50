@@ -265,5 +265,77 @@
     "duration": 0,
     "author": "asdadsa",
     "description": "descaa"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "Juan",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "prueba1",
+            "duration": 21321,
+            "description": "adsasdsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          },
+          {
+            "id": 2,
+            "name": "adasd",
+            "duration": 12,
+            "description": "asdsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          },
+          {
+            "id": 3,
+            "name": "asdsad",
+            "duration": 123,
+            "description": "sadsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          },
+          {
+            "id": 4,
+            "name": "3213",
+            "duration": 22,
+            "description": "aadddd",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 467,
+    "name": "JUan",
+    "duration": 0,
+    "author": "asdas",
+    "description": "asdasdsa"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "aaaa",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "nue",
+            "duration": 213,
+            "description": "asdasd",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Drama",
+    "id": 468,
+    "name": "Juan",
+    "duration": 0,
+    "author": "asdas",
+    "description": "asdas"
   }
 ]

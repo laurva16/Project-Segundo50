@@ -205,11 +205,17 @@ public class CreateSerie {
             // Si la validación pasa, continuar con la lógica para guardar la serie y
             // mostrar la ventana emergente
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Información");
+            alert.setTitle("Information");
             alert.setHeaderText(null);
-            alert.setContentText("Se ha creado correctamente la serie.");
+            alert.setContentText("The serie has been successfully created.");
             alert.showAndWait();
 
+            // cambio de texto predet. en Alert
+            Button buttonOK = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            Button buttonCancel = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+            buttonOK.setText("Accept");
+            buttonCancel.setText("Return");
+            //
             llamarEntryWindowSerie();
         });
 
@@ -219,6 +225,13 @@ public class CreateSerie {
             confirmationDialog.setTitle("Confirmación");
             confirmationDialog.setHeaderText(null);
             confirmationDialog.setContentText("¿Está seguro de que desea cancelar? Se eliminará toda la serie.");
+            
+            // cambio de texto predet. en Alert
+            Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
+            Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+            buttonOK.setText("Accept");
+            buttonCancel.setText("Return");
+            //
 
             confirmationDialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
@@ -334,6 +347,13 @@ public class CreateSerie {
                 confirmationDialog.setTitle("Confirmation");
                 confirmationDialog.setHeaderText("Delete Season");
                 confirmationDialog.setContentText("Are you sure you want to delete this season?");
+                
+                // cambio de texto predet. en Alert
+                Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
+                Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+                buttonOK.setText("Accept");
+                buttonCancel.setText("Return");
+                //
 
                 // Obtener la respuesta del usuario
                 confirmationDialog.showAndWait().ifPresent(response -> {
@@ -539,7 +559,14 @@ public class CreateSerie {
                 confirmationDialog.setTitle("Confirmation");
                 confirmationDialog.setHeaderText("Delete Chapter");
                 confirmationDialog.setContentText("Are you sure you want to delete this chapter?");
-
+               
+                // cambio de texto predet. en Alert
+                Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
+                Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+                buttonOK.setText("Accept");
+                buttonCancel.setText("Return");
+                //
+                
                 // Obtener la respuesta del usuario
                 confirmationDialog.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
@@ -626,9 +653,16 @@ public class CreateSerie {
         }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar");
+        alert.setTitle("Confirm");
         alert.setHeaderText(null);
-        alert.setContentText("¿Deseas guardar los cambios?");
+        alert.setContentText("Do you want to save the changes?");
+
+        // cambio de texto predet. en Alert
+        Button buttonOK = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        Button buttonCancel = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+        buttonOK.setText("Accept");
+        buttonCancel.setText("Return");
+        //
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -649,7 +683,7 @@ public class CreateSerie {
     private void formularyChapter() {
         BorderPane root3 = new BorderPane();
         root3.setId("root2");
-
+        System.out.println("a");
         GridPane gridPane = new GridPane();
 
         textNameChapter.setPrefWidth(340);
@@ -756,7 +790,9 @@ public class CreateSerie {
                             "* All fields must be filled!");
                     ac.showErrorTimeline(textDurationChapter, labelWarning, "* All fields must be filled!");
                     ac.showErrorTimeline(textDescriptionChapter, labelWarning, "* All fields must be filled!");
-                   
+                    ac.showErrorTimelineFile(fileButton, labelWarning, "* Select the file video.");
+                    ac.showErrorTimelineFile(coverButton, labelWarning, "* Select the file video.");
+
                     return; // Salir del método si hay campos vacíos
                 } else if (textNameChapter.getText().isBlank()
                         || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textNameChapter.getText())
@@ -1332,9 +1368,17 @@ public class CreateSerie {
             // Si la validación pasa, continuar con la lógica para guardar la serie y
             // mostrar la ventana emergente
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Información");
+            alert.setTitle("Information");
             alert.setHeaderText(null);
-            alert.setContentText("Se ha creado correctamente la serie.");
+            alert.setContentText("The series has been successfully created.");
+
+            // cambio de texto predet. en Alert
+            Button buttonOK = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            Button buttonCancel = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+            buttonOK.setText("Accept");
+            buttonCancel.setText("Return");
+            //
+             
             alert.showAndWait();
 
             llamarEntryWindowSerie();
@@ -1667,7 +1711,13 @@ public class CreateSerie {
                 confirmationDialog.setTitle("Confirmation");
                 confirmationDialog.setHeaderText("Delete Chapter");
                 confirmationDialog.setContentText("Are you sure you want to delete this chapter?");
-
+                
+                // cambio de texto predet. en Alert
+                Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
+                Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+                buttonOK.setText("Accept");
+                buttonCancel.setText("Return");
+                //
                 // Obtener la respuesta del usuario
                 confirmationDialog.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {

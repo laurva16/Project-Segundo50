@@ -772,6 +772,12 @@ public class ModifySerie {
                     ac.showErrorTimeline(textDescriptionChapter, labelWarning,
                             "Invalid description. Max 5 characters.");
                     return;
+                }else if (selectedFile == null) {
+                    ac.showErrorTimelineFile(fileButton, labelWarning, "* Select the file video.");
+                    return;
+                } else if (selectedCover == null) {
+                    ac.showErrorTimelineFile(coverButton, labelWarning, "* Select the cover image.");
+                    return ;
                 }
                 ac.addChapterName(textNameChapter.getText(), textDescriptionChapter.getText(),
                         Integer.parseInt(textDurationChapter.getText()), serieModify.getId(),
