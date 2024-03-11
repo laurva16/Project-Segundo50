@@ -63,12 +63,16 @@ public class VisitorScreen {
 
         flowPane.setStyle("-fx-background-color: #191919;");
         flowPane.setHgap(10);
-        flowPane.setAlignment(Pos.CENTER);
-        flowPane.setMinHeight(screenHeight);
+        flowPane.setAlignment(Pos.CENTER_LEFT);
+        flowPane.setMaxHeight(screenHeight);
+        flowPane.setPadding(new Insets(0, 90, 0, 90));
+        System.out.println((screenWidth));
 
         scrollPane = new ScrollPane(flowPane);
         scrollPane.setStyle("-fx-background-color: #191919;");
         scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+
         root = new BorderPane();
         root.setTop(createMenuBar());
         root.setCenter(scrollPane);
@@ -85,8 +89,8 @@ public class VisitorScreen {
             labelName.setId("labelName");
             VBox vBox = new VBox(labelName, image);
 
-            image.setFitWidth(180);
-            image.setFitHeight(270);
+            image.setFitWidth(240);
+            image.setFitHeight(120);
             labelName.setMaxWidth(180);
             FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
             flowPane.getChildren().add(vBox);
@@ -101,8 +105,8 @@ public class VisitorScreen {
             labelName.setId("labelName");
             VBox vBox = new VBox(labelName, image);
 
-            image.setFitWidth(180);
-            image.setFitHeight(270);
+            image.setFitWidth(240);
+            image.setFitHeight(120);
             labelName.setMaxWidth(180);
             FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
             flowPane.getChildren().add(vBox);
@@ -158,8 +162,8 @@ public class VisitorScreen {
 
         vBox = new VBox(image, hBox);
 
-        image.setFitWidth(180);
-        image.setFitHeight(270);
+        image.setFitWidth(400);
+        image.setFitHeight(200);
         root.getChildren().add(vBox);
 
         hBox.setStyle("-fx-background-color: #191919;");
