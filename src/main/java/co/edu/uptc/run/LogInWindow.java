@@ -178,7 +178,7 @@ public class LogInWindow extends Application {
                 UserRegistered userRegistered = getUserRegistered();
                 UserScreen userScreen = new UserScreen();
                 userScreen.setUserRegistered(userRegistered);
-                userScreen.showMovieScene();
+                userScreen.getScene1();
                 setVisibleFalse();
             }
         });

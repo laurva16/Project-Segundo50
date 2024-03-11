@@ -191,23 +191,23 @@ public class RegisterWindow {
             Payment newPayment;
             if (allValidation() && (newPayment = paymentSimulation()) != null) {
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
-                       textPassword.getText(), newPayment);
-  
+                        textPassword.getText(), newPayment);
+
                 UserRegistered userRegistered = getUserRegistered();
                 UserScreen userScreen = new UserScreen();
                 userScreen.setUserRegistered(userRegistered);
-                userScreen.showMovieScene();
+                userScreen.getScene1();
                 setVisibleFalse();
             }
         });
     }
-    
-    public static Payment paymentSimulation(){
+
+    public static Payment paymentSimulation() {
         PaymentScreen ps = new PaymentScreen();
         ps.showPaymentScreen();
         return ps.addPayment();
-    } 
-    
+    }
+
     public static boolean allValidation() {
         boolean valName = false, valLastName = false, valEmail = false, valPassrord1 = false, valPassrord2 = false;
         if (nameEmptyValidation()) {

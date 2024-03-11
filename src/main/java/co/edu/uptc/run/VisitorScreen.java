@@ -57,10 +57,6 @@ public class VisitorScreen {
     // First screen
     private ImageView image;
     private Label labelName;
-    private Label labelDesciption;
-    private Label labelDuration;
-    private Label labelAuthor;
-    private Label labelGenre;
     private FlowPane flowPane;
     private Scene scene, scene2;
     private String pathMovies;
@@ -317,20 +313,6 @@ public class VisitorScreen {
         Region gradientRegion = new Region();
         gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
         gradientPane.getChildren().add(gradientRegion);
-
-        Button playButton = new Button("Reproducir");
-        playButton.setAlignment(Pos.BOTTOM_LEFT);
-        playButton.setPadding(new Insets(5));
-        VBox.setMargin(playButton, new Insets(15));
-
-        playButton.setId("button");
-        playButton.setOnAction(event -> {
-            // Lógica para reproducir la película
-        });
-
-        StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
-        StackPane.setMargin(playButton, new Insets(0, 35, 15, 25));
-        gradientPane.getChildren().add(playButton);
 
         StackPane imageStackPane = new StackPane();
         imageStackPane.getChildren().addAll(imageView, gradientPane);

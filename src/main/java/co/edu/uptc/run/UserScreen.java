@@ -1,14 +1,19 @@
 package co.edu.uptc.run;
 
 import java.io.File;
+import java.util.stream.Collectors;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.controller.PlayListController;
 import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.Movie;
+import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.PlayList;
+import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 import co.edu.uptc.model.UserRegistered;
+import co.edu.uptc.run.EntryWindow.ImageTableCell;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -22,67 +27,79 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class UserScreen {
-    private TableView<Movie> tablaMovie;
-    private TableView<Serie> tablaSerie = new TableView<>();
-    private Stage primaryStage;
-    private LogInWindow logInWindow;
-    private AdminController adminC;
-    private CategoryController categoryC;
-    private Scene scene1, scene2;
-    private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+
     private PlayListController playListController;
     private UserRegisteredController userRegisteredController;
     private UserRegistered userRegistered;
 
-    Label labelName = new Label("Movie name:");
-    Label labelDirector = new Label("Director name:");
-    Label labelDescription = new Label("Description:");
-    Label labelDuration = new Label("Duration:");
-    Label labelCategory = new Label("Category:");
-    Label labelWarning;
+    private ScrollPane scrollPane;
+    private BorderPane root;
+    private double screenWidth, screenHeight;
+    private AdminController adminController;
+    private LogInWindow logInWindow;
+    private Stage primaryStage, secundaryStage;
 
-    double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
-    double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-
-    DisplayMultimediaScreen displayScreen;
-    MovieScreen movieScreen;
-
+    // First screen
+    private ImageView image;
+    private Label labelName;
+    private FlowPane flowPane;
+    private Scene scene, scene2;
+    private String pathMovies;
+    private String pathSeries;
+    private Tooltip tooltipName;
     Button movieButton = new Button("Movie");
     Button serieButton = new Button("Serie");
     Button playListButton = new Button("PlayList");
     Button subscriptionButton = new Button("Subscription");
     Button returnButton = new Button("Log Out");
 
-    ObservableList<Movie> grupos;
-
     public UserScreen() {
+        screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+        scrollPane = new ScrollPane();
+        adminController = new AdminController();
+        labelName = new Label();
+        flowPane = new FlowPane();
+        logInWindow = new LogInWindow();
+        primaryStage = LogInWindow.getPrimaryStage();
+        pathMovies = "src\\multimediaCovers\\Movies\\";
+        pathSeries = "src\\multimediaCovers\\Series\\";
+
         userRegisteredController = LogInWindow.getUserRegisteredController();
         userRegistered = new UserRegistered();
         playListController = new PlayListController();
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
-        adminC = new AdminController();
-        categoryC = new CategoryController();
-        categoryC.getCategories().forEach(
-                category -> choiceBox.getItems().add(category.getName()));
     }
 
     public UserRegistered getUserRegistered() {
@@ -94,149 +111,101 @@ public class UserScreen {
         PlayListScreen.setUserRegistered(userRegistered);
     }
 
-    public void showMovieScene() {
+    public void principalScene() {
+        messages();
+        flowPane.setStyle("-fx-background-color: #191919;");
+        flowPane.setHgap(10);
+        flowPane.setAlignment(Pos.CENTER_LEFT);
+        flowPane.setMaxHeight(screenHeight);
+        flowPane.setPadding(new Insets(0, 90, 0, 90));
 
+        scrollPane = new ScrollPane(flowPane);
+        scrollPane.setStyle("-fx-background-color: #191919;");
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+    }
+
+    public void scene1() {
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
-        root.setTop(menuBar);
         movieButton.setStyle("-fx-text-fill: black;");
 
-        tablaMovie = new TableView<>();
+        root.setTop(menuBar);
+        root.setCenter(scrollPane);
 
-        // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
-        grupos = FXCollections.observableArrayList(adminC.getMovies());
-
-        TableColumn<Movie, String> nameColumn = new TableColumn<>("Name");
-        TableColumn<Movie, String> genreColumn = new TableColumn<>("Genre");
-        TableColumn<Movie, String> descriptionColumn = new TableColumn<>("Description");
-
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        genreColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-        nameColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
-        genreColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
-        descriptionColumn.prefWidthProperty().bind(tablaMovie.widthProperty().divide(4));
-
-        // Configurar estilo de las columnas
-        nameColumn.setStyle("-fx-alignment: CENTER;");
-        genreColumn.setStyle("-fx-alignment: CENTER;");
-        descriptionColumn.setStyle("-fx-alignment: CENTER;");
-
-        tablaMovie.getColumns().addAll(nameColumn, genreColumn, descriptionColumn);
-
-        // Establecer ancho máximo para la tabla
-        tablaMovie.setMaxWidth(600);
-
-        // Agregar columna de botones
-        TableColumn<Movie, Void> accionesColumna = new TableColumn<>("Actions");
-        accionesColumna.setCellFactory(param -> new BotonCelda());
-        tablaMovie.getColumns().add(accionesColumna);
-
-        tablaMovie.setItems(grupos);
-        StackPane stackPane = new StackPane(tablaMovie);
-        stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
-        BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
-
-        // Agregar el StackPane que contiene la tabla al centro del BorderPane
-        root.setCenter(stackPane);
-
-        scene1 = new Scene(root, screenWidth, screenHeight);
-
-        // Configurar la escena y mostrarla
-        scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        primaryStage.setScene(scene1);
+        scene = new Scene(root, screenWidth, screenHeight);
+        scene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        primaryStage.setScene(scene);
         primaryStage.setTitle("Movies");
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
-    void switchEditMovieScene(Movie movie) {
-        movieScreen = new MovieScreen(primaryStage, adminC);
-        primaryStage.setScene(movieScreen.editMovieScene(movie));
+    public void scene2() {
+        BorderPane root = new BorderPane();
+        ToolBar menuBar = createMenuBar();
+        serieButton.setStyle("-fx-text-fill: black;");
+
+        root.setTop(menuBar);
+        root.setCenter(scrollPane);
+
+        scene2 = new Scene(root, screenWidth, screenHeight);
+        scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
+        primaryStage.setScene(scene2);
+        primaryStage.setTitle("Series");
+        primaryStage.setMaximized(true);
+        primaryStage.show();
     }
 
-    public class BotonCelda extends TableCell<Movie, Void> {
-        Button btnWatch = new Button();
-        Button btnDetails = new Button();
-        MenuButton btnPlayList = new MenuButton();
-
-        public BotonCelda() {
-            btnWatch.setCursor(Cursor.HAND);
-            btnDetails.setCursor(Cursor.HAND);
-            btnPlayList.setCursor(Cursor.HAND);
-
-            // Configura los íconos para los botones
-            ImageView iconoWatch = new ImageView(new Image("file:" + "src\\prograIconos\\play.png"));
-            ImageView iconoDetails = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
-            ImageView iconoPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\corazon.png"));
-
-            iconoWatch.setFitWidth(16);
-            iconoWatch.setFitHeight(16);
-
-            iconoDetails.setFitWidth(16);
-            iconoDetails.setFitHeight(16);
-
-            iconoPlayList.setFitWidth(16);
-            iconoPlayList.setFitHeight(16);
-
-            btnWatch.setGraphic(iconoWatch);
-            btnDetails.setGraphic(iconoDetails);
-            btnPlayList.setGraphic(iconoPlayList);
-
-            btnWatch.setOnAction(event -> {
-                switchReproductionScene(getTableView().getItems().get(getIndex()).getFileVideo());
+    public void moviesList() {
+        for (Movie movies : adminController.getMovies()) {
+            image = new ImageView(new Image("file:" + pathMovies + movies.getCoverImage()));
+            image.setCursor(Cursor.HAND);
+            image.setOnMouseClicked(event -> {
+                seeMovieScreen(movies);
             });
+            labelName = new Label(movies.getName());
+            labelName.setId("labelName");
+            VBox vBox = new VBox(labelName, image);
 
-            btnDetails.setOnAction(event -> seeMovieScreen(getTableView().getItems().get(getIndex())));
+            image.setFitWidth(240);
+            image.setFitHeight(120);
+            labelName.setMaxWidth(180);
+            FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
+            flowPane.getChildren().add(vBox);
 
-            if (!userRegisteredController.getPlayList().isEmpty()) {
-                for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
-                    // Adquiere la playList
-                    MenuItem name = new MenuItem(playList.getName());
-                    name.setUserData(playList.getName());
-                    btnPlayList.getItems().add(name);
-
-                    name.setOnAction(event -> {
-                        if (userRegisteredController.addMovieToPlayList(name.getText(),
-                                grupos.get(this.getIndex()).getId())) {
-                            alertMovie(name.getText(), grupos.get(this.getIndex()).getName());
-                        }
-                    });
-                }
-            } else {
-                // Accede al botón como tal del btnPlaylist
-                btnPlayList.showingProperty().addListener((obs, wasShowing, isNowShowing) -> {
-                    if (!isNowShowing) {
-                        alertNonExistentPlayList();
-                    }
-                });
-            }
-
-            btnWatch.getStyleClass().add("seeButton");
-            btnDetails.getStyleClass().add("boton-modificar");
-            btnPlayList.getStyleClass().add("playListButton");
-
-            // Configura el contenido de las celdas para mostrar los botones
-            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            tooltipName = new Tooltip(movies.getName());
+            Tooltip.install(labelName, tooltipName);
         }
+    }
 
-        void switchReproductionScene(String nameFile) {
-            displayScreen = new DisplayMultimediaScreen();
-            primaryStage.setScene(displayScreen.multimediaScene(nameFile, true, "UserScreen"));
-        }
+    public void seriesList() {
+        for (Serie serie : adminController.getListSeries()) {
+            image = new ImageView(new Image("file:" + pathSeries + serie.getCoverImage()));
+            image.setCursor(Cursor.HAND);
+            image.setOnMouseClicked(event -> {
+                Stage secundaryStage = new Stage();
+                seeSerieScreen(secundaryStage, serie);
+            });
+            labelName = new Label(serie.getName());
+            labelName.setId("labelName");
+            VBox vBox = new VBox(labelName, image);
 
-        @Override
-        protected void updateItem(Void item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-            } else {
-                HBox botonesContainer = new HBox(btnWatch, btnDetails, btnPlayList);
-                botonesContainer.setSpacing(5);
-                setGraphic(botonesContainer);
-            }
+            image.setFitWidth(240);
+            image.setFitHeight(120);
+            labelName.setMaxWidth(180);
+            FlowPane.setMargin(vBox, new Insets(20, 0, 20, 20));
+            flowPane.getChildren().add(vBox);
+
+            tooltipName = new Tooltip(serie.getName());
+            Tooltip.install(labelName, tooltipName);
         }
+    }
+
+    public void messages() {
+        labelName.setOnMouseEntered(
+                event -> tooltipName.show(labelName, event.getScreenX(), event.getScreenY() + 10));
+        labelName.setOnMouseExited(event -> tooltipName.hide());
     }
 
     private ToolBar createMenuBar() {
@@ -244,25 +213,32 @@ public class UserScreen {
         movieButton = new Button("Movie");
         serieButton = new Button("Serie");
         playListButton = new Button("PlayList");
-        subscriptionButton = new Button("Subscription");
-        returnButton = new Button("Log Out");
-
+        returnButton = new Button("Return");
         movieButton.setCursor(Cursor.HAND);
         serieButton.setCursor(Cursor.HAND);
         playListButton.setCursor(Cursor.HAND);
-        subscriptionButton.setCursor(Cursor.HAND);
         returnButton.setCursor(Cursor.HAND);
-
-        subscriptionButton.setMinWidth(110);
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+
+        ToolBar toolBar = new ToolBar(movieButton, serieButton, playListButton, spacer, returnButton);
+        toolBar.getStyleClass().add("menubar");
+        movieButton.getStyleClass().add("menu");
+        serieButton.getStyleClass().add("menu");
+        playListButton.getStyleClass().add("menu");
+        returnButton.getStyleClass().add("menu");
 
         // Asignar acciones a los botones
         movieButton.setOnAction(event -> {
-            showMovieScene();
+            flowPane.getChildren().clear();
+            moviesList();
+            principalScene();
+            scene1();
         });
-
         serieButton.setOnAction(event -> {
-            entryWindowSerie();
+            flowPane.getChildren().clear();
+            seriesList();
+            principalScene();
+            scene2();
         });
 
         playListButton.setOnAction(event -> {
@@ -275,188 +251,261 @@ public class UserScreen {
             PlayListScreen.showPlayListScene();
         });
 
-        returnButton.setOnAction(event -> {
-            LogInWindow.getSceneLogIn();
-        });
-
-        // Crear la barra de herramientas y agregar los botones
-        ToolBar toolBar = new ToolBar(movieButton, serieButton, playListButton, subscriptionButton, spacer,
-                returnButton);
-        toolBar.getStyleClass().add("menubar");
-        movieButton.getStyleClass().add("menu");
-        serieButton.getStyleClass().add("menu");
-        playListButton.getStyleClass().add("playList");
-        subscriptionButton.getStyleClass().add("menu");
-        returnButton.getStyleClass().add("menu");
-
+        returnButton.setOnAction(event -> LogInWindow.getSceneLogIn());
         return toolBar;
     }
 
-    private void entryWindowSerie() {
-        if (scene2 == null) {
-            BorderPane root2 = new BorderPane();
-            ToolBar menuBar = createMenuBar();
-            serieButton.setStyle("-fx-text-fill: black;");
-            root2.setTop(menuBar);
+    void seeMovieScreen(Movie movie) {
+        Stage secondaryStage = new Stage();
+        secondaryStage.initModality(Modality.APPLICATION_MODAL);
+        secondaryStage.setTitle("Movie Information");
 
-            ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
+        VBox rootPane = new VBox();
+        rootPane.setId("root2");
+        rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        rootPane.setAlignment(Pos.CENTER);
+        rootPane.setSpacing(10);
 
-            TableColumn<Serie, String> nameColumn = new TableColumn<>("Name");
-            TableColumn<Serie, String> categoryColumn = new TableColumn<>("Category");
-            TableColumn<Serie, String> descriptionColumn = new TableColumn<>("Description");
+        ImageView imageView = new ImageView(
+                new Image("file:" + "src\\multimediaCovers\\Movies\\" + movie.getCoverImage()));
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(820);
+        imageView.setFitHeight(400);
 
-            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-            descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        StackPane gradientPane = new StackPane();
+        LinearGradient gradient = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
+                new Stop(0, Color.TRANSPARENT), new Stop(1, Color.BLACK));
+        Region gradientRegion = new Region();
+        gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
+        gradientPane.getChildren().add(gradientRegion);
 
-            nameColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            categoryColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
-            descriptionColumn.prefWidthProperty().bind(tablaSerie.widthProperty().divide(4));
+        StackPane imageStackPane = new StackPane();
+        imageStackPane.getChildren().addAll(imageView, gradientPane);
 
-            // Configurar estilo de las columnas
-            nameColumn.setStyle("-fx-alignment: CENTER;");
-            categoryColumn.setStyle("-fx-alignment: CENTER;");
-            descriptionColumn.setStyle("-fx-alignment: CENTER;");
+        rootPane.getChildren().add(imageStackPane);
 
-            tablaSerie.getColumns().addAll(nameColumn, categoryColumn, descriptionColumn);
+        GridPane movieInfoGrid = new GridPane();
+        movieInfoGrid.setHgap(10);
+        movieInfoGrid.setVgap(5);
+        movieInfoGrid.setPadding(new Insets(10));
+        movieInfoGrid.setStyle("-fx-text-fill: white;");
 
-            // Establecer ancho máximo para la tabla
-            tablaSerie.setMaxWidth(600);
+        Label nameLabel = new Label("Name:");
+        nameLabel.setTextFill(Color.WHITE);
+        Label directorLabel = new Label("Director:");
+        directorLabel.setTextFill(Color.WHITE);
+        Label descriptionLabel = new Label("Description:");
+        descriptionLabel.setTextFill(Color.WHITE);
+        Label categoryLabel = new Label("Category:");
+        categoryLabel.setTextFill(Color.WHITE);
+        Label durationLabel = new Label("Duration:");
+        durationLabel.setTextFill(Color.WHITE);
 
-            // Agregar columna de botones
-            TableColumn<Serie, Void> accionesColumna = new TableColumn<>("Actions");
-            accionesColumna.setCellFactory(param -> new BotonCeldaSerie());
-            tablaSerie.getColumns().add(accionesColumna);
+        Label name = new Label(movie.getName());
+        name.setTextFill(Color.WHITE);
+        Text director = new Text(movie.getAuthor());
+        director.setFill(Color.WHITE);
+        Text description = new Text(movie.getDescription());
+        description.setFill(Color.WHITE);
+        Label category = new Label(movie.getCategory());
+        category.setTextFill(Color.WHITE);
+        Label duration = new Label(String.valueOf(movie.getDuration()));
+        duration.setTextFill(Color.WHITE);
 
-            tablaSerie.setItems(series);
+        description.setWrappingWidth(400);
+        description.maxWidth(400);
+        description.maxHeight(60);
 
-            StackPane stackPane = new StackPane(tablaSerie);
-            stackPane.setAlignment(Pos.CENTER); // Centrar la tabla en el StackPane
-            BorderPane.setMargin(stackPane, new Insets(35, 0, 60, 0));
+        director.setWrappingWidth(200);
+        director.maxWidth(200);
+        director.maxHeight(60);
 
-            // Agregar el StackPane que contiene la tabla al centro del BorderPane
-            root2.setCenter(stackPane);
-            scene2 = new Scene(root2, screenWidth, screenHeight);
+        movieInfoGrid.add(nameLabel, 0, 0);
+        movieInfoGrid.add(name, 1, 0);
+        movieInfoGrid.add(durationLabel, 2, 0);
+        movieInfoGrid.add(duration, 3, 0);
+        movieInfoGrid.add(directorLabel, 2, 1);
+        movieInfoGrid.add(director, 3, 1);
+        movieInfoGrid.add(descriptionLabel, 0, 1);
+        movieInfoGrid.add(description, 1, 1);
+        movieInfoGrid.add(categoryLabel, 2, 2);
+        movieInfoGrid.add(category, 3, 2);
+        rootPane.getChildren().add(movieInfoGrid);
+        rootPane.setId("rootPane");
 
-            // Configurar la escena y mostrarla
-            scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        }
-        primaryStage.setScene(scene2);
-        primaryStage.setTitle("Serie");
-        primaryStage.setMaximized(true);
+        Scene seeMovieScene = new Scene(rootPane, 820, 600);
+        seeMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\see.css").toURI().toString());
+        secondaryStage.setScene(seeMovieScene);
+        secondaryStage.showAndWait();
     }
 
-    public class BotonCeldaSerie extends TableCell<Serie, Void> {
-        private final Button btnWatch = new Button();
-        private final Button btnDetails = new Button();
-        private final Button btnPlayList = new Button();
+    public void seeSerieScreen(Stage secundaryStage, Serie serie) {
+        this.secundaryStage = secundaryStage;
+        secundaryStage.initModality(Modality.APPLICATION_MODAL);
+        secundaryStage.setTitle("Serie Information");
 
-        public BotonCeldaSerie() {
-            // Configura los íconos para los botones
-            ImageView iconoWatch = new ImageView(new Image("file:" + "src\\prograIconos\\play.png"));
-            ImageView iconoDetails = new ImageView(new Image("file:" + "src\\prograIconos\\detalle.png"));
-            ImageView iconoPlayList = new ImageView(new Image("file:" + "src\\prograIconos\\corazon.png"));
+        VBox rootPane = new VBox();
+        rootPane.setId("root2");
+        rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
-            iconoWatch.setFitWidth(16);
-            iconoWatch.setFitHeight(16);
+        ImageView imageView = new ImageView(new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg"));
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(820);
+        imageView.setFitHeight(400);
 
-            iconoDetails.setFitWidth(16);
-            iconoDetails.setFitHeight(16);
+        StackPane gradientPane = new StackPane();
+        LinearGradient gradient = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
+                new Stop(0, Color.TRANSPARENT), new Stop(1, Color.BLACK));
+        Region gradientRegion = new Region();
+        gradientRegion.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
+        gradientPane.getChildren().add(gradientRegion);
 
-            iconoPlayList.setFitWidth(16);
-            iconoPlayList.setFitHeight(16);
+        StackPane imageStackPane = new StackPane();
+        imageStackPane.getChildren().addAll(imageView, gradientPane);
+        VBox infoPane = new VBox();
+        infoPane.setSpacing(10);
+        infoPane.setPadding(new Insets(10));
+        infoPane.setStyle("-fx-text-fill: white;");
 
-            btnWatch.setGraphic(iconoWatch);
-            btnDetails.setGraphic(iconoDetails);
-            btnPlayList.setGraphic(iconoPlayList);
+        GridPane serieInfoGrid = new GridPane();
+        serieInfoGrid.setHgap(10);
+        serieInfoGrid.setVgap(5);
 
-            btnWatch.getStyleClass().add("seeButton");
-            btnDetails.getStyleClass().add("boton-modificar");
-            btnPlayList.getStyleClass().add("seeButton");
+        Label nameLabel = new Label("Name:");
+        nameLabel.setTextFill(Color.WHITE);
+        Label directorLabel = new Label("Director:");
+        directorLabel.setTextFill(Color.WHITE);
+        Label descriptionLabel = new Label("Description:");
+        descriptionLabel.setTextFill(Color.WHITE);
+        Label categoryLabel = new Label("Category:");
+        categoryLabel.setTextFill(Color.WHITE);
 
-            btnWatch.setOnAction(event -> {
-            });
+        Label name = new Label(serie.getName());
+        name.setTextFill(Color.WHITE);
+        Text director = new Text(serie.getAuthor());
+        director.setFill(Color.WHITE);
+        Text description = new Text(serie.getDescription());
+        description.setFill(Color.WHITE);
+        Label category = new Label(serie.getCategory());
+        category.setTextFill(Color.WHITE);
 
-            btnDetails.setOnAction(event -> {
-            });
+        description.setWrappingWidth(400);
+        description.maxWidth(400);
+        description.maxHeight(60);
 
-            btnPlayList.setOnAction(event -> {
-            });
+        director.setWrappingWidth(200);
+        director.maxWidth(200);
+        director.maxHeight(60);
 
-            // Configura el contenido de las celdas para mostrar los botones
-            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        serieInfoGrid.add(nameLabel, 0, 0);
+        serieInfoGrid.add(name, 1, 0);
+        serieInfoGrid.add(directorLabel, 2, 1);
+        serieInfoGrid.add(director, 3, 1);
+        serieInfoGrid.add(descriptionLabel, 0, 1);
+        serieInfoGrid.add(description, 1, 1);
+        serieInfoGrid.add(categoryLabel, 2, 2);
+        serieInfoGrid.add(category, 3, 2);
+
+        infoPane.getChildren().add(serieInfoGrid);
+
+        HBox seasonsPane = new HBox();
+        seasonsPane.setSpacing(10);
+        seasonsPane.setPadding(new Insets(10));
+        seasonsPane.setStyle("-fx-text-fill: white;");
+
+        Label seasonsLabel = new Label("Temporadas");
+        seasonsLabel.setTextFill(Color.WHITE);
+        ChoiceBox<String> seasonsChoiceBox = new ChoiceBox<>();
+        seasonsChoiceBox.setPrefWidth(200);
+        seasonsChoiceBox.getItems()
+                .addAll(serie.getSeasons().stream().map(Season::getSeasonName).collect(Collectors.toList()));
+
+        TableView<MultimediaContent> episodesTable = new TableView<>();
+        episodesTable.setStyle("-fx-background-color: black;");
+        episodesTable.setStyle("-fx-text-fill: white;");
+        // Crear la columna para el nombre del episodio
+        TableColumn<MultimediaContent, String> episodeNameColumn = new TableColumn<>("Name");
+
+        episodeNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<MultimediaContent, String> episodeDescriptionColumn = new TableColumn<>("Description");
+        episodeDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        TableColumn<MultimediaContent, Image> episodeImageColumn = new TableColumn<>("Image");
+        episodeImageColumn.setCellValueFactory(cellData -> {
+            // Aquí creas una propiedad observable que contiene la imagen
+            Image image = new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg");
+            return new SimpleObjectProperty<>(image);
+        });
+
+        // Especificar el ancho predeterminado para la columna de imagen
+        episodeImageColumn.setPrefWidth(300); // Ajusta el valor según tus necesidades
+        episodeNameColumn.setPrefWidth(200);
+        episodeDescriptionColumn.setPrefWidth(300);
+
+        episodeImageColumn.setCellFactory(param -> new ImageTableCell<>());
+
+        // Agregar las columnas a la tabla
+        episodesTable.getColumns().addAll(episodeImageColumn, episodeNameColumn, episodeDescriptionColumn);
+
+        // Escuchar cambios en la selección del ChoiceBox de temporadas
+        seasonsChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            Season selectedSeason = serie.getSeasons().stream()
+                    .filter(season -> season.getSeasonName().equals(newValue))
+                    .findFirst()
+                    .orElse(null);
+            if (selectedSeason != null) {
+                // Limpiar y agregar los episodios de la temporada seleccionada a la tabla
+                episodesTable.getItems().clear();
+                episodesTable.getItems().addAll(selectedSeason.getchapters());
+            }
+        });
+
+        seasonsPane.getChildren().addAll(seasonsLabel, seasonsChoiceBox);
+
+        rootPane.getChildren().addAll(imageStackPane, infoPane, seasonsPane, episodesTable);
+        rootPane.setId("rootPane");
+
+        ScrollPane scrollPane = new ScrollPane(rootPane);
+
+        Scene seeSerieScene = new Scene(scrollPane, 820, 600);
+
+        seeSerieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\see.css").toURI().toString());
+        secundaryStage.setScene(seeSerieScene);
+        secundaryStage.showAndWait();
+    }
+
+    public class ImageTableCell<S, T> extends TableCell<S, Image> {
+        private final ImageView imageView;
+
+        public ImageTableCell() {
+            this.imageView = new ImageView();
+            this.imageView.setFitWidth(300); // ajusta el ancho de la imagen según sea necesario
+            this.imageView.setFitHeight(300);
+            this.imageView.setPreserveRatio(true); // conserva la relación de aspecto de la imagen
+            setGraphic(imageView);
         }
 
         @Override
-        protected void updateItem(Void item, boolean empty) {
+        protected void updateItem(Image item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
+            if (empty || item == null) {
+                imageView.setImage(null); // si la celda está vacía, elimina la imagen
             } else {
-                HBox botonesContainer = new HBox(btnWatch, btnDetails, btnPlayList);
-                botonesContainer.setSpacing(5);
-                setGraphic(botonesContainer);
+                imageView.setImage(item); // establece la imagen en la celda
             }
         }
     }
 
-    void seeMovieScreen(Movie movie) {
-        Stage secundaryStage = new Stage();
-        secundaryStage.initModality(Modality.APPLICATION_MODAL);
-        secundaryStage.setTitle("Movie Information");
-
-        GridPane gridPane = new GridPane();
-        gridPane.setId("root2");
-        gridPane.setMaxWidth(600);
-        gridPane.setMaxHeight(600);
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setVgap(20);
-        gridPane.setHgap(50);
-
-        Label name = new Label(movie.getName());
-        Label director = new Label(movie.getAuthor());
-        Label description = new Label(movie.getDescription());
-        Label duration = new Label(String.valueOf(movie.getDuration()));
-        Label category = new Label(movie.getCategory());
-
-        GridPane.setConstraints(labelName, 0, 0);
-        GridPane.setConstraints(labelDirector, 0, 1);
-        GridPane.setConstraints(labelDescription, 0, 2);
-        GridPane.setConstraints(labelDuration, 0, 3);
-        GridPane.setConstraints(labelCategory, 0, 4);
-
-        GridPane.setConstraints(name, 1, 0);
-        GridPane.setConstraints(director, 1, 1);
-        GridPane.setConstraints(description, 1, 2);
-        GridPane.setConstraints(duration, 1, 3);
-        GridPane.setConstraints(category, 1, 4);
-
-        Button closeButton = new Button();
-        closeButton.setText("Close");
-        closeButton.setPrefWidth(100);
-        GridPane.setConstraints(closeButton, 1, 5);
-        closeButton.setOnAction(event -> secundaryStage.close());
-        closeButton.setId("button");
-        gridPane.getChildren().setAll(labelName, labelDirector, labelDescription, labelDuration, labelCategory, name,
-                director, description, duration, category, closeButton);
-
-        // Configurar tamano description
-        description.setMaxWidth(200);
-        description.setWrapText(true);
-
-        Scene seeMovieScene = new Scene(gridPane, 500, 550);
-        seeMovieScene.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
-        secundaryStage.setScene(seeMovieScene);
-        secundaryStage.showAndWait();
-    }
-
     public Scene getScene1() {
-        showMovieScene();
-        return scene1;
+        flowPane.getChildren().clear();
+        moviesList();
+        principalScene();
+        scene1();
+        return scene;
     }
 
     public Scene getScene2() {
-        entryWindowSerie();
+        scene2();
         return scene2;
     }
 
@@ -480,4 +529,39 @@ public class UserScreen {
         comprobation.setContentText(null);
         comprobation.showAndWait();
     }
+
+    // MenuButton btnPlayList = new MenuButton();
+    // btnPlayList.setCursor(Cursor.HAND);
+    // ImageView iconoPlayList = new ImageView(new Image("file:" +
+    // "src\\prograIconos\\corazon.png"));
+    // iconoPlayList.setFitWidth(16);
+    // iconoPlayList.setFitHeight(16);
+    // btnPlayList.setGraphic(iconoPlayList);
+
+    // if (!userRegisteredController.getPlayList().isEmpty()) {
+    // for (PlayList playList :
+    // userRegisteredController.getCurrentUser().getplayList()) {
+    // // Adquiere la playList
+    // MenuItem name = new MenuItem(playList.getName());
+    // name.setUserData(playList.getName());
+    // btnPlayList.getItems().add(name);
+
+    // name.setOnAction(event -> {
+    // if (userRegisteredController.addMovieToPlayList(name.getText(),
+    // grupos.get(this.getIndex()).getId())) {
+    // alertMovie(name.getText(), grupos.get(this.getIndex()).getName());
+    // }
+    // });
+    // }
+    // } else {
+    // // Accede al botón como tal del btnPlaylist
+    // btnPlayList.showingProperty().addListener((obs, wasShowing, isNowShowing) ->
+    // {
+    // if (!isNowShowing) {
+    // alertNonExistentPlayList();
+    // }
+    // });
+    // }
+
+    // btnPlayList.getStyleClass().add("playListButton");
 }
