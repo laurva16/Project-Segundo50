@@ -455,6 +455,11 @@ public class UserScreen {
         return scene1;
     }
 
+    public Scene getScene2() {
+        entryWindowSerie();
+        return scene2;
+    }
+
     public ToolBar getMenuBar() {
         return createMenuBar();
     }

@@ -95,6 +95,7 @@ public class PlayListScreen {
         addNewPlayList();
         principal();
         messages();
+        switchToUserScreen();
 
         root.setTop(userScreen.getMenuBar());
         root.setLeft(stackPaneAddPlayList);
@@ -256,6 +257,8 @@ public class PlayListScreen {
         Tooltip.install(buttonAddSerie, tooltipSerie);
         tooltipDelete = new Tooltip("Delete playList");
         Tooltip.install(buttonDeletePlayList, tooltipDelete);
+
+        switchToUserScreen();
     }
 
     public static void deletePlayList(String playListName) {
@@ -324,6 +327,11 @@ public class PlayListScreen {
             setPlayList(playList);
             showPlayListScene2();
         });
+    }
+
+    public static void switchToUserScreen() {
+        buttonAddMovie.setOnMouseClicked(event -> userScreen.getScene1());
+        buttonAddSerie.setOnMouseClicked(event -> userScreen.getScene2());
     }
 
     // _______________________________________________________________________________________________________________________
