@@ -154,6 +154,7 @@ public class PlayListScreen {
             Tooltip.install(namePlayList, tooltipName);
 
             deletePlayList(namePlayList.getText());
+            setPlayList(playList);
             changeToScene2(borderPanePrincipalPlayList, playList);
         }
     }
@@ -303,7 +304,11 @@ public class PlayListScreen {
     }
 
     public static void changeToScene2(BorderPane borderPane, PlayList playList) {
-        borderPane.setOnMouseClicked(event -> showPlayListScene2(playList));
+        setPlayList(playList);
+        borderPane.setOnMouseClicked(event -> {
+            setPlayList(playList);
+            showPlayListScene2();
+        });
     }
 
     // _______________________________________________________________________________________________________________________
@@ -318,7 +323,8 @@ public class PlayListScreen {
     private static HBox hBoxMovieCurrent, hBoxSerieCurrent;
     private static ImageView delete;
     private static ImageView play;
-    static DisplayMultimediaScreen displayScreen;;
+    static DisplayMultimediaScreen displayScreen;
+    private static PlayList playList;
 
     public PlayListScreen() {
         userRegistered = new UserRegistered();
@@ -330,11 +336,13 @@ public class PlayListScreen {
         imageAddMultimedia = new ImageView();
         imageDeletePlayList = new ImageView();
         stackPaneAddPlayList = new StackPane();
+        playList = new PlayList();
     }
 
-    public static void showPlayListScene2(PlayList playList) {
+    public static void showPlayListScene2() {
+        getPlayList();
         changeToScene1(rectangle2);
-        principalContent(playList);
+        principalContent();
 
         userScreen = new UserScreen();
         root2 = new BorderPane();
@@ -370,7 +378,7 @@ public class PlayListScreen {
         stackPaneContent.getChildren().addAll(rectangle2Content, buttonReturn);
     }
 
-    public static void principalContent(PlayList playList) {
+    public static void principalContent() {
         Label playListNameContent = new Label(playList.getName());
         vBoxContent = new VBox();
         vBoxMovies = new VBox();
@@ -387,10 +395,10 @@ public class PlayListScreen {
         vBoxContent.setId("vBoxContent");
         vBoxContent.getChildren().addAll(playListNameContent, scrollPaneContent);
 
-        playListContent(playList);
+        playListContent();
     }
 
-    public static void playListContent(PlayList playList) {
+    public static void playListContent() {
         Label labelMovie = new Label("Movies"), labelSerie = new Label("Series"), labelName;
         labelMovie.getStyleClass().add("labelMultimedia");
         labelSerie.getStyleClass().add("labelMultimedia");
@@ -429,6 +437,8 @@ public class PlayListScreen {
 
             hBoxCurrentMovie();
             playMultimediaMovie(movie.getFileVideo(), playList);
+            deleteMovie(playList.getName(), movie);
+
             vBoxCurrentMovie.getChildren().addAll(labelName, imageMovie, hBoxMovieCurrent);
             vBoxMovies.getChildren().add(vBoxCurrentMovie);
         }
@@ -446,6 +456,8 @@ public class PlayListScreen {
 
             hBoxCurrentSerie();
             playMultimediaMovie(serie.getFileVideo(), playList);
+            deleteSerie(playList.getName(), serie);
+
             vBoxCurrentSerie.getChildren().addAll(labelName, imageSerie, hBoxSerieCurrent);
             vBoxSeries.getChildren().add(vBoxCurrentSerie);
         }
@@ -495,15 +507,104 @@ public class PlayListScreen {
 
     public static void switchReproductionScene(String nameFile, PlayList playList) {
         displayScreen = new DisplayMultimediaScreen();
-        displayScreen.setPlayList(playList);
         primaryStage.setScene(displayScreen.multimediaScene(nameFile, true, "PlayListScreen"));
     }
 
-    public static Scene getScene(PlayList playList) {
-        showPlayListScene2(playList);
+    public static Scene getScene() {
+        showPlayListScene2();
         return scene2;
     }
 
+    public static void deleteMovie(String playListName, Movie movie) {
+        delete.setOnMouseClicked(event -> {
+
+            Alert delete = new Alert(AlertType.CONFIRMATION);
+            delete.setTitle("Remove");
+            delete.setHeaderText("Remove movie '" + movie.getName() + "'?");
+            delete.setContentText(("Are you want to remove the movie from the playList"));
+
+            ButtonType buttonTypeOK = new ButtonType("OK");
+            ButtonType buttonCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            delete.getButtonTypes().setAll(buttonTypeOK, buttonCancel);
+
+            delete.showAndWait().ifPresent(response -> {
+                if (response == buttonTypeOK) {
+                    if (userRegisteredController.removeMovie(playListName, movie.getName())) {
+                        Alert correct = new Alert(AlertType.INFORMATION);
+                        correct.setTitle("Remove movie");
+                        correct.setHeaderText("Movie removed '" + movie.getName() + "'");
+                        correct.setContentText(("The movie has been successfully deleted"));
+                        correct.show();
+                        for (PlayList playListUser : userRegisteredController.getCurrentUser().getplayList()) {
+                            if (playListUser.getName().equals(playListName)) {
+                                setPlayList(playListUser);
+                            }
+                        }
+                        showPlayListScene2();
+                    } else {
+                        Alert error = new Alert(AlertType.INFORMATION);
+                        error.setTitle("Error");
+                        error.setHeaderText("Some error ocurred");
+                        error.setContentText(("Please try again"));
+                        error.show();
+                    }
+                }
+            });
+        });
+    }
+
+    public static void deleteSerie(String playListName, Serie serie) {
+        delete.setOnMouseClicked(event -> {
+            Alert delete = new Alert(AlertType.CONFIRMATION);
+            delete.setTitle("Remove");
+            delete.setHeaderText("Remove serie '" + serie.getName() + "'?");
+            delete.setContentText(("Are you want to remove the serie from the playList"));
+
+            ButtonType buttonTypeOK = new ButtonType("OK");
+            ButtonType buttonCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            delete.getButtonTypes().setAll(buttonTypeOK, buttonCancel);
+
+            delete.showAndWait().ifPresent(response -> {
+                if (response == buttonTypeOK) {
+                    if (userRegisteredController.removeSerie(playListName, serie.getName())) {
+                        Alert correct = new Alert(AlertType.INFORMATION);
+                        correct.setTitle("Remove serie");
+                        correct.setHeaderText("Serie removed '" + serie.getName() + "'");
+                        correct.setContentText(("The serie has been successfully deleted"));
+                        correct.show();
+                        for (PlayList playListUser : userRegisteredController.getCurrentUser().getplayList()) {
+                            if (playListUser.getName().equals(playListName)) {
+                                setPlayList(playListUser);
+                            }
+                        }
+                        showPlayListScene2();
+                    } else {
+                        Alert error = new Alert(AlertType.INFORMATION);
+                        error.setTitle("Error");
+                        error.setHeaderText("Some error ocurred");
+                        error.setContentText(("Please try again"));
+                        error.show();
+                    }
+                }
+            });
+        });
+    }
+
+    public static void setPlayList(PlayList playList2) {
+        playList = playList2;
+    }
+
+    public static PlayList getPlayList() {
+        return playList;
+    }
+
+    public static BorderPane getBorderPanePrincipalPlayList() {
+        return borderPanePrincipalPlayList;
+    }
+
+    public static void setBorderPanePrincipalPlayList(BorderPane borderPanePrincipalPlayList) {
+        PlayListScreen.borderPanePrincipalPlayList = borderPanePrincipalPlayList;
+    }
     // public static void showPlayListScene2() {
     // userScreen = new UserScreen();
 

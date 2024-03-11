@@ -13,14 +13,11 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Screen;
 import java.io.File;
 
-import co.edu.uptc.model.PlayList;
-
 public class DisplayMultimediaScreen {
 
     private MediaPlayer mediaPlayer;
     private MediaView mediaView;
     private String filePath;
-    private PlayList playList = new PlayList();
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
 
@@ -114,14 +111,6 @@ public class DisplayMultimediaScreen {
 
     // PlayList Screen
     private void returnScenePlayList() {
-        PlayListScreen.getScene(getPlayList());
-    }
-
-    public PlayList getPlayList() {
-        return playList;
-    }
-
-    public void setPlayList(PlayList playList) {
-        this.playList = playList;
+        PlayListScreen.getScene();
     }
 }

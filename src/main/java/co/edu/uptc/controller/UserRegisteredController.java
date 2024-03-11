@@ -507,4 +507,62 @@ public class UserRegisteredController {
         }
         return null;
     }
+
+    public boolean removeMovie(String playListName, String movieName) {
+        for (int i = 0; i < listUsers.size(); i++) {
+            if (currentUser.getUser().equals(listUsers.get(i).getUser())) {
+                for (PlayList playList : listUsers.get(i).getplayList()) {
+                    if (playList.getName().equals(playListName)) {
+                        for (Movie movie : playList.getMovies()) {
+                            if (movieName.equals(movie.getName())) {
+                                playList.removeMovie(movie);
+                                setCurrentUser(listUsers.get(i));
+                                fm.reWriteFile("users", listUsers);
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean removeSerie(String playListName, String serieName) {
+        for (int i = 0; i < listUsers.size(); i++) {
+            if (currentUser.getUser().equals(listUsers.get(i).getUser())) {
+                for (PlayList playList : listUsers.get(i).getplayList()) {
+                    if (playList.getName().equals(playListName)) {
+                        for (Serie serie : playList.getSeries()) {
+                            if (serieName.equals(serie.getName())) {
+                                playList.removeSerie(serie);
+                                setCurrentUser(listUsers.get(i));
+                                fm.reWriteFile("users", listUsers);
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public int findUser(UserRegistered user) {
+        for (int i = 0; i < listUsers.size(); i++) {
+            if (listUsers.get(i).getUser().equals(user.getUser())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int posPlayList(UserRegistered user, String playListName) {
+        for (int i = 0; i < user.getplayList().size(); i++) {
+            if (user.getplayList().get(i).getName().equals(playListName)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
