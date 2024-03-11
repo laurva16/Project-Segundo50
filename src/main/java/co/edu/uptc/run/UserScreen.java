@@ -288,7 +288,6 @@ public class UserScreen {
 
         // PlayList
         btnPlayList = new MenuButton();
-        System.out.println("llegaaa: " + userRegistered);
         if (!userRegisteredController.getCurrentUser().getplayList().isEmpty()) {
             for (PlayList playList : userRegisteredController.getCurrentUser().getplayList()) {
                 // Adquiere la playList
@@ -299,6 +298,11 @@ public class UserScreen {
                 name.setOnAction(event -> {
                     if (userRegisteredController.addMovieToPlayList(name.getText(),
                             movie.getId())) {
+                        for (PlayList playListNew : userRegisteredController.getCurrentUser().getplayList()) {
+                            if (playListNew.getName().equals(playList.getName())) {
+                                PlayListScreen.setPlayList(playListNew);
+                            }
+                        }
                         alertMovie(name.getText(), movie.getName());
                     }
                 });
@@ -422,8 +426,13 @@ public class UserScreen {
                 btnPlayList.getItems().add(name);
 
                 name.setOnAction(event -> {
-                    if (userRegisteredController.addMovieToPlayList(name.getText(),
+                    if (userRegisteredController.addSerieToPlayList(name.getText(),
                             serie.getId())) {
+                        for (PlayList playListNew : userRegisteredController.getCurrentUser().getplayList()) {
+                            if (playListNew.getName().equals(playList.getName())) {
+                                PlayListScreen.setPlayList(playListNew);
+                            }
+                        }
                         alertMovie(name.getText(), serie.getName());
                     }
                 });

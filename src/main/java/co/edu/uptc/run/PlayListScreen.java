@@ -102,6 +102,7 @@ public class PlayListScreen {
         root = new BorderPane();
 
         Rectangle rectangle = new Rectangle(200, screenHeight, Color.valueOf("#191919"));
+        getPlayList();
         addNewPlayList();
         principal();
         messages();
@@ -353,7 +354,6 @@ public class PlayListScreen {
         root2 = new BorderPane();
         Rectangle rectangle = new Rectangle(150, screenHeight, Color.valueOf("black"));
 
-        root2.setTop(userScreen.getMenuBar());
         root2.setLeft(stackPaneContent);
         root2.setRight(rectangle);
         root2.setCenter(vBoxContent);
