@@ -217,15 +217,6 @@ public class ModifySerie {
         iconoReturn.setFitWidth(24);
         iconoReturn.setFitHeight(24);
 
-        Button returnButton = new Button();
-        returnButton.setGraphic(iconoReturn);
-        returnButton.setId("button");
-        returnButton.setOnAction(event -> {
-            SceneReturn = newSerieScene(serieModify);
-            primaryStage.setScene(SceneReturn);
-        });
-        returnButton.setPrefWidth(100);
-
         // Crear un BorderPane
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #191919;");
@@ -281,10 +272,6 @@ public class ModifySerie {
         acceptButton.setPrefHeight(30);
 
         Insets returnButtonMargin = new Insets(15); // Ajusta el tamaño del margen según tus preferencias
-        BorderPane.setMargin(returnButton, returnButtonMargin);
-
-        BorderPane.setAlignment(returnButton, Pos.TOP_LEFT);
-        root.setTop(returnButton);
 
         // Crear la escena
         Scene2 = new Scene(root, screenWidth, screenHeight);
@@ -582,6 +569,13 @@ public class ModifySerie {
                 confirmationDialog.setTitle("Confirmation");
                 confirmationDialog.setHeaderText("Delete Chapter");
                 confirmationDialog.setContentText("Are you sure you want to delete this chapter?");
+
+                // cambio de texto predet. en Alert
+                Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
+                Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+                buttonOK.setText("Accept");
+                buttonCancel.setText("Return");
+                //
 
                 // Obtener la respuesta del usuario
                 confirmationDialog.showAndWait().ifPresent(response -> {
@@ -1007,7 +1001,7 @@ public class ModifySerie {
                     ac.showErrorTimelineFile(coverButton, labelWarning, "* All fields must be filled!");
                     return; // Salir del método si hay campos vacíos
                 } else if (textNameChapterModify.getText().isBlank()
-                        || !ac.validarSinCharacterSpecial(textNameChapterModify.getText())
+                        || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textNameChapterModify.getText())
                         || !ac.validateName(textNameChapterModify.getText())) {
                     ac.showErrorTimeline(textNameChapterModify, labelWarning,
                             "Invalid name. Max 2 characters, no special characters.");

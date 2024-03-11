@@ -225,7 +225,7 @@ public class CreateSerie {
             confirmationDialog.setTitle("Confirmación");
             confirmationDialog.setHeaderText(null);
             confirmationDialog.setContentText("¿Está seguro de que desea cancelar? Se eliminará toda la serie.");
-            
+
             // cambio de texto predet. en Alert
             Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
             Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
@@ -347,7 +347,7 @@ public class CreateSerie {
                 confirmationDialog.setTitle("Confirmation");
                 confirmationDialog.setHeaderText("Delete Season");
                 confirmationDialog.setContentText("Are you sure you want to delete this season?");
-                
+
                 // cambio de texto predet. en Alert
                 Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
                 Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
@@ -559,14 +559,14 @@ public class CreateSerie {
                 confirmationDialog.setTitle("Confirmation");
                 confirmationDialog.setHeaderText("Delete Chapter");
                 confirmationDialog.setContentText("Are you sure you want to delete this chapter?");
-               
+
                 // cambio de texto predet. en Alert
                 Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
                 Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
                 buttonOK.setText("Accept");
                 buttonCancel.setText("Return");
                 //
-                
+
                 // Obtener la respuesta del usuario
                 confirmationDialog.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
@@ -715,7 +715,7 @@ public class CreateSerie {
         gridPane.getChildren().setAll(labelName, textNameChapter, labelDuration, textDurationChapter, labelDescription,
                 textDescriptionChapter, labelFileName, labelWarning);
         // FILE CHOOSER
-      
+
         // File Video buttton
         Button fileButton = new Button();
         fileButton.setPrefWidth(50);
@@ -785,7 +785,8 @@ public class CreateSerie {
                     numberValid = false;
                 }
                 if (textNameChapter.getText().isBlank() && textDurationChapter.getText().isBlank()
-                        && textDescriptionChapter.getText().isBlank() && (selectedFile == null) && (selectedCover == null)) {
+                        && textDescriptionChapter.getText().isBlank() && (selectedFile == null)
+                        && (selectedCover == null)) {
                     ac.showErrorTimeline(textNameChapter, labelWarning,
                             "* All fields must be filled!");
                     ac.showErrorTimeline(textDurationChapter, labelWarning, "* All fields must be filled!");
@@ -811,7 +812,7 @@ public class CreateSerie {
                     ac.showErrorTimeline(textDescriptionChapter, labelWarning,
                             "Invalid description. Max 5 characters.");
                     return;
-                }  else if (selectedFile == null) {
+                } else if (selectedFile == null) {
                     ac.showErrorTimelineFile(fileButton, labelWarning, "* Select the file video.");
                     return;
                 } else if (selectedCover == null) {
@@ -970,7 +971,7 @@ public class CreateSerie {
                     ac.showErrorTimeline(textDescriptionChapterModify, labelWarning, "* All fields must be filled!");
                     return; // Salir del método si hay campos vacíos
                 } else if (textNameChapterModify.getText().isBlank()
-                        || !ac.validarSinCharacterSpecial(textNameChapterModify.getText())
+                        || !ac.validateCharacterSpecialAllowNumberSpaceBlank(textNameChapterModify.getText())
                         || !ac.validateName(textNameChapterModify.getText())) {
                     ac.showErrorTimeline(textNameChapterModify, labelWarning,
                             "Invalid name. Max 2 characters, no special characters.");
@@ -1378,7 +1379,7 @@ public class CreateSerie {
             buttonOK.setText("Accept");
             buttonCancel.setText("Return");
             //
-             
+
             alert.showAndWait();
 
             llamarEntryWindowSerie();
@@ -1711,7 +1712,7 @@ public class CreateSerie {
                 confirmationDialog.setTitle("Confirmation");
                 confirmationDialog.setHeaderText("Delete Chapter");
                 confirmationDialog.setContentText("Are you sure you want to delete this chapter?");
-                
+
                 // cambio de texto predet. en Alert
                 Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);
                 Button buttonCancel = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.CANCEL);
