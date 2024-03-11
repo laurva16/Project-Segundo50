@@ -80,5 +80,35 @@
     "user": "vallejo_personal002@gmail.com",
     "password": "Uy_Socio441@",
     "id": 13598
+  },
+  {
+    "playList": [],
+    "payment": {
+      "nameCard": "juan casas prueba pdf",
+      "cardNumber": 123213213,
+      "securityCode": "sisoy2112",
+      "expirationYear": 2021,
+      "expirationMonth": "March"
+    },
+    "firstName": "jUAN",
+    "lastName": "CASAS",
+    "user": "CASAS@gmail.com",
+    "password": "Juan123@",
+    "id": 18318
+  },
+  {
+    "playList": [],
+    "payment": {
+      "nameCard": "juan cassa pdf",
+      "cardNumber": 12321312,
+      "securityCode": "adas13",
+      "expirationYear": 2022,
+      "expirationMonth": "March"
+    },
+    "firstName": "juan",
+    "lastName": "casas",
+    "user": "casas2@gmail.com",
+    "password": "Juan123@",
+    "id": 89236
   }
 ]

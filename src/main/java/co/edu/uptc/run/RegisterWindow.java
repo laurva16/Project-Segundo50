@@ -7,6 +7,7 @@ import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
 import co.edu.uptc.model.Payment;
 import co.edu.uptc.model.UserRegistered;
+import co.edu.uptc.utilities.FileManagement;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -191,9 +192,12 @@ public class RegisterWindow {
             Payment newPayment;
             if (allValidation() && (newPayment = paymentSimulation()) != null) {
                 userRegisteredController.addUser(textFirstName.getText(), textLastName.getText(), textEmail.getText(),
-                       textPassword.getText(), newPayment);
-  
+                        textPassword.getText(), newPayment);
                 UserRegistered userRegistered = getUserRegistered();
+                //PDF
+                FileManagement fm = new FileManagement();
+                fm.generatePaymentPdf(userRegistered);
+                //
                 UserScreen userScreen = new UserScreen();
                 userScreen.setUserRegistered(userRegistered);
                 userScreen.showMovieScene();
@@ -201,13 +205,13 @@ public class RegisterWindow {
             }
         });
     }
-    
-    public static Payment paymentSimulation(){
+
+    public static Payment paymentSimulation() {
         PaymentScreen ps = new PaymentScreen();
         ps.showPaymentScreen();
         return ps.addPayment();
-    } 
-    
+    }
+
     public static boolean allValidation() {
         boolean valName = false, valLastName = false, valEmail = false, valPassrord1 = false, valPassrord2 = false;
         if (nameEmptyValidation()) {
