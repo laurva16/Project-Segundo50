@@ -298,11 +298,7 @@ public class UserScreen {
                 name.setOnAction(event -> {
                     if (userRegisteredController.addMovieToPlayList(name.getText(),
                             movie.getId())) {
-                        for (PlayList playListNew : userRegisteredController.getCurrentUser().getplayList()) {
-                            if (playListNew.getName().equals(playList.getName())) {
-                                PlayListScreen.setPlayList(playListNew);
-                            }
-                        }
+                        PlayListScreen.setUserRegistered(userRegisteredController.getCurrentUser());
                         alertMovie(name.getText(), movie.getName());
                     }
                 });
@@ -428,11 +424,7 @@ public class UserScreen {
                 name.setOnAction(event -> {
                     if (userRegisteredController.addSerieToPlayList(name.getText(),
                             serie.getId())) {
-                        for (PlayList playListNew : userRegisteredController.getCurrentUser().getplayList()) {
-                            if (playListNew.getName().equals(playList.getName())) {
-                                PlayListScreen.setPlayList(playListNew);
-                            }
-                        }
+                        PlayListScreen.setUserRegistered(userRegisteredController.getCurrentUser());
                         alertMovie(name.getText(), serie.getName());
                     }
                 });
@@ -596,6 +588,9 @@ public class UserScreen {
     }
 
     public Scene getScene2() {
+        flowPane.getChildren().clear();
+        seriesList();
+        principalScene();
         scene2();
         return scene2;
     }
