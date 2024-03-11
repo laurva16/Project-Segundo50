@@ -39,17 +39,6 @@ public class AppMenus {
             "IF U HAVE OPP BURN 'EM!!! SPECIAL OFFERTS",
             "IF U ARE TOXIC, LETS CREATE AN ACCOUNT IN X!!!",
             "YOUR MONEY IS SAVE WITH PAYPAL" };
-    private Icon[] addsPics = {
-            new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add1.png"),
-            new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add2.png"),
-            new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add3.png"),
-            new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add4.png"),
-            new ImageIcon(System.getProperty("user.dir")
-                    + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\add5.png") };
 
     private Admin admin = new Admin("Elon", "Musk", 1, "Elon1@uptc.admin.co", "1");
     private AdminController ac = new AdminController();
@@ -68,8 +57,8 @@ public class AppMenus {
         ac.setAdmin(admin);
         userRegisteredC.setMovies(admin.getMovies());
         userRegisteredC.setSeries(admin.getSeries());
-        //ac.setListMovies(admin.getMovies());
-        //ac.setListSeries(admin.getSeries());
+        // ac.setListMovies(admin.getMovies());
+        // ac.setListSeries(admin.getSeries());
         playListC.setMovies(admin.getMovies());
         playListC.setSeries(admin.getSeries());
         categoryC.setMovies(admin.getMovies());
@@ -81,32 +70,6 @@ public class AppMenus {
 
     // ----------------------------------------Principal
     // menu(0)------------------------------------------------------------------------//
-    public int principalMenu(int op) {
-        Icon principalMenuIcon = new ImageIcon(System.getProperty("user.dir")
-                + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\PrincipalMenu.png");
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(new JLabel("Welcome to NextFlix"), BorderLayout.NORTH);
-        panel.add(new JLabel(principalMenuIcon), BorderLayout.CENTER);
-        op = JOptionPane.showOptionDialog(null, panel, "Principal Menu", JOptionPane.PLAIN_MESSAGE,
-                JOptionPane.PLAIN_MESSAGE,
-                null, new Object[] { "LogIn", "Register", "Visitant", "Leave" }, null);
-        switch (op) {
-            case 0:
-                op = 1;
-                break;
-            case 1:
-                op = 2;
-                break;
-            case 2:
-                op = 3;
-                break;
-            case 3:
-                op = -1;
-                break;
-        }
-        return op;
-
-    }
 
     // ----------------------------------------LogIn
     // menu(1)------------------------------------------------------------------------//
@@ -125,7 +88,7 @@ public class AppMenus {
                     new Object[] { "LogIn", "Return" }, null);
 
             if (op == 0) {
-                System.out.println(admin.couldLogIn(user.getText(), password.getText()));
+
                 if (admin.couldLogIn(user.getText(), password.getText())) {
                     if (admin.getPassword().equals(password.getText())) {
                         op = 4;
@@ -220,7 +183,7 @@ public class AppMenus {
         }
 
         if (userRegisteredC.addUser(firstName.getText(), lastName.getText(), user.getText(),
-                password.getText())) {
+                password.getText(), null)) {
             JOptionPane.showMessageDialog(null, "User registered successfully!" +
                     "\n User: " + user.getText() + "\nPassword: "
                     + password.getText());
@@ -355,11 +318,8 @@ public class AppMenus {
     // ----------------------------------------Admin
     // menu(4)------------------------------------------------------------------------//
     public int administratorMenu(int op) {
-        Icon adminMenuIcon = new ImageIcon(System.getProperty("user.dir")
-                + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\AdminMenu.png");
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JLabel("Welcome to Admin Menu"), BorderLayout.NORTH);
-        panel.add(new JLabel(adminMenuIcon), BorderLayout.CENTER);
         op = JOptionPane.showOptionDialog(null, panel, "Admin Menu", JOptionPane.PLAIN_MESSAGE,
                 JOptionPane.PLAIN_MESSAGE,
                 null,
@@ -483,7 +443,7 @@ public class AppMenus {
                                 JOptionPane.YES_NO_OPTION);
 
                         if (confirmResult == JOptionPane.YES_OPTION) {
-                          //  ac.addMovie(name, author, description, duration, null);
+                            // ac.addMovie(name, author, description, duration, null);
 
                             JOptionPane.showMessageDialog(null, "The movie was added successfully!");
                             break;
@@ -794,11 +754,6 @@ public class AppMenus {
                                         JOptionPane.YES_NO_OPTION);
 
                                 if (confirmResult == JOptionPane.YES_OPTION) {
-                                    ac.addSerie(name, author, description,
-                                            ac.createSeasons(100, name,
-                                                    ac.createChapter(nameChapter, descriptionChapter,
-                                                            durationChapter)),
-                                            null);
 
                                     while (true) {
 
@@ -985,11 +940,9 @@ public class AppMenus {
     // Menu(21)
 
     public int userRegisteredMenu(int op) {
-        Icon userMenu = new ImageIcon(System.getProperty("user.dir")
-                + "\\MULTIMEDIA PROJECT\\src\\main\\java\\co\\edu\\uptc\\persistence\\files\\pics\\UserMenu.jpg");
+
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JLabel("Welcome to registered user"), BorderLayout.NORTH);
-        panel.add(new JLabel(userMenu), BorderLayout.CENTER);
         op = JOptionPane.showOptionDialog(null, panel,
                 "Registered Menu", JOptionPane.PLAIN_MESSAGE, JOptionPane.PLAIN_MESSAGE,
                 null, new Object[] { "Movies", "Series", "MyList Management", "Categories", "Suscriptions",
@@ -1068,10 +1021,10 @@ public class AppMenus {
             if (op == 0) {
                 if (userRegisteredC.getCurrentUser().getSub() == null) {
                     int add = (int) (Math.random() * 5);
-                    ImageIcon addPic = (ImageIcon) addsPics[add];
+
                     JFrame addFrame = new JFrame("Publicity Space");
                     addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    addFrame.setSize(addPic.getIconWidth(), addPic.getIconHeight());
+
                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                     int x = (screenSize.width - addFrame.getWidth()) / 2;
                     int y = (screenSize.height - addFrame.getHeight()) / 2;
@@ -1081,7 +1034,7 @@ public class AppMenus {
                     JProgressBar progressBar = new JProgressBar(0, 100);
                     progressBar.setStringPainted(true);
                     addPanel.add(new JLabel(adds[add]), BorderLayout.NORTH);
-                    addPanel.add(new JLabel(addPic), BorderLayout.CENTER);
+
                     addPanel.add(progressBar, BorderLayout.SOUTH);
                     addFrame.add(addPanel);
 
@@ -1211,10 +1164,10 @@ public class AppMenus {
                         if (op == 0) {
                             if (userRegisteredC.getCurrentUser().getSub() == null) {
                                 int add = (int) (Math.random() * 5);
-                                ImageIcon addPic = (ImageIcon) addsPics[add];
+
                                 JFrame addFrame = new JFrame("Publicity Space");
                                 addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                addFrame.setSize(addPic.getIconWidth(), addPic.getIconHeight());
+
                                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                                 int x = (screenSize.width - addFrame.getWidth()) / 2;
                                 int y = (screenSize.height - addFrame.getHeight()) / 2;
@@ -1224,7 +1177,7 @@ public class AppMenus {
                                 JProgressBar progressBar = new JProgressBar(0, 100);
                                 progressBar.setStringPainted(true);
                                 addPanel.add(new JLabel(adds[add]), BorderLayout.NORTH);
-                                addPanel.add(new JLabel(addPic), BorderLayout.CENTER);
+
                                 addPanel.add(progressBar, BorderLayout.SOUTH);
                                 addFrame.add(addPanel);
 
@@ -1420,9 +1373,7 @@ public class AppMenus {
                                                 // Agregar el primer capítulo a la temporada
                                                 int durationChapter = Integer.parseInt(durationChapter1);
                                                 // solución provicional del autor (luego se llama al autor también)
-                                                ac.addSeason(Integer.parseInt(names[1]), seasonName,
-                                                        ac.createChapter(nameChapter,
-                                                                descriptionChapter, durationChapter));
+
                                                 JOptionPane.showMessageDialog(null, "Was created correctly");
                                                 while (true) {
 
@@ -2080,7 +2031,8 @@ public class AppMenus {
 
                                         // The "Duration" para|meter in this method is 0 because we consider that series
                                         // dont have a duration excatly. Check it out
-                                        ac.modifySeries(newDescription, newName, newAuthor, Integer.parseInt(names[1]));
+                                        // ac.modifySeries(newDescription, newName, newAuthor,
+                                        // Integer.parseInt(names[1]));
 
                                         JOptionPane.showMessageDialog(null, "The serie was modified successfully!");
                                         return 10;
@@ -2303,7 +2255,6 @@ public class AppMenus {
                             JOptionPane.showMessageDialog(null, "The subscription was added successfully!");
                             break;
                         } else {
-                            System.out.println("Data not saved");
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Name already exist");
@@ -2542,10 +2493,9 @@ public class AppMenus {
                     if (op == 0) {
                         if (userRegisteredC.getCurrentUser().getSub() == null) {
                             int add = (int) (Math.random() * 5);
-                            ImageIcon addPic = (ImageIcon) addsPics[add];
+
                             JFrame addFrame = new JFrame("Publicity Space");
                             addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            addFrame.setSize(addPic.getIconWidth(), addPic.getIconHeight());
                             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                             int x = (screenSize.width - addFrame.getWidth()) / 2;
                             int y = (screenSize.height - addFrame.getHeight()) / 2;
@@ -2555,7 +2505,6 @@ public class AppMenus {
                             JProgressBar progressBar = new JProgressBar(0, 100);
                             progressBar.setStringPainted(true);
                             addPanel.add(new JLabel(adds[add]), BorderLayout.NORTH);
-                            addPanel.add(new JLabel(addPic), BorderLayout.CENTER);
                             addPanel.add(progressBar, BorderLayout.SOUTH);
                             addFrame.add(addPanel);
 
@@ -2668,10 +2617,9 @@ public class AppMenus {
                             if (op == 0) {
                                 if (userRegisteredC.getCurrentUser().getSub() == null) {
                                     int add = (int) (Math.random() * 5);
-                                    ImageIcon addPic = (ImageIcon) addsPics[add];
+
                                     JFrame addFrame = new JFrame("Publicity Space");
                                     addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                    addFrame.setSize(addPic.getIconWidth(), addPic.getIconHeight());
                                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                                     int x = (screenSize.width - addFrame.getWidth()) / 2;
                                     int y = (screenSize.height - addFrame.getHeight()) / 2;
@@ -2681,7 +2629,7 @@ public class AppMenus {
                                     JProgressBar progressBar = new JProgressBar(0, 100);
                                     progressBar.setStringPainted(true);
                                     addPanel.add(new JLabel(adds[add]), BorderLayout.NORTH);
-                                    addPanel.add(new JLabel(addPic), BorderLayout.CENTER);
+
                                     addPanel.add(progressBar, BorderLayout.SOUTH);
                                     addFrame.add(addPanel);
 
@@ -3629,10 +3577,10 @@ public class AppMenus {
 
                     if (userRegisteredC.getCurrentUser().getSub() == null) {
                         int add = (int) (Math.random() * 5);
-                        ImageIcon addPic = (ImageIcon) addsPics[add];
+
                         JFrame addFrame = new JFrame("Publicity Space");
                         addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        addFrame.setSize(addPic.getIconWidth(), addPic.getIconHeight());
+
                         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                         int x = (screenSize.width - addFrame.getWidth()) / 2;
                         int y = (screenSize.height - addFrame.getHeight()) / 2;
@@ -3642,7 +3590,7 @@ public class AppMenus {
                         JProgressBar progressBar = new JProgressBar(0, 100);
                         progressBar.setStringPainted(true);
                         addPanel.add(new JLabel(adds[add]), BorderLayout.NORTH);
-                        addPanel.add(new JLabel(addPic), BorderLayout.CENTER);
+
                         addPanel.add(progressBar, BorderLayout.SOUTH);
                         addFrame.add(addPanel);
 
@@ -3753,10 +3701,10 @@ public class AppMenus {
                                 if (op == 0) {
                                     if (userRegisteredC.getCurrentUser().getSub() == null) {
                                         int add = (int) (Math.random() * 5);
-                                        ImageIcon addPic = (ImageIcon) addsPics[add];
+
                                         JFrame addFrame = new JFrame("Publicity Space");
                                         addFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                        addFrame.setSize(addPic.getIconWidth(), addPic.getIconHeight());
+
                                         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                                         int x = (screenSize.width - addFrame.getWidth()) / 2;
                                         int y = (screenSize.height - addFrame.getHeight()) / 2;
@@ -3766,7 +3714,7 @@ public class AppMenus {
                                         JProgressBar progressBar = new JProgressBar(0, 100);
                                         progressBar.setStringPainted(true);
                                         addPanel.add(new JLabel(adds[add]), BorderLayout.NORTH);
-                                        addPanel.add(new JLabel(addPic), BorderLayout.CENTER);
+
                                         addPanel.add(progressBar, BorderLayout.SOUTH);
                                         addFrame.add(addPanel);
 

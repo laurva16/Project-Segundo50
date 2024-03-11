@@ -17,8 +17,6 @@
 
 .menubar {
     -fx-background-color: #9C1428;
-    /* Azul */
-    -fx-font-family: sans-serif;
     -fx-pref-height: 60px;
 }
 
@@ -29,9 +27,23 @@
     /* Azul */
     -fx-alignment: center;
     /* Centrar texto */
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
     /* Tamaño de letra */
     -fx-text-fill: white;
+}
+
+.menu:hover {
+    -fx-pref-height: 60px;
+    -fx-pref-width: 90px;
+    -fx-background-color: #9C1428;
+    /* Azul */
+    -fx-alignment: center;
+    /* Centrar texto */
+    -fx-font-size: 18px;
+    /* Tamaño de letra */
+    -fx-text-fill: white;
+    -fx-font-weight: bold; /* Negrita */
+
 }
 
 
@@ -39,13 +51,13 @@
     -fx-background-color: #5c5c5c;
     -fx-background-radius: 45%;
     /* Hace que el botón sea circular */
-    -fx-min-width: 45px;
+    -fx-min-width: 55px;
     /* Ancho mínimo personalizado */
-    -fx-min-height: 45px;
+    -fx-min-height: 55px;
     /* Altura mínima personalizada */
-    -fx-max-width: 45px;
+    -fx-max-width: 55px;
     /* Ancho máximo personalizado, para mantenerlo circular */
-    -fx-max-height: 45px;
+    -fx-max-height: 55px;
     /* Altura máxima personalizada, para mantenerlo circular */
 }
 
@@ -53,13 +65,13 @@
     -fx-background-color: #9C1428;
     -fx-background-radius: 45%;
     /* Hace que el botón sea circular */
-    -fx-min-width: 45px;
+    -fx-min-width: 55px;
     /* Ancho mínimo personalizado */
-    -fx-min-height: 45px;
+    -fx-min-height: 55px;
     /* Altura mínima personalizada */
-    -fx-max-width: 45px;
+    -fx-max-width: 55px;
     /* Ancho máximo personalizado, para mantenerlo circular */
-    -fx-max-height: 45px;
+    -fx-max-height: 55px;
     /* Altura máxima personalizada, para mantenerlo circular */
 }
 
@@ -97,7 +109,17 @@
     -fx-text-fill: black;
     /* Color del texto */
 }
+#acceptbutton {
+    -fx-background-color: green;
+    -fx-text-fill: white;
+}
 
+#acceptbutton:hover {
+    -fx-background-color: #c8c8c8;
+    /* Color de fondo */
+    -fx-text-fill: black;
+    /* Color del texto */
+}
 #warning {
     -fx-text-fill: #9C1428;
     /* Color del texto */

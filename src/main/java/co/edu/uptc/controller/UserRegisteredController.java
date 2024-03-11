@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import co.edu.uptc.model.Admin;
 import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
+import co.edu.uptc.model.Payment;
 import co.edu.uptc.model.PlayList;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
@@ -142,24 +143,22 @@ public class UserRegisteredController {
     }
 
     public void playMovie(int duracionMilisegundos, String movieName) {
-        System.out.println("Reproduciendo la película " + movieName + "...");
+
         try {
             Thread.sleep(duracionMilisegundos);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Película Finalizada");
 
     }
 
     public void playSerie(int duracionMilisegundos, String serieName) {
-        System.out.println("Reproduciendo la serie " + serieName + "...");
+
         try {
             Thread.sleep(duracionMilisegundos);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Serie Finalizada");
 
     }
 
@@ -362,15 +361,22 @@ public class UserRegisteredController {
         return 0;
     }
 
-    public boolean addUser(String firstName, String lastName, String user, String password) {
+    public boolean addUser(String firstName, String lastName, String user, String password, Payment payment) {
         if (!userFound(user)) {
-            UserRegistered r = new UserRegistered(firstName, lastName, generateId(),
+            UserRegistered newUser = new UserRegistered(firstName, lastName, generateId(),
                     user, password);
-            userCreated = r;
-            listUsers.add(r);
+            newUser.setPayment(payment);
+            userCreated = newUser;
+            listUsers.add(newUser);
             return fm.reWriteFile("users", listUsers);
         }
         return false;
+    }
+
+    public Payment addPayment(String nameCard, int cardNumber, String securityCode, int expirationYear,
+            String expirationMonth) {
+        Payment payment = new Payment(nameCard, cardNumber, securityCode, expirationYear, expirationMonth);
+        return payment;
     }
 
     public boolean searchEmail(String email) {

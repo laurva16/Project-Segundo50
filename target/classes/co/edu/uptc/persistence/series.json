@@ -16,12 +16,19 @@
       {
         "id": 2,
         "seasonName": "wilmar",
-        "chapters": []
+        "chapters": [
+          {
+            "id": 1,
+            "name": "fsdf",
+            "duration": 4534,
+            "description": "dsgftt"
+          }
+        ]
       }
     ],
     "category": "Action",
     "id": 462,
-    "name": "griselda",
+    "name": "grisel",
     "duration": 20,
     "author": "laura",
     "description": "angela",
@@ -44,6 +51,24 @@
             "name": "cap 2-primera",
             "duration": 23232,
             "description": "robo"
+          },
+          {
+            "id": 3,
+            "name": "capeee",
+            "duration": 2312,
+            "description": "sfdsfsd"
+          },
+          {
+            "id": 4,
+            "name": "caaa",
+            "duration": 3423,
+            "description": "gdfgd"
+          },
+          {
+            "id": 5,
+            "name": "657",
+            "duration": 56756,
+            "description": "hjghjgh"
           }
         ]
       },
@@ -59,9 +84,15 @@
           },
           {
             "id": 2,
-            "name": "Segundo cap- 2 temporada",
+            "name": "dos cap",
             "duration": 2324,
-            "description": "fg"
+            "description": "fgjkljkljk"
+          },
+          {
+            "id": 3,
+            "name": "se podra",
+            "duration": 34,
+            "description": "fgjkj"
           }
         ]
       }
@@ -97,61 +128,69 @@
         "chapters": [
           {
             "id": 1,
-            "name": "valntina",
-            "duration": 100000,
-            "description": "chaooo"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "wilmar",
-        "chapters": []
-      }
-    ],
-    "category": "Action",
-    "id": 462,
-    "name": "griselda",
-    "duration": 20,
-    "author": "laura",
-    "description": "angela",
-    "coverImage": "Griselda.jpeg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "primera temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "Capitulo1",
-            "duration": 11111,
-            "description": "ahi vienen"
+            "name": "qwq",
+            "duration": 121232,
+            "description": "sadas"
           },
           {
             "id": 2,
-            "name": "cap 2-primera",
-            "duration": 23232,
-            "description": "robo"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "segunda temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "primer cap- segunda",
-            "duration": 1212,
-            "description": "estafas"
+            "name": "sssad",
+            "duration": 56676,
+            "description": "12121"
           },
           {
-            "id": 2,
-            "name": "Segundo cap- 2 temporada",
-            "duration": 2324,
-            "description": "fg"
+            "id": 3,
+            "name": "sadas",
+            "duration": 2131,
+            "description": "sadasdas"
+          },
+          {
+            "id": 4,
+            "name": "sadas",
+            "duration": 34324,
+            "description": "sdfsf"
+          },
+          {
+            "id": 5,
+            "name": "trw",
+            "duration": 232,
+            "description": "dsfsdfs"
+          },
+          {
+            "id": 6,
+            "name": "wendy",
+            "duration": 2312,
+            "description": "dfsdfsd"
+          },
+          {
+            "id": 7,
+            "name": "sadas332",
+            "duration": 3423,
+            "description": "dfsfsds"
+          },
+          {
+            "id": 8,
+            "name": "112",
+            "duration": 23123,
+            "description": "dsfsd"
+          },
+          {
+            "id": 9,
+            "name": "qqqq",
+            "duration": 232,
+            "description": "qqqqqqq"
+          },
+          {
+            "id": 10,
+            "name": "wewe",
+            "duration": 34234,
+            "description": "sdfdsf"
+          },
+          {
+            "id": 11,
+            "name": "mafalsa",
+            "duration": 4343,
+            "description": "fdfdfdfd"
           }
         ]
       }
@@ -173,7 +212,7 @@
     ],
     "category": "Drama",
     "id": 464,
-    "name": "Dickinson",
+    "name": "aaa  2",
     "duration": 0,
     "author": "",
     "description": "Love",
@@ -183,65 +222,78 @@
     "seasons": [
       {
         "id": 1,
-        "seasonName": "wendy",
+        "seasonName": "sss",
+        "chapters": []
+      },
+      {
+        "id": 3,
+        "seasonName": "as 34",
         "chapters": [
           {
-            "id": 1,
-            "name": "valntina",
-            "duration": 100000,
-            "description": "chaooo"
+            "id": 3,
+            "name": "aaaaaaggg",
+            "duration": 2443,
+            "description": "sdasas"
+          },
+          {
+            "id": 4,
+            "name": "ddd",
+            "duration": 4546,
+            "description": "dfsdfsd"
           }
         ]
       },
       {
-        "id": 2,
-        "seasonName": "wilmar",
-        "chapters": []
+        "id": 4,
+        "seasonName": "Tercerp"
+      },
+      {
+        "id": 5,
+        "seasonName": "cuata"
       }
     ],
     "category": "Action",
-    "id": 462,
-    "name": "griselda",
-    "duration": 20,
-    "author": "laura",
-    "description": "angela",
-    "coverImage": "Griselda.jpeg"
+    "id": 465,
+    "name": "paula 3453",
+    "duration": 0,
+    "author": "laial lai ",
+    "description": "dfd hg 34"
   },
   {
     "seasons": [
       {
         "id": 1,
-        "seasonName": "primera temporada",
+        "seasonName": "Temp1",
         "chapters": [
           {
             "id": 1,
-            "name": "Capitulo1",
-            "duration": 11111,
-            "description": "ahi vienen"
-          },
-          {
-            "id": 2,
-            "name": "cap 2-primera",
-            "duration": 23232,
-            "description": "robo"
+            "name": "aads",
+            "duration": 22,
+            "description": "asdsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
           }
         ]
       },
       {
         "id": 2,
-        "seasonName": "segunda temporada",
+        "seasonName": "Temp2",
         "chapters": [
           {
-            "id": 1,
-            "name": "primer cap- segunda",
-            "duration": 1212,
-            "description": "estafas"
+            "id": 5,
+            "name": "prueba",
+            "duration": 222,
+            "description": "adssa",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
           },
           {
-            "id": 2,
-            "name": "Segundo cap- 2 temporada",
-            "duration": 2324,
-            "description": "fg"
+            "id": 6,
+            "name": "pri",
+            "duration": 22,
+            "description": "asdsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
           }
         ]
       }
@@ -262,8 +314,8 @@
       }
     ],
     "category": "Drama",
-    "id": 464,
-    "name": "Dickinson",
+    "id": 466,
+    "name": "Nueva",
     "duration": 0,
     "author": "",
     "description": "Love",
@@ -273,65 +325,39 @@
     "seasons": [
       {
         "id": 1,
-        "seasonName": "wendy",
+        "seasonName": "Juan",
         "chapters": [
           {
             "id": 1,
-            "name": "valntina",
-            "duration": 100000,
-            "description": "chaooo"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "wilmar",
-        "chapters": []
-      }
-    ],
-    "category": "Action",
-    "id": 462,
-    "name": "griselda",
-    "duration": 20,
-    "author": "laura",
-    "description": "angela",
-    "coverImage": "Griselda.jpeg"
-  },
-  {
-    "seasons": [
-      {
-        "id": 1,
-        "seasonName": "primera temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "Capitulo1",
-            "duration": 11111,
-            "description": "ahi vienen"
+            "name": "prueba1",
+            "duration": 21321,
+            "description": "adsasdsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
           },
           {
             "id": 2,
-            "name": "cap 2-primera",
-            "duration": 23232,
-            "description": "robo"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "seasonName": "segunda temporada",
-        "chapters": [
-          {
-            "id": 1,
-            "name": "primer cap- segunda",
-            "duration": 1212,
-            "description": "estafas"
+            "name": "adasd",
+            "duration": 12,
+            "description": "asdsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
           },
           {
-            "id": 2,
-            "name": "Segundo cap- 2 temporada",
-            "duration": 2324,
-            "description": "fg"
+            "id": 3,
+            "name": "asdsad",
+            "duration": 123,
+            "description": "sadsad",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          },
+          {
+            "id": 4,
+            "name": "3213",
+            "duration": 22,
+            "description": "aadddd",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
           }
         ]
       }
@@ -348,12 +374,22 @@
     "seasons": [
       {
         "id": 1,
-        "seasonName": "g"
+        "seasonName": "aaaa",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "nue",
+            "duration": 213,
+            "description": "asdasd",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "peakyBlinders.jpg"
+          }
+        ]
       }
     ],
     "category": "Drama",
-    "id": 464,
-    "name": "Dickinson",
+    "id": 468,
+    "name": "Juan",
     "duration": 0,
     "author": "",
     "description": "Love",

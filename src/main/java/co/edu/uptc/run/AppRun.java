@@ -8,7 +8,7 @@ public class AppRun {
         while (op != -1) {
             switch (op) {
                 case 0:
-                    op = menus.principalMenu(op);
+                    // op = menus.principalMenu(op);
                     break;
                 case 1:
                     op = menus.logInMenu(op);

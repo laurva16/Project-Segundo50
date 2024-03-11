@@ -7,9 +7,15 @@ import co.edu.uptc.model.Movie;
 import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
-import co.edu.uptc.model.UserRegistered;
 import co.edu.uptc.utilities.FileManagement;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.util.Duration;
 
 public class AdminController {
 
@@ -118,7 +124,7 @@ public class AdminController {
     }
 
     public void addChapterName(String name, String description, int duration, int idSerie,
-            String idSeason) {
+            String idSeason, String fileVideo, String coverimage) {
         int serieIndex = serieFound(idSerie);
         int seasonIndex = seasonNameFound(idSeason, idSerie);
 
@@ -128,10 +134,10 @@ public class AdminController {
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex).setchapters(new ArrayList<>());
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex)
                         .addchapters((new MultimediaContent(assignidChapter(serieIndex, seasonIndex),
-                                duration, name, description)));
+                        name , duration, description, fileVideo, coverimage)));
             } else {
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex).getchapters().add(
-                        (new MultimediaContent(assignidChapter(serieIndex, seasonIndex), duration, name, description)));
+                        (new MultimediaContent(assignidChapter(serieIndex, seasonIndex), name , duration, description, fileVideo, coverimage)));
             }
             fm.reWriteFile("series", listSeries);
         }
@@ -332,12 +338,11 @@ public class AdminController {
         return listSeasons;
     }
 
-    public ArrayList<MultimediaContent> createChapter(String name, String description, int duration) {
+    public MultimediaContent createChapter(String name, String description, int duration) {
         ArrayList<MultimediaContent> listchapters = new ArrayList<MultimediaContent>();
+        MultimediaContent mc = new MultimediaContent(assignidCreateChapter(listchapters), duration, name, description);
 
-        listchapters.add(new MultimediaContent(assignidCreateChapter(listchapters), duration, name, description));
-
-        return listchapters;
+        return mc;
     }
 
     public void deleteSeason(int idSeason, int idSerie) {
@@ -403,15 +408,17 @@ public class AdminController {
                 .getchapters().get(chapterFound(idSeason, idSerie, idChapter)).toString();
     }
 
-    public boolean modifySeries(String description, String name, String author, int Selected) {
+    public boolean modifySeries(String description, String name, String author, String category, int Selected) {
         int aux = serieFound(Selected);
 
         if (aux != -1) {
             listSeries.get(aux).setAuthor(author);
             listSeries.get(aux).setDescription(description);
             listSeries.get(aux).setName(name);
+            listSeries.get(aux).setCategory(category);
             admin.setSeries(listSeries);
             fm.reWriteFile("series", listSeries);
+            currentSerie = new Serie(aux, name, author, description, null, category);
             return true;
         }
         return false;
@@ -576,8 +583,99 @@ public class AdminController {
         return true;
     }
 
+    public boolean validateNumbersDigits(String digit) {
+        if (digit.length() < 6) {
+            return true;
+        }
+        return false;
+    }
     public boolean validateName(String aux) {
         return (aux.length() > 2);
+    }
+
+    public void showErrorTimeline(TextField textField, Label errorLabel, String mensaje) {
+        // Cambiar el color del texto del error a rojo
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);
+
+        // Aplicar un borde rojo al TextField
+        textField.setStyle("-fx-border-color: red");
+
+        // Definir la duración y acción para limpiar el mensaje de error después de un
+        // tiempo
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            // Restaurar el estilo y efecto del TextField
+            textField.setStyle("");
+            textField.setEffect(null);
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void showErrorTimelineChoiceBox(ChoiceBox<String> choiceBox, Label errorLabel, String mensaje) {
+        // Cambiar el color del texto del error a rojo
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);
+
+        // Cambiar el estilo del ChoiceBox para resaltar su importancia
+        choiceBox.setStyle("-fx-border-color: red;"); // Cambiar el color del borde a rojo
+
+        // Definir la duración y acción para limpiar el mensaje de error después de un
+        // tiempo
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            // Restaurar el estilo del ChoiceBox
+            choiceBox.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void showErrorTimelineIntComboBox(ComboBox<Integer> intBox, Label errorLabel, String mensaje) {
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);    
+        intBox.setStyle("-fx-border-color: red;"); 
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            intBox.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void showErrorTimelineFile(Button selected, Label errorLabel, String mensaje) {
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);    
+        selected.setStyle("-fx-border-color: red;"); 
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            selected.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void showErrorTimelineStringComboBox(ComboBox<String> stringBox, Label errorLabel, String mensaje) {
+        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
+        errorLabel.setText(mensaje);    
+        stringBox.setStyle("-fx-border-color: red;"); 
+        Duration duration = Duration.seconds(4);
+        KeyFrame keyFrame = new KeyFrame(duration, event -> {
+            errorLabel.setText("");
+            stringBox.setStyle("");
+        });
+        Timeline timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     public boolean containCharacterSpecial(String str) {
@@ -609,6 +707,22 @@ public class AdminController {
         return input.matches(patron);
     }
 
+    public boolean validateCharacterSpecialAllowNumberSpaceBlank(String input) {
+        String patron = "^[a-zA-Z0-9\\s]*$";
+        return input.matches(patron);
+    }
+
+    public boolean validateWithoutSpecialCharacter(String input) {
+        String patron = "^[a-zA-Z\\s,.:;]*$";
+        return input.matches(patron);
+    }
+
+    public boolean validateWithNumber(String input) {
+        String patron = "^[a-zA-Z0-9\\s]*$";
+        return input.matches(patron);
+    }
+
+    
     public boolean validateNameSeason(String nameSeason, int idSerie) {
         for (Serie serie : listSeries) {
             if (serie.getId() == idSerie) {
@@ -618,9 +732,6 @@ public class AdminController {
                     }
                 }
             }
-        }
-        if (nameSeason.length() < 2) {
-            return false;
         }
         return true;
     }
@@ -638,6 +749,32 @@ public class AdminController {
             return true;
         }
         return false;
+    }
+
+    public String validateHaveChapter(int idSerie) {
+        // Obtener la serie correspondiente al ID proporcionado
+        Serie serie = listSeries.get(serieFound(idSerie));
+
+        // Recorrer todas las temporadas de la serie
+        for (Season season : serie.getSeasons()) {
+            // Verificar si la temporada no tiene capítulos
+            if (season.getchapters() == null || season.getchapters().isEmpty()) {
+                return season.getSeasonName();
+            }
+        }
+
+        return null;
+    }
+
+    public boolean validateHaveSeason(int idSerie) {
+        Serie serie = listSeries.get(serieFound(idSerie));
+
+        // Verificar si la serie no tiene temporadas
+        if (serie.getSeasons().isEmpty()) {
+            return false; // No hay temporadas en la serie
+        }
+
+        return true; // La serie tiene al menos una temporada
     }
 
     public int assignidSeason(int idSerie) {

@@ -1,0 +1,36 @@
+#rootPane {
+    -fx-font-size: 16px;
+}
+
+#button {
+    -fx-background-color: #9C1428;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+#button:hover {
+    -fx-background-color: #ffffff; /* Color de fondo */
+    -fx-text-fill: black; /* Color del texto */
+    -fx-font-size: 16px;
+}
+
+.table-view {
+    -fx-background-color: black;
+}
+
+.table-cell {
+    -fx-text-fill: white; /* Color del texto */
+    -fx-background-color: #191919; /* Color de fondo */
+    -fx-border-color: black; /* Color del borde */
+    -fx-border-width: 1px; /* Grosor del borde */
+}
+/* Estilo para las columnas */
+.table-column {
+    -fx-border-color: #191919; /* Color del borde */
+    -fx-border-width: 0 0px; /* Grosor del borde (arriba, derecha, abajo, izquierda) */
+}
+
+/* Estilo para las filas */
+.table-row-cell {
+    -fx-border-color: rgb(0, 0, 0); /* Color del borde */
+    -fx-border-width: 1px 0; /* Grosor del borde (arriba, derecha, abajo, izquierda) */
+}

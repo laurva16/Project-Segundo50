@@ -8,7 +8,7 @@ public class MultimediaContent {
     private String description;
     private String fileVideo;
     private String coverImage;
-    
+
     public MultimediaContent() {
     }
 
@@ -35,6 +35,16 @@ public class MultimediaContent {
         this.name = name;
         this.duration = duration;
         this.description = description;
+    }
+
+    public MultimediaContent(int id, String name, int duration, String description, String fileVideo,
+            String coverImage) {
+        this.id = id;
+        this.name = name;
+        this.duration = duration;
+        this.description = description;
+        this.fileVideo = fileVideo;
+        this.coverImage = coverImage;
     }
 
     public String getName() {
@@ -82,11 +92,6 @@ public class MultimediaContent {
         this.duration = duration;
     }
 
-    public Object getSeason() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSeason'");
-    }
-
     public String getFileVideo() {
         return fileVideo;
     }
@@ -103,5 +108,4 @@ public class MultimediaContent {
         this.coverImage = coverImage;
     }
 
-    
 }
