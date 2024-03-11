@@ -61,14 +61,14 @@ public class PlayListScreen {
     private static Image image;
     private static Label namePlayList;
     private static HBox hBoxActions;
-    private static Button buttonAddMultimedia, buttonDeletePlayList;
-    private static ImageView imageAddMultimedia;
+    private static Button buttonAddMovie, buttonAddSerie, buttonDeletePlayList;
+    private static ImageView imageAddMovie, imageAddSerie;
     private static ImageView imageDeletePlayList;
     private static Button buttonAddPlayList;
     private static ImageView imageAddPlayList;
     private static StackPane stackPaneAddPlayList;
     private static Rectangle rectangle2;
-    private static Tooltip tooltipAddPlayList, tooltipMultimedia, tooltipDelete, tooltipName;
+    private static Tooltip tooltipAddPlayList, tooltipMovie, tooltipSerie, tooltipDelete, tooltipName;
 
     // private static TableView<PlayList> tablePlayList;
     // private static ObservableList<PlayList> grupos;
@@ -114,7 +114,7 @@ public class PlayListScreen {
         scrollPanePrincipal = new ScrollPane();
         vBoxPrincipal = new VBox();
         hBoxPrincipalPlayList = new HBox();
-        buttonAddMultimedia = new Button();
+        buttonAddMovie = new Button();
         buttonDeletePlayList = new Button();
         hBoxActions = new HBox();
 
@@ -224,12 +224,19 @@ public class PlayListScreen {
         Region spacer = new Region();
         spacer.setPrefWidth(100);
 
-        buttonAddMultimedia = new Button();
-        imageAddMultimedia = new ImageView(new Image("file:" + "src\\prograIconos\\agregarVerde.png"));
-        imageAddMultimedia.setFitHeight(30);
-        imageAddMultimedia.setFitWidth(30);
-        buttonAddMultimedia.setGraphic(imageAddMultimedia);
-        buttonAddMultimedia.setStyle("-fx-background-color: transparent;");
+        buttonAddMovie = new Button();
+        imageAddMovie = new ImageView(new Image("file:" + "src\\prograIconos\\agregarVerde.png"));
+        imageAddMovie.setFitHeight(30);
+        imageAddMovie.setFitWidth(30);
+        buttonAddMovie.setGraphic(imageAddMovie);
+        buttonAddMovie.setStyle("-fx-background-color: transparent;");
+
+        buttonAddSerie = new Button();
+        imageAddSerie = new ImageView(new Image("file:" + "src\\prograIconos\\anadirMorado.png"));
+        imageAddSerie.setFitHeight(30);
+        imageAddSerie.setFitWidth(30);
+        buttonAddSerie.setGraphic(imageAddSerie);
+        buttonAddSerie.setStyle("-fx-background-color: transparent;");
 
         buttonDeletePlayList = new Button();
         imageDeletePlayList = new ImageView(new Image("file:" + "src\\prograIconos\\borrarRojo.png"));
@@ -238,12 +245,15 @@ public class PlayListScreen {
         buttonDeletePlayList.setGraphic(imageDeletePlayList);
         buttonDeletePlayList.setStyle("-fx-background-color: transparent;");
 
-        hBoxActions = new HBox(spacer, buttonAddMultimedia, buttonDeletePlayList);
-        buttonAddMultimedia.setCursor(Cursor.HAND);
+        hBoxActions = new HBox(spacer, buttonAddMovie, buttonAddSerie, buttonDeletePlayList);
+        buttonAddMovie.setCursor(Cursor.HAND);
+        buttonAddSerie.setCursor(Cursor.HAND);
         buttonDeletePlayList.setCursor(Cursor.HAND);
 
-        tooltipMultimedia = new Tooltip("Add new movie or serie");
-        Tooltip.install(buttonAddMultimedia, tooltipMultimedia);
+        tooltipMovie = new Tooltip("Add new movie");
+        Tooltip.install(buttonAddMovie, tooltipMovie);
+        tooltipSerie = new Tooltip("Add new serie");
+        Tooltip.install(buttonAddSerie, tooltipSerie);
         tooltipDelete = new Tooltip("Delete playList");
         Tooltip.install(buttonDeletePlayList, tooltipDelete);
     }
@@ -287,10 +297,15 @@ public class PlayListScreen {
                 event -> tooltipAddPlayList.show(buttonAddPlayList, event.getScreenX(), event.getScreenY() + 10));
         buttonAddPlayList.setOnMouseExited(event -> tooltipAddPlayList.hide());
 
-        // Add multimadia
-        buttonAddMultimedia.setOnMouseEntered(
-                event -> tooltipMultimedia.show(buttonAddMultimedia, event.getScreenX(), event.getScreenY() + 10));
-        buttonAddMultimedia.setOnMouseExited(event -> tooltipMultimedia.hide());
+        // Add movie
+        buttonAddMovie.setOnMouseEntered(
+                event -> tooltipMovie.show(buttonAddMovie, event.getScreenX(), event.getScreenY() + 10));
+        buttonAddMovie.setOnMouseExited(event -> tooltipMovie.hide());
+
+        // Add serie
+        buttonAddSerie.setOnMouseEntered(
+                event -> tooltipSerie.show(buttonAddSerie, event.getScreenX(), event.getScreenY() + 10));
+        buttonAddSerie.setOnMouseExited(event -> tooltipSerie.hide());
 
         // Delete playList
         buttonDeletePlayList.setOnMouseEntered(
@@ -333,7 +348,7 @@ public class PlayListScreen {
         hBoxPrincipalPlayList = new HBox();
         borderPanePrincipalPlayList = new BorderPane();
         imageAddPlayList = new ImageView();
-        imageAddMultimedia = new ImageView();
+        imageAddMovie = new ImageView();
         imageDeletePlayList = new ImageView();
         stackPaneAddPlayList = new StackPane();
         playList = new PlayList();
