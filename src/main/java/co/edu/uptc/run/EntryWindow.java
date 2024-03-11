@@ -360,8 +360,6 @@ public class EntryWindow {
         // Add new Movie scene
 
         addNewButton.setOnAction(event -> switchNewSerieScene());
-        // Bandera para indicar que la tabla ya se ha inicializado
-        tableInitialized = true;
 
     }
 

@@ -37,6 +37,16 @@ public class MultimediaContent {
         this.description = description;
     }
 
+    public MultimediaContent(int id, String name, int duration, String description, String fileVideo,
+            String coverImage) {
+        this.id = id;
+        this.name = name;
+        this.duration = duration;
+        this.description = description;
+        this.fileVideo = fileVideo;
+        this.coverImage = coverImage;
+    }
+
     public String getName() {
         return name;
     }

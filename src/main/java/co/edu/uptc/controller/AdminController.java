@@ -124,7 +124,7 @@ public class AdminController {
     }
 
     public void addChapterName(String name, String description, int duration, int idSerie,
-            String idSeason) {
+            String idSeason, String fileVideo, String coverimage) {
         int serieIndex = serieFound(idSerie);
         int seasonIndex = seasonNameFound(idSeason, idSerie);
 
@@ -134,10 +134,10 @@ public class AdminController {
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex).setchapters(new ArrayList<>());
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex)
                         .addchapters((new MultimediaContent(assignidChapter(serieIndex, seasonIndex),
-                                duration, name, description)));
+                        name , duration, description, fileVideo, coverimage)));
             } else {
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex).getchapters().add(
-                        (new MultimediaContent(assignidChapter(serieIndex, seasonIndex), duration, name, description)));
+                        (new MultimediaContent(assignidChapter(serieIndex, seasonIndex), name , duration, description, fileVideo, coverimage)));
             }
             fm.reWriteFile("series", listSeries);
         }
