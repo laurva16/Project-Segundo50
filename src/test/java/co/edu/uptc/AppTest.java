@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import org.junit.Test;
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.UserRegisteredController;
+import co.edu.uptc.model.Payment;
 import co.edu.uptc.model.Season;
+import co.edu.uptc.model.UserRegistered;
+import co.edu.uptc.utilities.FileManagement;
 
 /**
  * Unit test for simple App.
@@ -82,6 +85,18 @@ public class AppTest {
 
         }
 
+    } 
+    
+    @Test
+    public void pdf(){
+        FileManagement fm = new FileManagement();
+        UserRegistered u = new UserRegistered();
+        u.setPayment(new Payment("juan casas", 123213, "seug", 2020, "fe"));
+        u.setUser("casas@gmail.com");
+        u.setId(12312);
+        fm.generatePaymentPdf(u);
+    
     }
+
 
 }
