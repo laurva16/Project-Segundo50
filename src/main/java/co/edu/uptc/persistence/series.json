@@ -402,5 +402,53 @@
     "author": "saaa",
     "description": "Loveg",
     "coverImage": "Dickinson.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "hola",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "cap 1",
+            "duration": 1111,
+            "description": "fgdfgdfgd",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "Dickinson.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Drama",
+    "id": 469,
+    "name": "aaaa",
+    "duration": 0,
+    "author": "aaaaaaa",
+    "description": "343423"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "holaa",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "holaa 111",
+            "duration": 2342366,
+            "description": "gfdgd",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "Dickinson.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Action",
+    "id": 470,
+    "name": "aaaaaaaa34",
+    "duration": 0,
+    "author": "aaaaaa",
+    "description": "aaaaaa"
   }
 ]

@@ -172,14 +172,6 @@ public class CreateSerie {
         iconoReturn.setFitWidth(24);
         iconoReturn.setFitHeight(24);
 
-        Button returnButton = new Button();
-        returnButton.setGraphic(iconoReturn);
-        returnButton.setId("button");
-        returnButton.setOnAction(event -> {
-            modifySerie();
-        });
-        returnButton.setPrefWidth(100);
-
         // Crear un BorderPane
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #191919;");
@@ -249,10 +241,6 @@ public class CreateSerie {
         acceptButton.setPrefHeight(30);
 
         Insets returnButtonMargin = new Insets(15); // Ajusta el tamaño del margen según tus preferencias
-        BorderPane.setMargin(returnButton, returnButtonMargin);
-
-        BorderPane.setAlignment(returnButton, Pos.TOP_LEFT);
-        root.setTop(returnButton);
 
         // Crear la escena
         Scene2 = new Scene(root, screenWidth, screenHeight);
@@ -683,7 +671,6 @@ public class CreateSerie {
     private void formularyChapter() {
         BorderPane root3 = new BorderPane();
         root3.setId("root2");
-        System.out.println("a");
         GridPane gridPane = new GridPane();
 
         textNameChapter.setPrefWidth(340);
