@@ -1056,6 +1056,9 @@ public class ModifySerie {
         GridPane.setHalignment(cancelButton, HPos.RIGHT);
 
         cancelButton.setOnAction(event -> {
+            textNameChapterModify.clear();
+            textDurationChapterModify.clear();
+            textDescriptionChapterModify.clear();
             cambiarAEscena1();
         });
 
