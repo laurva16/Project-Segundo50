@@ -65,6 +65,9 @@ public class DisplayMultimediaScreen {
             } else if (className.equals("PlayListScreen")) {
                 returnScenePlayList();
             }
+            if (className.equals("EntryWindow")) {
+                returnEntryWindow();
+            }
         });
 
         playButton.setPrefWidth(100);
@@ -116,6 +119,11 @@ public class DisplayMultimediaScreen {
     // PlayList Screen
     private void returnScenePlayList() {
         PlayListScreen.getScene();
+    }
+
+    private void returnEntryWindow() {
+        EntryWindow entryWindow = new EntryWindow();
+        entryWindow.getScene1();
     }
 
     public void setUser(UserRegistered user) {

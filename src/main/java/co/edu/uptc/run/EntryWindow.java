@@ -1,10 +1,8 @@
 package co.edu.uptc.run;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import co.edu.uptc.controller.AdminController;
 import co.edu.uptc.controller.CategoryController;
 import co.edu.uptc.model.Movie;
@@ -12,7 +10,6 @@ import co.edu.uptc.model.MultimediaContent;
 import co.edu.uptc.model.Season;
 import co.edu.uptc.model.Serie;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -40,7 +37,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -56,7 +52,8 @@ import javafx.stage.Stage;
 public class EntryWindow {
     private TableView<Movie> tablaMovie;
     private TableView<Serie> tablaSerie = new TableView<>();
-    private Stage primaryStage, secundaryStage;
+    private static Stage primaryStage;
+    private Stage secundaryStage;
     private LogInWindow logInWindow;
     private AdminController adminC;
     private CategoryController categoryC;
@@ -76,7 +73,7 @@ public class EntryWindow {
 
     MovieScreen movieScreen;
     CreateSerie createSerie;
-    DisplayMultimediaScreen displayScreen;
+    static DisplayMultimediaScreen displayScreen;
     ModifySerie modifySerie;
 
     public EntryWindow() {
@@ -466,7 +463,8 @@ public class EntryWindow {
 
         playButton.setId("button");
         playButton.setOnAction(event -> {
-            // Lógica para reproducir la película
+            switchReproductionScene(movie.getFileVideo(), true);
+            secondaryStage.close();
         });
 
         StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
@@ -561,7 +559,8 @@ public class EntryWindow {
 
         playButton.setId("button");
         playButton.setOnAction(event -> {
-            // Lógica para reproducir la película
+            switchReproductionScene(serie.getFileVideo(), false);
+            secundaryStage.close();
         });
 
         StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
@@ -702,6 +701,11 @@ public class EntryWindow {
                 imageView.setImage(item); // establece la imagen en la celda
             }
         }
+    }
+
+    public static void switchReproductionScene(String nameFile, boolean type) {
+        displayScreen = new DisplayMultimediaScreen();
+        primaryStage.setScene(displayScreen.multimediaScene(nameFile, type, "EntryWindow"));
     }
 
     public void cambiarAEscena1() {
