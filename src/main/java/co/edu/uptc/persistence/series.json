@@ -450,5 +450,130 @@
     "duration": 0,
     "author": "aaaaaa",
     "description": "aaaaaa"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "primera",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "Cap",
+            "duration": 22,
+            "description": "sadasd",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "Dickinson.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 471,
+    "name": "Preuba cover",
+    "duration": 0,
+    "author": "asdasd",
+    "description": "asdsadsa",
+    "coverImage": "Dickinson.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "prim",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "capPrim1",
+            "duration": 1,
+            "description": "asdasd",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "Dickinson.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Adventure",
+    "id": 472,
+    "name": "pruebas",
+    "duration": 0,
+    "author": "asdsad",
+    "description": "asdsa",
+    "coverImage": "Dickinson.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "pri",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "asasdasd",
+            "duration": 22,
+            "description": "aaaaaaaaaaaaa",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "Dickinson.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 473,
+    "name": "saddddddd",
+    "duration": 0,
+    "author": "asdsa",
+    "description": "aaaddd",
+    "coverImage": "Dickinson.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "prrr",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "asdsad",
+            "duration": 222,
+            "description": "asdsa",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "Dickinson.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Horror",
+    "id": 474,
+    "name": "asd",
+    "duration": 0,
+    "author": "asdsa",
+    "description": "asdas",
+    "coverImage": "Dickinson.jpg"
+  },
+  {
+    "seasons": [
+      {
+        "id": 1,
+        "seasonName": "aaaaaaa",
+        "chapters": [
+          {
+            "id": 1,
+            "name": "eeeeeeee",
+            "duration": 22,
+            "description": "asdas",
+            "fileVideo": "S_001_T1_C1.mp4",
+            "coverImage": "OIP.jpg"
+          }
+        ]
+      }
+    ],
+    "category": "Adventure",
+    "id": 475,
+    "name": "Nuevo",
+    "duration": 0,
+    "author": "asdsad",
+    "description": "asdasd",
+    "coverImage": "asdas.jpg"
   }
 ]

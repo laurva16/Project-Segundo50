@@ -66,6 +66,7 @@ public class CreateSerie {
 
     File selectedFile;
     File selectedCover;
+    Button coverButton;
 
     public CreateSerie(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
@@ -95,6 +96,7 @@ public class CreateSerie {
         Label labelDirector = new Label("Director name:");
         Label labelDescription = new Label("Description:");
         Label labelCategory = new Label("Category:");
+        Label labelImageCover = new Label("Image cover");
 
         choiceBox.setMaxSize(300, 20);
 
@@ -106,19 +108,34 @@ public class CreateSerie {
         GridPane.setConstraints(labelDirector, 0, 1);
         GridPane.setConstraints(labelDescription, 0, 2);
         GridPane.setConstraints(labelCategory, 0, 4);
+        GridPane.setConstraints(labelImageCover, 0, 5);
 
         GridPane.setConstraints(text1, 1, 0);
         GridPane.setConstraints(text2, 1, 1);
         GridPane.setConstraints(text3, 1, 2);
         GridPane.setConstraints(choiceBox, 1, 4);
-        GridPane.setConstraints(labelWarning, 1, 5);
+        GridPane.setConstraints(labelWarning, 1, 6);
+
         labelWarning.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
+        // Cover image button
+        coverButton = new Button();
+        coverButton.setPrefWidth(50);
+        coverButton.setOnAction(event -> chooseImageScreen());
+
+        ImageView coverIcon = new ImageView(new Image("file:" + "src/prograIconos/cover.png"));
+        coverIcon.setFitWidth(22);
+        coverIcon.setFitHeight(22);
+        coverButton.setGraphic(coverIcon);
+        coverButton.setId("filebutton");
+
+        //
+        GridPane.setConstraints(coverButton, 1, 5);
         gridPane.getChildren().setAll(labelName, text1, labelDirector, text2, labelDescription, text3, labelCategory,
-                choiceBox, labelWarning);
+        choiceBox, labelWarning, labelImageCover, coverButton);
         root2.setCenter(gridPane);
 
         root2.setStyle("-fx-background-color: #191919;");
@@ -144,7 +161,7 @@ public class CreateSerie {
 
         cancelButton.setOnAction(event -> llamarEntryWindowSerie());
         gridPane.getChildren().addAll(acceptButton, cancelButton);
-
+      
         // Crear la escena
         newSerieScene = new Scene(root2, screenWidth, screenHeight);
         // aplicar CSS
@@ -197,17 +214,13 @@ public class CreateSerie {
             // Si la validación pasa, continuar con la lógica para guardar la serie y
             // mostrar la ventana emergente
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            
+          
             alert.setTitle("Information");
             alert.setHeaderText(null);
             alert.setContentText("The serie has been successfully created.");
             alert.showAndWait();
 
-            // cambio de texto predet. en Alert
-            Button buttonOK = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
-            Button buttonCancel = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
-            buttonOK.setText("Accept");
-            buttonCancel.setText("Return");
-            //
             llamarEntryWindowSerie();
         });
 
@@ -614,12 +627,14 @@ public class CreateSerie {
     private void addNewSerie() {
 
         if (text1.getText().isBlank() && text2.getText().isBlank() && text3.getText().isBlank()
-                && choiceBox.getValue() == null) {
+                && choiceBox.getValue() == null && (selectedCover == null)) {
             ac.showErrorTimeline(text1, labelWarning,
                     "* All fields must be filled!");
             ac.showErrorTimeline(text2, labelWarning, "* All fields must be filled!");
             ac.showErrorTimeline(text3, labelWarning, "* All fields must be filled!");
             ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "* All fields must be filled!");
+            ac.showErrorTimelineFile(coverButton, labelWarning, "* Select the file video.");
+
             return; // Salir del método si hay campos vacíos
         } else if (text1.getText().isBlank() || !ac.validateName(text1.getText())
                 || !ac.validateCharacterSpecialAllowNumberSpaceBlank(text1.getText())) {
@@ -637,6 +652,9 @@ public class CreateSerie {
             return;
         } else if (choiceBox.getValue() == null) {
             ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "Please select a category.");
+            return;
+        }else if (selectedCover == null) {
+            ac.showErrorTimelineFile(coverButton, labelWarning, "* Select the cover image.");
             return;
         }
 
@@ -658,7 +676,7 @@ public class CreateSerie {
             ArrayList<Season> emptySeasons = new ArrayList<>();
 
             // Crear la serie con el ArrayList vacío de temporadas
-            ac.addSerie(text1.getText(), text2.getText(), text3.getText(), emptySeasons, choiceBox.getValue());
+            ac.addSerie(text1.getText(), text2.getText(), text3.getText(), emptySeasons, choiceBox.getValue(), selectedCover.getName());
 
             // Continuar con el formulario de las temporadas
             formularySeason();
@@ -1107,7 +1125,7 @@ public class CreateSerie {
             }
 
             ac.modifySeries(textModify3.getText(), textModify1.getText(), textModify2.getText(), choiceBox.getValue(),
-                    ac.getCurrentSerie().getId());
+                    ac.getCurrentSerie().getId(), selectedCover.getName());
 
             // Cambiar a la escena anterior
             formularySeason();
@@ -1278,7 +1296,7 @@ public class CreateSerie {
             }
 
             ac.modifySeries(textModify3.getText(), textModify1.getText(), textModify2.getText(), choiceBox.getValue(),
-                    serie.getId());
+                    serie.getId(), selectedCover.getName());
 
             // Cambiar a la escena anterior
             formularySeason2(serie);
