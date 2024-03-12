@@ -53,14 +53,14 @@ import javafx.stage.Stage;
 public class UserScreen {
 
     private UserRegisteredController userRegisteredController;
-    private UserRegistered userRegistered;
-
+    private static UserRegistered userRegistered;
     private ScrollPane scrollPane;
     private BorderPane root;
     private double screenWidth, screenHeight;
     private AdminController adminController;
     private LogInWindow logInWindow;
-    private Stage primaryStage, secundaryStage;
+    private static Stage primaryStage;
+    private Stage secundaryStage;
 
     // First screen
     private ImageView image;
@@ -76,6 +76,7 @@ public class UserScreen {
     Button subscriptionButton = new Button("Subscription");
     Button returnButton = new Button("Log Out");
     MenuButton btnPlayList;
+    static DisplayMultimediaScreen displayScreen;
 
     public UserScreen() {
         screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
@@ -98,7 +99,7 @@ public class UserScreen {
     }
 
     public void setUserRegistered(UserRegistered userRegistered) {
-        this.userRegistered = userRegistered;
+        UserScreen.userRegistered = userRegistered;
         userRegisteredController = new UserRegisteredController();
         userRegisteredController.setCurrentUser(userRegistered);
         PlayListScreen.setUserRegistered(userRegistered);
@@ -108,7 +109,7 @@ public class UserScreen {
         messages();
         flowPane.setStyle("-fx-background-color: #191919;");
         flowPane.setHgap(10);
-        flowPane.setAlignment(Pos.CENTER_LEFT);
+        flowPane.setAlignment(Pos.TOP_LEFT);
         flowPane.setMaxHeight(screenHeight);
         flowPane.setPadding(new Insets(0, 90, 0, 90));
 
@@ -285,7 +286,8 @@ public class UserScreen {
 
         playButton.setId("button");
         playButton.setOnAction(event -> {
-            // Lógica para reproducir la película
+            switchReproductionScene(movie.getFileVideo(), true);
+            secondaryStage.close();
         });
 
         StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
@@ -402,7 +404,8 @@ public class UserScreen {
         rootPane.setId("root2");
         rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        ImageView imageView = new ImageView(new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg"));
+        ImageView imageView = new ImageView(
+                new Image("file:" + "src\\multimediaCovers\\Series\\" + serie.getCoverImage()));
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(820);
         imageView.setFitHeight(400);
@@ -421,7 +424,8 @@ public class UserScreen {
 
         playButton.setId("button");
         playButton.setOnAction(event -> {
-            // Lógica para reproducir la película
+            switchReproductionScene(serie.getFileVideo(), false);
+            secundaryStage.close();
         });
 
         StackPane.setAlignment(playButton, Pos.BOTTOM_RIGHT);
@@ -543,7 +547,7 @@ public class UserScreen {
         TableColumn<MultimediaContent, Image> episodeImageColumn = new TableColumn<>("Image");
         episodeImageColumn.setCellValueFactory(cellData -> {
             // Aquí creas una propiedad observable que contiene la imagen
-            Image image = new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg");
+            Image image = new Image("file:" + "src\\multimediaCovers\\Series\\" + serie.getCoverImage());
             return new SimpleObjectProperty<>(image);
         });
 
@@ -604,6 +608,12 @@ public class UserScreen {
                 imageView.setImage(item); // establece la imagen en la celda
             }
         }
+    }
+
+    public static void switchReproductionScene(String nameFile, boolean type) {
+        displayScreen = new DisplayMultimediaScreen();
+        displayScreen.setUser(userRegistered);
+        primaryStage.setScene(displayScreen.multimediaScene(nameFile, type, "UserScreen"));
     }
 
     public Scene getScene1() {

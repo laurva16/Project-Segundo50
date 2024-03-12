@@ -134,11 +134,14 @@ public class AdminController {
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex).setchapters(new ArrayList<>());
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex)
                         .addchapters((new MultimediaContent(assignidChapter(serieIndex, seasonIndex),
-                        name , duration, description, fileVideo, coverimage)));
+                                name, duration, description, fileVideo, coverimage)));
             } else {
                 listSeries.get(serieIndex).getSeasons().get(seasonIndex).getchapters().add(
-                        (new MultimediaContent(assignidChapter(serieIndex, seasonIndex), name , duration, description, fileVideo, coverimage)));
+                        (new MultimediaContent(assignidChapter(serieIndex, seasonIndex), name, duration, description,
+                                fileVideo, coverimage)));
             }
+            listSeries.get(serieIndex).setFileVideo(fileVideo);
+            listSeries.get(serieIndex).setCoverImage(coverimage);
             fm.reWriteFile("series", listSeries);
         }
     }
@@ -589,6 +592,7 @@ public class AdminController {
         }
         return false;
     }
+
     public boolean validateName(String aux) {
         return (aux.length() > 2);
     }
@@ -638,8 +642,8 @@ public class AdminController {
 
     public void showErrorTimelineIntComboBox(ComboBox<Integer> intBox, Label errorLabel, String mensaje) {
         errorLabel.setTextFill(javafx.scene.paint.Color.RED);
-        errorLabel.setText(mensaje);    
-        intBox.setStyle("-fx-border-color: red;"); 
+        errorLabel.setText(mensaje);
+        intBox.setStyle("-fx-border-color: red;");
         Duration duration = Duration.seconds(4);
         KeyFrame keyFrame = new KeyFrame(duration, event -> {
             errorLabel.setText("");
@@ -652,8 +656,8 @@ public class AdminController {
 
     public void showErrorTimelineFile(Button selected, Label errorLabel, String mensaje) {
         errorLabel.setTextFill(javafx.scene.paint.Color.RED);
-        errorLabel.setText(mensaje);    
-        selected.setStyle("-fx-border-color: red;"); 
+        errorLabel.setText(mensaje);
+        selected.setStyle("-fx-border-color: red;");
         Duration duration = Duration.seconds(4);
         KeyFrame keyFrame = new KeyFrame(duration, event -> {
             errorLabel.setText("");
@@ -666,8 +670,8 @@ public class AdminController {
 
     public void showErrorTimelineStringComboBox(ComboBox<String> stringBox, Label errorLabel, String mensaje) {
         errorLabel.setTextFill(javafx.scene.paint.Color.RED);
-        errorLabel.setText(mensaje);    
-        stringBox.setStyle("-fx-border-color: red;"); 
+        errorLabel.setText(mensaje);
+        stringBox.setStyle("-fx-border-color: red;");
         Duration duration = Duration.seconds(4);
         KeyFrame keyFrame = new KeyFrame(duration, event -> {
             errorLabel.setText("");
@@ -722,7 +726,6 @@ public class AdminController {
         return input.matches(patron);
     }
 
-    
     public boolean validateNameSeason(String nameSeason, int idSerie) {
         for (Serie serie : listSeries) {
             if (serie.getId() == idSerie) {

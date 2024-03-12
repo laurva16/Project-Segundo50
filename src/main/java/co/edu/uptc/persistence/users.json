@@ -34,18 +34,8 @@
   {
     "playList": [
       {
-        "name": "Carlitos",
+        "name": "PlayList1",
         "movies": [
-          {
-            "category": "Action",
-            "id": 7826,
-            "name": "The astronaut",
-            "duration": 108,
-            "author": "Adam Sandler",
-            "description": "After six months on a lonely space mission, an astronaut confronts the problems in his marriage with the help of the mysterious stowaway he finds on his ship.",
-            "fileVideo": "M_002.mp4",
-            "coverImage": "Austronaut.jpg"
-          },
           {
             "category": "Action",
             "id": 7825,
@@ -55,16 +45,6 @@
             "description": "Many years after the reign of Caesar, a young ape goes on a journey that will lead him to question everything he\u0027s been taught about the past and make choices that will define a future for apes and humans",
             "fileVideo": "M_001.mp4",
             "coverImage": "PlanetaDeLosSimios.jpg"
-          },
-          {
-            "category": "Romance",
-            "id": 7827,
-            "name": "Cars",
-            "duration": 1,
-            "author": "de",
-            "description": "asd",
-            "fileVideo": "M_005.mp4",
-            "coverImage": "Cars.jpeg"
           }
         ],
         "series": [
@@ -72,199 +52,135 @@
             "seasons": [
               {
                 "id": 1,
-                "seasonName": "primera temporada",
+                "seasonName": "First Season",
                 "chapters": [
                   {
                     "id": 1,
-                    "name": "Capitulo1",
+                    "name": "Episode1",
                     "duration": 11111,
-                    "description": "ahi vienen"
+                    "description": "ahi vienen",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.png"
                   },
                   {
                     "id": 2,
-                    "name": "cap 2-primera",
+                    "name": "Episode2",
                     "duration": 23232,
-                    "description": "robo"
+                    "description": "robo",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.png"
                   },
                   {
                     "id": 3,
-                    "name": "capeee",
+                    "name": "Episode3",
                     "duration": 2312,
-                    "description": "sfdsfsd"
-                  },
-                  {
-                    "id": 4,
-                    "name": "caaa",
-                    "duration": 3423,
-                    "description": "gdfgd"
-                  },
-                  {
-                    "id": 5,
-                    "name": "657",
-                    "duration": 56756,
-                    "description": "hjghjgh"
+                    "description": "sfdsfsd",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.png"
                   }
                 ]
               },
               {
                 "id": 2,
-                "seasonName": "segunda temporada",
+                "seasonName": "Second Season",
                 "chapters": [
                   {
                     "id": 1,
-                    "name": "primer cap- segunda",
+                    "name": "First cap- second",
                     "duration": 1212,
-                    "description": "estafas"
+                    "description": "estafas",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.png"
                   },
                   {
                     "id": 2,
-                    "name": "dos cap",
+                    "name": "Second cap",
                     "duration": 2324,
-                    "description": "fgjkljkljk"
+                    "description": "fgjkljkljk",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.png"
                   },
                   {
                     "id": 3,
-                    "name": "se podra",
+                    "name": "Third cap",
                     "duration": 34,
-                    "description": "fgjkj"
+                    "description": "fgjkj",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.png"
                   }
                 ]
               }
             ],
             "category": "Horror",
-            "id": 463,
+            "id": 2,
             "name": "Peaky Blinders",
             "duration": 50,
             "author": "pablo pablito",
             "description": "peligro!!! Disparos",
+            "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
             "coverImage": "peakyBlinders.png"
-          },
-          {
-            "seasons": [
-              {
-                "id": 1,
-                "seasonName": "wendy",
-                "chapters": [
-                  {
-                    "id": 1,
-                    "name": "valntina",
-                    "duration": 100000,
-                    "description": "chaooo"
-                  }
-                ]
-              },
-              {
-                "id": 2,
-                "seasonName": "wilmar",
-                "chapters": [
-                  {
-                    "id": 1,
-                    "name": "fsdf",
-                    "duration": 4534,
-                    "description": "dsgftt"
-                  }
-                ]
-              }
-            ],
-            "category": "Action",
-            "id": 462,
-            "name": "grisel",
-            "duration": 20,
-            "author": "laura",
-            "description": "angela",
-            "coverImage": "Griselda.jpeg"
-          },
-          {
-            "seasons": [
-              {
-                "id": 1,
-                "seasonName": "g"
-              }
-            ],
-            "category": "Drama",
-            "id": 464,
-            "name": "Dickinson",
-            "duration": 0,
-            "author": "",
-            "description": "Love",
-            "coverImage": "Dickinson.jpg"
           }
         ]
       },
       {
         "name": "Hola qué hace",
-        "movies": [
-          {
-            "category": "Action",
-            "id": 7825,
-            "name": "Planet of the apes new kingdom",
-            "duration": 120,
-            "author": "Wes Ball",
-            "description": "Many years after the reign of Caesar, a young ape goes on a journey that will lead him to question everything he\u0027s been taught about the past and make choices that will define a future for apes and humans",
-            "fileVideo": "M_001.mp4",
-            "coverImage": "PlanetaDeLosSimios.jpg"
-          },
-          {
-            "category": "Romance",
-            "id": 7827,
-            "name": "Cars",
-            "duration": 1,
-            "author": "de",
-            "description": "asd",
-            "fileVideo": "M_005.mp4",
-            "coverImage": "Cars.jpeg"
-          }
-        ],
+        "movies": [],
         "series": [
           {
             "seasons": [
               {
                 "id": 1,
-                "seasonName": "g"
-              }
-            ],
-            "category": "Drama",
-            "id": 464,
-            "name": "Dickinson",
-            "duration": 0,
-            "author": "",
-            "description": "Love",
-            "coverImage": "Dickinson.jpg"
-          },
-          {
-            "seasons": [
-              {
-                "id": 1,
-                "seasonName": "wendy",
+                "seasonName": "First Season",
                 "chapters": [
                   {
                     "id": 1,
-                    "name": "valntina",
-                    "duration": 100000,
-                    "description": "chaooo"
+                    "name": "Episode1",
+                    "duration": 11111,
+                    "description": "ahi vienen",
+                    "fileVideo": "Dickinson.mp4",
+                    "coverImage": "Dickinson.jpg"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Episode2",
+                    "duration": 2312,
+                    "description": "sfdsfsd",
+                    "fileVideo": "Dickinson.mp4",
+                    "coverImage": "Dickinson.jpg"
                   }
                 ]
               },
               {
                 "id": 2,
-                "seasonName": "wilmar",
+                "seasonName": "Second Season",
                 "chapters": [
                   {
                     "id": 1,
-                    "name": "fsdf",
-                    "duration": 4534,
-                    "description": "dsgftt"
+                    "name": "First cap- second",
+                    "duration": 1212,
+                    "description": "estafas",
+                    "fileVideo": "Dickinson.mp4",
+                    "coverImage": "Dickinson.jpg"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Second cap",
+                    "duration": 2324,
+                    "description": "fgjkljkljk",
+                    "fileVideo": "Dickinson.mp4",
+                    "coverImage": "Dickinson.jpg"
                   }
                 ]
               }
             ],
-            "category": "Action",
-            "id": 462,
-            "name": "grisel",
+            "category": "Drama",
+            "id": 3,
+            "name": "Dickinson",
             "duration": 20,
-            "author": "laura",
-            "description": "angela",
-            "coverImage": "Griselda.jpeg"
+            "author": "AppleTv",
+            "description": "Set in the 19th century, it explores the constraints of society, gender and family from the perspective of rebellious young poet, Emily Dickinson",
+            "fileVideo": "Dickinson.mp4",
+            "coverImage": "Dickinson.jpg"
           }
         ]
       }

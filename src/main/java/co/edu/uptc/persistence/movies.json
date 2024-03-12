@@ -20,93 +20,13 @@
     "coverImage": "Austronaut.jpg"
   },
   {
-    "category": "Romance",
+    "category": "Action",
     "id": 7827,
     "name": "Cars",
     "duration": 1,
-    "author": "de",
+    "author": "",
     "description": "asd",
-    "fileVideo": "M_005.mp4",
+    "fileVideo": "Cars.mp4",
     "coverImage": "Cars.jpeg"
-  },
-  {
-    "category": "Action",
-    "id": 7825,
-    "name": "Planet of the apes new kingdom",
-    "duration": 120,
-    "author": "Wes Ball",
-    "description": "Many years after the reign of Caesar, a young ape goes on a journey that will lead him to question everything he\u0027s been taught about the past and make choices that will define a future for apes and humans",
-    "fileVideo": "M_001.mp4",
-    "coverImage": "PlanetaDeLosSimios.jpg"
-  },
-  {
-    "category": "Action",
-    "id": 7826,
-    "name": "The astronaut",
-    "duration": 108,
-    "author": "Adam Sandler",
-    "description": "After six months on a lonely space mission, an astronaut confronts the problems in his marriage with the help of the mysterious stowaway he finds on his ship.",
-    "fileVideo": "M_002.mp4",
-    "coverImage": "Austronaut.jpg"
-  },
-  {
-    "category": "Romance",
-    "id": 7827,
-    "name": "Cars",
-    "duration": 1,
-    "author": "de",
-    "description": "asd",
-    "fileVideo": "M_005.mp4",
-    "coverImage": "Cars.jpeg"
-  },
-  {
-    "category": "Action",
-    "id": 7825,
-    "name": "Planet of the apes new kingdom",
-    "duration": 120,
-    "author": "Wes Ball",
-    "description": "Many years after the reign of Caesar, a young ape goes on a journey that will lead him to question everything he\u0027s been taught about the past and make choices that will define a future for apes and humans",
-    "fileVideo": "M_001.mp4",
-    "coverImage": "PlanetaDeLosSimios.jpg"
-  },
-  {
-    "category": "Action",
-    "id": 7826,
-    "name": "The astronaut",
-    "duration": 108,
-    "author": "Adam Sandler",
-    "description": "After six months on a lonely space mission, an astronaut confronts the problems in his marriage with the help of the mysterious stowaway he finds on his ship.",
-    "fileVideo": "M_002.mp4",
-    "coverImage": "Austronaut.jpg"
-  },
-  {
-    "category": "Romance",
-    "id": 7827,
-    "name": "Cars",
-    "duration": 1,
-    "author": "de",
-    "description": "asd",
-    "fileVideo": "M_005.mp4",
-    "coverImage": "Cars.jpeg"
-  },
-  {
-    "category": "Action",
-    "id": 7825,
-    "name": "Planet of the apes new kingdom",
-    "duration": 120,
-    "author": "Wes Ball",
-    "description": "Many years after the reign of Caesar, a young ape goes on a journey that will lead him to question everything he\u0027s been taught about the past and make choices that will define a future for apes and humans",
-    "fileVideo": "M_001.mp4",
-    "coverImage": "PlanetaDeLosSimios.jpg"
-  },
-  {
-    "category": "Action",
-    "id": 7826,
-    "name": "The astronaut",
-    "duration": 108,
-    "author": "Adam Sandler",
-    "description": "After six months on a lonely space mission, an astronaut confronts the problems in his marriage with the help of the mysterious stowaway he finds on his ship.",
-    "fileVideo": "M_002.mp4",
-    "coverImage": "Austronaut.jpg"
   }
 ]

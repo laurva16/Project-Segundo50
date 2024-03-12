@@ -83,7 +83,7 @@ public class VisitorScreen {
         messages();
         flowPane.setStyle("-fx-background-color: #191919;");
         flowPane.setHgap(10);
-        flowPane.setAlignment(Pos.CENTER_LEFT);
+        flowPane.setAlignment(Pos.TOP_LEFT);
         flowPane.setMaxHeight(screenHeight);
         flowPane.setPadding(new Insets(0, 90, 0, 90));
 
@@ -302,7 +302,8 @@ public class VisitorScreen {
         rootPane.setId("root2");
         rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        ImageView imageView = new ImageView(new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg"));
+        ImageView imageView = new ImageView(
+                new Image("file:" + "src\\multimediaCovers\\Series\\" + serie.getCoverImage()));
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(820);
         imageView.setFitHeight(400);
@@ -387,7 +388,7 @@ public class VisitorScreen {
         TableColumn<MultimediaContent, Image> episodeImageColumn = new TableColumn<>("Image");
         episodeImageColumn.setCellValueFactory(cellData -> {
             // Aquí creas una propiedad observable que contiene la imagen
-            Image image = new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg");
+            Image image = new Image("file:" + "src\\multimediaCovers\\Series\\" + serie.getCoverImage());
             return new SimpleObjectProperty<>(image);
         });
 

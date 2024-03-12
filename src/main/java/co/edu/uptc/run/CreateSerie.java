@@ -216,7 +216,7 @@ public class CreateSerie {
             Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationDialog.setTitle("Confirmación");
             confirmationDialog.setHeaderText(null);
-            confirmationDialog.setContentText("¿Está seguro de que desea cancelar? Se eliminará toda la serie.");
+            confirmationDialog.setContentText("Are you sure you want to cancel? The entire series will be deleted.");
 
             // cambio de texto predet. en Alert
             Button buttonOK = (Button) confirmationDialog.getDialogPane().lookupButton(ButtonType.OK);

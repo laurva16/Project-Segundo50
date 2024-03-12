@@ -56,7 +56,6 @@ public class PlayListScreen {
     private static Rectangle rectangle2;
     private static Tooltip tooltipAddPlayList, tooltipMovie, tooltipSerie, tooltipDelete, tooltipName;
 
-    // _______________________________________________________________________________________________________________________
     private static Rectangle rectangle2Content;
     private static StackPane stackPaneContent;
     private static Button buttonReturn;
@@ -443,7 +442,8 @@ public class PlayListScreen {
             imageMovie.setFitHeight(imageMovie.getFitWidth() * 0.50);
 
             hBoxCurrentMovie();
-            playMultimediaMovie(movie.getFileVideo(), playList);
+            play.setOnMouseClicked(event -> switchReproductionScene(movie.getFileVideo(), true));
+
             deleteMovie(playList.getName(), movie);
 
             vBoxCurrentMovie.getChildren().addAll(labelName, imageMovie, hBoxMovieCurrent);
@@ -462,7 +462,7 @@ public class PlayListScreen {
             imageSerie.setFitHeight(imageSerie.getFitWidth() * 0.50);
 
             hBoxCurrentSerie();
-            playMultimediaMovie(serie.getFileVideo(), playList);
+            play.setOnMouseClicked(event -> switchReproductionScene(serie.getFileVideo(), false));
             deleteSerie(playList.getName(), serie);
 
             vBoxCurrentSerie.getChildren().addAll(labelName, imageSerie, hBoxSerieCurrent);
@@ -506,15 +506,9 @@ public class PlayListScreen {
         hBoxSerieCurrent.getChildren().addAll(play, delete);
     }
 
-    public static void playMultimediaMovie(String nameFile, PlayList playList) {
-        play.setOnMouseClicked(event -> {
-            switchReproductionScene(nameFile, playList);
-        });
-    }
-
-    public static void switchReproductionScene(String nameFile, PlayList playList) {
+    public static void switchReproductionScene(String nameFile, boolean type) {
         displayScreen = new DisplayMultimediaScreen();
-        primaryStage.setScene(displayScreen.multimediaScene(nameFile, true, "PlayListScreen"));
+        primaryStage.setScene(displayScreen.multimediaScene(nameFile, type, "PlayListScreen"));
     }
 
     public static Scene getScene() {

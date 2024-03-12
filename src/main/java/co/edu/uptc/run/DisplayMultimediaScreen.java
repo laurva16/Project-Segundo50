@@ -13,6 +13,8 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Screen;
 import java.io.File;
 
+import co.edu.uptc.model.UserRegistered;
+
 public class DisplayMultimediaScreen {
 
     private MediaPlayer mediaPlayer;
@@ -20,6 +22,7 @@ public class DisplayMultimediaScreen {
     private String filePath;
     double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+    UserRegistered userRegistered = new UserRegistered();
 
     public Scene multimediaScene(String nameFile, Boolean option, String className) {
         filePath = "src/multimediaVideos/";
@@ -106,11 +109,16 @@ public class DisplayMultimediaScreen {
 
     private void returnScene() {
         UserScreen userScreen = new UserScreen();
+        userScreen.setUserRegistered(userRegistered);
         userScreen.getScene1();
     }
 
     // PlayList Screen
     private void returnScenePlayList() {
         PlayListScreen.getScene();
+    }
+
+    public void setUser(UserRegistered user) {
+        this.userRegistered = user;
     }
 }
