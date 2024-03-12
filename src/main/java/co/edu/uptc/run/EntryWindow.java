@@ -76,6 +76,12 @@ public class EntryWindow {
     Button serieButton = new Button("Serie");
     Button subscriptionButton = new Button("Subscription");
     Button returnButton = new Button("Log Out");
+    Button addNewButton;
+
+    MovieScreen movieScreen;
+    CreateSerie createSerie;
+    DisplayMultimediaScreen displayScreen;
+    ModifySerie modifySerie;
 
     public EntryWindow() {
         screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
@@ -113,6 +119,13 @@ public class EntryWindow {
 
         root.setTop(menuBar);
         root.setCenter(scrollPane);
+        root.setBottom(addNewButton);
+
+        floatButton();
+        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+        BorderPane.setMargin(addNewButton, new Insets(15));
+        addNewButton.setOnAction(event -> switchNewMovieScene());
+        root.setBottom(addNewButton);
 
         sceneF = new Scene(root, screenWidth, screenHeight);
         sceneF.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
@@ -129,6 +142,12 @@ public class EntryWindow {
 
         root.setTop(menuBar);
         root.setCenter(scrollPane);
+
+        floatButton();
+        BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
+        BorderPane.setMargin(addNewButton, new Insets(15));
+        addNewButton.setOnAction(event -> switchNewSerieScene());
+        root.setBottom(addNewButton);
 
         scene2F = new Scene(root, screenWidth, screenHeight);
         scene2F.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
@@ -491,6 +510,17 @@ public class EntryWindow {
         }
     }
 
+    public void floatButton() {
+        addNewButton = new Button();
+        ImageView iconoAgregar = new ImageView(new Image("file:" +
+                "src\\prograIconos\\anadir.png"));
+        iconoAgregar.setFitWidth(32);
+        iconoAgregar.setFitHeight(32);
+        addNewButton.setTranslateY(-25);
+        addNewButton.getStyleClass().add("boton-flotante");
+        addNewButton.setGraphic(iconoAgregar);
+    }
+
     public Scene getScene1() {
         flowPane.getChildren().clear();
         moviesList();
@@ -510,6 +540,27 @@ public class EntryWindow {
     public ToolBar getMenuBar() {
         return createMenuBar();
     }
+
+    void switchNewMovieScene() {
+        movieScreen = new MovieScreen(primaryStage, adminController);
+        primaryStage.setScene(movieScreen.newMovieScene());
+    }
+
+    void switchNewSerieScene() {
+        createSerie = new CreateSerie(primaryStage, adminController);
+        primaryStage.setScene(createSerie.newSerieScene());
+    }
+
+    void switchEditSerieScene(Serie serie) {
+        modifySerie = new ModifySerie(primaryStage, adminController);
+        primaryStage.setScene(modifySerie.newSerieScene(serie));
+    }
+
+    void switchEditMovieScene(Movie movie) {
+        movieScreen = new MovieScreen(primaryStage, adminController);
+        primaryStage.setScene(movieScreen.editMovieScene(movie));
+    }
+
     // btnEliminar.setOnAction(event -> {
     // Serie serie = getTableView().getItems().get(getIndex());
     // // Mostrar una ventana emergente de confirmación
@@ -536,21 +587,8 @@ public class EntryWindow {
 
     // });
 
-    // Botomn flotante
-    // ImageView iconoAgregar = new ImageView(new Image("file:" +
-    // "src\\prograIconos\\anadir.png"));
-    // iconoAgregar.setFitWidth(32);
-    // iconoAgregar.setFitHeight(32);
-    // Button addNewButton = new Button();
-    // addNewButton.setTranslateY(-20);
-    // addNewButton.getStyleClass().add("boton-flotante");
-    // addNewButton.setGraphic(iconoAgregar);
-
-    // // Agregar el botón flotante en la esquina inferior derecha
-    // BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
-    // BorderPane.setMargin(addNewButton, new Insets(15));
-
     // Botones para movie
+
     // btnEliminar.setOnAction(event -> {
     // Movie grupo = getTableView().getItems().get(getIndex());
     // // Mostrar una ventana emergente de confirmación
@@ -574,19 +612,4 @@ public class EntryWindow {
     // btnModificar.setOnAction(event -> {
     // switchEditMovieScene(getTableView().getItems().get(getIndex()));
     // });
-
-    // Flotante movie
-    // Crear un botón flotante
-    // ImageView iconoAgregar = new ImageView(new Image("file:" +
-    // "src\\prograIconos\\anadir.png"));
-    // iconoAgregar.setFitWidth(32);
-    // iconoAgregar.setFitHeight(32);
-    // Button addNewButton = new Button();
-    // addNewButton.setTranslateY(-30);
-    // addNewButton.getStyleClass().add("boton-flotante");
-    // addNewButton.setGraphic(iconoAgregar);
-
-    // // Agregar el botón flotante en la esquina inferior derecha
-    // BorderPane.setAlignment(addNewButton, Pos.BOTTOM_RIGHT);
-    // BorderPane.setMargin(addNewButton, new Insets(15));
 }
