@@ -76,6 +76,10 @@ public class EntryWindow {
     static DisplayMultimediaScreen displayScreen;
     ModifySerie modifySerie;
 
+    Button movieButton = new Button("Movie");
+    Button serieButton = new Button("Serie");
+    Button returnButton = new Button("Log Out");
+
     public EntryWindow() {
         logInWindow = new LogInWindow();
         primaryStage = LogInWindow.getPrimaryStage();
@@ -90,6 +94,8 @@ public class EntryWindow {
         BorderPane root = new BorderPane();
         ToolBar menuBar = createMenuBar();
         root.setTop(menuBar);
+        movieButton.setStyle("-fx-text-fill: black;");
+        serieButton.setStyle("-fx-text-fill: white;");
 
         tablaMovie = new TableView<>();
 
@@ -150,7 +156,7 @@ public class EntryWindow {
         // Configurar la escena y mostrarla
         scene1.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
         primaryStage.setScene(scene1);
-        primaryStage.setTitle("JavaFX MenuBar with CSS");
+        primaryStage.setTitle("Movies Admin");
         primaryStage.setMaximized(true);
         primaryStage.show();
 
@@ -251,9 +257,6 @@ public class EntryWindow {
 
     private ToolBar createMenuBar() {
         Region spacer = new Region();
-        Button movieButton = new Button("Movie");
-        Button serieButton = new Button("Serie");
-        Button returnButton = new Button("Log Out");
         movieButton.setCursor(Cursor.HAND);
         serieButton.setCursor(Cursor.HAND);
         returnButton.setCursor(Cursor.HAND);
@@ -289,6 +292,8 @@ public class EntryWindow {
         BorderPane root2 = new BorderPane();
         ToolBar menuBar = createMenuBar();
         root2.setTop(menuBar);
+        serieButton.setStyle("-fx-text-fill: black;");
+        movieButton.setStyle("-fx-text-fill: white;");
 
         // gc.setGroupList(gc.leerArchivoJson("src\\main\\java\\co\\edu\\uptc\\persistence\\Base.json"));
         ObservableList<Serie> series = FXCollections.observableArrayList(adminC.getListSeries());
@@ -352,7 +357,7 @@ public class EntryWindow {
         scene2.getStylesheets().add(new File("src\\main\\java\\co\\styles\\principal.css").toURI().toString());
 
         primaryStage.setScene(scene2);
-        primaryStage.setTitle("JavaFX series with CSS");
+        primaryStage.setTitle("Series admin");
         primaryStage.setMaximized(true);
         // Add new Movie scene
 
@@ -540,7 +545,8 @@ public class EntryWindow {
         rootPane.setId("root2");
         rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        ImageView imageView = new ImageView(new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg"));
+        ImageView imageView = new ImageView(
+                new Image("file:" + "src\\multimediaCovers\\Series\\" + serie.getCoverImage()));
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(820);
         imageView.setFitHeight(400);
@@ -640,7 +646,7 @@ public class EntryWindow {
         TableColumn<MultimediaContent, Image> episodeImageColumn = new TableColumn<>("Image");
         episodeImageColumn.setCellValueFactory(cellData -> {
             // Aquí creas una propiedad observable que contiene la imagen
-            Image image = new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg");
+            Image image = new Image("file:" + "src\\multimediaCovers\\Series\\" + serie.getCoverImage());
             return new SimpleObjectProperty<>(image);
         });
 

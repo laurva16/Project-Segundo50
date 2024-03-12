@@ -47,80 +47,7 @@
             "coverImage": "PlanetaDeLosSimios.jpg"
           }
         ],
-        "series": [
-          {
-            "seasons": [
-              {
-                "id": 1,
-                "seasonName": "First Season",
-                "chapters": [
-                  {
-                    "id": 1,
-                    "name": "Episode1",
-                    "duration": 11111,
-                    "description": "ahi vienen",
-                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
-                    "coverImage": "peakyBlinders.png"
-                  },
-                  {
-                    "id": 2,
-                    "name": "Episode2",
-                    "duration": 23232,
-                    "description": "robo",
-                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
-                    "coverImage": "peakyBlinders.png"
-                  },
-                  {
-                    "id": 3,
-                    "name": "Episode3",
-                    "duration": 2312,
-                    "description": "sfdsfsd",
-                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
-                    "coverImage": "peakyBlinders.png"
-                  }
-                ]
-              },
-              {
-                "id": 2,
-                "seasonName": "Second Season",
-                "chapters": [
-                  {
-                    "id": 1,
-                    "name": "First cap- second",
-                    "duration": 1212,
-                    "description": "estafas",
-                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
-                    "coverImage": "peakyBlinders.png"
-                  },
-                  {
-                    "id": 2,
-                    "name": "Second cap",
-                    "duration": 2324,
-                    "description": "fgjkljkljk",
-                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
-                    "coverImage": "peakyBlinders.png"
-                  },
-                  {
-                    "id": 3,
-                    "name": "Third cap",
-                    "duration": 34,
-                    "description": "fgjkj",
-                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
-                    "coverImage": "peakyBlinders.png"
-                  }
-                ]
-              }
-            ],
-            "category": "Horror",
-            "id": 2,
-            "name": "Peaky Blinders",
-            "duration": 50,
-            "author": "pablo pablito",
-            "description": "peligro!!! Disparos",
-            "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
-            "coverImage": "peakyBlinders.png"
-          }
-        ]
+        "series": []
       },
       {
         "name": "Hola qué hace",
@@ -181,6 +108,78 @@
             "description": "Set in the 19th century, it explores the constraints of society, gender and family from the perspective of rebellious young poet, Emily Dickinson",
             "fileVideo": "Dickinson.mp4",
             "coverImage": "Dickinson.jpg"
+          },
+          {
+            "seasons": [
+              {
+                "id": 1,
+                "seasonName": "First Season",
+                "chapters": [
+                  {
+                    "id": 1,
+                    "name": "Episode1",
+                    "duration": 11111,
+                    "description": "ahi vienen",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.jpg"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Episode2",
+                    "duration": 23232,
+                    "description": "robo",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.jpg"
+                  },
+                  {
+                    "id": 3,
+                    "name": "Episode3",
+                    "duration": 2312,
+                    "description": "sfdsfsd",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.jpg"
+                  }
+                ]
+              },
+              {
+                "id": 2,
+                "seasonName": "Second Season",
+                "chapters": [
+                  {
+                    "id": 1,
+                    "name": "First cap- second",
+                    "duration": 1212,
+                    "description": "estafas",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.jpg"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Second cap",
+                    "duration": 2324,
+                    "description": "fgjkljkljk",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.jpg"
+                  },
+                  {
+                    "id": 3,
+                    "name": "Third cap",
+                    "duration": 34,
+                    "description": "fgjkj",
+                    "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+                    "coverImage": "peakyBlinders.jpg"
+                  }
+                ]
+              }
+            ],
+            "category": "Horror",
+            "id": 2,
+            "name": "Peaky Blinders",
+            "duration": 50,
+            "author": "pablo pablito",
+            "description": "peligro!!! Disparos",
+            "fileVideo": "Peaky Blinders  Tráiler de la temporada 5  Netflix_480p.mp4",
+            "coverImage": "peakyBlinders.jpg"
           }
         ]
       }
