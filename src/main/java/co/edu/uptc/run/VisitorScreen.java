@@ -353,12 +353,12 @@ public class VisitorScreen {
 
         serieInfoGrid.add(nameLabel, 0, 0);
         serieInfoGrid.add(name, 1, 0);
-        serieInfoGrid.add(directorLabel, 2, 1);
-        serieInfoGrid.add(director, 3, 1);
+        serieInfoGrid.add(directorLabel, 2, 0);
+        serieInfoGrid.add(director, 3, 0);
         serieInfoGrid.add(descriptionLabel, 0, 1);
         serieInfoGrid.add(description, 1, 1);
-        serieInfoGrid.add(categoryLabel, 2, 2);
-        serieInfoGrid.add(category, 3, 2);
+        serieInfoGrid.add(categoryLabel, 2, 1);
+        serieInfoGrid.add(category, 3, 1);
 
         infoPane.getChildren().add(serieInfoGrid);
 

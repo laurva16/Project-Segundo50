@@ -290,6 +290,8 @@ public class EntryWindow {
         movieInfoGrid.setPadding(new Insets(10));
         movieInfoGrid.setStyle("-fx-text-fill: white;");
 
+        Label idLabel = new Label("Id:");
+        idLabel.setTextFill(Color.WHITE);
         Label nameLabel = new Label("Name:");
         nameLabel.setTextFill(Color.WHITE);
         Label directorLabel = new Label("Director:");
@@ -301,6 +303,8 @@ public class EntryWindow {
         Label durationLabel = new Label("Duration:");
         durationLabel.setTextFill(Color.WHITE);
 
+        Label id = new Label(Integer.toString(movie.getId()));
+        id.setTextFill(Color.WHITE);
         Label name = new Label(movie.getName());
         name.setTextFill(Color.WHITE);
         Text director = new Text(movie.getAuthor());
@@ -320,16 +324,19 @@ public class EntryWindow {
         director.maxWidth(200);
         director.maxHeight(60);
 
-        movieInfoGrid.add(nameLabel, 0, 0);
-        movieInfoGrid.add(name, 1, 0);
+        movieInfoGrid.add(idLabel, 0, 0);
+        movieInfoGrid.add(id, 1, 0);
+        movieInfoGrid.add(nameLabel, 0, 1);
+        movieInfoGrid.add(name, 1, 1);
         movieInfoGrid.add(durationLabel, 2, 0);
         movieInfoGrid.add(duration, 3, 0);
         movieInfoGrid.add(directorLabel, 2, 1);
         movieInfoGrid.add(director, 3, 1);
-        movieInfoGrid.add(descriptionLabel, 0, 1);
-        movieInfoGrid.add(description, 1, 1);
+        movieInfoGrid.add(descriptionLabel, 0, 2);
+        movieInfoGrid.add(description, 1, 2);
         movieInfoGrid.add(categoryLabel, 2, 2);
         movieInfoGrid.add(category, 3, 2);
+
         rootPane.getChildren().add(movieInfoGrid);
         rootPane.setId("rootPane");
 
@@ -385,6 +392,8 @@ public class EntryWindow {
         serieInfoGrid.setHgap(10);
         serieInfoGrid.setVgap(5);
 
+        Label idLabel = new Label("Id:");
+        idLabel.setTextFill(Color.WHITE);
         Label nameLabel = new Label("Name:");
         nameLabel.setTextFill(Color.WHITE);
         Label directorLabel = new Label("Director:");
@@ -394,6 +403,8 @@ public class EntryWindow {
         Label categoryLabel = new Label("Category:");
         categoryLabel.setTextFill(Color.WHITE);
 
+        Label id = new Label(Integer.toString(serie.getId()));
+        id.setTextFill(Color.WHITE);
         Label name = new Label(serie.getName());
         name.setTextFill(Color.WHITE);
         Text director = new Text(serie.getAuthor());
@@ -411,14 +422,16 @@ public class EntryWindow {
         director.maxWidth(200);
         director.maxHeight(60);
 
-        serieInfoGrid.add(nameLabel, 0, 0);
-        serieInfoGrid.add(name, 1, 0);
-        serieInfoGrid.add(directorLabel, 2, 1);
-        serieInfoGrid.add(director, 3, 1);
-        serieInfoGrid.add(descriptionLabel, 0, 1);
-        serieInfoGrid.add(description, 1, 1);
-        serieInfoGrid.add(categoryLabel, 2, 2);
-        serieInfoGrid.add(category, 3, 2);
+        serieInfoGrid.add(idLabel, 0, 0);
+        serieInfoGrid.add(id, 1, 0);
+        serieInfoGrid.add(nameLabel, 0, 1);
+        serieInfoGrid.add(name, 1, 1);
+        serieInfoGrid.add(directorLabel, 2, 0);
+        serieInfoGrid.add(director, 3, 0);
+        serieInfoGrid.add(descriptionLabel, 0, 2);
+        serieInfoGrid.add(description, 1, 2);
+        serieInfoGrid.add(categoryLabel, 2, 1);
+        serieInfoGrid.add(category, 3, 1);
 
         infoPane.getChildren().add(serieInfoGrid);
 
