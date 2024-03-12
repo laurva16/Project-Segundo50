@@ -302,7 +302,7 @@ public class VisitorScreen {
         rootPane.setId("root2");
         rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        ImageView imageView = new ImageView(new Image("file:" + "src\\multimediaCovers\\Series\\stranger.jpeg"));
+        ImageView imageView = new ImageView(new Image("file:" + "src\\multimediaCovers\\Series\\" + serie.getCoverImage()));
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(820);
         imageView.setFitHeight(400);
