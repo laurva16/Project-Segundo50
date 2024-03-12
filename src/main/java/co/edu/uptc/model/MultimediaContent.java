@@ -12,11 +12,12 @@ public class MultimediaContent {
     public MultimediaContent() {
     }
 
-    public MultimediaContent(int id, String name, String author, String description) {
+    public MultimediaContent(int id, String name, String author, String description, String coverImage) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.description = description;
+        this.coverImage = coverImage;
     }
 
     // Movie

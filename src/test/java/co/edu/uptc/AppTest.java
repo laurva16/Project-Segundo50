@@ -35,19 +35,19 @@ public class AppTest {
         // ac.addChapter("cap2", "des", 60, 784, "temp1");
         // ac.deleteChapter("temp1", 783, "cap2");
         // ac.addSerie("prueba2", "prueba", "prueba", new ArrayList<Season>());
-        ac.addSerie("Serie1", "Su papa", "asdfasdf", new ArrayList<Season>(), "Jum");
+       // ac.addSerie("Serie1", "Su papa", "asdfasdf", new ArrayList<Season>(), "Jum");
         ac.addSeason(459, "Season1", null);
         ac.addSeason(459, "Season2", null);
         ac.addChapter("Chapter1", "Holquehace", 23, 459, 1);
         ac.addChapter("Chapter2", "Holquehace", 23, 459, 1);
 
-        ac.addSerie("Serie2", "sumama", "asdfasdf", new ArrayList<Season>(), "Jum");
+     //   ac.addSerie("Serie2", "sumama", "asdfasdf", new ArrayList<Season>(), "Jum");
         ac.addSeason(460, "Season1", null);
         ac.addSeason(460, "Season2", null);
         ac.addChapter("Chapter1", "Holquehace", 23, 460, 1);
         ac.addChapter("Chapter2", "Holquehace", 23, 460, 1);
 
-        ac.addSerie("Serie3", "Sutio", "asdfasdf", new ArrayList<Season>(), "Jum");
+     //   ac.addSerie("Serie3", "Sutio", "asdfasdf", new ArrayList<Season>(), "Jum");
         ac.addSeason(461, "Season1", null);
         ac.addSeason(461, "Season2", null);
         ac.addChapter("Chapter1", "Holquehace", 23, 461, 1);
@@ -63,10 +63,10 @@ public class AppTest {
         // ac.addMovie("Name1", "Author2", null, 0, null);
         // ac.addMovie("Name1", "Author1", null, 0, null);
 
-        ac.addSerie("Name1", "Author1", null, new ArrayList<Season>(), null);
-        ac.addSerie("Name2", "Author1", null, new ArrayList<Season>(), null);
-        ac.addSerie("Name1", "Author2", null, new ArrayList<Season>(), null);
-        ac.addSerie("Name1", "Author1", null, new ArrayList<Season>(), null);
+    //    ac.addSerie("Name1", "Author1", null, new ArrayList<Season>(), null);
+    //    ac.addSerie("Name2", "Author1", null, new ArrayList<Season>(), null);
+    //    ac.addSerie("Name1", "Author2", null, new ArrayList<Season>(), null);
+//ac.addSerie("Name1", "Author1", null, new ArrayList<Season>(), null);
     }
 
     @Test

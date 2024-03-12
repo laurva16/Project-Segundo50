@@ -81,9 +81,9 @@ public class AdminController {
     }
 
     public boolean addSerie(String name, String author, String description, ArrayList<Season> seasons,
-            String nameCategory) {
+            String nameCategory, String coverImage) {
         if (addMultimediaValidation(name, author, 2)) {
-            Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons, nameCategory);
+            Serie newSerie = new Serie(assignidSerie(), name, author, description, seasons, nameCategory, coverImage);
             listSeries.add(newSerie);
             currentSerie = newSerie;
             // admin.setSeries(listSeries);
@@ -411,17 +411,19 @@ public class AdminController {
                 .getchapters().get(chapterFound(idSeason, idSerie, idChapter)).toString();
     }
 
-    public boolean modifySeries(String description, String name, String author, String category, int Selected) {
+    public boolean modifySeries(String description, String name, String author, String category, int Selected, String coverImage) {
         int aux = serieFound(Selected);
-
         if (aux != -1) {
             listSeries.get(aux).setAuthor(author);
             listSeries.get(aux).setDescription(description);
             listSeries.get(aux).setName(name);
             listSeries.get(aux).setCategory(category);
+            listSeries.get(aux).setCoverImage(coverImage);
+
             admin.setSeries(listSeries);
+            currentSerie = new Serie(aux, name, author, description, null, category, coverImage);
+            
             fm.reWriteFile("series", listSeries);
-            currentSerie = new Serie(aux, name, author, description, null, category);
             return true;
         }
         return false;

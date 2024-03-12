@@ -68,6 +68,8 @@ public class ModifySerie {
     File selectedFile;
     File selectedCover;
 
+    Button coverButton;
+
     public ModifySerie(Stage primaryStage, AdminController adminC) {
         this.primaryStage = primaryStage;
         ac = new AdminController();
@@ -92,7 +94,6 @@ public class ModifySerie {
         root2.setId("root2");
 
         GridPane gridPane = new GridPane();
-
         textModify1.setPrefWidth(300);
         textModify2.setPrefWidth(300);
         textModify3.setPrefWidth(300);
@@ -101,6 +102,7 @@ public class ModifySerie {
         Label labelDirector = new Label("Director name:");
         Label labelDescription = new Label("Description:");
         Label labelCategory = new Label("Category:");
+        Label labelImageCover = new Label("Image cover");
 
         choiceBox.setMaxSize(300, 20);
 
@@ -112,26 +114,41 @@ public class ModifySerie {
         GridPane.setConstraints(labelDirector, 0, 1);
         GridPane.setConstraints(labelDescription, 0, 2);
         GridPane.setConstraints(labelCategory, 0, 4);
+        GridPane.setConstraints(labelImageCover, 0, 5);
 
         GridPane.setConstraints(textModify1, 1, 0);
         GridPane.setConstraints(textModify2, 1, 1);
         GridPane.setConstraints(textModify3, 1, 2);
         GridPane.setConstraints(choiceBox, 1, 4);
-        GridPane.setConstraints(labelWarning, 1, 5);
+        GridPane.setConstraints(labelWarning, 1, 6);
         labelWarning.setFont(Font.font("Arial", FontWeight.NORMAL, 12));
 
         gridPane.setVgap(20);
         gridPane.setHgap(0);
 
+        // Cover image button
+        coverButton = new Button();
+        coverButton.setPrefWidth(50);
+        coverButton.setOnAction(event -> chooseImageScreen());
+
+        ImageView coverIcon = new ImageView(new Image("file:" + "src/prograIconos/cover.png"));
+        coverIcon.setFitWidth(22);
+        coverIcon.setFitHeight(22);
+        coverButton.setGraphic(coverIcon);
+        coverButton.setId("filebutton");
+
+        GridPane.setConstraints(coverButton, 1, 5);
+        //
+        selectedCover = new File("src/multimediaCovers/Series/" + serie.getCoverImage());
+        //
         gridPane.getChildren().setAll(labelName, textModify1, labelDirector, textModify2, labelDescription, textModify3,
-                labelCategory,
-                choiceBox, labelWarning);
+                labelCategory, choiceBox, labelWarning, labelImageCover, coverButton);
         root2.setCenter(gridPane);
 
         root2.setStyle("-fx-background-color: #191919;");
         gridPane.setStyle("-fx-background-color: white;");
 
-        // Save buttton
+        // Save button
         Button acceptButton = new Button();
 
         GridPane.setConstraints(acceptButton, 0, 5);
@@ -143,7 +160,7 @@ public class ModifySerie {
             // Modificar la serie actual con los datos del formulario
 
             if (textModify1.getText().isBlank() && textModify2.getText().isBlank() && textModify3.getText().isBlank()
-                    && choiceBox.getValue() == null) {
+                    && choiceBox.getValue() == null && (selectedCover == null)) {
                 ac.showErrorTimeline(textModify1, labelWarning,
                         "* All fields must be filled!");
                 ac.showErrorTimeline(textModify2, labelWarning, "* All fields must be filled!");
@@ -167,10 +184,12 @@ public class ModifySerie {
             } else if (choiceBox.getValue() == null) {
                 ac.showErrorTimelineChoiceBox(choiceBox, labelWarning, "Please select a category.");
                 return;
+            }else if (selectedCover == null) {
+                ac.showErrorTimelineFile(coverButton, labelWarning, "* Select the cover image.");
+                return;
             }
-
             ac.modifySeries(textModify3.getText(), textModify1.getText(), textModify2.getText(), choiceBox.getValue(),
-                    serieModify.getId());
+                    serieModify.getId(), selectedCover.getName());
 
             // Cambiar a la escena anterior
             formularySeason();
